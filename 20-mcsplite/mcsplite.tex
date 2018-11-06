@@ -1,0 +1,97 @@
+\chapter{McSplit-E}
+\label{c:mcsplite}
+
+\begin{algorithm}[htb]
+\DontPrintSemicolon
+\nl $\FuncSty{Refine}(\AlgVar{future},E,v,t)$ \;
+\nl \Begin{
+\nl    $\AlgVar{future'} \gets \emptyset$ \label{NewFuture} \;
+\nl    \For {$\langle \setG,\setH,a \rangle \in future$ \label{InnerLoop}}{
+\nl        $\setG' \gets \{(x,y) \in \setG \mid x=v\} \cup \{(y,x) \mid (x,y) \in \setG \wedge y=v\}$ \label{NewPWithEdge} \;
+\nl        $\setH' \gets \{(x,y) \in \setH \mid x=v\} \cup \{(y,x) \mid (x,y) \in \setH \wedge y=v\}$ \;
+\nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$}{
+\nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$ \label{AddToFutureWithEdge}}
+\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v) \setminus \{v\}$ \label{NewPWithoutEdge}  \;
+\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w) \setminus \{w\}$ \;
+\nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$}{
+\nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$} \label{InnerLoopEnd}
+       }
+\nl   RETURN SOMETHING \;
+}
+
+\nl $\FuncSty{Search}(\AlgVar{future},M,E)$ \;
+\nl \Begin{
+%\nl \lIf {$\AlgVar{future} = \emptyset$ \bf{and} $|M| > |\AlgVar{incumbent}|$}
+\nl \lIf {$|E| > |\AlgVar{incumbent}|$}{$\AlgVar{incumbent} \gets E$} \label{StoreIncumbent}
+%\nl \lIf {$\AlgVar{future} = \emptyset$}{return}
+\medskip
+\nl $\AlgVar{bound} \gets |E|  + \sum_{\langle \setG,\setH,a \rangle \in \AlgVar{future}} \min(|\setG|,|\setH|)$ \label{CalcBound} \;
+\nl \lIf {$\AlgVar{bound} \leq |\AlgVar{incumbent}|$}{\KwSty{return}} \label{PruneSearch}
+\medskip
+\nl $\langle \setG,\setH,a \rangle \gets \FuncSty{SelectLabelClass}(\AlgVar{future})$ \label{SelectClass} \;
+\nl $(v,w) \gets \FuncSty{SelectEdge}(\setG)$ \label{SelectEdge} \;
+\nl \For {$(t,u) \in \setH$ \label{WLoop}} {
+\nl    \If {$a=0$}{
+\nl        $(\AlgVar{future'}, E') \gets \FuncSty{Refine}(\AlgVar{future}, E, v, t)$ \;
+\nl        $(\AlgVar{future''}, E'') \gets \FuncSty{Refine}(\AlgVar{future'}, E', w, u)$ \;
+\nl        $\FuncSty{Search}(\AlgVar{future''}, M\cup \{(v,t)\} \cup \{(w,u)\}, E'')$ \label{ExpandWithtu} \;
+       } \Else {
+\nl        $(\AlgVar{future'}, E') \gets \FuncSty{Refine}(\AlgVar{future}, E, w, u)$ \;
+\nl        $\FuncSty{Search}(\AlgVar{future'}, M \cup \{(w,u)\}, E')$ \label{ExpandWithu} \;
+       }
+\nl   DELETEME $\FuncSty{Search}(\AlgVar{future'},M\cup \{(v,w)\})$ \label{ExpandWithV} \;
+  }
+\nl $\setG' \gets \setG \setminus \{v\}$ \label{RemoveV} \;
+\nl $\AlgVar{future} \gets \AlgVar{future} \setminus \{\langle \setG,\setH \rangle\}$\;
+\nl \lIf {$\setG' \neq \emptyset$} {$\AlgVar{future} \gets \AlgVar{future} \cup \{\langle \setG',\setH \rangle \}$}
+\nl $\FuncSty{Search}(\AlgVar{future},M)$ \label{ExpandWithoutV} \;
+}
+\;
+\nl $\FuncSty{McSplit}(\graphG,\graphH)$ \label{McSplitFun} \;
+\nl \Begin{
+    \nl $\KwSty{global}~\AlgVar{incumbent} \gets \emptyset$ \;
+\nl $\FuncSty{Search}(\{\langle V(\graphG),V(\graphH) \rangle \},\emptyset,\emptyset)$ \label{FirstExpandCall} \;
+\nl $\KwSty{return}$~$\AlgVar{incumbent}$ \;
+}
+\caption{Finding a maximum common subgraph.}
+\label{McSplitAlg}
+\end{algorithm}
+
+\paragraph{\cref{McSplitAlg} in detail} The recursive procedure,
+$\FuncSty{Search}$, has two parameters.  The parameter $\AlgVar{future}$ is a
+list of label classes, each represented as a $\langle \setG, \setH \rangle$ pair as
+described above.  The parameter $M$ is the current mapping of vertices.  On
+each call to $\FuncSty{Search}$, the invariant holds that a $(v,w)$ pair may be
+added to $M$ if and only if $v$ and $w$ belong to the same label class in
+$\AlgVar{future}$.
+
+\Lineref{StoreIncumbent} stores the current mapping $M$ if it is large enough
+to unseat the incumbent.  \Linerangeref{CalcBound}{PruneSearch} prune the
+search when a calculated upper bound is not larger than the incumbent.
+
+The remainder of the procedure performs the search.  A label class
+$\langle \setG, \setH \rangle$ is selected from $\AlgVar{future}$
+using some heuristic
+(\lineref{SelectClass}); from this label class, a vertex $v$ is selected
+from $\setG$ (\lineref{SelectEdge}). We now iterate over all
+vertices $w$ in $\setH$, exploring the consequences of adding $(v,w)$ to $M$
+(\linerangeref{WLoop}{ExpandWithV}).  A new set of label-classes,
+$\AlgVar{future'}$,
+is created (\lineref{NewFuture}); this will be the labelling that results
+from adding $(v,w)$ to our mapping.  Every label-class in $\AlgVar{future}$ can
+now be split (\linerangeref{InnerLoop}{InnerLoopEnd}) into two new classes. The
+first of these classes (\linerangeref{NewPWithEdge}{AddToFutureWithEdge})
+contains vertices in $\setG$ adjacent to $v$ and vertices in $\setH$ adjacent to $w$.
+This is added to $\AlgVar{future'}$ if both sets contain at least one vertex.
+This is then repeated symmetrically for non-adjacency
+(\linerangeref{NewPWithoutEdge}{InnerLoopEnd}). A recursive call is made
+(\lineref{ExpandWithV}), on return from which we remove the mapping $(v,w)$.
+Having explored all possible mappings of $v$ with vertices in $\setH$ we now
+consider what happens if $v$ is not matched
+(\linerangeref{RemoveV}{ExpandWithoutV}).
+
+We start our search at the function $\FuncSty{McSplit}$ (\lineref{McSplitFun}),
+with graphs $\graphG$ and $\graphH$ as inputs.  This function returns a mapping of
+maximum cardinality.  In \lineref{FirstExpandCall} the initial call is made to
+$\FuncSty{Search}$; at this point we have a single label-class containing all
+vertices, and the mapping $M$ is empty.

@@ -8,21 +8,61 @@
 \usepackage{graphics}
 \usepackage{graphicx}
 \usepackage{url}
-\usepackage{algorithmic}
-\usepackage{algorithm}
+%\usepackage{algorithmic}
+%\usepackage{algorithm}
 \usepackage{mcaption}
 \usepackage[font=scriptsize]{subfig}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{bookmark}
 
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{MnSymbol,wasysym}
+\usepackage{latexsym}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+
+\usepackage{cleveref}
 \usepackage{tikz}
 
+% cref style
+\crefname{algorithm}{Algorithm}{Algorithms}
+\Crefname{algorithm}{Algorithm}{Algorithms}
+\crefname{algocf}{Algorithm}{Algorithms}
+\Crefname{algocf}{Algorithm}{Algorithms}
+\crefname{figure}{Figure}{Figures}
+\Crefname{figure}{Figure}{Figures}
+\crefname{table}{Table}{Tables}
+\Crefname{table}{Table}{Tables}
+\crefname{section}{Section}{Sections}
+\Crefname{section}{Section}{Sections}
+
+\newcommand{\lineref}[1]{line~\ref{#1}}
+\newcommand{\linerangeref}[2]{lines~\ref{#1} to~\ref{#2}}
+\newcommand{\Lineref}[1]{Line~\ref{#1}}
+\newcommand{\Linerangeref}[2]{Lines~\ref{#1} to~\ref{#2}}
 %\usepackage{natbib}
 
 \usepackage{color}
 \usepackage{changebar}
 \usepackage{soul}
+
+
+\newcommand{\AlgVar}[1]{\mathit{#1}}
+\newcommand{\McSplit}{\textproc{McSplit}}
+\newcommand{\nmax}{n_{\max}}
+\newcommand{\graphB}{\mathcal{B}}
+\newcommand{\graphG}{\mathcal{G}}
+\newcommand{\graphH}{\mathcal{H}}
+\newcommand{\setG}{G}
+\newcommand{\setH}{H}
+
+\DeclareMathOperator{\V}{V}
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\N}{N}
+\DeclareMathOperator{\invN}{\overline{N}}
+\DeclareMathOperator{\vtxlabel}{label}
+
 
 \hyphenation{Internet analysis analyse}
 
