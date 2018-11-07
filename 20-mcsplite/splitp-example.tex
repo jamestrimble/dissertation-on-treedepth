@@ -1,0 +1,31 @@
+    \begin{tikzpicture}[scale=.4]%{{{
+        \node[draw, circle, fill=white, inner sep=1.4pt, font=\bfseries] (Na) at (0,  0)
+        {1};
+        \node[draw, circle, fill=white, inner sep=1.4pt, font=\bfseries] (Nb) at (1, -2)
+        {2};
+        \node[draw, circle, fill=white, inner sep=1.4pt, font=\bfseries] (Nc) at (2, 0)
+        {3};
+
+        \draw [edge] (Na) -- (Nb);
+        \draw [edge] (Nb) -- (Nc);
+        \draw [edge] (Na) -- (Nc);
+
+    \end{tikzpicture}
+    \quad
+    \begin{tikzpicture}[scale=.4]%{{{
+        \node[draw, circle, fill=white, inner sep=1.4pt, font=\bfseries] (Na) at (0,  0)
+        {$a$};
+        \node[draw, circle, fill=white, inner sep=1.4pt, font=\bfseries] (Nb) at (2, 0)
+        {$b$};
+        \node[draw, circle, fill=white, inner sep=1.4pt, font=\bfseries] (Nc) at (1, -1.5)
+        {$c$};
+        \node[draw, circle, fill=white, inner sep=1.4pt, font=\bfseries] (Nd) at (1, -3)
+        {$d$};
+
+        \draw [edge] (Na) -- (Nb);
+        \draw [edge] (Na) -- (Nc);
+        \draw [edge] (Nb) -- (Nc);
+        \draw [edge] (Nc) -- (Nd);
+
+    \end{tikzpicture}
+
