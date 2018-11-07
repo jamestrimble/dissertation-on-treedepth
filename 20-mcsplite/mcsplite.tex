@@ -2,23 +2,48 @@
 \label{c:mcsplite}
 
 \begin{algorithm}[htb]
+\footnotesize
 \DontPrintSemicolon
+\nl $\FuncSty{EdgesIncidentToVertex}(E,v)$ \;
+\nl \Begin{
+\nl   $E' = \emptyset$ \;
+\nl   \For{$(u,w) \in E$}{
+\nl     \LeftComment{If this edge is incident to $v$, add the edge to $E'$ with $v$ stored as the first vertex.} \;
+\nl     \lIf{u=v}{$E' = E' \cup (u,w)$}
+\nl     \lElseIf{w=v}{$E' = E' \cup (w,u)$}
+}
+\nl   $\KwSty{return}$~$E'$ \;
+}
+\;
+\nl $\FuncSty{EdgesNotIncidentToVertex}(E,v)$ \;
+\nl \Begin{
+\nl   $\KwSty{return}$~$\{(u,w) \in E \mid u\not=v \wedge w\not=v\}$ \;
+}
+\;
 \nl $\FuncSty{Refine}(\AlgVar{future},E,v,t)$ \;
 \nl \Begin{
 \nl    $\AlgVar{future'} \gets \emptyset$ \label{NewFuture} \;
+\nl    $E' \gets E$ \;
 \nl    \For {$\langle \setG,\setH,a \rangle \in future$ \label{InnerLoop}}{
-\nl        $\setG' \gets \{(x,y) \in \setG \mid x=v\} \cup \{(y,x) \mid (x,y) \in \setG \wedge y=v\}$ \label{NewPWithEdge} \;
-\nl        $\setH' \gets \{(x,y) \in \setH \mid x=v\} \cup \{(y,x) \mid (x,y) \in \setH \wedge y=v\}$ \;
-\nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$}{
-\nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$ \label{AddToFutureWithEdge}}
-\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v) \setminus \{v\}$ \label{NewPWithoutEdge}  \;
-\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w) \setminus \{w\}$ \;
-\nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$}{
-\nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$} \label{InnerLoopEnd}
+\nl        $\setG' \gets \FuncSty{EdgesIncidentToVertex}(\setG,v)$ \label{NewPWithEdge} \;
+\nl        $\setH' \gets \FuncSty{EdgesIncidentToVertex}(\setH,t)$ \;
+\nl        \If {$\setG' \neq \emptyset$ \bf{and} $\setH' \neq \emptyset$}{
+\nl          \lIf {$a=0$}{
+               $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG', \setH', 1 \rangle\}$ \label{AddToFutureWithEdge}
+             }
+\nl          \lElse{
+               $E' \gets E' \cup (g,h)$ where $g$ is the unique element of $\setG'$ and $h$ is the unique element of $\setH'$
+             }
+           }
+\nl        $\setG' \gets \FuncSty{EdgesNotIncidentToVertex}(\setG,v)$ \label{NewPWithoutEdge} \;
+\nl        $\setH' \gets \FuncSty{EdgesNotIncidentToVertex}(\setH,t)$ \;
+\nl        \If {$\setG' \neq \emptyset$ \bf{and} $\setH' \neq \emptyset$}{
+              $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG', \setH', a \rangle\}$ \label{AddToFutureWithEdge}
+           }
        }
-\nl   RETURN SOMETHING \;
+\nl   $\KwSty{return}$~$(\AlgVar{future'}, E')$ \;
 }
-
+\;
 \nl $\FuncSty{Search}(\AlgVar{future},M,E)$ \;
 \nl \Begin{
 %\nl \lIf {$\AlgVar{future} = \emptyset$ \bf{and} $|M| > |\AlgVar{incumbent}|$}
@@ -39,18 +64,17 @@
 \nl        $(\AlgVar{future'}, E') \gets \FuncSty{Refine}(\AlgVar{future}, E, w, u)$ \;
 \nl        $\FuncSty{Search}(\AlgVar{future'}, M \cup \{(w,u)\}, E')$ \label{ExpandWithu} \;
        }
-\nl   DELETEME $\FuncSty{Search}(\AlgVar{future'},M\cup \{(v,w)\})$ \label{ExpandWithV} \;
   }
-\nl $\setG' \gets \setG \setminus \{v\}$ \label{RemoveV} \;
+\nl $\setG' \gets \setG \setminus \{(v,w)\}$ \label{RemoveVW} \;
 \nl $\AlgVar{future} \gets \AlgVar{future} \setminus \{\langle \setG,\setH \rangle\}$\;
 \nl \lIf {$\setG' \neq \emptyset$} {$\AlgVar{future} \gets \AlgVar{future} \cup \{\langle \setG',\setH \rangle \}$}
-\nl $\FuncSty{Search}(\AlgVar{future},M)$ \label{ExpandWithoutV} \;
+\nl $\FuncSty{Search}(\AlgVar{future},M,E)$ \label{ExpandWithoutVW} \;
 }
 \;
-\nl $\FuncSty{McSplit}(\graphG,\graphH)$ \label{McSplitFun} \;
+\nl $\FuncSty{McSplitE}(\graphG,\graphH)$ \label{McSplitFun} \;
 \nl \Begin{
     \nl $\KwSty{global}~\AlgVar{incumbent} \gets \emptyset$ \;
-\nl $\FuncSty{Search}(\{\langle V(\graphG),V(\graphH) \rangle \},\emptyset,\emptyset)$ \label{FirstExpandCall} \;
+\nl $\FuncSty{Search}(\{\langle E(\graphG),E(\graphH) \rangle \},\emptyset,\emptyset)$ \label{FirstExpandCall} \;
 \nl $\KwSty{return}$~$\AlgVar{incumbent}$ \;
 }
 \caption{Finding a maximum common subgraph.}
