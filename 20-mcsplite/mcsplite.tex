@@ -28,6 +28,8 @@ For each vertex $v$ in $V(P)$, we have a variable $m_v$, and each of these varia
 if $m_v$ takes the value $w$, this represents that vertex $v$ in the pattern graph is mapped to vertex
 $w$ in the target graph.
 
+The objective is to maximise the number of $e_{(v,w)}$ variables that take non-$\bot$ values.
+
 To ensure that each vertex in the target graph is mapped to by no more than one vertex in the pattern graph,
 we post
 \[
@@ -35,11 +37,26 @@ we post
 \]
 
 To ensure that the vertex mappings are consistent with the edge mappings, we post
-\[
-.
-\]
+\begin{equation}
+\label{implicationconstraint}
+\forall (v,w) \in A_P, (t,u) \in A_T : \quad e_{(v,w)} = (t,u) \implies m_v=t \wedge m_w=u.
+\end{equation}
 
-TODO: mention possibility of reverse implies constraint.
+In each of these constraints, the implication ($\implies$) may be replaced with a two-directional
+implication ($\Longleftrightarrow$).  This would (I think) provide stronger filtering, but is not
+compatible with the data structures that we will describe for our McSplit-E
+algorithm.\footnote{The leftward implication ($\Longleftarrow$)
+is implied by the rest of the model, and therefore its omission does not make the model incorrect.
+To see this, suppose that in a complete instantiation that maximises the objective value
+we have values $t,u,v,w$ such
+that $m_v=t \wedge m_w=u$.  Then there are three mutually exclusive and exhaustive possibilities for the
+value of $e_{(v,w)}$: it may be $\bot$, $(t,u)$, or some element of $A_T$ other than $(t,u)$.
+The first of these possibilities is impossible since the objective
+value may be increased by one without violating any constraints by giving the value $(t,u)$ to $e_{(v,w)}$;
+thus, we violate our assumption that the objective is maximised.
+The third possibility is also impossible since, by equation \ref{implicationconstraint}, we have
+either $m_v=t$ or $m_w=u$.  Therefore, it must be the case that $e_{(v,w)} = (t,u)$
+and thus the leftward implication holds.}
 
 Ndiaye and Solnon \cite{DBLP:conf/cp/NdiayeS11} propose a similar model for MCES on directed graphs,
 which can be used to solve the problem on an undirected graph by replacing each edge with directed
