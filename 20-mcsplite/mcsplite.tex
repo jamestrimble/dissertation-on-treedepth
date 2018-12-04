@@ -205,7 +205,7 @@ we could put edge mappings in $E$ in the $\FuncSty{Search}$ function instead, wh
 in the for-loop.  In practice, this is less efficient.  ?? why?}
 
 \begin{algorithm}[htb]
-\footnotesize
+\scriptsize
 \DontPrintSemicolon
 \nl $\FuncSty{EdgesIncidentToVertex}(E,v)$ \;
 \nl \Begin{
@@ -260,9 +260,11 @@ in the for-loop.  In practice, this is less efficient.  ?? why?}
 \nl $(v,w) \gets \FuncSty{SelectEdge}(\setG)$ \label{SelectEdge} \;
 \nl \For {$(t,u) \in \setH$ \label{WLoop}} {
 \nl    \If {$a=2$}{  \label{aEqualsTwo}
-\nl        $(\AlgVar{future'}, E') \gets \FuncSty{Refine}(\AlgVar{future}, E, v, t)$ \;
-\nl        $(\AlgVar{future''}, E'') \gets \FuncSty{Refine}(\AlgVar{future'}, E', w, u)$ \;
-\nl        $\FuncSty{Search}(\AlgVar{future''}, M\cup \{(v,t)\} \cup \{(w,u)\}, E'')$ \label{ExpandWithtu} \;
+\nl      \For(\(\triangleright\) Try both orientations) {$(t',u') \in \{(t,u), (u,t)\}$} {
+\nl          $(\AlgVar{future'}, E') \gets \FuncSty{Refine}(\AlgVar{future}, E, v, t')$ \;
+\nl          $(\AlgVar{future''}, E'') \gets \FuncSty{Refine}(\AlgVar{future'}, E', w, u')$ \;
+\nl          $\FuncSty{Search}(\AlgVar{future''}, M\cup \{(v,t')\} \cup \{(w,u')\}, E'')$ \label{ExpandWithtu} \;
+        }
        } \Else {
 \nl        $(\AlgVar{future'}, E') \gets \FuncSty{Refine}(\AlgVar{future}, E, w, u)$ \;
 \nl        $\FuncSty{Search}(\AlgVar{future'}, M \cup \{(w,u)\}, E')$ \label{ExpandWithu} \;
