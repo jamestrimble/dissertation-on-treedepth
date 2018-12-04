@@ -5,7 +5,7 @@
 
 ?? Write about how we can use McSplit on the line graphs to solve MCES.
 
-\section{A CP model}
+\section{A CP model} \label{sec:mces-cp-model}
 
 Before introducing our CP model for MCES, we define some notation.  Let $P$ be the pattern graph,
 and $T$ the target graph.  We assume that the vertex set of each graph contains only integers.
@@ -69,24 +69,23 @@ by the edge mapping.  ?? Mention their use of soft all-diff.
 %
 %?? Write about models 1 and 2.
 
-Our third model (\cref{fig:model3}) includes variables for both vertex mappings and edge mappings.
-There is one variable for each vertex in the pattern graph, and one value
-for each vertex in the target graph.  An alldifferent constraint over the set of variables ensures
-that no target vertex is used twice.  
+\section{A MiniZinc model}
 
-In addition, there is one variable for each pattern edge, and two values for
-each target edge---one for each of the two possible orientations.  We also have
-an additional value $\bot$ signifying that the pattern edge is not used.  A set
-of constraints ensures that an edge variable takes a particular edge value if
-and only if the vertex variables corresponding to the pattern edge's endpoints
-take the values corresponding to the target edge's endpoints.
+\Cref{fig:model3} presents MiniZinc code for the model described in the
+previous section.  The variables \texttt{m} in the code correspond to the
+$m_v$ variables in CP model, and the variables \texttt{m\_edge} correspond
+to the $e_{(v,w)}$ variables.
 
-The objective value is the count of edge variables that take non-$\bot$ values.
+On the line beginning \texttt{constraint forall}, the \texttt{->} implication
+may be replaced by \texttt{<->} without affecting correctness, as described
+in the previous section.
 
+?? Say something about the bound being weak.  ?? How can we improve
+this?---a soft all-diff propagator?
 
-\begin{figure}
+\begin{figure}[htb]
 \vspace{.8em}
-\footnotesize
+\scriptsize
 \begin{verbatim}
 int: np;                 % order of pattern graph
 int: nt;                 % order of target graph
@@ -111,7 +110,7 @@ array[1..mp] of var 0..mt: m_edge;  % pattern edge index -> target
 var 1..mp: objval;
 
 constraint forall (i in 1..mp, j in 1..mt)
-        (m_edge[i]==j <-> (m[PE[i,1]]==TE[j,1] /\ m[PE[i,2]]==TE[j,2]));
+        (m_edge[i]==j -> (m[PE[i,1]]==TE[j,1] /\ m[PE[i,2]]==TE[j,2]));
 constraint objval = sum (a in m_edge) (a != 0);
 constraint alldifferent(m);
 
@@ -119,21 +118,32 @@ solve :: int_search(m_edge, first_fail, indomain_split, complete)
         maximize objval;
 \end{verbatim}
 \vspace{-1em}
-\caption{The third MiniZinc model}\label{fig:model3}
+\caption{A MiniZinc model for MCES}\label{fig:model3}
 \end{figure}
 
 \section{McSplit-E}
 
-!!! We always branch on edges; never on vertex assignments
+We now introduce our second dedicated solver for MCES: McSplit-E.  Whereas
+McSplit-L solves MCES indirectly by solving MCIS on the line graphs, McSplit-E
+models MCES directly, exploring essentially the same search tree as the CP
+model in \cref{sec:mces-cp-model} with forward checking.  Unlike a typical CP
+solver, however, McSplit-E uses the compact data structures and of McSplit
+(albeit on edge rather than vertex variables) and uses a similar partitioning
+algorithm to filter domains.
 
-Our second dedicated solver for MCES, McSplit-E, shares the compact data
-structures and the forward-checking of McSplit, and uses a similar partitioning
-algorithm to filter domains.  However, McSplit-E does not use line graphs, but
-rather models the problem directly, with a variable for each pattern edges and a value
+As in the CP model, we have a variable for each pattern edges and a value
 for each \textit{oriented} target edge.  Edges are stored as ordered pairs; thus the mapping
 $(1,2) \rightarrow (3,4)$ indicates not only that edge $\{1,2\}$ of the pattern graph is
 mapped to edge $\{3,4\}$ of the target graph, but also that vertices $1$ and $2$ are mapped
 to vertices $3$ and $4$ respectively (rather than the other way round).
+
+In McSplit-E, all branching decisions are made on edge variables rather than vertex variables.
+At any branching level of the search tree, a pattern-edge variable is chosen, and all of the possible
+oriented target-edge values are tried in turn, followed by the value
+$\bot$.\footnote{We could, instead, try branching on vertex assignments, and this is
+something that would be worth exploring empirically in future.  However, some other
+branching schemes such as branching on the binary decision of whether an edge variable takes
+a particular value would not allow us to use the compact data structure for domains.}
 
 We use the example graphs in \cref{fig:splitp-example} to illustrate McSplit-E's data structures.
 \begin{figure}[htb]
@@ -158,7 +168,10 @@ Thus, before any edge assignments are made, the domains are stored as:
 \end{align*}
 
 Now, suppose that the algorithm has made the tentative assignment of pattern edge $(1,2)$ to target edge $(a,c)$.
-Edge $(1,3)$ has $(a,b)$ and $\bot$ in its domain, while edge $(2,3)$ has $(c,b)$, $(c,d)$
+The forward-checking algorithm reduces the domain of $m_1$ to the singleton $\{a\}$, and reduces
+the domain of $m_2$ to the singleton $\{c\}$.  We then instantiate $m_1$ and $m_2$, in turn, to
+the unique values in their domain, and filter the edge-variable domains accordingly.  As a result,
+edge $(1,3)$ is left with $(a,b)$ and $\bot$ in its domain, while edge $(2,3)$ has $(c,b)$, $(c,d)$
 and $\bot$ in its domain.  These domains are stored as follows (with the 1 at the end of
 each line signifying that only the shown orientation of each target edge is permitted).
 
@@ -167,12 +180,29 @@ each line signifying that only the shown orientation of each target edge is perm
     [(2,3)] & \qquad [(c,b), (c,d)] & 1
 \end{align*}
 
+As the algorithm runs, the domain of each $m_v$ variable contains either the full set $V(T)$ or
+a single vertex determined by an edge-mapping decision.  Therefore, it is not necessary to explicitly
+store the domains of vertex-mapping variables.
+
 We can view the McSplit approach (where values correspond to vertices in the target line graph, and
 thus effectively correspond to unoriented edges in the original target graph)
 as delaying the decision of which way to orient the target
 edges until after finding an optimal solution.
 McSplit-E, by contrast, makes orientation decisions as early as possible.
 
+We now describe McSplit-E (pseudocode for which appears in \cref{McSplitAlg})
+in more detail.
+We begin our description with the $\FuncSty{Refine}$ function.  Given a set of label-classes
+$\AlgVar{future}$ and a vertex mapping $(v,t)$, this function
+creates a refined set of label-classes that results from the vertex mapping,
+any also moves implied edge-edge mappings to $E$.  Each label-class is split into at most
+two new label classes---one class for edges that include $v$ (in the pattern graph) or $t$
+(in the target graph), and one for edges that do not contain $v$ or $t$.  If both sets in a new
+label-class are non-empty, it is included in $\AlgVar{future'}$.  \Lineref{AddToE} deals with the
+special case where the edges contain $v$ or $t$, and the other endpoints have already been mapped.
+In this case, it is safe to move the single edge mapping in this label-class to $E$.\footnote{Alternatively,
+we could put edge mappings in $E$ in the $\FuncSty{Search}$ function instead, when we make a mapping decision
+in the for-loop.  In practice, this is less efficient.  ?? why?}
 
 \begin{algorithm}[htb]
 \footnotesize
@@ -253,20 +283,6 @@ McSplit-E, by contrast, makes orientation decisions as early as possible.
 \caption{Finding a maximum common subgraph.}
 \label{McSplitAlg}
 \end{algorithm}
-
-We now describe McSplit-E (pseudocode for which appears in \cref{McSplitAlg})
-in more detail.
-We begin our description with the $\FuncSty{Refine}$ function.  Given a set of label-classes
-$\AlgVar{future}$ and a vertex mapping $(v,t)$, this function
-creates a refined set of label-classes that results from the vertex mapping,
-any also moves implied edge-edge mappings to $E$.  Each label-class is split into at most
-two new label classes---one class for edges that include $v$ (in the pattern graph) or $t$
-(in the target graph), and one for edges that do not contain $v$ or $t$.  If both sets in a new
-label-class are non-empty, it is included in $\AlgVar{future'}$.  \Lineref{AddToE} deals with the
-special case where the edges contain $v$ or $t$, and the other endpoints have already been mapped.
-In this case, it is safe to move the single edge mapping in this label-class to $E$.\footnote{Alternatively,
-we could put edge mappings in $E$ in the $\FuncSty{Search}$ function instead, when we make a mapping decision
-in the for-loop.  In practice, this is less efficient.  ?? why?}
 
 The recursive procedure,
 $\FuncSty{Search}$, has three parameters.  The parameter $\AlgVar{future}$ is a
