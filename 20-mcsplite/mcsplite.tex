@@ -7,10 +7,50 @@
 
 \section{A CP model}
 
-We have implemented three constraint program models for MCES in the MiniZinc language.
-In each case, we assume without loss of generality that the pattern graph has no more vertices than the target graph.
+Before introducing our CP model for MCES, we define some notation.  Let $P$ be the pattern graph,
+and $T$ the target graph.  We assume that the vertex set of each graph contains only integers.
+Let $A_P = \{(u,v) \mid \{u,v\} \in E(P) \wedge u < v \}$ and
+    $A_T = \{(u,v) \mid \{u,v\} \in E(P) \}$.
+Thus, $A_P$ contains an oriented edge for each edge in the pattern graph, and $A_T$ contains
+oriented edges in both directions for each edge in the target graph.
 
-?? Write about models 1 and 2.
+We assume that the pattern graph has no more vertices than the target graph.  If this is not
+the case, the two graphs may be solved before encoding the instance using the CP model.
+
+We now introduce our CP model.  We have a variable $e_{(v,w)}$ for each oriented edge $(v,w) \in A_P$,
+and each of these variables has domain $A_T \cup \bot$.  If $e_{(v,w)}$ takes the value $(t,u)$,
+then edge $\{v,w\}$ in the pattern graph is mapped to edge $\{t,u\}$ in the target graph, and vertices
+$v$ and $w$ in the pattern graph are mapped to $t$ and $u$ respectively in the target graph.
+If $e_{(v,w)}$ takes the value $\bot$, the edge $\{v,w\}$ is not used in the mapping (and is thus not
+part of the common subgraph).
+
+For each vertex $v$ in $V(P)$, we have a variable $m_v$, and each of these variables has domain $V(T)$.
+if $m_v$ takes the value $w$, this represents that vertex $v$ in the pattern graph is mapped to vertex
+$w$ in the target graph.
+
+To ensure that each vertex in the target graph is mapped to by no more than one vertex in the pattern graph,
+we post
+\[
+\textit{alldifferent}(\{m_v \mid v \in V(P)\}).
+\]
+
+To ensure that the vertex mappings are consistent with the edge mappings, we post
+\[
+.
+\]
+
+TODO: mention possibility of reverse implies constraint.
+
+Ndiaye and Solnon \cite{DBLP:conf/cp/NdiayeS11} propose a similar model for MCES on directed graphs,
+which can be used to solve the problem on an undirected graph by replacing each edge with directed
+edges in both directions.  Their model does not include variables for vertex mappings, but uses binary
+constraints between pairs of edge variables to ensure that incidence relationships are preserved
+by the edge mapping.  ?? Mention their use of soft all-diff.
+
+%We have implemented three constraint program models for MCES in the MiniZinc language.
+%In each case, we assume without loss of generality that the pattern graph has no more vertices than the target graph.
+%
+%?? Write about models 1 and 2.
 
 Our third model (\cref{fig:model3}) includes variables for both vertex mappings and edge mappings.
 There is one variable for each vertex in the pattern graph, and one value
@@ -270,3 +310,7 @@ vertices, and the mappings $M$ and $E$ are empty.
 ?? Actually, we can delete any mention of the vertex mapping $M$ from the algorithm and it still works fine!
 Another option would be to keep $M$ and lose the integer tags on label classes (I feel like this is probably the
 nicer option).
+
+\section{A clique model using oriented edges}
+
+\section{A clique model without oriented edges}

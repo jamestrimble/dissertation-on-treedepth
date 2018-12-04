@@ -43,8 +43,10 @@
 \allsectionsfont{\sffamily}
 
 % Set paragraph layout.
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+%\setlength{\parindent}{0pt}
+%\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+% JAMES'S MODIFIED SETTINGS
+\setlength{\parskip}{1ex plus 0.5ex}
 
 % Set line spacing to one-and-a-half.
 \usepackage{setspace}
