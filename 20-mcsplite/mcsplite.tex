@@ -15,9 +15,9 @@ Thus, $A_P$ contains an oriented edge for each edge in the pattern graph, and $A
 oriented edges in both directions for each edge in the target graph.
 
 We assume that the pattern graph has no more vertices than the target graph.  If this is not
-the case, the two graphs may be solved before encoding the instance using the CP model.
+the case, the two graphs should be swapped before encoding the instance using the CP model.
 
-We now introduce our CP model.  We have a variable $e_{(v,w)}$ for each oriented edge $(v,w) \in A_P$,
+In our CP model, we have a variable $e_{(v,w)}$ for each oriented edge $(v,w) \in A_P$,
 and each of these variables has domain $A_T \cup \bot$.  If $e_{(v,w)}$ takes the value $(t,u)$,
 then edge $\{v,w\}$ in the pattern graph is mapped to edge $\{t,u\}$ in the target graph, and vertices
 $v$ and $w$ in the pattern graph are mapped to $t$ and $u$ respectively in the target graph.
@@ -28,10 +28,12 @@ For each vertex $v$ in $V(P)$, we have a variable $m_v$, and each of these varia
 if $m_v$ takes the value $w$, this represents that vertex $v$ in the pattern graph is mapped to vertex
 $w$ in the target graph.
 
-The objective is to maximise the number of $e_{(v,w)}$ variables that take non-$\bot$ values.
+Our model is an CP optimisation problem, the objective of which is to maximise
+the number of $e_{(v,w)}$ variables that take non-$\bot$ values (and thus, to maximise the number of
+edges in the common subgraph).
 
-To ensure that each vertex in the target graph is mapped to by no more than one vertex in the pattern graph,
-we post
+To ensure that each vertex in the target graph has no more than one vertex in the pattern graph mapped
+to it, we post
 \[
 \textit{alldifferent}(\{m_v \mid v \in V(P)\}).
 \]
@@ -123,15 +125,15 @@ solve :: int_search(m_edge, first_fail, indomain_split, complete)
 
 \section{McSplit-E}
 
-We now introduce our second dedicated solver for MCES: McSplit-E.  Whereas
+We now introduce our second dedicated solver for MCES (after McSplit-L): McSplit-E.  Whereas
 McSplit-L solves MCES indirectly by solving MCIS on the line graphs, McSplit-E
 models MCES directly, exploring essentially the same search tree as the CP
 model in \cref{sec:mces-cp-model} with forward checking.  Unlike a typical CP
-solver, however, McSplit-E uses the compact data structures and of McSplit
+solver, McSplit-E uses the compact data structures of McSplit
 (albeit on edge rather than vertex variables) and uses a similar partitioning
 algorithm to filter domains.
 
-As in the CP model, we have a variable for each pattern edges and a value
+As in the CP model, we have a variable for each pattern edge and a value
 for each \textit{oriented} target edge.  Edges are stored as ordered pairs; thus the mapping
 $(1,2) \rightarrow (3,4)$ indicates not only that edge $\{1,2\}$ of the pattern graph is
 mapped to edge $\{3,4\}$ of the target graph, but also that vertices $1$ and $2$ are mapped
@@ -184,7 +186,7 @@ As the algorithm runs, the domain of each $m_v$ variable contains either the ful
 a single vertex determined by an edge-mapping decision.  Therefore, it is not necessary to explicitly
 store the domains of vertex-mapping variables.
 
-We can view the McSplit approach (where values correspond to vertices in the target line graph, and
+We can view the McSplit-L approach (where values correspond to vertices in the target line graph, and
 thus effectively correspond to unoriented edges in the original target graph)
 as delaying the decision of which way to orient the target
 edges until after finding an optimal solution.
@@ -193,7 +195,7 @@ McSplit-E, by contrast, makes orientation decisions as early as possible.
 We now describe McSplit-E (pseudocode for which appears in \cref{McSplitAlg})
 in more detail.
 We begin our description with the $\FuncSty{Refine}$ function.  Given a set of label-classes
-$\AlgVar{future}$ and a vertex mapping $(v,t)$, this function
+$\AlgVar{future}$ and a mapping from pattern vertex $v$ to target vertex $t$, this function
 creates a refined set of label-classes that results from the vertex mapping,
 any also moves implied edge-edge mappings to $E$.  Each label-class is split into at most
 two new label classes---one class for edges that include $v$ (in the pattern graph) or $t$
@@ -309,7 +311,8 @@ each call to $\FuncSty{Search}$, the following invariants hold:
 (v,t) \in M \wedge (w,u) \in M \wedge \{v,w\} \in E(\graphG) \wedge \{t,u\} \in E(\graphH) \implies ((v,w),(t,u)) \in E.
 \]
 
-This does not affect correctness, but does imply that our model does not propagate as strongly MiniZinc model 3,
+This does not affect correctness, but does imply that our model does not propagate as strongly as
+the CP model with $\implies$ replaced by $\Longleftrightarrow$,
 even if that model is solved using only forward checking.)
 
 \Lineref{StoreIncumbent} stores the current edge mapping $E$ if it is large enough
