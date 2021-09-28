@@ -1,0 +1,92 @@
+@InProceedings{strowes:2011:reallycool,
+        BookTitle = {The 14th International Jolly to Hawaii},
+        Month = {April},
+        author = {Strowes, Stephen D.},
+        title = {{YANSEYSUI: Yet Another Network Simulation Environment You Should Use Immediately}},
+        year = {2011},
+}
+
+@incollection{DBLP:series/sci/BunkeDKNS08,
+  author    = {Horst Bunke and
+               Peter J. Dickinson and
+               Miro Kraetzl and
+               Michel Neuhaus and
+               Marc Stettler},
+  title     = {Matching of Hypergraphs - Algorithms, Applications, and Experiments},
+  booktitle = {Applied Pattern Recognition},
+  pages     = {131--154},
+  year      = {2008},
+  crossref  = {DBLP:series/sci/2008-91},
+  url       = {https://doi.org/10.1007/978-3-540-76831-9\_6},
+  doi       = {10.1007/978-3-540-76831-9\_6},
+  timestamp = {Tue, 16 May 2017 14:24:32 +0200},
+  biburl    = {https://dblp.org/rec/bib/series/sci/BunkeDKNS08},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@book{DBLP:series/sci/2008-91,
+  editor    = {Horst Bunke and
+               Abraham Kandel and
+               Mark Last},
+  title     = {Applied Pattern Recognition},
+  series    = {Studies in Computational Intelligence},
+  volume    = {91},
+  publisher = {Springer},
+  year      = {2008},
+  isbn      = {978-3-540-76830-2},
+  timestamp = {Mon, 10 Mar 2008 11:10:11 +0100},
+  biburl    = {https://dblp.org/rec/bib/series/sci/2008-91},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{DBLP:journals/dam/GalloLP93,
+  author    = {Giorgio Gallo and
+               Giustino Longo and
+               Stefano Pallottino},
+  title     = {Directed Hypergraphs and Applications},
+  journal   = {Discrete Applied Mathematics},
+  volume    = {42},
+  number    = {2},
+  pages     = {177--201},
+  year      = {1993},
+  url       = {https://doi.org/10.1016/0166-218X(93)90045-P},
+  doi       = {10.1016/0166-218X(93)90045-P},
+  timestamp = {Mon, 05 Jun 2017 20:48:56 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/dam/GalloLP93},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/cp/NdiayeS11,
+  author    = {Samba Ndojh Ndiaye and
+               Christine Solnon},
+  title     = {{CP} Models for Maximum Common Subgraph Problems},
+  booktitle = {Principles and Practice of Constraint Programming - {CP} 2011 - 17th
+               International Conference, {CP} 2011, Perugia, Italy, September 12-16,
+               2011. Proceedings},
+  pages     = {637--644},
+  year      = {2011},
+  crossref  = {DBLP:conf/cp/2011},
+  url       = {https://doi.org/10.1007/978-3-642-23786-7\_48},
+  doi       = {10.1007/978-3-642-23786-7\_48},
+  timestamp = {Wed, 17 May 2017 14:24:33 +0200},
+  biburl    = {https://dblp.org/rec/bib/conf/cp/NdiayeS11},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@proceedings{DBLP:conf/cp/2011,
+  editor    = {Jimmy Ho{-}Man Lee},
+  title     = {Principles and Practice of Constraint Programming - {CP} 2011 - 17th
+               International Conference, {CP} 2011, Perugia, Italy, September 12-16,
+               2011. Proceedings},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {6876},
+  publisher = {Springer},
+  year      = {2011},
+  url       = {https://doi.org/10.1007/978-3-642-23786-7},
+  doi       = {10.1007/978-3-642-23786-7},
+  isbn      = {978-3-642-23785-0},
+  timestamp = {Wed, 17 May 2017 14:24:33 +0200},
+  biburl    = {https://dblp.org/rec/bib/conf/cp/2011},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
