@@ -9,6 +9,9 @@ final:
 ch01:
 	latexmk -pdf ch-introduction.tex
 
+ch50:
+	latexmk -pdf ch-trie.tex
+
 chAA:
 	latexmk -pdf ch-appendices.tex
 

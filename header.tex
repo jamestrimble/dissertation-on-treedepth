@@ -11,22 +11,35 @@
 %\usepackage{algorithmic}
 %\usepackage{algorithm}
 \usepackage{mcaption}
-\usepackage[font=scriptsize]{subfig}
+%\usepackage{subfig}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{bookmark}
+\usepackage{booktabs}
 
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{MnSymbol,wasysym}
 \usepackage{latexsym}
 \usepackage{algpseudocode}
-\usepackage{amsmath}
+
+\usepackage{cleveref}
+\usepackage{tikz}
+\usepackage{placeins}
+
+\usepackage{subfigure}
+\usepackage{fancyvrb}
+\usepackage{lscape}
 
 % https://tex.stackexchange.com/a/184829
 \algnewcommand{\LeftComment}[1]{\(\triangleright\) #1}
 
-\usepackage{cleveref}
-\usepackage{tikz}
+\newtheorem{proposition}{Proposition}
+
+\usetikzlibrary{decorations, decorations.pathreplacing, decorations.pathmorphing,
+    calc, backgrounds, positioning, tikzmark, patterns, matrix, fit, graphs,
+    snakes, arrows, shapes}
+
 
 \tikzset{edge/.style={line width=1.5pt, color=uofgsandstone}}
 \tikzset{ledge/.style={line width=1pt, color=uofgsandstone!50!white}}
@@ -73,10 +86,10 @@
 \Crefname{section}{Section}{Sections}
 
 \newcommand{\lineref}[1]{line~\ref{#1}}
+\newcommand{\codelineref}[1]{line~\ref{#1}}
 \newcommand{\linerangeref}[2]{lines~\ref{#1} to~\ref{#2}}
 \newcommand{\Lineref}[1]{Line~\ref{#1}}
 \newcommand{\Linerangeref}[2]{Lines~\ref{#1} to~\ref{#2}}
-%\usepackage{natbib}
 
 \usepackage{color}
 \usepackage{changebar}
@@ -92,12 +105,19 @@
 \newcommand{\setG}{G}
 \newcommand{\setH}{H}
 
+\newcommand{\calF}{\ensuremath{\mathcal{F}}}
+
 \DeclareMathOperator{\V}{V}
 \DeclareMathOperator{\E}{E}
 \DeclareMathOperator{\N}{N}
 \DeclareMathOperator{\invN}{\overline{N}}
 \DeclareMathOperator{\vtxlabel}{label}
 
+%\newcommand{\citet}[1]{\citeauthor{#1} \shortcite{#1}}
+% The following is temporary hack to make citet compile
+\newcommand{\citet}[1]{\cite{#1}}
+
+\newcommand{\citep}[1]{\cite{#1}}
 
 \hyphenation{Internet analysis analyse}
 
@@ -154,7 +174,7 @@
 \pagestyle{empty}
 \pagenumbering{gobble}
 
-\title{Partitioning Algorithms for Maximum Common Substructure Problems}
+\title{Exact algorithms for NP-hard optimisation problems}
 \author{James Trimble}
 \date{Month Year}
 
@@ -165,13 +185,13 @@
 \input{"abstract.tex"} 
 %\addcontentsline{toc}{chapter}{Abstract}
 
-\newpage
-\input{"acknowledgements.tex"} 
+%\newpage
+%\input{"acknowledgements.tex"} 
 %\addcontentsline{toc}{chapter}{Acknowledgments}
 
 \cleardoublepage
 \vspace*{1.75in}
-\begin{flushright} Dedication. (Is what you need.)\end{flushright}
+%\begin{flushright} Dedication. (Is what you need.)\end{flushright}
 
 
 %\pagenumbering{roman}
