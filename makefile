@@ -9,6 +9,9 @@ final:
 ch01:
 	latexmk -pdf ch-introduction.tex
 
+ch14:
+	pdflatex ch-mcsplit.tex #latexmk -pdf ch-mcsplit.tex
+
 ch50:
 	latexmk -pdf ch-trie.tex
 

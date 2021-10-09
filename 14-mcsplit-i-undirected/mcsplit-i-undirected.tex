@@ -140,14 +140,14 @@
 %%%%%%%%  vertices; one example is the mapping $\{1a, 2f, 3d, 5b\}$ where vertex $1$ is
 %%%%%%%%  assigned to vertex $a$, $2$ is assigned to $f$, $3$ to $d$ and $5$ to $b$.
 %%%%%%%%  
-%%%%%%%%  \begin{figure}[h!]
-%%%%%%%%  \centering
-%%%%%%%%      \exampleG
-%%%%%%%%      \qquad
-%%%%%%%%      \exampleH
-%%%%%%%%  \caption{Example graphs $\graphG$ and $\graphH$.}
-%%%%%%%%  \label{fig:alg1}
-%%%%%%%%  \end{figure}
+\begin{figure}[h!]
+\centering
+    \exampleG
+    \qquad
+    \exampleH
+\caption{Example graphs $\graphG$ and $\graphH$.}
+\label{fig:alg1}
+\end{figure}
 %%%%%%%%  
 %%%%%%%%  The algorithm builds up a mapping $M$ using a depth-first search, starting with the empty mapping
 %%%%%%%%  $\emptyset$ and adding a $(v_i, w_i)$ pair or choosing to leave a vertex in $\V(\graphG)$ unmatched at each level of the search tree.
@@ -1069,17 +1069,24 @@ are adjacent if and only if $v \not= v'$, $w \not= w'$, and either (1) $v$ and $
 are adjacent in $\graphG$ and $w$ and $w'$ are adjacent in $\graphH$ or (2) $v$ and $v'$
 are not adjacent in $\graphG$ and $w$ and $w'$ are not adjacent in $\graphH$.
 
+\Cref{fig:association-graph} shows the association graph of graphs $\graphG$ and $\graphH$
+from \cref{fig:alg1}, which has 30 vertices and 150 edges.  A 4-clique corresponding to
+a maximum common subgraph of $\graphG$ and $\graphH$ is shown.
+
 \begin{figure}[htb]
 \centering
     \begin{tikzpicture}
         \foreach \v [count=\i] in {1,2,3,4,5} {
             \foreach \w [count=\j] in {a,b,c,d,e,f} {
-                \node[draw,circle,minimum width=.65cm,inner sep=1pt] (\v\w) at (180 - \i*72 - \j*11:3.8) {$\v\w$};
+                \node[draw,circle,minimum width=.65cm,inner sep=1pt] (\v\w) at (180 - \i*72 - \j*11:4.5) {$\v\w$};
             }
         }
-        \draw (1a) -- (3f);
+        \input{14-mcsplit-i-undirected/association-graph/assoc-graph-edges}
     \end{tikzpicture}   
-\caption{The association graph of graphs $\graphG$ and $\graphH$ from \cref{fig:alg1}.}
+\caption{The association graph of graphs $\graphG$ and $\graphH$ from \cref{fig:alg1}.  The dark edges
+    show a 4-clique in
+    the association graph. This corresponds to a common subgraph with 4 vertices: the subgraph of $\graphG$ induced by
+    $\{1,2,3,5\}$ which is isomorphic to the subgraph of $\graphH$ induced by $\{a,f,d,b\}$.}
 \label{fig:association-graph}
 \end{figure}
 
@@ -1087,26 +1094,80 @@ Our proof strategy is to introduce and prove a simple algorithm for the clique
 decision problem, and then to show that this algorithm, when applied to the association
 graph, carries out exactly the same steps as the McSplit algorithm applied to graphs
 $\graphG$ and $\graphH$.  The clique algorithm we will use, \cref{CliqueDecisionAlg},
-uses the same bound function as MCSa1 \cite{DBLP:journals/algorithms/Prosser12,DBLP:journals/ieicet/TomitaSHW13},
-but a simpler branching strategy.
+uses a similar upper-bounding strategy to MCSa1 \cite{DBLP:journals/algorithms/Prosser12,DBLP:journals/ieicet/TomitaSHW13};
+both algorithms greedily colour the vertices of the graph and use the number of colours
+as an upper bound on the number of vertices that can be added to the growing clique.
+\Cref{CliqueDecisionAlg} does not specify the order in which vertices are coloured;
+our proof will require the colouring to mimic McSplit's behaviour, and I will give
+more details on this below.
 
-The parameters of the $\FuncSty{Search}$ function of \cref{CliqueDecisionAlg}
-are vertex sets $P$ and $C$ and a natural number $t$.  Set $C$ is a subset of $V(\graphA)$,
-and must be a clique. Set $P$ is a set of candidate (``potential'') vertices, each of which
-is adjacent in $\graphA$ to every member of $C$.  The parameter $t$ is the target clique size.
+Our clique algorithm uses a simpler branching strategy than MCSa1.
+
+The parameters of the $\FuncSty{CliqueSearch}$ function of \cref{CliqueDecisionAlg}
+are vertex sets $P$ and $C$ and a natural number $t$.  Set $C$ is a subset of
+$V(\graphA)$, and must be a clique of size no greater than $t$. Set $P$ is a
+set of candidate (``potential'') vertices, sucht that $C \cap P = \emptyset$
+and each vertex in $P$ is adjacent in $\graphA$ to every member of $C$.  The
+parameter $t$ is the target clique size.  We now show the correctness of the
+algorithm.
 
 \begin{proposition}\label{cliqueAlgProp}
-  The function $\FuncSty{Search}$ returns $\AlgVar{true}$ if and only if $\graphA$ has a clique
-  of size $t$ that includes $C$ as a subset.
+    The function $\FuncSty{CliqueSearch}(P,C,t)$ returns $\AlgVar{true}$ if and only if $\graphA$ has a clique
+  $K$ of size $t$ such that $C \subseteq K \subseteq C \cup P$.
 \end{proposition}
 \begin{proof}
-  The proof is by induction on $|P|$.  In the base case, $|P|=0$, 
+  The proof is by induction on $|P|$.
+  
+  \emph{Base case, $|P|=0$.} Since $C$ is a clique by assumption and $P = \emptyset$,
+    we must show that the function returns $\AlgVar{true}$ if and only if $|C| = t$.
+    If $|C| = t$, \lineref{CliqueReturnTrue} returns $\AlgVar{true}$ as required.
+    If $|C| < t$, then $\AlgVar{bound} = |C|$, since $\FuncSty{ColouringUpperBound}(P)$
+    is zero. Therefore $\AlgVar{false}$ is returned on \lineref{CliquePruneSearch}.
+
+  \emph{Inductive case.} Let natural number $k$ be given, and assume that the proposition holds
+    for $|P| < k$. We will show that the proposition also holds if $|P| = k$.  Let $C$, $P$,
+    and $t$ be given, such that $|P| = k$.
+
+  For the first direction of the implication in the inductive case, suppose there is no clique
+  $K$ of size $t$ such that $C \subseteq K \subseteq C \cup P$.  \Lineref{CliqueReturnTrue}
+  does not return $\boolT$ since $|C| < t$. Now, either \cref{CliquePruneSearch} returns \boolF\
+  or we must show that neither \lineref{CliqueFirstSearch} nor \lineref{CliqueSecondSearch}
+  returns \boolT. We first consider \lineref{CliqueFirstSearch}. By assumption, for every clique $K$
+  of size $t$ we have either that $C \not\subseteq K$ or $K \not\subseteq C \cup P$.  Since
+  $C \subset C \cup \{x\}$ and $C \cup \{x\} \cup (P \cap N(x)) \subseteq C \cup P$, it follows
+  for every clique $K$ of size $t$ that either
+  $C \cup \{x\} \not\subseteq K$ or $K \not\subseteq C \cup \{x\} \cup (P \cap N(x))$.  Hence
+  the call to $\FuncSty{CliqueSearch}()$ on \lineref{CliqueFirstSearch} returns \boolF
+  for every value taken by $x$ in the loop.  It remains to show
+  that \lineref{CliqueSecondSearch}, if reached, never returns \boolT; this is the case since
+  $P \setminus S \subset P$ and therefore for every clique $K$ of size $t$ we have either
+  $C \not\subseteq K$ or $K \not\subseteq C \cup (P \setminus S)$.
+
+  For the second direction of the implication in the inductive case, suppose there exists a clique
+  $K$ of size $t$ such that $C \subseteq K \subseteq C \cup P$.  If $|C|=t$, \Lineref{CliqueReturnTrue}
+  returns \boolT\ as required.  Otherwise, $\AlgVar{bound} \geq t$ since $K \setminus C$ is a clique
+  and therefore each member of $K \setminus C$ must be in a different colour class in the colouring
+    generated by the function $\FuncSty{ColouringUpperBound}$; therefore, \lineref{CliquePruneSearch}
+    does not return \boolF.  It remains to show that either 
+  \lineref{CliqueFirstSearch} or \lineref{CliqueSecondSearch} returns \boolT. We consider two
+  cases: $S \cap K \not= \emptyset$ and $S \cap K = \emptyset$.  In the first case, let $x$ be
+  the unique element of $S \cap K$.  Since $C \subseteq K$ and $x \in K$, we have
+  $C \cup \{x\} \subseteq K$.
+  Since $K$ is a clique containing $x$, we have $K \subseteq \{x\} \cup N(x)$ and
+    therefore $P \cap K \subseteq \{x\} \cup (P \cap N(x))$.
+  Combining this with the fact that $K \subseteq C \cup P$,
+  we have $K \subseteq C \cup \{x\} \cup (P \cap N(x))$.  It follows directly that \lineref{CliqueFirstSearch}
+  returns \boolT.
+
+    Now consider the second case: $S \cap K = \emptyset$.  Since $K \subseteq C \cup P$,
+    we have $K \subseteq C \cup (P \setminus S)$.  Therefore \lineref{CliqueSecondSearch}
+    returns \boolT.
 \end{proof}
 
 \begin{algorithm}[h!]
 \DontPrintSemicolon
-\nl $\FuncSty{Search}(P,C,t)$ \;
-\nl \KwData{Candidate vertices $P$, clique $C$, and target size $t$}
+\nl $\FuncSty{CliqueSearch}(P,C,t)$ \;
+\nl \KwData{Candidate vertices $P$, clique $C$ such that $|C| \leq t$, and target size $t$}
 \nl \KwResult{$\AlgVar{true}$ if and only if a clique of size $t$ exists with $C$ as a subset}
 \nl \Begin{
 \nl \lIf {$|C| = t$}{\KwSty{return} $\AlgVar{true}$} \label{CliqueReturnTrue}
@@ -1115,9 +1176,9 @@ is adjacent in $\graphA$ to every member of $C$.  The parameter $t$ is the targe
 \medskip
 \nl $S \gets $ a subset of $P$ that is an independent set in $\graphA$ \;
 \nl \For {$x \in S$ \label{CliqueWLoop}} {
-\nl    \lIf {$\FuncSty{Search}(P \cap N(x), C \cup \{x\}, t)$}{\KwSty{return $\AlgVar{true}$}}
+    \nl    \lIf {$\FuncSty{CliqueSearch}(P \cap N(x), C \cup \{x\}, t)$}{\KwSty{return $\AlgVar{true}$\label{CliqueFirstSearch}}}
      }
-\nl  \lIf {$\FuncSty{Search}(P \setminus S, C, t)$}{\KwSty{return $\AlgVar{true}$}}
+    \nl  \lIf {$\FuncSty{CliqueSearch}(P \setminus S, C, t)$}{\KwSty{return $\AlgVar{true}$\label{CliqueSecondSearch}}}
 \nl  $\KwSty{return}$ $\AlgVar{false}$ \;
   }
 \;
@@ -1132,7 +1193,7 @@ is adjacent in $\graphA$ to every member of $C$.  The parameter $t$ is the targe
 \nl \KwData{Graph $\graphA$ and target size $t$}
 \nl \KwResult{$\AlgVar{true}$ if and only if a clique of size $t$ exists in $\graphA$}
 \nl \Begin{
-\nl $\KwSty{return}$ $\FuncSty{Search}(V(\graphA),\emptyset, t)$ \label{CliqueFirstExpandCall} \;
+\nl $\KwSty{return}$ $\FuncSty{CliqueSearch}(V(\graphA),\emptyset, t)$ \label{CliqueFirstExpandCall} \;
 }
 \caption{A simple algorithm for the clique decision problem.}
 \label{CliqueDecisionAlg}
