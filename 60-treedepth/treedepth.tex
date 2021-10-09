@@ -161,7 +161,7 @@
     parameter of each of the first two functions, will be introduced in later sections and can be disregarded for now.
 
     {
-    \begin{algorithm}[htb]
+    \begin{algorithm}[h!]
      \footnotesize
     \DontPrintSemicolon
     \newcommand\SimpleLowerBound{\FuncSty{simple\_lower\_bound}}
@@ -286,65 +286,68 @@
 
     \begin{figure}[htb]
       \centering
-    \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
-        \node[] (graph1) at (.5,-.3) {
-          \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
-              \node[shape=circle,draw=black,inner sep=1pt] (2) at (.8,.8) {2};
-              \node[shape=circle,draw=black,inner sep=1pt] (3) at (2,.8) {3};
-              \node[shape=circle,draw=black,inner sep=1pt] (4) at (2.8,.8) {4};
-              \node[shape=circle,draw=black,inner sep=1pt] (5) at (1.4,.4) {5};
-              \node[shape=circle,draw=black,inner sep=1pt] (6) at (0,0) {6};
-              \node[shape=circle,draw=black,inner sep=1pt] (7) at (.8,0) {7};
-              \node[shape=circle,draw=black,inner sep=1pt] (8) at (2,0) {8};
-              \node[shape=circle,draw=black,inner sep=1pt] (9) at (2.8,0) {9};
+      \small
+      \scalebox{1.25} {
+        \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
+            \node[] (graph1) at (.5,-.3) {
+              \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
+                  \node[shape=circle,draw=black,inner sep=1pt] (2) at (.8,.8) {2};
+                  \node[shape=circle,draw=black,inner sep=1pt] (3) at (2,.8) {3};
+                  \node[shape=circle,draw=black,inner sep=1pt] (4) at (2.8,.8) {4};
+                  \node[shape=circle,draw=black,inner sep=1pt] (5) at (1.4,.4) {5};
+                  \node[shape=circle,draw=black,inner sep=1pt] (6) at (0,0) {6};
+                  \node[shape=circle,draw=black,inner sep=1pt] (7) at (.8,0) {7};
+                  \node[shape=circle,draw=black,inner sep=1pt] (8) at (2,0) {8};
+                  \node[shape=circle,draw=black,inner sep=1pt] (9) at (2.8,0) {9};
 
-              \draw (3) -- (4);
-              \draw (6) -- (7);
-              \draw (8) -- (9);
+                  \draw (3) -- (4);
+                  \draw (6) -- (7);
+                  \draw (8) -- (9);
 
-              \draw (2) -- (7);
-              \draw (3) -- (8);
-              \draw (4) -- (9);
+                  \draw (2) -- (7);
+                  \draw (3) -- (8);
+                  \draw (4) -- (9);
 
-              \draw (2) -- (5);
-              \draw (3) -- (5);
-              \draw (7) -- (5);
-              \draw (8) -- (5);
-          \end{tikzpicture}
-        };
-        \node[shape=circle,inner sep=2pt] (1) at (.5,1) {1};
-        \draw (1) -- (graph1);
-    \end{tikzpicture}
-    \qquad
-    \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
-        \node[] (graph1) at (-.2,-.3) {
-          \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
-              \node[shape=circle,draw=black,inner sep=1pt] (1) at (0,.8) {1};
-              \node[shape=circle,draw=black,inner sep=1pt] (2) at (.8,.8) {2};
-              \node[shape=circle,draw=black,inner sep=1pt] (6) at (0,0) {6};
-              \node[shape=circle,draw=black,inner sep=1pt] (7) at (.8,0) {7};
-              \draw (1) -- (2);
-              \draw (1) -- (6);
-              \draw (2) -- (7);
-              \draw (6) -- (7);
-          \end{tikzpicture}
-        };
-        \node[] (graph2) at (1.2,-.3) {
-          \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
-              \node[shape=circle,draw=black,inner sep=1pt] (3) at (0,.8) {3};
-              \node[shape=circle,draw=black,inner sep=1pt] (4) at (.8,.8) {4};
-              \node[shape=circle,draw=black,inner sep=1pt] (8) at (0,0) {8};
-              \node[shape=circle,draw=black,inner sep=1pt] (9) at (.8,0) {9};
-              \draw (3) -- (4);
-              \draw (8) -- (9);
-              \draw (3) -- (8);
-              \draw (4) -- (9);
-          \end{tikzpicture}
-        };
-        \node[shape=circle,inner sep=2pt] (5) at (.5,1) {5};
-        \draw (5) -- (graph2);
-        \draw (5) -- (graph1);
-    \end{tikzpicture}
+                  \draw (2) -- (5);
+                  \draw (3) -- (5);
+                  \draw (7) -- (5);
+                  \draw (8) -- (5);
+              \end{tikzpicture}
+            };
+            \node[shape=circle,inner sep=2pt] (1) at (.5,1) {1};
+            \draw (1) -- (graph1);
+        \end{tikzpicture}
+        \qquad
+        \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
+            \node[] (graph1) at (-.2,-.3) {
+              \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
+                  \node[shape=circle,draw=black,inner sep=1pt] (1) at (0,.8) {1};
+                  \node[shape=circle,draw=black,inner sep=1pt] (2) at (.8,.8) {2};
+                  \node[shape=circle,draw=black,inner sep=1pt] (6) at (0,0) {6};
+                  \node[shape=circle,draw=black,inner sep=1pt] (7) at (.8,0) {7};
+                  \draw (1) -- (2);
+                  \draw (1) -- (6);
+                  \draw (2) -- (7);
+                  \draw (6) -- (7);
+              \end{tikzpicture}
+            };
+            \node[] (graph2) at (1.2,-.3) {
+              \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
+                  \node[shape=circle,draw=black,inner sep=1pt] (3) at (0,.8) {3};
+                  \node[shape=circle,draw=black,inner sep=1pt] (4) at (.8,.8) {4};
+                  \node[shape=circle,draw=black,inner sep=1pt] (8) at (0,0) {8};
+                  \node[shape=circle,draw=black,inner sep=1pt] (9) at (.8,0) {9};
+                  \draw (3) -- (4);
+                  \draw (8) -- (9);
+                  \draw (3) -- (8);
+                  \draw (4) -- (9);
+              \end{tikzpicture}
+            };
+            \node[shape=circle,inner sep=2pt] (5) at (.5,1) {5};
+            \draw (5) -- (graph2);
+            \draw (5) -- (graph1);
+        \end{tikzpicture}
+      }
       \caption{Two of the nine subproblems visited by the first call to $\TDConnected$
         on our example graph}
       \label{fig:twosubproblems}
@@ -465,66 +468,68 @@
 
     \begin{figure}[htb]
       \centering
-    \begin{tikzpicture}[scale=0.9, every node/.style={scale=0.9}]
-        \node[] (graph1) at (-.2,-.3) {
-          \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
-              \node[shape=circle,draw=black,inner sep=1pt] (1) at (0,.8) {1};
-              \node[shape=circle,draw=black,inner sep=1pt] (2) at (.8,.8) {2};
-              \node[shape=circle,draw=black,inner sep=1pt] (7) at (.8,0) {7};
-              \draw (1) -- (2);
-              \draw (2) -- (7);
-          \end{tikzpicture}
-        };
-        \node[] (graph2) at (1.2,-.3) {
-          \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
-              \node[shape=circle,draw=black,inner sep=1pt] (3) at (0,.8) {3};
-              \node[shape=circle,draw=black,inner sep=1pt] (4) at (.8,.8) {4};
-              \node[shape=circle,draw=black,inner sep=1pt] (8) at (0,0) {8};
-              \node[shape=circle,draw=black,inner sep=1pt] (9) at (.8,0) {9};
-              \draw (3) -- (4);
-              \draw (8) -- (9);
-              \draw (3) -- (8);
-              \draw (4) -- (9);
-          \end{tikzpicture}
-        };
-        \node[shape=circle,inner sep=2pt] (5) at (.5,0.8) {5};
-        \node[shape=circle,inner sep=2pt] (6) at (.5,1.6) {6};
-        \draw (6) -- (5);
-        \draw (5) -- (graph2);
-        \draw (5) -- (graph1);
-        \node[shape=circle,inner sep=2pt] (a) at (-.5,1.5) {(a)};
-    \end{tikzpicture}
-    \qquad
-    \qquad
-    \begin{tikzpicture}[scale=0.9, every node/.style={scale=0.9}]
-        \node[] (graph1) at (0,-.3) {
-          \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
-              \node[shape=circle,draw=black,inner sep=1pt] (1) at (0,.8) {1};
-              \node[shape=circle,draw=black,inner sep=1pt] (2) at (.8,.8) {2};
-              \node[shape=circle,draw=black,inner sep=1pt] (7) at (.8,0) {7};
-              \draw (1) -- (2);
-              \draw (2) -- (7);
-          \end{tikzpicture}
-        };
-        \node[] (graph2) at (1.4,.75) {
-          \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
-              \node[shape=circle,draw=black,inner sep=1pt] (3) at (0,.8) {3};
-              \node[shape=circle,draw=black,inner sep=1pt] (4) at (.8,.8) {4};
-              \node[shape=circle,draw=black,inner sep=1pt] (8) at (0,0) {8};
-              \node[shape=circle,draw=black,inner sep=1pt] (9) at (.8,0) {9};
-              \draw (3) -- (4);
-              \draw (8) -- (9);
-              \draw (3) -- (8);
-              \draw (4) -- (9);
-          \end{tikzpicture}
-        };
-        \node[shape=circle,inner sep=2pt] (5) at (.5,1.6) {5};
-        \node[shape=circle,inner sep=2pt] (6) at (0,0.75) {6};
-        \draw (5) -- (6);
-        \draw (5) -- (graph2);
-        \draw (6) -- (graph1);
-        \node[shape=circle,inner sep=2pt] (b) at (-.5,1.5) {(b)};
-    \end{tikzpicture}
+      \scalebox{1.25} {
+        \begin{tikzpicture}[scale=0.9, every node/.style={scale=0.9}]
+            \node[] (graph1) at (-.2,-.3) {
+              \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
+                  \node[shape=circle,draw=black,inner sep=1pt] (1) at (0,.8) {1};
+                  \node[shape=circle,draw=black,inner sep=1pt] (2) at (.8,.8) {2};
+                  \node[shape=circle,draw=black,inner sep=1pt] (7) at (.8,0) {7};
+                  \draw (1) -- (2);
+                  \draw (2) -- (7);
+              \end{tikzpicture}
+            };
+            \node[] (graph2) at (1.2,-.3) {
+              \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
+                  \node[shape=circle,draw=black,inner sep=1pt] (3) at (0,.8) {3};
+                  \node[shape=circle,draw=black,inner sep=1pt] (4) at (.8,.8) {4};
+                  \node[shape=circle,draw=black,inner sep=1pt] (8) at (0,0) {8};
+                  \node[shape=circle,draw=black,inner sep=1pt] (9) at (.8,0) {9};
+                  \draw (3) -- (4);
+                  \draw (8) -- (9);
+                  \draw (3) -- (8);
+                  \draw (4) -- (9);
+              \end{tikzpicture}
+            };
+            \node[shape=circle,inner sep=2pt] (5) at (.5,0.8) {5};
+            \node[shape=circle,inner sep=2pt] (6) at (.5,1.6) {6};
+            \draw (6) -- (5);
+            \draw (5) -- (graph2);
+            \draw (5) -- (graph1);
+            \node[shape=circle,inner sep=2pt] (a) at (-.5,1.5) {(a)};
+        \end{tikzpicture}
+        \qquad
+        \qquad
+        \begin{tikzpicture}[scale=0.9, every node/.style={scale=0.9}]
+            \node[] (graph1) at (0,-.3) {
+              \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
+                  \node[shape=circle,draw=black,inner sep=1pt] (1) at (0,.8) {1};
+                  \node[shape=circle,draw=black,inner sep=1pt] (2) at (.8,.8) {2};
+                  \node[shape=circle,draw=black,inner sep=1pt] (7) at (.8,0) {7};
+                  \draw (1) -- (2);
+                  \draw (2) -- (7);
+              \end{tikzpicture}
+            };
+            \node[] (graph2) at (1.4,.75) {
+              \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
+                  \node[shape=circle,draw=black,inner sep=1pt] (3) at (0,.8) {3};
+                  \node[shape=circle,draw=black,inner sep=1pt] (4) at (.8,.8) {4};
+                  \node[shape=circle,draw=black,inner sep=1pt] (8) at (0,0) {8};
+                  \node[shape=circle,draw=black,inner sep=1pt] (9) at (.8,0) {9};
+                  \draw (3) -- (4);
+                  \draw (8) -- (9);
+                  \draw (3) -- (8);
+                  \draw (4) -- (9);
+              \end{tikzpicture}
+            };
+            \node[shape=circle,inner sep=2pt] (5) at (.5,1.6) {5};
+            \node[shape=circle,inner sep=2pt] (6) at (0,0.75) {6};
+            \draw (5) -- (6);
+            \draw (5) -- (graph2);
+            \draw (6) -- (graph1);
+            \node[shape=circle,inner sep=2pt] (b) at (-.5,1.5) {(b)};
+        \end{tikzpicture}
+      }
       \caption{The only child rule allows us to avoid the effort of exploring the subproblem
       in the left part of the figure, since at least as good a decomposition can be achieved
       by choosing $5$ as the root vertex.}
@@ -563,37 +568,39 @@
 
     \begin{figure}[htb]
       \centering
-    \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
-        \node[] (G1) at (-1.6,-.2) {$G_1$};
-        \node[] (Gdots) at (-1,-.2) {$\dots$};
-        \node[] (Ga) at (-.4,-.2) {$G_a$};
-        \node[] (H1) at (.4,-.2) {$H_1$};
-        \node[] (Hdots) at (1,-.2) {$\dots$};
-        \node[] (Hb) at (1.6,-.2) {$H_b$};
-        \node[shape=circle,inner sep=2pt] (vprime) at (0,0.8) {$v'$};
-        \node[shape=circle,inner sep=2pt] (v) at (0,1.6) {$v$};
-        \draw (v) -- (vprime);
-        \draw (vprime) -- (G1);
-        \draw (vprime) -- (Ga);
-        \draw (vprime) -- (H1);
-        \draw (vprime) -- (Hb);
-    \end{tikzpicture}
-    \qquad
-    \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
-        \node[] (G1) at (-1.4,-.2) {$G_1$};
-        \node[] (Gdots) at (-.8,-.2) {$\dots$};
-        \node[] (Ga) at (-.2,-.2) {$G_a$};
-        \node[] (H1) at (.4,.7) {$H_1$};
-        \node[] (Hdots) at (1,.7) {$\dots$};
-        \node[] (Hb) at (1.6,.7) {$H_b$};
-        \node[shape=circle,inner sep=2pt] (v) at (-.8,.7) {$v$};
-        \node[shape=circle,inner sep=2pt] (vprime) at (0,1.6) {$v'$};
-        \draw (v) -- (vprime);
-        \draw (v) -- (G1);
-        \draw (v) -- (Ga);
-        \draw (vprime) -- (H1);
-        \draw (vprime) -- (Hb);
-    \end{tikzpicture}
+      \scalebox{1.2}{
+        \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
+            \node[] (G1) at (-1.6,-.2) {$G_1$};
+            \node[] (Gdots) at (-1,-.2) {$\dots$};
+            \node[] (Ga) at (-.4,-.2) {$G_a$};
+            \node[] (H1) at (.4,-.2) {$H_1$};
+            \node[] (Hdots) at (1,-.2) {$\dots$};
+            \node[] (Hb) at (1.6,-.2) {$H_b$};
+            \node[shape=circle,inner sep=2pt] (vprime) at (0,0.8) {$v'$};
+            \node[shape=circle,inner sep=2pt] (v) at (0,1.6) {$v$};
+            \draw (v) -- (vprime);
+            \draw (vprime) -- (G1);
+            \draw (vprime) -- (Ga);
+            \draw (vprime) -- (H1);
+            \draw (vprime) -- (Hb);
+        \end{tikzpicture}
+        \qquad
+        \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
+            \node[] (G1) at (-1.4,-.2) {$G_1$};
+            \node[] (Gdots) at (-.8,-.2) {$\dots$};
+            \node[] (Ga) at (-.2,-.2) {$G_a$};
+            \node[] (H1) at (.4,.7) {$H_1$};
+            \node[] (Hdots) at (1,.7) {$\dots$};
+            \node[] (Hb) at (1.6,.7) {$H_b$};
+            \node[shape=circle,inner sep=2pt] (v) at (-.8,.7) {$v$};
+            \node[shape=circle,inner sep=2pt] (vprime) at (0,1.6) {$v'$};
+            \draw (v) -- (vprime);
+            \draw (v) -- (G1);
+            \draw (v) -- (Ga);
+            \draw (vprime) -- (H1);
+            \draw (vprime) -- (Hb);
+        \end{tikzpicture}
+      }
       \caption{The general case of the only child rule.  If a vertex
       $v$ has an only child $v'$ in the elimination tree, then an elimination
       tree of the no greater depth can be found by reversing the positions of $v$
@@ -630,7 +637,7 @@
     fact to give a lower bound on the treedepth of a graph.
 
     {
-    \begin{algorithm}[htb]
+    \begin{algorithm}[h!]
      \footnotesize
     \DontPrintSemicolon
     \newcommand\SimpleLowerBound{\FuncSty{simple\_lower\_bound}}
@@ -674,7 +681,7 @@
     exceeds the target treedepth, the algorithm returns $\AlgVar{true}$.
 
     {
-    \begin{algorithm}[htb]
+    \begin{algorithm}[h!]
      \footnotesize
     \DontPrintSemicolon
     \newcommand\PathLowerBound{\FuncSty{can\_prune\_by\_path\_lower\_bound}}
@@ -734,22 +741,24 @@
 
     \begin{figure}[htb]
       \centering
-    \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
-        \node[shape=circle,draw=black,inner sep=2pt] (1) at (0,0) {1};
-        \node[shape=circle,draw=black,inner sep=2pt] (2) at (1,0) {2};
-        \node[shape=circle,draw=black,inner sep=2pt] (3) at (2,0) {3};
-        \node[shape=circle,draw=black,inner sep=2pt] (4) at (3,0) {4};
-        \node[shape=circle,draw=black,inner sep=2pt] (5) at (.5,0.7) {5};
-        \node[shape=circle,draw=black,inner sep=2pt] (6) at (2.5,0.7) {6};
-        \node[shape=circle,draw=black,inner sep=2pt] (7) at (1.5,1.4) {7};
+      \scalebox{1.2}{
+        \begin{tikzpicture}[scale=0.95, every node/.style={scale=0.95}]
+            \node[shape=circle,draw=black,inner sep=1.8pt] (1) at (0,0) {1};
+            \node[shape=circle,draw=black,inner sep=1.8pt] (2) at (1,0) {2};
+            \node[shape=circle,draw=black,inner sep=1.8pt] (3) at (2,0) {3};
+            \node[shape=circle,draw=black,inner sep=1.8pt] (4) at (3,0) {4};
+            \node[shape=circle,draw=black,inner sep=1.8pt] (5) at (.5,0.7) {5};
+            \node[shape=circle,draw=black,inner sep=1.8pt] (6) at (2.5,0.7) {6};
+            \node[shape=circle,draw=black,inner sep=1.8pt] (7) at (1.5,1.4) {7};
 
-        \draw (1) -- (5);
-        \draw (2) -- (5);
-        \draw (3) -- (6);
-        \draw (4) -- (6);
-        \draw (5) -- (7);
-        \draw (6) -- (7);
-    \end{tikzpicture}
+            \draw (1) -- (5);
+            \draw (2) -- (5);
+            \draw (3) -- (6);
+            \draw (4) -- (6);
+            \draw (5) -- (7);
+            \draw (6) -- (7);
+        \end{tikzpicture}
+      }
 
       \caption{A graph for which the simple lower bound is greater than the path lower bound}
       \label{fig:boundsgraph}
@@ -885,7 +894,7 @@
 
     \begin{figure}[htb]
       \centering
-      \includegraphics[scale=1.3]{60-treedepth/scatter}
+      \includegraphics[scale=1.4]{60-treedepth/scatter}
       \caption{Run times in ms of our algorithm and the SAT encoding. Each point represents one instance.}
       \label{fig:runtimesscatter}
     \end{figure}
