@@ -1,0 +1,7 @@
+plots/*.fls
+plots/*.pdf
+cp2016/solve_max_common_subgraph
+cp2016/intermediate
+ijcai2017/mcsp
+instances/
+mcsp
