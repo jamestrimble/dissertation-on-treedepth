@@ -974,6 +974,10 @@ identical to the \McSplit\ bound.
 %%% \label{cpAlg}
 %%% \end{algorithm}
 
+\hrule
+
+{\color{blue} TODO: this paragraph is directly from our IJCAI paper.  I expand on it
+below, so the paragraph can perhaps be deleted later.}
 This bound is incomparable to the clique bound, which is given by a greedy
 colouring of a microstructure-like graph \citep{DBLP:conf/cp/McCreeshNPS16}.
 The clique bound is potentially stronger, in that it can reason about
@@ -983,6 +987,250 @@ equivalent bound cannot---this comes at the expense of much higher memory
 requirements, and also longer calculation times for unlabelled graphs. The
 clique bound is also potentially weaker: it is not even guaranteed to be less
 than or equal to the number of remaining variables, in the CP-FC sense.
+
+To compare the clique bound and the McSplit bound and to give some
+insight into why the clique algorithm is so effective for labelled
+graphs, we consider two extreme
+cases: unlabelled input graphs and input graphs in which all vertex labels are
+distinct in each graph.  To preview the result: in the unlabelled case,
+the bounds are incomparable, while in the all-labels-distinct case,
+the clique bound is always at least as strong as the McSplit bound.
+
+We begin with the unlabelled case (or equivalently, the case in which
+all vertex labels are equal).  \Cref{fig:clique-better-bound} shows
+an example in which the clique bound is stronger than the McSplit bound.
+The input graphs are the graphs $K_2$ and $I_2$.  The association graph
+is the independent set $I_4$, and therefore a greedy colouring will yield
+a single colouring class, resulting in an upper bound of 1 on the clique
+number.  McSplit gives an upper bound of 2, since there is a single label
+class containing two vertices from each graph.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[thick,
+  every node/.style={circle,minimum width=.55cm, inner sep=1pt}
+]
+    \node[draw] (1) at (0,0) {1};
+    \node[draw] (2) at (1,0) {2};
+    \node[] () at (0,-.5) {};  // dummy node for padding at bottom
+    \draw (1) -- (2);
+\end{tikzpicture}
+\qquad\quad
+\begin{tikzpicture}[thick,
+  every node/.style={circle,minimum width=.55cm, inner sep=1pt}
+]
+    \node[draw] (a) at (0,0) {$a$};
+    \node[draw] (b) at (1,0) {$b$};
+    \node[] () at (0,-.5) {};  // dummy node for padding at bottom
+\end{tikzpicture}
+\qquad\quad
+\begin{tikzpicture}[thick,
+  every node/.style={draw,circle,minimum width=.55cm, inner sep=1pt}
+]
+    \node[draw] (1a) at (0,1) {$1a$};
+    \node[draw] (1b) at (1,1) {$1b$};
+    \node[draw] (2a) at (0,0) {$2a$};
+    \node[draw] (2b) at (1,0) {$2b$};
+\end{tikzpicture}
+%%\begin{tikzpicture}[thick,
+%%  every node/.style={draw,circle},
+%%  class1node/.style={fill=myblue},
+%%  class2node/.style={fill=mygreen},
+%%  every fit/.style={ellipse,draw,inner sep=-2pt,text width=2cm}
+%%]
+%%        \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+%%                clockwise=2] {
+%%                    1,2;
+%%            1--2;
+%%        };
+%%\end{tikzpicture}
+\qquad
+
+\caption{Graphs $\graphG$ and $\graphH$ and their association graph $\graphA$.  McSplit
+    gives an upper bound of 2 on the order of a maximum common induced subgraph
+    of $\graphG$ and $\graphH$, whereas a clique algorithm computing
+    a greedy colouring of $\graphA$ gives an tighter upper bound of 1.}
+\label{fig:clique-better-bound}
+\end{figure}
+
+\Cref{fig:mcsplit-better-bound} shows an example in which McSplit's bound
+may be stronger than or equal to the clique bound depending on the order in
+which the greedy colouring is carried out.  The input graphs are $K_2$ and
+$K_3$.  Clearly, the McSplit bound is 2.  A colouring of the association
+graph has size either 2 (if we assign $1a$, $1b$, and $1c$
+to one colour class, and $2a$, $2b$, and $2c$ to another) or 3 (if the
+colour classes are $\{1a,2a\}$, $\{1b,2b\}$, and $\{1c,2c\}$).
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[thick,
+  every node/.style={circle,minimum width=.55cm, inner sep=1pt}
+]
+    \node[draw] (1) at (0,0) {1};
+    \node[draw] (2) at (1,0) {2};
+    \node[] () at (0,-.5) {};  // dummy node for padding at bottom
+    \draw (1) -- (2);
+\end{tikzpicture}
+\qquad\quad
+\begin{tikzpicture}[thick,
+  every node/.style={circle,minimum width=.55cm, inner sep=1pt}
+]
+    \node[draw] (a) at (.5,1) {$a$};
+    \node[draw] (b) at (0,0) {$b$};
+    \node[draw] (c) at (1,0) {$c$};
+    \draw (a) -- (b);
+    \draw (a) -- (c);
+    \draw (b) -- (c);
+    %\node[] () at (0,-.5) {};  // dummy node for padding at bottom
+\end{tikzpicture}
+\qquad\quad
+\begin{tikzpicture}[thick,
+  every node/.style={draw,circle,minimum width=.55cm, inner sep=1pt}
+]
+    \node[draw] (1a) at (0,1) {$1a$};
+    \node[draw] (1b) at (1,1) {$1b$};
+    \node[draw] (1c) at (2,1) {$1c$};
+    \node[draw] (2a) at (0,0) {$2a$};
+    \node[draw] (2b) at (1,0) {$2b$};
+    \node[draw] (2c) at (2,0) {$2c$};
+    \draw (1a) -- (2b);
+    \draw (1a) -- (2c);
+    \draw (1b) -- (2a);
+    \draw (1b) -- (2c);
+    \draw (1c) -- (2a);
+    \draw (1c) -- (2b);
+\end{tikzpicture}
+%%\begin{tikzpicture}[thick,
+%%  every node/.style={draw,circle},
+%%  class1node/.style={fill=myblue},
+%%  class2node/.style={fill=mygreen},
+%%  every fit/.style={ellipse,draw,inner sep=-2pt,text width=2cm}
+%%]
+%%        \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+%%                clockwise=2] {
+%%                    1,2;
+%%            1--2;
+%%        };
+%%\end{tikzpicture}
+\qquad
+
+\caption{Graphs $\graphG$ and $\graphH$ and their association graph $\graphA$.  McSplit
+    gives an upper bound of 2 on the order of a maximum common induced subgraph
+    of $\graphG$ and $\graphH$.  A greedy colouring of $\graphA$
+    gives an upper bound of 2 or
+    3, depending on the order in which vertices are coloured.}
+\label{fig:mcsplit-better-bound}
+\end{figure}
+
+We now turn to the extreme case in which all vertex labels are distinct
+in each of the two input graphs.  \Cref{fig:clique-bound-labelled} shows
+two graphs, each with three distinctly-labelled vertices; the labels
+are represented by three different shapes.  The McSplit upper bound is 3.
+A greedy colouring of the association graph gives a stronger bound, 2,
+irrespective of the order in which the nodes are coloured, since
+nodes $1a$ and $3c$ will be assigned to the same colour class.
+
+Clearly, this example generalises: if all of the vertices in each input
+graph have distinct labels, then the clique bound is less than or equal to
+the McSplit bound.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[thick,
+  triangle/.style = {regular polygon, regular polygon sides=3, inner sep=0.2pt },
+  square/.style = {regular polygon, regular polygon sides=4 },
+  every node/.style={circle,minimum width=.55cm, inner sep=1pt}
+]
+    \node[draw,triangle] (1) at (.5,1) {1};
+    \node[draw,square] (2) at (0,0) {2};
+    \node[draw] (3) at (1,0) {3};
+    \draw (1) -- (2);
+    \draw (2) -- (3);
+\end{tikzpicture}
+\qquad\quad
+\begin{tikzpicture}[thick,
+  triangle/.style = {regular polygon, regular polygon sides=3, inner sep=0.7pt },
+  square/.style = {regular polygon, regular polygon sides=4 },
+  every node/.style={circle,minimum width=.55cm, inner sep=1pt}
+]
+    \node[draw,triangle] (a) at (.5,1) {$a$};
+    \node[draw,square] (b) at (0,0) {$b$};
+    \node[draw] (c) at (1,0) {$c$};
+    \draw (a) -- (b);
+    \draw (a) -- (c);
+    \draw (b) -- (c);
+    %\node[] () at (0,-.5) {};  // dummy node for padding at bottom
+\end{tikzpicture}
+\qquad\quad
+\begin{tikzpicture}[thick,
+  every node/.style={draw,circle,minimum width=.55cm, inner sep=1pt}
+]
+    \node[draw] (1a) at (.5,1) {$1a$};
+    \node[draw] (2b) at (0,0) {$2b$};
+    \node[draw] (3c) at (1,0) {$3c$};
+    \draw (1a) -- (2b);
+    \draw (2b) -- (3c);
+\end{tikzpicture}
+%%\begin{tikzpicture}[thick,
+%%  every node/.style={draw,circle},
+%%  class1node/.style={fill=myblue},
+%%  class2node/.style={fill=mygreen},
+%%  every fit/.style={ellipse,draw,inner sep=-2pt,text width=2cm}
+%%]
+%%        \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+%%                clockwise=2] {
+%%                    1,2;
+%%            1--2;
+%%        };
+%%\end{tikzpicture}
+\qquad
+
+\caption{Graphs $\graphG$ and $\graphH$ and their association graph $\graphA$.
+    Vertex labels are represented by shapes.  McSplit
+    gives an upper bound of 3 on the order of a maximum common induced subgraph
+    of $\graphG$ and $\graphH$.  A greedy colouring of $\graphA$
+    gives an upper bound of 2.}
+\label{fig:clique-bound-labelled}
+\end{figure}
+
+We have established that the McSplit and clique upper bounds are incomparable for unlabelled graphs,
+and that the clique algorithm's bound is stronger than the McSplit bound if there are very many vertex
+labels.  To find out which bound is better in practice for unlabelled graphs, and to find the point
+at which the clique bound becomes preferable, I carried out a small experiment on $G(n,p)$ random graphs,
+variying the size of the set of vertex labels.
+
+I generated 1800 pairs of random undirected, loopless graphs of order 20 without edge labels,
+with densities ranging from $0.1$ to $0.9$
+in steps of $0.1$.  For each integer value of a parameter $m$ (the maximum label) from 1 to 20, I generated
+90 pairs of graphs with vertex labels randomly assigned from the set $\{1,\dots,m\}$.  I used my
+implementation of McSplit and Patrick Prosser's implementation of the MCSa1 algorithm
+\cite{DBLP:journals/algorithms/Prosser12} to find the McSplit and clique bounds respectively
+at the top of search (that is, on the first recursive call, before any vertex assignment decisions
+have been made).
+
+\Cref{figure:bound-ratio} plots the results of dividing the McSplit upper bound by the
+clique upper bound, with one point per instance.  The value of $m$ parameter is shown on the horizontal
+axis; points towards the right of the plot have more distinct vertex labels.  Mean values
+are shown as horizontal lines.  When $m=1$---that is,
+when all vertices have the same label---the McSplit bound is strictly tighter than the clique-algorithm
+bound of all 90 of our instances.  On average, the McSplit bound is tighter than than the clique
+bound for $m < 4$, and worse than the clique bound for $m > 5$.  Of the 900 instances with $m > 10$,
+McSplit had a tighter bound than the clique algorithm for only a single instance.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.65\textwidth]{14-mcsplit-i-undirected/bound-experiments/plots/bounds-plot.pdf}
+    \caption{As the number of vertex labels is increased, the clique algorithm's bound
+    	becomes stronger than the McSplit bound.
+        The vertical axis shows the ratio of initial McSplit upper bound
+	to initial clique algorithm (MCSa1) upper bound for 1800 instances, with one dot per instance;
+	for values less than 1, McSplit's bound is better than that of the clique algorithm.
+	The horizontal axis shows the maximum label $m$; each vertex label is a random integer 
+	from the range $[1,m]$.}
+    \label{figure:bound-ratio}
+\end{figure}
+
+\hrule
 
 A further advantage of our encoding is that it gives us efficient access to a
 better branching heuristic. The CP-FC algorithm uses smallest domain first,
@@ -1012,13 +1260,14 @@ memory cost and colouring time of encoding the full instance.
 
 \section{Proof of correctness}
 
-This section proves the correctness of the variant in \cref{DecisionMcSplitAlg}, which solves
+This section proves the correctness of the variant of McSplit in \cref{DecisionMcSplitAlg}, which solves
 the decision variant of maximum common induced subgraph: given two graphs and a natural number
 $t$ (the ``target''), does there exist a common induced subgraph with at least $t$ vertices?
+(The circled letters should be ignored for now.)
 This algorithm contains all of the ingredients of the full McSplit algorithm (\cref{McSplitAlg})
 other than the branch-and-bound technique; by removing branch and bound we can give a simpler
-proof that focuses on the details that are specific to McSplit.  (The circled letters should be
-ignored for now.)
+proof that focuses on the details that are specific to McSplit.  At the end of the section,
+I will describe how the proof can be extended to the full branch-and-bound McSplit algorithm.
 
 \begin{algorithm}[h!]
 \DontPrintSemicolon
@@ -1353,6 +1602,37 @@ correctness of the connected version of McSplit.
 TODO note that this discussion shows similarity between McSplit and clique encoding
 
 \section{Publications using McSplit}
+
+Since the McSplit algorithm was published at IJCAI 2017, a number of papers (including
+{\color{blue} TODO insert number} that I co-authored have further investigated the algorithm.
+This section briefly surveys this work.
+
+In his undergraduate thesis \cite{dilkas2018}, Paulius Dilkas performs a detailed experimental evaluation
+of McSplit and a clique algorithm for a range of labelling schemes, finding that McSplit
+outperforms the clique encoding even for labelled graphs, if only a small number of labels are
+used.  Dilkas uses machine learning to construct a portfolio solver that chooses intelligently
+between McSplit and the clique encoding according to easily-computed characteristics of the
+two input graphs such as density and standard deviation of degrees. The portfolio solver
+outperforms each of its component algorithms, giving overall performance close to that of the virtual
+best solver.  Finally, Dilkas constructs hybrid algorithm, \textsc{Fusion}, that switches
+from McSplit to the clique encoding at a specified depth of recursion.
+
+Liu et al. \cite{DBLP:conf/aaai/0001LJ020} use reinforcement learning to create a better branching
+heuristic.  Specifically, when selecting a vertex in $\graphG$ or $\graphH$ to use for branching,
+the algorithm prefers to use vertices that have resulted in a large decrease to the upper bound
+in previous recursive calls.  This strategy increased the speed of McSplit on maximum common subgraph
+instances by around a factor of 2.  It caused an even more dramatic improvement when McSplit was
+applied to the induced subgraph isomorphism problem, outperforming a leading specialised subgraph
+isomorphism solver.
+
+Archibald et al. \cite{DBLP:conf/cpaior/ArchibaldDHMP019} introduce \emph{solution-biased search},
+a technique using restarts and nogood learning that allows algorithm to quickly explore diverse
+parts of the search tree rather than explore it in order (as a typical backtracking algorithm
+such as the standard version of McSplit does); this can often help the algorithm to find good
+solutions quickly.  For the paper, I designed and implemented a version
+of McSplit using solution-biased search; this led to modestly improved run times on many instances.
+
+\section{Isolde}
 
 TODO
 
