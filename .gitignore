@@ -10,3 +10,4 @@ ch-*.pdf
 *.lot
 *.toc
 *.fdb_latexmk
+*.fls
