@@ -11,3 +11,4 @@ ch-*.pdf
 *.toc
 *.fdb_latexmk
 *.fls
+.*.swp
