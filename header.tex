@@ -10,6 +10,7 @@
 \usepackage{url}
 %\usepackage{algorithmic}
 %\usepackage{algorithm}
+\usepackage{caption}
 \usepackage{mcaption}
 %\usepackage{subfig}
 \usepackage{amsmath}
@@ -17,6 +18,7 @@
 \usepackage{amsthm}
 \usepackage{bookmark}
 \usepackage{booktabs}
+\usepackage{trimclip}
 
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{MnSymbol,wasysym}
@@ -31,6 +33,8 @@
 \usepackage{fancyvrb}
 \usepackage{lscape}
 
+\captionsetup{width=0.8\textwidth}
+
 % https://tex.stackexchange.com/a/184829
 \algnewcommand{\LeftComment}[1]{\(\triangleright\) #1}
 
@@ -38,8 +42,11 @@
 
 \usetikzlibrary{decorations, decorations.pathreplacing, decorations.pathmorphing,
     calc, backgrounds, positioning, tikzmark, patterns, matrix, fit, graphs,
-    snakes, arrows, shapes}
+    snakes, arrows, shapes, calligraphy}
 
+% Circled text: https://tex.stackexchange.com/a/8473/61367
+\newcommand*\algstep[1]{\tikz[baseline=(char.base)]{
+        \node[shape=circle,text=white,font=\sffamily,fill=uofgslate,inner sep=1.7pt] (char) {\footnotesize #1};}}
 
 \tikzset{edge/.style={line width=1.5pt, color=uofgsandstone}}
 \tikzset{ledge/.style={line width=1pt, color=uofgsandstone!50!white}}
@@ -100,10 +107,14 @@
 \newcommand{\McSplit}{\textproc{McSplit}}
 \newcommand{\nmax}{n_{\max}}
 \newcommand{\graphB}{\mathcal{B}}
+\newcommand{\graphA}{\mathcal{A}}
 \newcommand{\graphG}{\mathcal{G}}
 \newcommand{\graphH}{\mathcal{H}}
 \newcommand{\setG}{G}
 \newcommand{\setH}{H}
+
+\newcommand{\boolT}{\ensuremath{\AlgVar{true}}}
+\newcommand{\boolF}{\ensuremath{\AlgVar{false}}}
 
 \newcommand{\calF}{\ensuremath{\mathcal{F}}}
 
