@@ -1,4 +1,31 @@
-\chapter{An Appendix}
-\label{a:appendix}
+\chapter{MCSa2 upper bound for maximum common induced subgraph}
+\label{a:appendix-mcsa2}
 
-This is an appendix.
+TODO: write this. The figures compare MCSa2 bound with McSplit bound and with MCSa1 bound.
+The MCSa2 bound is very similar to the MCSa1 bound on average, and the comparison with the McSplit bound
+looks like the MCSa1 comparison.  But on an instance-by-instance basis, MCSa1 often has a much stronger
+bound than MCSa2 or vice versa.  It would be interesting to see if we could do a portfolio of clique
+algorithms (future work).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.65\textwidth]{14-mcsplit-i-undirected/bound-experiments/plots/bounds-mcsa2-plot.pdf}
+    \caption{TODO: make this different from the corresponding caption for MCSa1 in the McSplit chapter.
+        Probably refer back to that caption.
+        As the number of vertex labels is increased, the clique algorithm's bound
+    	becomes stronger than the McSplit bound.
+        The vertical axis shows the ratio of initial McSplit upper bound
+	to initial clique algorithm (MCSa2) upper bound for 1800 instances, with one dot per instance;
+	for values less than 1, McSplit's bound is better than that of the clique algorithm.
+	The horizontal axis shows the maximum label $m$; each vertex label is a random integer 
+	from the range $[1,m]$.}
+    \label{figure:bound-mcsa2}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.65\textwidth]{14-mcsplit-i-undirected/bound-experiments/plots/bounds-mcsa1vs2-plot.pdf}
+    \caption{TODO write this}
+    \label{figure:bound-mcsa1vs2}
+\end{figure}
+
