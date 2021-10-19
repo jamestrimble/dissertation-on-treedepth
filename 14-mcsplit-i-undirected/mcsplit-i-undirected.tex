@@ -1601,21 +1601,33 @@ correctness of the connected version of McSplit.
 
 TODO note that this discussion shows similarity between McSplit and clique encoding
 
-\section{Publications using McSplit}
+\section{Papers using McSplit}
 
-Since the McSplit algorithm was published at IJCAI 2017, a number of papers (including
-{\color{blue} TODO insert number} that I co-authored have further investigated the algorithm.
+Since the McSplit algorithm was published at IJCAI 2017, a number of papers, including
+two that I co-authored, have further investigated the algorithm.
 This section briefly surveys this work.
 
-In his undergraduate thesis \cite{dilkas2018}, Paulius Dilkas performs a detailed experimental evaluation
-of McSplit and a clique algorithm for a range of labelling schemes, finding that McSplit
-outperforms the clique encoding even for labelled graphs, if only a small number of labels are
-used.  Dilkas uses machine learning to construct a portfolio solver that chooses intelligently
-between McSplit and the clique encoding according to easily-computed characteristics of the
-two input graphs such as density and standard deviation of degrees. The portfolio solver
-outperforms each of its component algorithms, giving overall performance close to that of the virtual
-best solver.  Finally, Dilkas constructs hybrid algorithm, \textsc{Fusion}, that switches
-from McSplit to the clique encoding at a specified depth of recursion.
+\subsection{Publications co-authored by the present author}
+
+Archibald et al. \cite{DBLP:conf/cpaior/ArchibaldDHMP019} introduce \emph{solution-biased search},
+a technique using restarts and nogood learning that allows algorithm to quickly explore diverse
+parts of the search tree rather than explore it in order (as a typical backtracking algorithm
+such as the standard version of McSplit does); this can often help the algorithm to find good
+solutions quickly.  For the paper, I designed and implemented a version
+of McSplit using solution-biased search; this led to modestly improved run times on many instances.
+
+For a paper coauthored with Gocht et al. \cite{DBLP:conf/cp/GochtMMNPT20}, the present
+author added proof logging \cite{DBLP:conf/ijcai/GochtMN20} to the C++ implementation of
+McSplit to create a \emph{certified} version of the solver.  This outputs a log of the
+solver's reasoning steps using the cutting plane proof system
+\cite{DBLP:journals/dam/CookCT87}, such that the log can be verified using a
+simple and extensively-tested checker program.  The proof logging and verification process
+slows down the solver by around three orders of magnitude; therefore I did not use it for
+the experiments in the current thesis chapter.  However, the programs's logs were verified
+for all 16,300 instances considered for the paper, which is evidence of the implementation's
+correctness.
+
+\subsection{Other papers}
 
 Liu et al. \cite{DBLP:conf/aaai/0001LJ020} use reinforcement learning to create a better branching
 heuristic.  Specifically, when selecting a vertex in $\graphG$ or $\graphH$ to use for branching,
@@ -1625,20 +1637,69 @@ instances by around a factor of 2.  It caused an even more dramatic improvement 
 applied to the induced subgraph isomorphism problem, outperforming a leading specialised subgraph
 isomorphism solver.
 
-Archibald et al. \cite{DBLP:conf/cpaior/ArchibaldDHMP019} introduce \emph{solution-biased search},
-a technique using restarts and nogood learning that allows algorithm to quickly explore diverse
-parts of the search tree rather than explore it in order (as a typical backtracking algorithm
-such as the standard version of McSplit does); this can often help the algorithm to find good
-solutions quickly.  For the paper, I designed and implemented a version
-of McSplit using solution-biased search; this led to modestly improved run times on many instances.
+Quer, Marcelli, and Squillero \cite{DBLP:journals/computation/QuerMS20}
+explore several enhancements of McSplit,
+including a massively parallel GPU implementation using CUDA, a recursion-free implementation,
+and a parallel portfolio solver containing these along with the original McSplit
+implementation.  The GPU implementation is shown to be promising although not competitive
+with CPU implementations on the hardware used by the paper's authors; the portfolio solver,
+however, is able to solve more instances within a given time limit than any of the
+constitutent solvers.
 
-\section{Isolde}
+Finally, the undergraduate thesis \cite{dilkas2018} of Paulius Dilkas deserves to be mentioned
+here despite being unpublished.  Dilkas performs a detailed experimental evaluation
+of McSplit and a clique algorithm for a range of labelling schemes, finding that McSplit
+outperforms the clique encoding even for labelled graphs, if only a small number of labels are
+used.  Dilkas uses machine learning to construct a portfolio solver that chooses intelligently
+between McSplit and the clique encoding according to easily-computed characteristics of the
+two input graphs such as density and standard deviation of degrees. The portfolio solver
+outperforms each of its component algorithms, giving overall performance close to that of the virtual
+best solver.  Finally, Dilkas constructs hybrid algorithm, \textsc{Fusion}, that switches
+from McSplit to the clique encoding at a specified depth of recursion.
 
-TODO
+\subsection{Applications of McSplit}
 
-\section{Some data related to Diaconis and Sourav's paper?}
+This subsection presents two applications of McSplit --- one in cheminformatics
+and the other in probability theory.
 
-TODO
+\paragraph{Isolde.} TODO (I emailed Tristan Croll on 19 Oct 2021 to ask for a simple explanation of
+what he uses McSplit for.)
+
+\paragraph{Random graphs.} Chatterjee and Diaconis \cite{chatterjee2021isomorphisms} consider taking two
+independent random $G(N, 1/2)$ graphs $G$ and $H$, and finding the order of their maximum
+common induced subgraph.  They prove that as $N\to\infty$, the maximum common
+subgraph of $G$ and $H$ will, with probability tending to 1, be in a range
+consisting of either one integer or two consecutive integers.  This range
+is given by $\{\lfloor x_N - \varepsilon_N\rfloor, \lfloor x_N + \varepsilon_N\rfloor\}$,
+where $x_N = 4 \log_2 N - 2 \log_2\log_2 N - 2 \log_2(4/e) + 1$
+and $\varepsilon_N = (4 \log_2 N)^{-1/2}$.  It is interesting to examine whether
+this precise prediction of the order of a maximum common induced subgraph
+comes close to holding, even for small values of $N$.
+
+\Cref{figure:mcis-order-bands}
+shows data provided by the present author to Chatterjee and Diaconis; a subset
+of this data is presented in their paper.  The broad blue bands give the
+range of predicted MCIS orders for a given $N$; each band is either a single
+integer or a range of two consecutive integers.  The orange points show the mean
+MCIS orders for randomly generated pairs of graphs, and the bands show the
+range of MCIS orders observed.  For $N \leq 32$, 100 pairs of graphs were
+generated.  Due to the difficulty of solving larger instances, one pair
+of graphs was generated for each $N$ in the range $32 < N \leq 45$.  For values
+of $N$ above 27, the theorem of Chatterjee and Diaconis is a good predictor
+of the MCIS size, differing by at most 1 from the values observed in our
+generated data.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.7\textwidth]{14-mcsplit-i-undirected/data-for-diaconis-and-chatterjee/plot}
+    \caption{For each $N$, the blue bands give the range of prediced maximum
+    common induced subgraph orders given by the asymptotic formula by
+    Chatterjee and Diaconis \cite{chatterjee2021isomorphisms}.  For $N \leq 32$,
+    100 instances were generated; the orange bands give the range of MCIS orders
+    observed, and the orange points give the means.  For $32 < N \leq 45$,
+    a single instance was generated; the MCIS order is shown as a single point.}
+    \label{figure:mcis-order-bands}
+\end{figure}
 
 \section{Conclusion}
 

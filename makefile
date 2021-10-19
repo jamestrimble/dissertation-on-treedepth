@@ -10,7 +10,8 @@ ch01:
 	latexmk -pdf ch-introduction.tex
 
 ch14:
-	pdflatex ch-mcsplit.tex #latexmk -pdf ch-mcsplit.tex
+	#latexmk -pdf ch-mcsplit.tex
+	pdflatex ch-mcsplit.tex # for speed?
 
 ch50:
 	latexmk -pdf ch-trie.tex
