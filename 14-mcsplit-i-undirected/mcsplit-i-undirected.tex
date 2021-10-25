@@ -1646,8 +1646,12 @@ with CPU implementations on the hardware used by the paper's authors; the portfo
 however, is able to solve more instances within a given time limit than any of the
 constitutent solvers.
 
-Finally, the undergraduate thesis \cite{dilkas2018} of Paulius Dilkas deserves to be mentioned
-here despite being unpublished.  Dilkas performs a detailed experimental evaluation
+Finally, two theses --- the undergraduate thesis of Paulius Dilkas and
+the Masters thesis of Jonathan Trummer --- make significant contributions
+in terms both of algorithm design and experimental work, and therefore
+deserve mention despite being unpublished.
+
+Dilkas \cite{dilkas2018} performs a detailed experimental evaluation
 of McSplit and a clique algorithm for a range of labelling schemes, finding that McSplit
 outperforms the clique encoding even for labelled graphs, if only a small number of labels are
 used.  Dilkas uses machine learning to construct a portfolio solver that chooses intelligently
@@ -1656,6 +1660,8 @@ two input graphs such as density and standard deviation of degrees. The portfoli
 outperforms each of its component algorithms, giving overall performance close to that of the virtual
 best solver.  Finally, Dilkas constructs hybrid algorithm, \textsc{Fusion}, that switches
 from McSplit to the clique encoding at a specified depth of recursion.
+
+Trummer \cite{trummer2021} TODO
 
 \subsection{Applications of McSplit}
 
