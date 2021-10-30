@@ -21,9 +21,9 @@ Given a collection $\calF$ of graphs, graph $G$ is \emph{induced universal} for
 $\calF$ if and only if each element of $\calF$ is an induced subgraph of $G$.
 Graph $G$ is a \emph{minimal} induced universal graph for $\calF$ if it has as
 few vertices as possible.
-This chapter covers problem of finding
-small induced graphs for a family of graphs, both exactly and heuristically.
-My motivation for writing this short chapter is threefold.
+This chapter introduces  finding
+small induced universal graphs for a family of graphs, both exactly and heuristically.
+My motivation for writing the chapter is threefold.
 First, the problem generalises the minimum common supergraph problem
 \cite{DBLP:journals/computing/BunkeJK00}---a natural ``companion problem''
 to maximum common subgraph---from two input graphs to arbitrarily many.  Second, we
@@ -44,17 +44,6 @@ To give an example, we have $f(3)=5$ and $F(3)=5$; all five of the minimal
 induced universal graphs
 for $\calF(3)$ are shown in \Cref{fig:univ3a}. \Cref{fig:univ3b} shows the four
 graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
-
-Moon showed that $f(k) \leq 2^{(k-1)/2}$
-\cite{moon_1965}, and Alon showed that $f(k) = (1 + o(1))2^{(k-1)/2}$
-\cite{alon2017asymptotically}.  There is an extensive literature on bounds on
-the order of minimal induced universal subgraphs for many families of graphs;
-see the references in \cite{alon2017asymptotically}.
-However, to my knowledge the only
-existing systematic attempt to find \emph{exact} values for families of small
-graphs is an answer by James Preen on the Mathematics Stack Exchange website that
-presents results for families of small connected graphs obtained by brute-force
-search with the Maple programming language \cite{preen_math_se}.
 
 \begin{figure}[htb]
     \centering
@@ -175,6 +164,32 @@ search with the Maple programming language \cite{preen_math_se}.
 \caption{Minimal induced universal graphs for the family of all graphs on 3 vertices}
 \label{fig:univ3}
 \end{figure}
+
+If family $\calF$ contains only two graphs, the problem of finding a minimal
+induced universal graph from $\calF$ is the \emph{minimum common supergraph}
+problem.  Bunke, Jiang and Kandel \cite{DBLP:journals/computing/BunkeJK00}
+showed that we can find the minimum common supergraph of $G$ and $H$ by
+finding a maximum common induced subgraph of $G$ and $H$, then adding to this
+subgraph each vertex and edge of $G$ and $H$ that does not appear in the subgraph.
+Thus, the order of a minimum common supergraph of $G$ and $H$ equals the sum
+of the orders of $G$ and $H$ minus the order of a maximum common subgraph
+of $G$ and $H$.  It follows that the minimum common supergraph problem ---
+and therefore also the problem of finding a minimum induced universal graph
+--- is NP-hard.\footnote{An even simpler proof that minimum common supergraph
+is NP-hard is by reduction from \textsc{Clique}.  Graph $G$ contains a clique
+of order $k$ if and only if the minimum common supergraph of $G$ and
+the complete graph $K_k$ is isomorphic to $G$.}
+
+Moon showed that $f(k) \leq 2^{(k-1)/2}$
+\cite{moon_1965}, and Alon showed that $f(k) = (1 + o(1))2^{(k-1)/2}$
+\cite{alon2017asymptotically}.  There is an extensive literature on bounds on
+the order of minimal induced universal subgraphs for many families of graphs;
+see the references in \cite{alon2017asymptotically}.
+However, to my knowledge the only
+existing systematic attempt to find \emph{exact} values for families of small
+graphs is an answer by James Preen on the Mathematics Stack Exchange website that
+presents results for families of small connected graphs obtained by brute-force
+search with the Maple programming language \cite{preen_math_se}.
 
 This chapter uses a brute-force approach similar to that of Preen to find minimal
 induced universal graphs for families of small graphs.  Our contributions
@@ -1026,6 +1041,16 @@ seven-vertex graphs}
 \end{figure}
 
 \section{Trees}\label{sec:trees}
+
+In this section, we find minimal induced universal graphs for families
+of all trees on $k$ vertices, for small $k$.
+Alstrup, Dahlgaard, and Knudsen \cite{DBLP:journals/jacm/AlstrupDK17}
+give a very strong related asymptotic result, proving by construction that
+there exists a graph of order $O(k)$ that is induced universal for the family of
+\emph{forests} on $k$ vertices.  Unfortunately, no implementation of this
+construction exists.  This section will show that for $n \leq 10$, there
+exists an induced universal graph with no more than $2n - 2$ vertices
+for the family of $n$-vertex trees.
 
 To generate induced universal graphs for families of
 all trees on $k$ vertices, we tried two approaches.
