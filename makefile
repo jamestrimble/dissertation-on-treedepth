@@ -10,8 +10,8 @@ ch01:
 	latexmk -pdf ch-introduction.tex
 
 ch14:
-	#latexmk -pdf ch-mcsplit.tex
-	pdflatex ch-mcsplit.tex # for speed?
+	latexmk -pdf ch-mcsplit.tex
+	#pdflatex ch-mcsplit.tex # for speed?
 
 ch15:
 	latexmk -pdf ch-universalgraphs.tex
