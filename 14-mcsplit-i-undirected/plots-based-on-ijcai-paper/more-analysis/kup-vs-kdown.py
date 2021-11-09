@@ -2,8 +2,8 @@ import struct
 import sys
 import re
 
-def read_n(filename):
-    with open(filename, "rb") as f:
+def read_n(filename, home_dir):
+    with open(filename.replace("../../", home_dir + "/OthersCode/"), "rb") as f:
         return struct.unpack("<H", f.read(2))[0]
 
 def read_sol_size(filename):
@@ -12,20 +12,30 @@ def read_sol_size(filename):
             if line.startswith("Solution size"):
                 return int(line.strip().split()[2])
 
-def analyse_instance(instance, runtime_kup, runtime_kdown, dataset_name):
-    n0 = read_n(instance[1])
-    n1 = read_n(instance[2])
+def analyse_instance(instance, runtime_kup, runtime_kdown, dataset_name, home_dir):
+    n0 = read_n(instance[1], home_dir)
+    n1 = read_n(instance[2], home_dir)
     solsize_kup = read_sol_size(
-            "../experiments/gpgnode-results/{}/james-cpp-max/{}.out".format(
+            home_dir + "/Code/ijcai2017-partitioning-common-subgraph/experiments/gpgnode-results/{}/james-cpp-max/{}.out".format(
                 dataset_name, instance[0]))
     solsize_kdown = read_sol_size(
-            "../experiments/gpgnode-results/{}/james-cpp-max-down/{}.out".format(
+            home_dir + "/Code/ijcai2017-partitioning-common-subgraph/experiments/gpgnode-results/{}/james-cpp-max-down/{}.out".format(
                 dataset_name, instance[0]))
-    if solsize_kup != solsize_kdown:
+    if runtime_kup<1000000 and runtime_kdown<1000000 and solsize_kup != solsize_kdown:
         sys.stderr.write("Solution sizes differ between runs!\n")
         sys.exit(1)
-    print instance[0], n0, n1, runtime_kup, runtime_kdown, solsize_kup, \
-            float(solsize_kup) / n0
+    if runtime_kup > 1000000:
+        runtime_kup = 1000000
+    if runtime_kdown > 1000000:
+        runtime_kdown = 1000000
+    if runtime_kup < 1000000:
+        solsize = solsize_kup
+    elif runtime_kdown < 1000000:
+        solsize = solsize_kdown
+    else:
+        return
+    print instance[0], n0, n1, runtime_kup, runtime_kdown, solsize, \
+            float(solsize) / n0
     
 def print_header():
     print "instance", \
@@ -36,7 +46,7 @@ def print_header():
             "solsize", \
             "solsize_over_n_pattern"
 
-def go(dataset_name, kup_time_column, kdown_time_column):
+def go(dataset_name, kup_time_column, kdown_time_column, home_dir):
     print_header()
     runtimes = {}
     with open("../experiments/gpgnode-results/{}/runtimes.data".format(dataset_name), "r") as f:
@@ -50,8 +60,7 @@ def go(dataset_name, kup_time_column, kdown_time_column):
         instances = [line.strip().split() for line in f]
     for instance in instances:
         runtime = runtimes[instance[0]]
-        if runtime["kup"]<1000000 and runtime["kdown"]<1000000:
-            analyse_instance(instance, runtime["kup"], runtime["kdown"], dataset_name)
+        analyse_instance(instance, runtime["kup"], runtime["kdown"], dataset_name, home_dir)
 
 if __name__=="__main__":
-    go(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
+    go(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4])

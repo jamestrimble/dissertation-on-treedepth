@@ -854,6 +854,49 @@ there is no requirement for the common subgraph to be connected.
 
 
 
+\section{On which Instances Should we Choose \McSplit{$\downarrow$}?}\label{sec:which-mcsplit-down}
+
+On which instances is it better to use \McSplit{$\downarrow$} than \McSplit?
+We have already seen from the colour coding in Figures
+\ref{figure:mcs-cumulative-plain-not-connected} and
+\ref{figure:mcs-cumulative-labelled-not-connected}
+that \McSplit\ is often slightly faster than \McSplitDown\ on instances where
+the maximum commmon subgraph is much smaller than the input graphs, and that
+\McSplitDown\ is often much faster than \McSplit\ on instances with a large
+maximum common subgraph.  \Cref{figure:mcsplit-runtime-ratio-soln-size}
+examines this relationship in more detail.  In each plot, we have one
+point per instance.  The vertical axis measures the ratio of run times;
+values above 1 indicate that \McSplitDown\ is faster than \McSplit.
+The horizontal axis measures the number of vertices in a maximum
+common subgraph as a proporition of the number of vertices in each
+of the two input graphs.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][Unlabelled instances] {
+        \centering
+        \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-ratio-vs-solution-size.pdf}
+        \label{figure:runtime-ratio-plain}
+    }
+    \subfigure[][Vertex and edge labelled] {
+        \centering
+        \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-ratio-vs-solution-size.pdf}
+        \label{figure:runtime-ratio-33ved}
+    }
+    \caption{\McSplit{$\downarrow$} outperforms \McSplit\ on instances with a large maximum common subgraph.
+        The vertical axis on each plot measures the ratio of run times (\McSplit\ time divided by \McSplit{$\downarrow$} time)
+        The horizontal axis measures the solution size divided by the number of vertices
+        in an input graph.  (For each instance, the two input graphs had
+        the same number of vertices).  Trivial instances that could be solved by either algorithm in less
+        than 1 ms or by both algorithms in less than 100 ms are excluded.  Red points show instances
+        on which at least one algorithm timed out; timeouts are counted as 1000
+        seconds.}\label{figure:mcsplit-runtime-ratio-soln-size}
+\end{figure}
+
+For both unlabelled and labelled instances, there is a positive
+relationship between these two measures. Above the point where the maximum
+common subgraph is 70\% as large as each input graph, \McSplitDown becomes
+the faster algorithm.
 
 
 \section{Comparison with Existing Algorithms}\label{sec:comparison}
