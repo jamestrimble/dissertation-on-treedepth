@@ -13,7 +13,7 @@
 #include <condition_variable>
 #include <atomic>
 
-#include <argp.h>
+#include <unistd.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,21 +34,21 @@ enum Heuristic { min_max, min_product };
                              Command-line arguments
 *******************************************************************************/
 
-static char doc[] = "Find a maximum clique in a graph in DIMACS format\vHEURISTIC can be min_max or min_product";
-static char args_doc[] = "HEURISTIC FILENAME1 FILENAME2";
-static struct argp_option options[] = {
-    {"quiet", 'q', 0, 0, "Quiet output"},
-    {"verbose", 'v', 0, 0, "Verbose output"},
-    {"dimacs", 'd', 0, 0, "Read DIMACS format"},
-    {"lad", 'l', 0, 0, "Read LAD format"},
-    {"connected", 'c', 0, 0, "Solve max common CONNECTED subgraph problem"},
-    {"directed", 'i', 0, 0, "Use directed graphs"},
-    {"labelled", 'a', 0, 0, "Use edge and vertex labels"},
-    {"vertex-labelled-only", 'x', 0, 0, "Use vertex labels, but not edge labels"},
-    {"big-first", 'b', 0, 0, "First try to find an induced subgraph isomorphism, then decrement the target size"},
-    {"timeout", 't', "timeout", 0, "Specify a timeout (seconds)"},
-    { 0 }
-};
+//static char doc[] = "Find a maximum clique in a graph in DIMACS format\vHEURISTIC can be min_max or min_product";
+//static char args_doc[] = "HEURISTIC FILENAME1 FILENAME2";
+//static struct argp_option options[] = {
+//    {"quiet", 'q', 0, 0, "Quiet output"},
+//    {"verbose", 'v', 0, 0, "Verbose output"},
+//    {"dimacs", 'd', 0, 0, "Read DIMACS format"},
+//    {"lad", 'l', 0, 0, "Read LAD format"},
+//    {"connected", 'c', 0, 0, "Solve max common CONNECTED subgraph problem"},
+//    {"directed", 'i', 0, 0, "Use directed graphs"},
+//    {"labelled", 'a', 0, 0, "Use edge and vertex labels"},
+//    {"vertex-labelled-only", 'x', 0, 0, "Use vertex labels, but not edge labels"},
+//    {"big-first", 'b', 0, 0, "First try to find an induced subgraph isomorphism, then decrement the target size"},
+//    {"timeout", 't', "timeout", 0, "Specify a timeout (seconds)"},
+//    { 0 }
+//};
 
 static struct {
     bool quiet;
@@ -85,8 +85,10 @@ void set_default_arguments() {
     arguments.arg_num = 0;
 }
 
-static error_t parse_opt (int key, char *arg, struct argp_state *state) {
-    switch (key) {
+static void parse_opts(int argc, char** argv) {
+    int opt;
+    while ((opt = getopt(argc, argv, "qvdlciaxbt:")) != -1) {
+        switch (opt) {
         case 'd':
             if (arguments.lad)
                 fail("The -d and -l options cannot be used together.\n");
@@ -128,35 +130,25 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
             arguments.big_first = true;
             break;
         case 't':
-            arguments.timeout = std::stoi(arg);
+            arguments.timeout = std::stoi(optarg);
             break;
-        case ARGP_KEY_ARG:
-            if (arguments.arg_num == 0) {
-                if (std::string(arg) == "min_max")
-                    arguments.heuristic = min_max;
-                else if (std::string(arg) == "min_product")
-                    arguments.heuristic = min_product;
-                else
-                    fail("Unknown heuristic (try min_max or min_product)");
-            } else if (arguments.arg_num == 1) {
-                arguments.filename1 = arg;
-            } else if (arguments.arg_num == 2) {
-                arguments.filename2 = arg;
-            } else {
-                argp_usage(state);
-            }
-            arguments.arg_num++;
-            break;
-        case ARGP_KEY_END:
-            if (arguments.arg_num == 0)
-                argp_usage(state);
-            break;
-        default: return ARGP_ERR_UNKNOWN;
-    }
-    return 0;
-}
+        }
 
-static struct argp argp = { options, parse_opt, args_doc, doc };
+    }
+    char *arg = argv[optind];
+    if (std::string(arg) == "min_max")
+        arguments.heuristic = min_max;
+    else if (std::string(arg) == "min_product")
+        arguments.heuristic = min_product;
+    else
+        fail("Unknown heuristic (try min_max or min_product)");
+
+    arg = argv[optind + 1];
+    arguments.filename1 = arg;
+
+    arg = argv[optind + 2];
+    arguments.filename2 = arg;
+}
 
 /*******************************************************************************
                                      Stats
@@ -496,7 +488,7 @@ int sum(const vector<int> & vec) {
 
 int main(int argc, char** argv) {
     set_default_arguments();
-    argp_parse(&argp, argc, argv, 0, 0, 0);
+    parse_opts(argc, argv);
 
     char format = arguments.dimacs ? 'D' : arguments.lad ? 'L' : 'B';
     struct Graph g0 = readGraph(arguments.filename1, format, arguments.directed,

@@ -13,7 +13,7 @@
 #include <condition_variable>
 #include <atomic>
 
-#include <argp.h>
+#include <unistd.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,32 +28,38 @@ static void fail(std::string msg) {
     exit(1);
 }
 
-enum Heuristic { min_max, min_product, min_right };
+enum Heuristic { min_max, min_product, min_right, min_min };
 
 /*******************************************************************************
                              Command-line arguments
 *******************************************************************************/
 
-static char doc[] = "Find a maximum clique in a graph in DIMACS format\vHEURISTIC can be min_max or min_product";
-static char args_doc[] = "HEURISTIC FILENAME1 FILENAME2";
-static struct argp_option options[] = {
-    {"fancy-branching", 'f', 0, 0, "Branch on both sides"},
-    {"naive-bound", 'n', 0, 0, "Use a worse bound"},
-    {"quiet", 'q', 0, 0, "Quiet output"},
-    {"verbose", 'v', 0, 0, "Verbose output"},
-    {"dimacs", 'd', 0, 0, "Read DIMACS format"},
-    {"lad", 'l', 0, 0, "Read LAD format"},
-    {"connected", 'c', 0, 0, "Solve max common CONNECTED subgraph problem"},
-    {"directed", 'i', 0, 0, "Use directed graphs"},
-    {"labelled", 'a', 0, 0, "Use edge and vertex labels"},
-    {"vertex-labelled-only", 'x', 0, 0, "Use vertex labels, but not edge labels"},
-    {"big-first", 'b', 0, 0, "First try to find an induced subgraph isomorphism, then decrement the target size"},
-    {"timeout", 't', "timeout", 0, "Specify a timeout (seconds)"},
-    { 0 }
-};
+//static char doc[] = "Find a maximum clique in a graph in DIMACS format\vHEURISTIC can be min_max or min_product";
+//static char args_doc[] = "HEURISTIC FILENAME1 FILENAME2";
+//static struct argp_option options[] = {
+//    {"fancy-branching", 'f', 0, 0, "Branch on both sides"},
+//    {"naive-bound", 'n', 0, 0, "Use a worse bound"},
+//    {"quiet", 'q', 0, 0, "Quiet output"},
+//    {"verbose", 'v', 0, 0, "Verbose output"},
+//    {"dimacs", 'd', 0, 0, "Read DIMACS format"},
+//    {"lad", 'l', 0, 0, "Read LAD format"},
+//    {"connected", 'c', 0, 0, "Solve max common CONNECTED subgraph problem"},
+//    {"directed", 'i', 0, 0, "Use directed graphs"},
+//    {"labelled", 'a', 0, 0, "Use edge and vertex labels"},
+//    {"vertex-labelled-only", 'x', 0, 0, "Use vertex labels, but not edge labels"},
+//    {"big-first", 'b', 0, 0, "First try to find an induced subgraph isomorphism, then decrement the target size"},
+//    {"timeout", 't', "timeout", 0, "Specify a timeout (seconds)"},
+//    { 0 }
+//};
 
 static struct {
+    bool no_sort;
+    bool Order_smart_swapped_graphs;
+    bool Smart_swapped_graphs;
+    bool swapped_graphs;
+    bool right_branching;
     bool fancy_branching;
+    bool Fancy_branching;
     bool naive_bound;
     bool quiet;
     bool verbose;
@@ -89,8 +95,10 @@ void set_default_arguments() {
     arguments.arg_num = 0;
 }
 
-static error_t parse_opt (int key, char *arg, struct argp_state *state) {
-    switch (key) {
+static void parse_opts(int argc, char** argv) {
+    int opt;
+    while ((opt = getopt(argc, argv, "yOSsrfFnqvdlciaxbt:")) != -1) {
+        switch (opt) {
         case 'd':
             if (arguments.lad)
                 fail("The -d and -l options cannot be used together.\n");
@@ -101,8 +109,26 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
                 fail("The -d and -l options cannot be used together.\n");
             arguments.lad = true;
             break;
+        case 'y':
+            arguments.no_sort = true;
+            break;
+        case 'O':
+            arguments.Order_smart_swapped_graphs = true;
+            break;
+        case 'S':
+            arguments.Smart_swapped_graphs = true;
+            break;
+        case 's':
+            arguments.swapped_graphs = true;
+            break;
+        case 'r':
+            arguments.right_branching = true;
+            break;
         case 'f':
             arguments.fancy_branching = true;
+            break;
+        case 'F':
+            arguments.Fancy_branching = true;
             break;
         case 'n':
             arguments.naive_bound = true;
@@ -138,37 +164,29 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
             arguments.big_first = true;
             break;
         case 't':
-            arguments.timeout = std::stoi(arg);
+            arguments.timeout = std::stoi(optarg);
             break;
-        case ARGP_KEY_ARG:
-            if (arguments.arg_num == 0) {
-                if (std::string(arg) == "min_max")
-                    arguments.heuristic = min_max;
-                else if (std::string(arg) == "min_product")
-                    arguments.heuristic = min_product;
-                else if (std::string(arg) == "min_right")
-                    arguments.heuristic = min_right;
-                else
-                    fail("Unknown heuristic (try min_max or min_product)");
-            } else if (arguments.arg_num == 1) {
-                arguments.filename1 = arg;
-            } else if (arguments.arg_num == 2) {
-                arguments.filename2 = arg;
-            } else {
-                argp_usage(state);
-            }
-            arguments.arg_num++;
-            break;
-        case ARGP_KEY_END:
-            if (arguments.arg_num == 0)
-                argp_usage(state);
-            break;
-        default: return ARGP_ERR_UNKNOWN;
-    }
-    return 0;
-}
+        }
 
-static struct argp argp = { options, parse_opt, args_doc, doc };
+    }
+    char *arg = argv[optind];
+    if (std::string(arg) == "min_max")
+        arguments.heuristic = min_max;
+    else if (std::string(arg) == "min_product")
+        arguments.heuristic = min_product;
+    else if (std::string(arg) == "min_right")
+        arguments.heuristic = min_right;
+    else if (std::string(arg) == "min_min")
+        arguments.heuristic = min_min;
+    else
+        fail("Unknown heuristic (try min_max or min_product)");
+
+    arg = argv[optind + 1];
+    arguments.filename1 = arg;
+
+    arg = argv[optind + 2];
+    arguments.filename2 = arg;
+}
 
 /*******************************************************************************
                                      Stats
@@ -286,6 +304,9 @@ int select_bidomain(const vector<Bidomain>& domains, const vector<int> & left,
             break;
         case min_right:
             len = bd.right_len;
+            break;
+        case min_min:
+            len = std::min(bd.left_len, bd.right_len) * 10000 + std::max(bd.left_len, bd.right_len);
             break;
         }
         if (len < min_size) {
@@ -431,7 +452,11 @@ void solve(const Graph & g0, const Graph & g1, vector<VtxPair> & incumbent,
         return;
     Bidomain &bd = domains[bd_idx];
 
-    if (arguments.fancy_branching && bd.left_len < bd.right_len) {
+    bool branch_on_right = 
+        arguments.right_branching ||
+        (arguments.fancy_branching && bd.left_len < bd.right_len) ||
+        (arguments.Fancy_branching && bd.left_len >= bd.right_len);
+    if (branch_on_right) {
         int v = find_min_value(right, bd.r, bd.right_len);
         remove_vtx_from_right_domain(right, domains[bd_idx], v);
 
@@ -554,15 +579,23 @@ int sum(const vector<int> & vec) {
     return std::accumulate(std::begin(vec), std::end(vec), 0);
 }
 
+double density(const Graph & g, const vector<int> & g_deg)
+{
+    if (arguments.directed)
+        return (double) sum(g_deg) / (g.n*(g.n-1)*2);
+    else
+        return (double) sum(g_deg) / (g.n*(g.n-1));
+}
+
 int main(int argc, char** argv) {
     set_default_arguments();
-    argp_parse(&argp, argc, argv, 0, 0, 0);
+    parse_opts(argc, argv);
 
     char format = arguments.dimacs ? 'D' : arguments.lad ? 'L' : 'B';
-    struct Graph g0 = readGraph(arguments.filename1, format, arguments.directed,
-            arguments.edge_labelled, arguments.vertex_labelled);
-    struct Graph g1 = readGraph(arguments.filename2, format, arguments.directed,
-            arguments.edge_labelled, arguments.vertex_labelled);
+    struct Graph g0 = readGraph(arguments.swapped_graphs ? arguments.filename2 : arguments.filename1,
+            format, arguments.directed, arguments.edge_labelled, arguments.vertex_labelled);
+    struct Graph g1 = readGraph(arguments.swapped_graphs ? arguments.filename1 : arguments.filename2,
+            format, arguments.directed, arguments.edge_labelled, arguments.vertex_labelled);
 
     std::thread timeout_thread;
     std::mutex timeout_mutex;
@@ -594,24 +627,43 @@ int main(int argc, char** argv) {
     vector<int> g0_deg = calculate_degrees(g0);
     vector<int> g1_deg = calculate_degrees(g1);
 
-    // As implemented here, g1_dense and g0_dense are false for all instances
-    // in the Experimental Evaluation section of the paper.  Thus,
-    // we always sort the vertices in descending order of degree (or total degree,
-    // in the case of directed graphs.  Improvements could be made here: it would
-    // be nice if the program explored exactly the same search tree if both
-    // input graphs were complemented.
+    double g0_density = density(g0, g0_deg);
+    double g1_density = density(g1, g1_deg);
+
+    if (arguments.Smart_swapped_graphs &&
+            ((g0_density < g1_density && g0_density < 1 - g1_density) ||
+            (g0_density > g1_density && g0_density > 1 - g1_density))
+        ) {
+        std::swap(g0, g1);
+        std::swap(g0_deg, g1_deg);
+        std::swap(g0_density, g1_density);
+    }
+    
+    if (arguments.Order_smart_swapped_graphs && g0.n > g1.n) {
+        std::swap(g0, g1);
+        std::swap(g0_deg, g1_deg);
+        std::swap(g0_density, g1_density);
+    }
+    
+
+    // Note: this version uses different definitions of g0_dense and g1_dense than
+    // the IJCAI 2017 paper.
     vector<int> vv0(g0.n);
     std::iota(std::begin(vv0), std::end(vv0), 0);
-    bool g1_dense = sum(g1_deg) > g1.n*(g1.n-1);
-    std::stable_sort(std::begin(vv0), std::end(vv0), [&](int a, int b) {
-        return g1_dense ? (g0_deg[a]<g0_deg[b]) : (g0_deg[a]>g0_deg[b]);
-    });
+    bool g1_dense = density(g1, g1_deg) > .5;
+    if (!arguments.no_sort) {
+        std::stable_sort(std::begin(vv0), std::end(vv0), [&](int a, int b) {
+            return g1_dense ? (g0_deg[a]<g0_deg[b]) : (g0_deg[a]>g0_deg[b]);
+        });
+    }
     vector<int> vv1(g1.n);
     std::iota(std::begin(vv1), std::end(vv1), 0);
-    bool g0_dense = sum(g0_deg) > g0.n*(g0.n-1);
-    std::stable_sort(std::begin(vv1), std::end(vv1), [&](int a, int b) {
-        return g0_dense ? (g1_deg[a]<g1_deg[b]) : (g1_deg[a]>g1_deg[b]);
-    });
+    bool g0_dense = density(g0, g0_deg) > .5;
+    if (!arguments.no_sort) {
+        std::stable_sort(std::begin(vv1), std::end(vv1), [&](int a, int b) {
+            return g0_dense ? (g1_deg[a]<g1_deg[b]) : (g1_deg[a]>g1_deg[b]);
+        });
+    }
 
     struct Graph g0_sorted = induced_subgraph(g0, vv0);
     struct Graph g1_sorted = induced_subgraph(g1, vv1);
