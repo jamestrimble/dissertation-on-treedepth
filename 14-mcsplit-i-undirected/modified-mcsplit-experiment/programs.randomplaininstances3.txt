@@ -1,0 +1,11 @@
+mcsplit ./james-cpp-modified/mcsp -d -t {} min_max ../{} ../{}
+mcsplit-swapped ./james-cpp-modified/mcsp -d -t {} -s min_max ../{} ../{}
+mcsplit-smart-swapped ./james-cpp-modified/mcsp -d -t {} -O min_max ../{} ../{}
+mcsplit+f ./james-cpp-modified/mcsp -d -t {} -f min_max ../{} ../{}
+mcsplit+bigf ./james-cpp-modified/mcsp -d -t {} -F min_max ../{} ../{}
+mcsplit-b ./james-cpp-modified/mcsp -b -d -t {} min_max ../{} ../{}
+mcsplit-b-swapped ./james-cpp-modified/mcsp -b -d -t {} -s min_max ../{} ../{}
+mcsplit-b-smart-swapped ./james-cpp-modified/mcsp -b -d -t {} -O min_max ../{} ../{}
+mcsplit-nosort ./james-cpp-modified/mcsp -y -d -t {} min_max ../{} ../{}
+mcsplit-nosort-swapped ./james-cpp-modified/mcsp -y -d -t {} -s min_max ../{} ../{}
+mcsplit-nosort-smart-swapped ./james-cpp-modified/mcsp -y -d -t {} -O min_max ../{} ../{}
