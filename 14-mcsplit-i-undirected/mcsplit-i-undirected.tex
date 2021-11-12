@@ -664,6 +664,36 @@ and without increasing time complexity at each search node, by storing an extra
 bit with each label class.  This bit takes the value $1$ if and only if the
 vertices in the class are adjacent to at least one vertex in $M$.
 
+\paragraph{\McSplitDown} The final version that we introduce in this section
+does not solve a variant of the problem, but uses a different strategy
+that may be applied to any of the problem variants that we have described.
+Our inspiration is the $k{\downarrow}$ algorithm of
+\citet{UpcomingAAAIPaper}.\footnote{The \kDown\ algorithm may be used
+either to find a maximum common induced subgraph or to a solve a problem
+closely related to the maximum common edge subgraph problem.  Here, we consider
+only the former use of \kDown.}  Rather than using branch and bound to find
+increasingly large common subgraphs, \kDown\ solves a sequence of decision problems:
+for $k=0, 1, \dots$, it tests whether $G$ and $H$ have a common induced subgraph
+of order $g-k$.  The $\kDown$ algorithm is a modified subgraph isomorphism solver,
+and for low values of $k$ it can perform stronger reasoning that \McSplit,
+based on vertex degrees and the existence of paths between vertices, to eliminate
+candidate vertex-vertex mappings.  This stronger reasoning is not compatible
+with \McSplit's data structures, but our \McSplitDown\ variant uses the \kDown\
+strategy of solving a sequence of decision problems rather than using branch
+and bound.
+The modifications to the \McSplit\ algorithm are straightforward:
+we call the main \FuncSty{McSplit} method once per goal size ($g, g-1, g-2,
+\dots$), then backtrack (\lineref{PruneSearch} of \cref{McSplitAlg}) when the
+bound is strictly less than the goal size, and terminate when a solution of the
+goal size is found.\footnote{Our \McSplit\ implementation has an additional
+small optimisation: we store an incumbent, in the style of a branch and bound
+algorithm, even if that incumbent is smaller than the current goal size.
+For example, if the algorithm is searching for a common subgraph with 6 vertices
+and it finds a common subgraph with 5 vertices in the process, it records this.
+On a later iteration, with a goal size of 5, this stored subgraph can then
+be returned without any need for search.  Thus, the subproblems are not
+solved completely independently, as they are by \kDown.}
+
 \section{Experimental Evaluation}
 
 Experiments were performed on machines with dual Intel Xeon E5-2640 v2 CPUs and
@@ -747,6 +777,13 @@ on 87\% of the 3,506 instances that
 could be solved by at least one of the four algorithms in less than than
 1,000 seconds.
 
+TODO: write about \McSplitDown.
+
+We do not show run times for \kDown in \cref{figure:plain-cumulative},
+as it was slower than \McSplitDown on all of the instances that were solved
+within the time limit by \kDown, and more than an order of magnitude slower
+than \McSplitDown on most instances.
+
 \paragraph{Vertex and edge labels, directed} Cumulative runtimes for this
 class of instances are in \cref{figure:33ved-cumulative}. Again, \McSplit\ is over
 an order of magnitude faster than the best existing CP algorithm, which is
@@ -754,6 +791,8 @@ CP-MAC in this case. Matching the conclusions of
 \citet{DBLP:conf/cp/McCreeshNPS16}, we see that the clique encoding outperforms
 the other algorithms---including \McSplit---on these labelled instances, except
 in the very easy region of instances that can be solved in well under 100 ms.
+
+TODO: write about \McSplitDown.
 
 \begin{figure}[h!]
     \centering
@@ -778,6 +817,8 @@ the corresponding experiment in \cref{figure:plain-cumulative} in which the
 subgraph is not required to be connected: \McSplit\ is the clear winner by more
 than an order of magnitude.
 
+TODO: write about \McSplitDown.
+
 \paragraph{Vertex and edge labels, undirected, connected} For the labelled,
 connected case, clique slightly outperforms \McSplit\ on harder instances
 (\cref{figure:33ve-connected-cumulative}). However, the gap between the two algorithms
@@ -786,6 +827,8 @@ cumulative curve for \McSplit\ briefly rises above the curve for clique at a
 runtime just below 100 seconds. Additionally, \McSplit\ is the clear winner for
 easier instances, where the clique encoding is relatively expensive to
 construct but trivial to solve.
+
+TODO: write about \McSplitDown.
 
 \begin{figure}[h!]
     \centering
@@ -825,24 +868,22 @@ memory on many of the instances (these are treated as timeouts, following
     \label{figure:prettyheatmaps}
 \end{figure*}
 
-The basic \McSplit\ is beaten by the $k{\downarrow}$ algorithm of
-\citet{UpcomingAAAIPaper} on this dataset. However, we can modify the \McSplit\
-algorithm to use a top-down strategy similar to that used by $k{\downarrow}$  by
-calling the main \FuncSty{McSplit} method once per goal size ($g, g-1, g-2,
-\dots$); we backtrack (\lineref{PruneSearch} of \cref{McSplitAlg}) when the
-bound is strictly less than the goal size, and terminate when a solution of the
-goal size is found. We expect that this could do well because in many cases the
-maximum common subgraph covers nearly all of the smaller graph---indeed,
-\cref{figure:sip-cumulative} shows that this approach is the strongest on these
-instances, and \McSplit{$\downarrow$} is the best algorithm for every choice of timeout.
-(By contrast, the optimal solutions for the instances in
-\cref{figure:mcs-cumulative-plain-not-connected},
-\cref{figure:mcs-cumulative-labelled-not-connected}
-and
-\cref{figure:mcs-cumulative-connected} typically cover a smaller proportion of the
-input graphs, and \McSplit{$\downarrow$} is often more than a magnitude slower than
-the plain \McSplit\ algorithm for these instances; the \McSplit{$\downarrow$} results
-are not shown for these instances.)
+The basic \McSplit\ is beaten by $k{\downarrow}$ 
+\citet{UpcomingAAAIPaper} on this dataset. However, as
+\cref{figure:sip-cumulative} shows, \McSplitDown is the overall strongest
+algorithm on these instances for every choice of timeout.
+In many cases the maximum common subgraph covers nearly all of the smaller graph;
+thus, it is unsurprising that \kDown and \McSplitDown outperform the branch-and-bound
+\McSplit on this set of instances.
+%%% * The commented lines below are incorrect. *
+%%%(By contrast, the optimal solutions for the instances in
+%%%\cref{figure:mcs-cumulative-plain-not-connected},
+%%%\cref{figure:mcs-cumulative-labelled-not-connected}
+%%%and
+%%%\cref{figure:mcs-cumulative-connected} typically cover a smaller proportion of the
+%%%input graphs, and \McSplit{$\downarrow$} is often more than a magnitude slower than
+%%%the plain \McSplit\ algorithm for these instances; the \McSplit{$\downarrow$} results
+%%%are not shown for these instances.)
 
 Overall, we find that \McSplit\ improves on the
 previous state of the art by more than an order of magnitude for small,
@@ -1461,7 +1502,7 @@ a maximum common subgraph of $\graphG$ and $\graphH$ is shown.
     \begin{tikzpicture}
         \foreach \v [count=\i] in {1,2,3,4,5} {
             \foreach \w [count=\j] in {a,b,c,d,e,f} {
-                \node[draw,circle,minimum width=.65cm,inner sep=1pt] (\v\w) at (180 - \i*72 - \j*11:4.5) {$\v\w$};
+                \node[draw,circle,minimum width=.58cm,inner sep=1pt] (\v\w) at (180 - \i*72 - \j*11:4.1) {$\v\w$};
             }
         }
         \input{14-mcsplit-i-undirected/association-graph/assoc-graph-edges}
