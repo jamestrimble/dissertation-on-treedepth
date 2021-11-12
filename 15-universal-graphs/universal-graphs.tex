@@ -191,6 +191,8 @@ graphs is an answer by James Preen on the Mathematics Stack Exchange website tha
 presents results for families of small connected graphs obtained by brute-force
 search with the Maple programming language \cite{preen_math_se}.
 
+TODO cite OEIS sequence A097911 \cite{oeisA097911}
+
 This chapter uses a brute-force approach similar to that of Preen to find minimal
 induced universal graphs for families of small graphs.  Our contributions
 are (1) an ordering strategy to reduce the number of subgraph isomorphism
@@ -972,9 +974,10 @@ falls below the score obtained by the graph prior to the most recent edge-flip.
 This does not affect the behaviour of the hill-climbing search, since any
 score below the previous graph's score results in the most recent change being rejected.
 
-By running this search algorithm, we quickly found the graph of order 14 whose adjacency
-matrix is shown in \Cref{fig:adjmat14}.  This is induced universal for $\calF(6)$;
-therefore, $f(6) \leq 14$.  Combining our two bounds, we have $f(6) = 14$.
+By running this search algorithm for less than one minute, we found the graph of
+order 14 whose adjacency matrix is shown in \Cref{fig:adjmat14}.  This is induced
+universal for $\calF(6)$; therefore, $f(6) \leq 14$.  Combining our two bounds, we
+have $f(6) = 14$.
 
 \begin{figure}[htb]
 \centering
@@ -1039,6 +1042,10 @@ Thus we have $16 \leq f(7) \leq 18$.
 seven-vertex graphs}
 \label{fig:adjmat18}
 \end{figure}
+
+We also ran the heuristic with target graph orders of 16 and 17, in an
+attempt to find a smaller induced universal graph for $\calF(7)$, but the algorithm
+did not find a solution within 12 hours for either target.
 
 \section{Trees}\label{sec:trees}
 
