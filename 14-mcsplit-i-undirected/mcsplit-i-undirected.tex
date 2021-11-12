@@ -870,11 +870,11 @@ memory on many of the instances (these are treated as timeouts, following
 
 The basic \McSplit\ is beaten by $k{\downarrow}$ 
 \citet{UpcomingAAAIPaper} on this dataset. However, as
-\cref{figure:sip-cumulative} shows, \McSplitDown is the overall strongest
+\cref{figure:sip-cumulative} shows, \McSplitDown\ is the overall strongest
 algorithm on these instances for every choice of timeout.
 In many cases the maximum common subgraph covers nearly all of the smaller graph;
-thus, it is unsurprising that \kDown and \McSplitDown outperform the branch-and-bound
-\McSplit on this set of instances.
+thus, it is unsurprising that \kDown\ and \McSplitDown\ outperform the branch-and-bound
+\McSplit\ on this set of instances.
 %%% * The commented lines below are incorrect. *
 %%%(By contrast, the optimal solutions for the instances in
 %%%\cref{figure:mcs-cumulative-plain-not-connected},
@@ -885,7 +885,46 @@ thus, it is unsurprising that \kDown and \McSplitDown outperform the branch-and-
 %%%the plain \McSplit\ algorithm for these instances; the \McSplit{$\downarrow$} results
 %%%are not shown for these instances.)
 
-Overall, we find that \McSplit\ improves on the
+Because \kDown\ is based on a subgraph isomorphism algorithm and can perform strong
+domain filtering when searching for a common subgraph that contains most or
+all of graph $G$, we might expect \kDown\ to outperform \McSplitDown\ if the maximum
+common subgraph is large, but to be slower than \McSplitDown\ otherwise.
+To investigate this, we plot on the vertical axis of \Cref{figure:sip-runtime-ratios} the ratio of the two
+algorithms' run times.  Values higher than 1 indicate that \kDown\ was slower than
+\McSplitDown.  On the horizontal axis, we have the difference between the number of
+vertices in the smaller input graph and the number of vertices in a maximum
+common subgraph; a value of 0 indicates that $G$ is contained in $H$ as an induced subgraph.
+
+Overall, \McSplitDown\ is the faster algorithm for most instances, often by more than
+an order of magnitude.  Looking specifically at the instances in which the maximum common
+subgraph is isomorphic to $G$ --- points in the figure with an x-value of 0 ---
+there are a number of instances on which \kDown\ is orders of magnitude faster than \McSplitDown.  However,
+\McSplitDown\ is faster than \kDown\ for most of these instances.
+
+For instances in which the maximum common subgraph is strictly smaller than $G$,
+\McSplitDown\ is usually the faster of the two algorithms.  This is true even for instances
+where the maximum common subgraph contains all but one of the vertices in $G$.
+Interestingly, \kDown\ appears to perform well for instances in which the maximum
+common subgraph is much smaller than $G$.  This may perhaps be due to small
+sample size.
+
+State-of-the-art subgraph isomorphism solvers have developed rapidly, even since the
+development of the \kDown\ solver \cite{DBLP:conf/gg/McCreeshP020}.  It is likely that
+a version of \kDown\ based on a more recent version of the Glasgow subgraph solver
+would outperform the version of \kDown\ used here.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.75\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/sip-runtime-ratio-vs-solution-size}
+    \caption{The vertical axis measures the ratio of run times (\kDown\ time divided by \McSplitDown time)
+        The horizontal axis measures the difference between the order of the solution and the order of $G$.
+        Trivial instances that could be solved by either algorithm in less
+        than 1 ms or by both algorithms in less than 100 ms are excluded.  Red points show instances
+        on which at least one algorithm timed out. Timeouts are counted as 1000
+        seconds.}\label{figure:sip-runtime-ratios}
+\end{figure}
+
+\paragraph{Summary.} Overall, we find that \McSplit\ improves on the
 previous state of the art by more than an order of magnitude for small,
 unlabelled graphs.  On a benchmark suite of larger instances, the
 \McSplit{$\downarrow$} variant of the algorithm comfortably outperforms the
@@ -936,9 +975,8 @@ of the two input graphs.
 
 For both unlabelled and labelled instances, there is a positive
 relationship between these two measures. Above the point where the maximum
-common subgraph is 70\% as large as each input graph, \McSplitDown becomes
+common subgraph is 70\% as large as each input graph, \McSplitDown\ becomes
 the faster algorithm.
-
 
 \section{Comparison with Existing Algorithms}\label{sec:comparison}
 
