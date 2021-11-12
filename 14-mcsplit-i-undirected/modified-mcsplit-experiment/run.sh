@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-TIMEOUT=100
-NUM_INSTANCES=500
+TIMEOUT=30
+NUM_INSTANCES=100
 
 #INSTANCETYPE should be mcs33vedinstances or mcsplaininstances
 INSTANCETYPE=$1
