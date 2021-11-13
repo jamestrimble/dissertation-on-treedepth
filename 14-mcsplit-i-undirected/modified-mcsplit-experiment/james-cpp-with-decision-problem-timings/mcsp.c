@@ -60,6 +60,7 @@ static struct {
     bool edge_labelled;
     bool vertex_labelled;
     bool big_first;
+    bool Decisions;
     Heuristic heuristic;
     char *filename1;
     char *filename2;
@@ -87,7 +88,7 @@ void set_default_arguments() {
 
 static void parse_opts(int argc, char** argv) {
     int opt;
-    while ((opt = getopt(argc, argv, "qvdlciaxbt:")) != -1) {
+    while ((opt = getopt(argc, argv, "qvdlciaxbDt:")) != -1) {
         switch (opt) {
         case 'd':
             if (arguments.lad)
@@ -127,6 +128,10 @@ static void parse_opts(int argc, char** argv) {
             arguments.vertex_labelled = true;
             break;
         case 'b':
+            arguments.big_first = true;
+            break;
+        case 'D':
+            arguments.Decisions = true;
             arguments.big_first = true;
             break;
         case 't':
@@ -459,7 +464,8 @@ vector<VtxPair> mcs(const Graph & g0, const Graph & g1) {
             auto right_copy = right;
             auto domains_copy = domains;
             vector<VtxPair> current;
-            incumbent.clear();
+            if (arguments.Decisions)
+                incumbent.clear();
             auto start = std::chrono::steady_clock::now();
             solve(g0, g1, incumbent, current, domains_copy, left_copy, right_copy, goal);
             auto stop = std::chrono::steady_clock::now();
