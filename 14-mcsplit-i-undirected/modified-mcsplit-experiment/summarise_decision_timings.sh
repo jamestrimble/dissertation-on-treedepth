@@ -13,7 +13,7 @@ PARTIAL_FILES=$(echo $PROGRAMS | tr ' ' '\n' | sed 's/^/partial-results\//' | se
 TIME_COLUMNS="last_unsat_time sat_time total_subproblem_time total_subproblem_time_minus_last_unsat"
 
 
-echo instance $TIME_COLUMNS run_time > runtimes.$INSTANCETYPE.txt
+echo instance $TIME_COLUMNS run_time $TIME_COLUMNS run_time > runtimes.$INSTANCETYPE.txt
 cat $INSTANCETYPE.sample.txt | while read instance a b _; do
     echo $(
         echo $instance
