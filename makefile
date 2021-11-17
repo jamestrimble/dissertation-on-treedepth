@@ -13,6 +13,10 @@ ch14:
 	latexmk -pdf ch-mcsplit.tex
 	#pdflatex ch-mcsplit.tex # for speed?
 
+ch14a:
+	latexmk -pdf ch-swapping.tex
+	#pdflatex ch-swapping.tex # for speed?
+
 ch15:
 	latexmk -pdf ch-universalgraphs.tex
 	#pdflatex ch-universalgraphs.tex # for speed?

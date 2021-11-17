@@ -1,0 +1,249 @@
+\chapter{A two-sided look at \McSplit}
+\label{c:swapping-graphs-mcsplit}
+
+\section{Introduction}
+
+Given graphs $G$ and $H$, it is clear that a maximum common subgraph of $H$ and $G$ is
+also a maximum common subgraph of $G$ and $H$.  In this chapter, we ask whether
+it is ever useful to swap the two input graphs when calling a maximum common subgraph
+solver.  We will see that swapping the graphs can have a very large effect on the
+execution time of \McSplit\
+if the two graphs differ in density or order.  Finally, we introduce a modified
+version of \McSplit\ that generalises the idea of swapping graphs.
+
+\section{When should we swap the graphs?}
+
+We begin by plotting run times of \McSplit\ with and without swapping graphs, to
+give an idea of the difference that swapping can make.  We refer to the swapping
+version of \McSplit\ as \McSplit-Swap; this is shown in
+\Cref{McSplitSwapAlg}.
+
+\begin{algorithm}[h!]
+\DontPrintSemicolon
+\nl $\FuncSty{McSplit-Swap}(G, H)$ \label{McSplitSwapFun} \;
+\nl \Begin{
+    \nl $M \gets \FuncSty{McSplit}(H,G)$ \LeftComment{Call \McSplit\ with the graphs swapped}\;
+    \nl $\KwSty{return}$~$\{(w, v) \mid (v, w) \in M\}$ \LeftComment{Reverse the mapping}
+}
+    \caption{\McSplit-Swap: a version of \McSplit\ that swaps the input graphs.} 
+\label{McSplitSwapAlg}
+\end{algorithm}
+
+\Cref{subfig:runtime-swapping-scatter-mcsplain}
+shows run times for the MCS Plain instances.  The horizontal axis shows run time
+without swapping the graphs; the vertical axis shows run time with swapping.  Although swapping
+graphs can make a small difference, it does not change run time by as much as an order of 
+magnitude for any of these instances.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][MCS Plain instances] {
+        \centering
+        \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-right-mcsplain}
+        \label{subfig:runtime-swapping-scatter-mcsplain}
+    }
+    \subfigure[][Random 24-vertex instances] {
+        \centering
+        \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-right-random2}
+        \label{subfig:runtime-swapping-scatter-random2}
+    }
+    \caption{Run times in ms for \McSplit\ (horizontal axis) and \McSplit\ with graphs $G$ and $H$ swapped
+        (vertical axis).  Each point represents one graph pair.  Swapping the graphs has little effect on run time
+        for MCS Plain instances, but changes the run time by orders of magnitude
+        for many of the random instances.}\label{figure:runtime-swapping-scatter}
+\end{figure}
+
+Within each MCS Plain instance, the two graphs are very similar: they are produced
+using the same graph generator, have the same number of vertices, and have very similar density.
+(See \Cref{figure:mcsplain-densities} in the appendix for a scatter plot of densities.)
+Thus, it is unsurprising that swapping the graphs has little effect on run time.
+To examine pairs of graphs with very different characteristics, we generated two
+sets of random instances using the Erdos-Renyi $G(n,p)$ model.  The first set has
+24 vertices per graph, with the $p$ parameter of the generator chosen randomly from
+$\{0.01, 0.02, \dots, 0.99\}$; thus, the graphs have the same order but vary
+greatly in density.  The second set of instances has the density parameter
+$p$ set to $0.3$ for all instances, with the number of vertices in each graph randomly
+chosen from $\{10, 11, \dots, 40\}$.
+
+\Cref{subfig:runtime-swapping-scatter-random2} shows run times with and without swapping
+for the first set of random graphs.  For these instances, unlike the MCS Plain instances,
+there are very clearly some instances for which swapping graphs is beneficial, and others
+for which swapping greatly increases the run time.
+
+\subsection{Random graphs with fixed $n$ and varying density}
+
+Can we tell in advance whether we should swap the graphs of a given instance?
+\Cref{figure:coloured-scatter-run-times-density} shows that, in the case of our
+random 24-vertex instances, there is a very strong association between the densities
+of the two graphs and whether we should swap graphs.  In this plot, the axes
+measure graph density,\footnote{By \emph{density}, we are referring to the actual density of a graph,
+$\frac{|E(G)|}{n_G(n_G-1)/2}$, rather than the parameter $p$ used to generate
+the graph. In practice the two measures are very similar.}. Colour is used to show
+the effect of swapping graphs on run time; red dots represent those instances
+that are solved more quickly with the graphs swapped.  The diagonal lines on the plot
+are $y=x$ and $y=1-x$; these divide the plot into four triangular regions.
+The figure shows clearly that instances lying
+in the upper and lower triangles tend to be solved more quickly by \McSplit, while
+those lying in the left and right triangles tend to be solved more
+quickly by \McSplit-Swap.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][Density] {
+        \centering
+        \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/density-when-swap}
+        \label{figure:coloured-scatter-run-times-density}
+    }
+    \subfigure[][``Extremeness'' of density] {
+        \centering
+        \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/density-extremeness-when-swap}
+        \label{figure:coloured-scatter-run-times-extremeness}
+    }
+    \caption{There is a strong association between the densities of graphs $G$ and $H$
+        and whether it is beneficial to use \McSplit-Swap rather than \McSplit.
+        The first subfigure plots density of $G$ against density of $H$, with one point
+        plotted for each of the random 24-vertex instances.  Instances for which \McSplit-Swap
+        is faster are plotted in red; instances where \McSplit\ is faster
+        are plotted in blue.  Dark red and dark blue indicate that \McSplit-Swap and \McSplit,
+        respectively, result in run times at least twice as fast as the alternative.}
+        \label{figure:coloured-scatter-mcis-run-times}
+\end{figure}
+
+The union of the left and right triangles in
+\Cref{figure:coloured-scatter-run-times-density} has a simple characterisation.
+Define the measure \emph{density extremeness} of
+a graph as $\left|\frac{1}{2} - d\right|$, where $d$ is the graph's
+density.  This is simply a measure of how close a graph's
+density is to either 0 or 1; thus, a clique and an independent set
+have the highest possible density extremeness.  The union of the left and right triangles
+in \Cref{figure:coloured-scatter-run-times-density} contains exactly those
+graph pairs $(G,H)$ such that the density extremeness of $G$ is greater than
+the density extremeness of $H$.
+The second subfigure, \Cref{figure:coloured-scatter-run-times-extremeness},
+replots the data in \Cref{figure:coloured-scatter-run-times-density},
+with density extremeness rather than density measured on the axes.
+It is evident from the figure that for instances such that the density extremeness of $G$
+exceeds the density extremeness of $H$, \McSplit-Swap almost always
+runs faster than \McSplit.
+
+Given the strong relationship between the densities of $G$ and $H$ and the 
+optimal order in which to pass the graphs to \McSplit, a natural next
+step is to devise a version of \McSplit\ such that the graphs are
+swapped if and only if the density extremeness of $G$ is greater
+than the density extremeness of $H$.  We call this algorithm
+\McSplit-SD; it is shown in \Cref{McSplitSDAlg}.
+
+\begin{algorithm}[h!]
+\DontPrintSemicolon
+\nl $\FuncSty{McSplit-SD}(G, H)$ \label{McSplitSDFun} \;
+\nl \Begin{
+    \nl \If{$\left|\frac{1}{2} - d_G\right| > \left|\frac{1}{2} - d_H\right|$}{
+        \nl $\KwSty{return}$~$\FuncSty{McSplit-Swap}(G,H)$ \;
+    }
+    \nl $\KwSty{return}$~$\FuncSty{McSplit}(G,H)$
+}
+    \caption{\McSplit-SD: a version of \McSplit\ that uses density to decide whether to swap the input graphs.} 
+\label{McSplitSDAlg}
+\end{algorithm}
+
+\Cref{figure:left-vs-smart-d-mcis} compares on our set of 24-vertex random instances
+the run times of three solvers: \McSplit, \McSplit-SD, and the virtual best solver (VBS) of
+\McSplit\ and \McSplit-Swap.  The cumulative plot shows that \McSplit-Swap and the VBS
+have almost identical performance overall, and that both outperform \McSplit.  The scatter
+plot in \Cref{figure:left-vs-smart-random2} shows that \McSplit-SD is never much slower than
+\McSplit\ on these instances, and is orders of magnitude faster on several of the
+instances.  In summary, for this family of instances, \McSplit-SD clearly improves upon
+\McSplit, and makes near-perfect decisions when selecting between \McSplit\ and \McSplit-Swap.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][Cumulative plot of instances solved] {
+        \centering
+        \includegraphics*[width=0.52\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-random-smart-density-cumulative}
+        \label{figure:left-vs-smart-density-cumulative}
+    }
+    \subfigure[][Run times (ms)] {
+        \centering
+        \includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-smart-random2}
+        \label{figure:left-vs-smart-random2}
+    }
+    \caption{The run times of \McSplit-SD are faster overall than those of \McSplit\ for the
+        random 24-vertex instances, and almost indistinguishable from those of the virtual
+        best solver of \McSplit\ and \McSplit\ with swapped graphs.}
+        \label{figure:left-vs-smart-d-mcis}
+\end{figure}
+
+\subsection{Random graphs with similar density and varying $n$}
+
+We now turn to our family of random instances generated with $p=0.3$ and varying values of
+the order parameter $n$.  \Cref{figure:order-when-swap} shows a strong relationship between
+the graphs' densities and the relative run times of \McSplit\ and \McSplit-Swap: \McSplit\
+is generally preferable if $G$ has fewer vertices than $H$, and \McSplit-Swap is preferable
+if $G$ has more vertices than $H$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.55\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/order-when-swap}
+    \caption{For our random $p=0.3$ instances, is is preferable to use \McSplit\ when $G$
+        has fewer vertices than $H$, and to use \McSplit-Swap when $G$ has more vertices than $H$.
+        The plot shows one point per instance.  Instances for which \McSplit-Swap
+        is faster are plotted in red; instances where \McSplit\ is faster
+        are plotted in blue.  Dark red and dark blue indicate that \McSplit-Swap and \McSplit,
+        respectively, result in run times at least twice as fast as the alternative.}
+    \label{figure:order-when-swap}
+\end{figure}
+
+\McSplit-SO, an algorithm that swaps the graphs if the order of $G$ is greater than the
+order of $H$, is shown in \Cref{McSplitSOAlg}.
+\Cref{figure:left-vs-smart-o-mcis} shows the run times of \McSplit, \McSplit-SO,
+and the VBS of \McSplit\ and \McSplit-Swap for our $p=0.3$ instances.  As in our earlier
+experiment with \McSplit-SD, the \McSplit-SO algorithm performs about as well as the
+VBS, and is not substantially slower than \McSplit\ on any instance.  However, the improvement
+provided by \McSplit-SO is less dramatic than that provided by \McSplit-SD; \McSplit-SO
+is seldom more than an order of magnitude faster than \McSplit\ on non-trivial instances.
+
+\begin{algorithm}[h!]
+\DontPrintSemicolon
+\nl $\FuncSty{McSplit-SO}(G, H)$ \label{McSplitSOFun} \;
+\nl \Begin{
+    \nl \If{$n_G > n_H$}{
+        \nl $\KwSty{return}$~$\FuncSty{McSplit-Swap}(G,H)$ \;
+    }
+    \nl $\KwSty{return}$~$\FuncSty{McSplit}(G,H)$
+}
+    \caption{\McSplit-SO: a version of \McSplit\ that uses vertex counts to decide whether to swap the input graphs.} 
+\label{McSplitSOAlg}
+\end{algorithm}
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][Cumulative plot of instances solved] {
+        \centering
+        \includegraphics*[width=0.52\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-random-smart-order-cumulative}
+        \label{figure:left-vs-smart-order-cumulative}
+    }
+    \subfigure[][Run times (ms)] {
+        \centering
+        \includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-smart-random3}
+        \label{figure:left-vs-smart-random3}
+    }
+    \caption{The run times of \McSplit-SD are faster overall than those of \McSplit\ for the
+        random 24-vertex instances, and almost indistinguishable from those of the virtual
+        best solver of \McSplit\ and \McSplit\ with swapped graphs.}
+        \label{figure:left-vs-smart-o-mcis}
+\end{figure}
+
+\section{Generalising \McSplit-SD and \McSplit-SO}
+
+Why are \McSplit-SD and \McSplit-SO effective?  TODO: write about opposite of smallest domain first.  Do cumumlative curves
+for two random families and mcsplain with mcsplit-f, mcsplit-F, mcsplit.  Show that mcsplit-F helps a bit for random families
+and doesn't require knowledge of either order nor density.  Give negative result for mcsplain: mcsplit-F doesn't seem to help
+much, but scatter shows that mcsplit-f is a little bit bad.
+
+\section{Things to write about}
+
+\begin{itemize}
+    \item McSplit-F
+    \item K and H algorithm - show that swapping is useful
+    \item Same for Versari algorithm?
+\end{itemize}
