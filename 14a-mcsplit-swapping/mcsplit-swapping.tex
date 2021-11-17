@@ -235,7 +235,96 @@ is seldom more than an order of magnitude faster than \McSplit\ on non-trivial i
 
 \section{Generalising \McSplit-SD and \McSplit-SO}
 
-Why are \McSplit-SD and \McSplit-SO effective?  TODO: write about opposite of smallest domain first.  Do cumumlative curves
+Why are \McSplit-SD and \McSplit-SO effective?  We begin by considering \McSplit-SO; that is, we
+ask why it is useful to select the graph with fewer vertices as the first argument
+when calling \McSplit.  Let $G$
+be a graph with $n_G$ vertices and $H$ be a graph with $n_H$ vertices, such that $n_G < n_H$.
+If we call $\McSplit(G,H)$, the first call to $\FuncSty{Search()}$ in \Cref{McSplitAlg}
+makes $n_H + 1$ recursive calls to $\FuncSty{Search()}$: one for each vertex $w \in V(H)$,
+and a final call to reject vertex $v$ of $G$.  Thus, the root node of the search tree
+has $n_H + 1$ children. If we reverse the order of the graphs and
+call $\McSplit(H,G)$, a similar argument shows that the root node of the search tree
+has $n_G + 1$ children.  Thus --- at least at the root node and plausibly also deeper in the
+tree --- the search tree has a smaller branching factor if we call \McSplit\ with the
+\emph{larger} graph first.
+
+If we were to follow the standard constraint programming practice of branching
+on the smallest domain first \cite{DBLP:journals/ai/HaralickE80}, we would 
+therefore call $\McSplit(H,G)$ --- that is, we would place the larger graph first.
+But this is exactly the opposite of what \McSplit-SO does.
+Therefore, we must look elsewhere to explain why calling \McSplit\ with the small
+graph first is effective.  It seems likely that the bound calculated on \lineref{CalcBound}
+of \Cref{McSplitAlg} is part of the explanation.
+
+To give a concrete example, consider the example graphs $G$ and $H$ from
+\Cref{fig:alg1}, which are reproduced for convenience in \Cref{figure:G-and-H-redux}.
+\Cref{figure:search-tree-without-swapping} shows the search tree if --- following the
+strategy of \McSplit-SO --- the smaller graph is passed first to \McSplit.
+\Cref{figure:search-tree-with-swapping} shows the search tree if the larger graph
+is passed first to \McSplit.  These search trees have 35 and 45 nodes respectively;
+as we might expect, passing the smaller graph first results in a smaller search tree.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][$G$ and $H$] {
+        \centering
+            \scalebox{0.8}{
+                \tikz {
+                    \begin{scope}[yshift=2.8cm]
+                        \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+                                clockwise=5] {
+                                    1,2,3,4,5;
+                            1--4; 1--5; 2--3; 2--5; 3--5;
+                        };
+                    \end{scope}
+                    \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+                            clockwise=6, phase=60] {
+                                a,b,c,d,e,f;
+                        a--b; a--c; a--e; b--d; b--f; c--d; c--e; c--f; d--f; e--f;
+                    };
+                    \node at (0,-.5) {};  % for positioning
+                }
+            }
+        \label{figure:G-and-H-redux}
+    }
+    \subfigure[][The search tree of $\McSplit(G,H)$] {
+        \centering
+        \input{14a-mcsplit-swapping/branching-example/james-cpp-modified/treegh-b-and-b-highlighted.tex}
+        \label{figure:search-tree-without-swapping}
+    }
+    \subfigure[][The search tree of $\McSplit(H,G)$] {
+        \centering
+        \input{14a-mcsplit-swapping/branching-example/james-cpp-modified/treehg-b-and-b-highlighted.tex}
+        \label{figure:search-tree-with-swapping}
+    }
+    \caption{The search trees of \McSplit\ and \McSplit-Swap on example graphs $G$ and $H$.  Each blue box
+            highlights the search tree explored after making the decision not to map a vertex in the first
+            call to $\FuncSty{Search}()$.}
+        \label{figure:search-trees-with-swapping}
+\end{figure}
+
+The blue rectangle on each search tree highlights the subproblem after the final branching
+decision in the first call to $\FuncSty{Search}()$ --- the decision not to use the first
+vertex in the first graph (vertex $1$ in \Cref{figure:search-tree-without-swapping}
+and vertex $a$ in \Cref{figure:search-tree-with-swapping}).  The size difference between
+these highlighted subtrees --- 1 vertex and 16 vertices --- is more than enough to account
+for the overall difference in size between the two search trees.  The subtree in
+\Cref{figure:search-tree-without-swapping} is small because after rejecting a vertex of
+the smaller graph, we can reduce the bound to 4 which lets us prune the search tree immediately.
+In \Cref{figure:search-tree-without-swapping}, the rejected vertex belongs to the larger
+side of the label class, and therefore the bound remains at 5.
+
+Clearly, this argument generalises: for any two graphs of unequal order,
+the final child of the search tree's root node will have a smaller bound
+if we call \McSplit\ with the smaller graph first than if we call the algorithm
+with the larger graph first.  This provides at least some explanation for the success of
+\McSplit-SO.
+
+TODO: write about \McSplit-SD.
+
+TODO: pseudocode for mcsplit-F
+
+Do cumumlative curves
 for two random families and mcsplain with mcsplit-f, mcsplit-F, mcsplit.  Show that mcsplit-F helps a bit for random families
 and doesn't require knowledge of either order nor density.  Give negative result for mcsplain: mcsplit-F doesn't seem to help
 much, but scatter shows that mcsplit-f is a little bit bad.

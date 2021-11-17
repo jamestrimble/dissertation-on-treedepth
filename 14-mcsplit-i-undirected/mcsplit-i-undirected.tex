@@ -166,7 +166,7 @@ if $v$ and $w$ have the same label.  This property, that two vertices may be
 mapped together if and only if they share a label, is the algorithm's main
 invariant.
 
-\begin{figure}[h!]
+\begin{figure}[htb]
     \centering
     \subfigure[][After mapping $1$ to $a$] {
       \LabelTables{$\{1a\}$}
@@ -245,6 +245,21 @@ mapping size is $|M| + 1 = 4$. The general formula for the upper bound is
 %the decision to match $1$ to $a$, we lastly explore the possibility that $2$ is
 %left unmatched, by giving $2$ the label $\bot$ and selecting another vertex in
 %$\V(\graphG)$ to assign.
+
+\paragraph{Search tree} \Cref{figure:mcsplit-search-tree} shows the full search
+tree explored by \McSplit\ with example graphs $G$ and $H$ as input.
+At the root node, no vertex-vertex assignments have yet been made.  At each node,
+the computed bound is shown.  Nodes at which the incumbent is updated are circled.
+Each edge is labelled with the assignment added to the mapping, except those edges
+with red labels, which represent a decision not to map a vertex of $G$.
+
+\begin{figure}[h!]
+    \centering
+    \input{14a-mcsplit-swapping/branching-example/james-cpp-modified/treegh-b-and-b.tex}
+    \caption{The search tree of \McSplit\ on example graphs $G$ and $H$}
+    \label{figure:mcsplit-search-tree}
+\end{figure}
+
 
 \paragraph{Label classes} We require only $\BigO{g+h}$ space per level of the
 search tree to store labelling information.  This is done by storing a
@@ -777,7 +792,72 @@ on 87\% of the 3,506 instances that
 could be solved by at least one of the four algorithms in less than than
 1,000 seconds.
 
-TODO: write about \McSplitDown.
+TODO: write about \McSplitDown. Probably move this to its own section
+after main experimental plots
+
+TODO: re-run experiments using \McSplitDown\ and don't use \McSplit-D.
+Why does \McSplitDown\ seldom take more than twice as long as \McSplit,
+and why is it often much faster?  To answer this question, we implemented
+a slightly simplified version of \McSplitDown\ that (like \McSplitDown)
+solves the maximum
+common subgraph problem by a sequence of decision problems, and
+(unlike \McSplitDown) does not share an incumbent between calls to the decision-problem solver.
+We call this variant \McSplit-D.  We ran this on a subset of
+the plain MCS instances with a time limit of 100 seconds, and measured the
+time taken for each decision-problem solution.
+
+Clearly, all of the decision problems are unsatisfiable except the final one,
+in which the target graph order equals the order of a maximum common subgraph.
+\Cref{figure:decision-scatter-last-two-all-others} plots the time required
+to solve the last two subproblems --- one unsatisfiable, one satisfiable ---
+against the time taken to solve all other
+subproblems.  (TODO: say if any instances had no unsat decision problems.)
+Without exception, more than half of the total time to solve
+each instance was spent on the last two decision problems.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][Last two decision problems vs all other decision problems] {
+        \centering
+        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/decision-problems-last-two-all-others}
+        \label{figure:decision-scatter-last-two-all-others}
+    }
+    \subfigure[][Last two decision problems] {
+        \centering
+        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/decision-problems-last-two}
+        \label{figure:decision-scatter-last-two}
+    }
+    \caption{Run times in ms of decision subproblems using the solver \McSplit-D, which solves
+        the maximum common subgraph problem by solving a sequence of decision problems.  Instances
+        that were not solved to optimality within the time limit are not shown.}\label{figure:decision-problem-time-scatters}
+\end{figure}
+
+It can be proven that each of these two final decision problems has a search tree that is no larger
+than the search tree of the branch-and-bound \McSplit.  For the final (satisfiable)
+instance, the search tree explored by \McSplit-D is equivalent
+to the search tree that would be explored by \McSplit\ if we initially set the incumbent
+to be one vertex smaller than the optimal solution, then stopped searching upon finding
+an optimal solution.  For the penultimate (unsatisfiable) instance, the search
+tree explored by \McSplit-D is equivalent to the search tree that would be explored by
+\McSplit\ if we initially set the incumbent equal to an optimal solution.
+
+To summarise our discussion so far: each of the final two decision problems solved by \McSplit-D can
+be shown to require a search tree no larger than the full \McSplit\ search tree; furthermore,
+we have seen empirically that these two decision problems together take the majority of
+the run time of \McSplit-D.  These facts together explain why \McSplit\ is never much faster
+than \McSplit-D.
+
+Although it does not affect the foregoing argument,
+\Cref{figure:decision-scatter-last-two-all-others} compares, for completeness, the
+run times of the last two decision problems for each instance.  In most cases, the final
+unsatisfiable instance takes longer to solve than the satisfiable instance.
+
+Why is \McSplit\ much slower than \McSplitDown\ on many instances?  Presumably,
+the reason is that before the incumbent has reached the optimal value,
+the search may become ``trapped'' in areas of the search space with no good solutions,
+and the algorithm is not able to prune the search tree effectively
+on \lineref{PruneSearch} of \Cref{McSplitAlg} because of the
+small size of the incumbent.
 
 We do not show run times for \kDown in \cref{figure:plain-cumulative},
 as it was slower than \McSplitDown on all of the instances that were solved
