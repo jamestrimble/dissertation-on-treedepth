@@ -1,5 +1,5 @@
-%\algnewcommand{\IfNDebug}[1]{#1}
-\algnewcommand{\IfNDebug}[1]{}
+\algnewcommand{\IfNDebug}[1]{#1}
+%\algnewcommand{\IfNDebug}[1]{}
 
 \chapter{Swapping the graphs in \McSplit}
 \label{c:swapping-graphs-mcsplit}
@@ -186,7 +186,7 @@ if $G$ has more vertices than $H$.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.55\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/order-when-swap}
+    \includegraphics*[width=0.5\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/order-when-swap}
     \caption{For our random $p=0.3$ instances, is is preferable to use \McSplit\ when $G$
         has fewer vertices than $H$, and to use \McSplit-Swap when $G$ has more vertices than $H$.
         The plot shows one point per instance.  Instances for which \McSplit-Swap
@@ -418,7 +418,7 @@ of choosing a vertex in the smaller side of a label class to branch on in the
 $\FuncSty{Search}()$ function of \McSplit.  This suggests a modified version of \McSplit\ in
 which branching may be carried out on vertices of either graph, with the decision of
 which side to choose based on the relative sizes of the sides of label class.  We
-show this algorithm in \Cref{McSplit2Alg}.
+show this algorithm, \McSplit2, in \Cref{McSplit2Alg}.
 
 Compared to \Cref{McSplitAlg}, the changed section of code is on
 \linerangeref{ChooseBranchingSideMS2}{LastNewLineMS2}.  (In addition,
@@ -483,15 +483,37 @@ maps a vertex from $\setH$ to each vertex in $\setG$ in turn
 \nl $\FuncSty{Search}(\AlgVar{future},M)$ \label{ExpandWithoutVMS2} \;
 }
 \;
-\nl $\FuncSty{McSplit}(\graphG,\graphH)$ \label{McSplitFunMS2} \;
+\nl $\FuncSty{McSplit2}(\graphG,\graphH)$ \label{McSplitFunMS2} \;
 \nl \Begin{
     \nl $\KwSty{global}~\AlgVar{incumbent} \gets \emptyset$ \;
 \nl $\FuncSty{Search}(\{\langle V(\graphG),V(\graphH) \rangle \},\emptyset)$ \label{FirstExpandCallMS2} \;
 \nl $\KwSty{return}$~$\AlgVar{incumbent}$ \;
 }
-\caption{McSplit: a branch-and-bound algorithm to find a maximum common induced subgraph of two graphs.}
+\caption{McSplit2: a branch-and-bound algorithm to find a maximum common induced subgraph of two graphs.}
 \label{McSplit2Alg}
 \end{algorithm}
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][TODO] {
+        \centering
+        \includegraphics*[width=0.46\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/random2-mcsplit2-cumulative}
+        \label{figure:TODO1}
+    }
+    \subfigure[][TODO] {
+        \centering
+        \includegraphics*[width=0.46\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/random3-mcsplit2-cumulative}
+        \label{figure:TODO2}
+    }
+    \subfigure[][TODO] {
+        \centering
+        \includegraphics*[width=0.46\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplain-mcsplit2-cumulative}
+        \label{figure:TODO3}
+    }
+    \caption{TODO}
+    \label{figure:TODO4}
+\end{figure}
+
 TODO: pseudocode for mcsplit-F
 
 Do cumumlative curves
