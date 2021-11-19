@@ -193,6 +193,7 @@ static void parse_opts(int argc, char** argv) {
 *******************************************************************************/
 
 unsigned long long nodes{ 0 };
+unsigned long long nodes_x{ 0 };  // number of nodes in subtree rooted at last child of root node
 
 /*******************************************************************************
                                  MCS functions
@@ -427,7 +428,8 @@ void remove_bidomain(vector<Bidomain>& domains, int idx) {
 
 void solve(const Graph & g0, const Graph & g1, vector<VtxPair> & incumbent,
         vector<VtxPair> & current, vector<Bidomain> & domains,
-        vector<int> & left, vector<int> & right, unsigned int matching_size_goal)
+        vector<int> & left, vector<int> & right, unsigned int matching_size_goal,
+        bool is_root_node)
 {
     if (abort_due_to_timeout)
         return;
@@ -473,7 +475,7 @@ void solve(const Graph & g0, const Graph & g1, vector<VtxPair> & incumbent,
             auto new_domains = filter_domains(domains, left, right, g0, g1, w, v,
                     arguments.directed || arguments.edge_labelled);
             current.push_back(VtxPair(w, v));
-            solve(g0, g1, incumbent, current, new_domains, left, right, matching_size_goal);
+            solve(g0, g1, incumbent, current, new_domains, left, right, matching_size_goal, false);
             current.pop_back();
         }
         bd.left_len++;
@@ -497,14 +499,18 @@ void solve(const Graph & g0, const Graph & g1, vector<VtxPair> & incumbent,
             auto new_domains = filter_domains(domains, left, right, g0, g1, v, w,
                     arguments.directed || arguments.edge_labelled);
             current.push_back(VtxPair(v, w));
-            solve(g0, g1, incumbent, current, new_domains, left, right, matching_size_goal);
+            solve(g0, g1, incumbent, current, new_domains, left, right, matching_size_goal, false);
             current.pop_back();
         }
         bd.right_len++;
         if (bd.left_len == 0)
             remove_bidomain(domains, bd_idx);
     }
-    solve(g0, g1, incumbent, current, domains, left, right, matching_size_goal);
+    unsigned long long nodes_before = nodes;
+    solve(g0, g1, incumbent, current, domains, left, right, matching_size_goal, false);
+    if (is_root_node) {
+        nodes_x += nodes - nodes_before;
+    }
 }
 
 vector<VtxPair> mcs(const Graph & g0, const Graph & g1) {
@@ -550,14 +556,14 @@ vector<VtxPair> mcs(const Graph & g0, const Graph & g1) {
             auto right_copy = right;
             auto domains_copy = domains;
             vector<VtxPair> current;
-            solve(g0, g1, incumbent, current, domains_copy, left_copy, right_copy, goal);
+            solve(g0, g1, incumbent, current, domains_copy, left_copy, right_copy, goal, true);
             if (incumbent.size() == goal || abort_due_to_timeout) break;
             if (!arguments.quiet) cout << "Upper bound: " << goal-1 << std::endl;
         }
 
     } else {
         vector<VtxPair> current;
-        solve(g0, g1, incumbent, current, domains, left, right, 1);
+        solve(g0, g1, incumbent, current, domains, left, right, 1, true);
     }
 
     return incumbent;
@@ -699,6 +705,13 @@ int main(int argc, char** argv) {
                 cout << "(" << solution[j].v << " -> " << solution[j].w << ") ";
     cout << std::endl;
 
+    if (abort_due_to_timeout) {
+        cout << "NODES_OR_TIMEOUT . . " << -1 << endl;
+        cout << "NODESX_OR_TIMEOUT . . " << -1 << endl;
+    } else {
+        cout << "NODES_OR_TIMEOUT . . " << nodes << endl;
+        cout << "NODESX_OR_TIMEOUT . . " << nodes_x << endl;
+    }
     cout << "Nodes:                      " << nodes << endl;
     cout << "CPU time (ms):              " << time_elapsed << endl;
     if (aborted)
