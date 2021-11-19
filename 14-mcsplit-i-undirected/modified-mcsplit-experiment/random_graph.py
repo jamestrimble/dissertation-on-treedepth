@@ -10,8 +10,16 @@ class Graph(object):
         self.degree = [sum(row) for row in self.adjmat]
 
 if __name__ == "__main__":
-    n = int(sys.argv[1])
-    p = float(sys.argv[2])
+    if "-" in sys.argv[1]:   # a range of n values
+        n1, n2 = sys.argv[1].split("-")
+        n = random.randint(int(n1), int(n2))
+    else:
+        n = int(sys.argv[1])
+    if "-" in sys.argv[2]:   # a range of p values
+        p1, p2 = sys.argv[1].split("-")
+        p = random.uniform(float(p1), float(p2))
+    else:
+        p = float(sys.argv[2])
 
     adjmat = [[False] * n for _ in range(n)]
     for i in range(n-1):
