@@ -39,7 +39,7 @@ set output "plots/left-vs-right-mcsplain.tex"
 set title
 set xlabel "\\textproc{McSplit}"
 set ylabel "\\textproc{McSplit} with $G$ and $H$ swapped"
-plot "../runtimes.mcsplaininstances.txt" using 1:5 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "../runtimes.mcsplaininstances.txt" using 1:6 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 
@@ -145,8 +145,8 @@ set xrange[1:1000000]
 unset yrange
 set key right center
 plot "../runtimes.mcsplaininstances.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../runtimes.mcsplaininstances.txt" u 4:($4>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}2' lc 3, \
-     "../runtimes.mcsplaininstances.txt" u 2:($2>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}2'" lc 4
+     "../runtimes.mcsplaininstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}2' lc 3, \
+     "../runtimes.mcsplaininstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}2'" lc 4
 
 set output "plots/random2-mcsplit2-cumulative.tex"
 plot "../runtimes.randomplaininstances2.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
