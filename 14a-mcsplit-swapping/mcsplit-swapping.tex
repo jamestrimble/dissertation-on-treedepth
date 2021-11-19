@@ -1,4 +1,7 @@
-\chapter{A two-sided look at \McSplit}
+%\algnewcommand{\IfNDebug}[1]{#1}
+\algnewcommand{\IfNDebug}[1]{}
+
+\chapter{Swapping the graphs in \McSplit}
 \label{c:swapping-graphs-mcsplit}
 
 \section{Introduction}
@@ -233,9 +236,16 @@ is seldom more than an order of magnitude faster than \McSplit\ on non-trivial i
         \label{figure:left-vs-smart-o-mcis}
 \end{figure}
 
-\section{Generalising \McSplit-SD and \McSplit-SO}
+\section{Explaining the success of \McSplit-SD and \McSplit-SO}
 
-Why are \McSplit-SD and \McSplit-SO effective?  We begin by considering \McSplit-SO; that is, we
+Why are \McSplit-SD and \McSplit-SO effective?  In this section, we give reasons related
+to the bound calculated at each search node that go some way towards explaining
+the success of the swapping heuristics.  In each case, we start with an example,
+then broaden the discussion to the general case.  The arguments presented in this
+section are qualitative, and there is certainly scope in future work for more precise
+arguments for the effectiveness of the two algorithm variants.
+
+We begin by considering \McSplit-SO; that is, we
 ask why it is useful to select the graph with fewer vertices as the first argument
 when calling \McSplit.  Let $G$
 be a graph with $n_G$ vertices and $H$ be a graph with $n_H$ vertices, such that $n_G < n_H$.
@@ -251,7 +261,7 @@ tree --- the search tree has a smaller branching factor if we call \McSplit\ wit
 If we were to follow the standard constraint programming practice of branching
 on the smallest domain first \cite{DBLP:journals/ai/HaralickE80}, we would 
 therefore call $\McSplit(H,G)$ --- that is, we would place the larger graph first.
-But this is exactly the opposite of what \McSplit-SO does.
+But this is exactly the opposite of the \McSplit-SO strategy.
 Therefore, we must look elsewhere to explain why calling \McSplit\ with the small
 graph first is effective.  It seems likely that the bound calculated on \lineref{CalcBound}
 of \Cref{McSplitAlg} is part of the explanation.
@@ -264,7 +274,7 @@ strategy of \McSplit-SO --- the smaller graph is passed first to \McSplit.
 is passed first to \McSplit.  These search trees have 35 and 45 nodes respectively;
 as we might expect, passing the smaller graph first results in a smaller search tree.
 
-\begin{figure}[h!]
+\begin{figure}[htb]
     \centering
     \subfigure[][$G$ and $H$] {
         \centering
@@ -289,12 +299,16 @@ as we might expect, passing the smaller graph first results in a smaller search 
     }
     \subfigure[][The search tree of $\McSplit(G,H)$] {
         \centering
-        \input{14a-mcsplit-swapping/branching-example/james-cpp-modified/treegh-b-and-b-highlighted.tex}
+        \scalebox{0.85}{
+            \IfNDebug{\input{14a-mcsplit-swapping/branching-example/james-cpp-modified/treegh-b-and-b-highlighted.tex}}
+        }
         \label{figure:search-tree-without-swapping}
     }
     \subfigure[][The search tree of $\McSplit(H,G)$] {
         \centering
-        \input{14a-mcsplit-swapping/branching-example/james-cpp-modified/treehg-b-and-b-highlighted.tex}
+        \scalebox{0.85}{
+            \IfNDebug{\input{14a-mcsplit-swapping/branching-example/james-cpp-modified/treehg-b-and-b-highlighted.tex}}
+        }
         \label{figure:search-tree-with-swapping}
     }
     \caption{The search trees of \McSplit\ and \McSplit-Swap on example graphs $G$ and $H$.  Each blue box
@@ -320,8 +334,164 @@ if we call \McSplit\ with the smaller graph first than if we call the algorithm
 with the larger graph first.  This provides at least some explanation for the success of
 \McSplit-SO.
 
-TODO: write about \McSplit-SD.
+We now turn to \McSplit-SD.  Why might passing the graph with the lowest density
+extremeness first to \McSplit\ result in a smaller search tree.  As an example, we
+use graph $G$ from the previous example along with edgeless graph on five vertices
+$I_5$.  These graphs have density extremeness $0$ and $0.5$ respectively --- the
+minimum and maximum possible values.  Thus, using the heuristic of \McSplit-SD,
+we would expect the search tree of $\McSplit(G, I_5)$ to be smaller than the search
+tree of $\McSplit(I_5, G)$.  Indeed, this is the case; the search trees,
+which are shown in \Cref{figure:search-trees-gi-with-swapping}, have 44
+and 97 nodes respectively.
 
+\begin{figure}[htb]
+    \centering
+    \subfigure[][$G$ and $I_5$] {
+        \centering
+            \scalebox{0.67}{
+                \tikz {
+                    \begin{scope}[yshift=2.5cm]
+                        \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+                                clockwise=5] {
+                                    1,2,3,4,5;
+                            1--4; 1--5; 2--3; 2--5; 3--5;
+                        };
+                    \end{scope}
+                    \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.8cm,
+                            clockwise=5] {
+                                a,b,c,d,e;
+                    };
+                    %% \node at (0,-.5) {};  % for positioning
+                }
+            }
+        \label{figure:G-and-I5}
+    }
+    \subfigure[][The search tree of $\McSplit(G,I_5)$] {
+        \centering
+        \scalebox{0.73}{
+            \IfNDebug{\input{14a-mcsplit-swapping/branching-example/james-cpp-modified/treegi-b-and-b.tex}}
+        }
+        \label{figure:search-tree-gi-without-swapping}
+    }
+    \subfigure[][The search tree of $\McSplit(I_5,G)$] {
+        \centering
+        \scalebox{0.73}{
+            \IfNDebug{\input{14a-mcsplit-swapping/branching-example/james-cpp-modified/treeig-b-and-b.tex}}
+        }
+        \label{figure:search-tree-gi-with-swapping}
+    }
+    \caption{The search trees of \McSplit\ and \McSplit-Swap on example graphs $G$ and $I_5$.}
+        \label{figure:search-trees-gi-with-swapping}
+\end{figure}
+
+Why might it be preferable to call \McSplit\ with $I_5$ as the second
+rather than the first graph?  We argue
+that the reason is similar to the reason we gave for placing the smaller graph
+first in our previous discussion.  It is clear that when calling \McSplit\ with
+$G$ and $I_5$ (in either order), there will be exactly one label class throughout
+search, consisting of the vertices in both graphs that have not been explicitly
+rejected by the algorithm and that are not adjacent to any vertex that has already
+been mapped.  The side of that label class containing vertices of $G$ will tend to
+contain fewer vertices than the side containing vertices of $I_5$, since the vertex set of $I_5$ is
+an independent set.  
+Now consider a red branch in either search tree, in which a vertex is rejected.
+If that vertex is on the smaller side of the label class, the bound at the child node
+in the search tree will be one less than the bound at the parent node; otherwise,
+the bound at the child node will be equal to the bound at the parent node.  It is
+therefore preferable, in our example, to call \McSplit\ with $G$ first.  Indeed,
+in \Cref{figure:search-trees-gi-with-swapping} we can see that there are ten
+nodes in the search tree of $\McSplit(I_5, G)$ that result from the rejection of
+a vertex (i.e. have a red-labelled edge above) and have the same bound as their
+parent.  There are no such nodes in the search tree of $\McSplit(I_5, G)$.
+
+The average branching factor of the search tree for $\McSplit(I_5, G)$ is lower
+than the average branching factor of the search tree for $\McSplit(G, I_5)$.  This
+suggests than with \McSplit-SD, as is the case for \McSplit-SO, there is a trade-off
+where the average branching factor suggests we should use one ordering of the
+graphs, but this is outweighed by the better bounds computed with the opposite
+ordering.
+
+\section{Generalising \McSplit-SD and \McSplit-SO}
+
+Our arguments in favour of \McSplit-SD and \McSplit-SO both point towards the benefit
+of choosing a vertex in the smaller side of a label class to branch on in the
+$\FuncSty{Search}()$ function of \McSplit.  This suggests a modified version of \McSplit\ in
+which branching may be carried out on vertices of either graph, with the decision of
+which side to choose based on the relative sizes of the sides of label class.  We
+show this algorithm in \Cref{McSplit2Alg}.
+
+Compared to \Cref{McSplitAlg}, the changed section of code is on
+\linerangeref{ChooseBranchingSideMS2}{LastNewLineMS2}.  (In addition,
+the function $\FuncSty{NewFuture}$, which creates the new label classes
+after a vertex assignment, has been extracted to avoid duplication.)
+\Lineref{ChooseBranchingSideMS2} chooses which side to branch on.
+If the side of label class $\langle \setG, \setH\rangle$ containing
+vertices from the first graph is no larger than the other side of the label class,
+the algorithm maps a vertex from $\setG$ to each vertex
+in $\setH$ in turn (\linerangeref{RemoveVMS2}{EndOfBranch1MS2}), just
+as in the standard \McSplit\ algorithm.  Otherwise, the algorithm
+maps a vertex from $\setH$ to each vertex in $\setG$ in turn
+(\linerangeref{RemovewMS2Swap}{LastNewLineMS2}).
+
+\begin{algorithm}[h!]
+\DontPrintSemicolon
+\nl $\FuncSty{NewFuture}(\AlgVar{future},v,w)$ \;
+\nl \Begin{
+\nl    $\AlgVar{future'} \gets \emptyset$ \label{NewFutureMS2} \;
+\nl    \For {$\langle \setG',\setH'\rangle \in future$ \label{InnerLoopMS2}}{
+\nl        $\setG'' \gets \setG' \cap \N(\graphG, v) \setminus \{v\}$ \label{NewPWithEdgeMS2} \;
+\nl        $\setH'' \gets \setH' \cap \N(\graphH, w) \setminus \{w\}$ \;
+\nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{IfNonEmptyMS2}}{
+\nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$ \label{AddToFutureWithEdgeMS2}}
+\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v) \setminus \{v\}$ \label{NewPWithoutEdgeMS2}  \;
+\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w) \setminus \{w\}$ \;
+\nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{IfNonEmpty2MS2}}{
+\nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$} \label{InnerLoopEndMS2}
+       }
+\nl $\KwSty{return}$~$\AlgVar{future'}$ \;
+}
+\medskip
+\nl $\FuncSty{Search}(\AlgVar{future},M)$ \;
+\nl \Begin{
+%\nl \lIf {$\AlgVar{future} = \emptyset$ \bf{and} $|M| > |\AlgVar{incumbent}|$}
+\nl \lIf {$|M| > |\AlgVar{incumbent}|$}{$\AlgVar{incumbent} \gets M$} \label{StoreIncumbentMS2}
+%\nl \lIf {$\AlgVar{future} = \emptyset$}{return}
+\medskip
+\nl $\AlgVar{bound} \gets |M|  + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} \min(|\setG|,|\setH|)$ \label{CalcBoundMS2} \;
+\nl \lIf {$\AlgVar{bound} \leq |\AlgVar{incumbent}|$}{\KwSty{return}} \label{PruneSearchMS2}
+\medskip
+\nl $\langle \setG,\setH \rangle \gets \FuncSty{SelectLabelClass}(\AlgVar{future})$ \label{SelectClassMS2} \;
+\nl \If{$|\setG| \leq |\setH|$ \label{ChooseBranchingSideMS2}} {
+\nl   \LeftComment{Branch as in standard \McSplit} \;
+\nl   $v \gets \FuncSty{SelectVertex}(\setG)$ \label{SelectVertexMS2} \;
+\nl   \For {$w \in \setH$ \label{WLoopMS2}} {
+\nl     $\FuncSty{Search}(\FuncSty{NewFuture}(\AlgVar{future}, v, w),M\cup \{(v,w)\})$ \label{ExpandWithVMS2} \;
+  }
+\nl   $\setG' \gets \setG \setminus \{v\}$ \label{RemoveVMS2} \;
+\nl   $\AlgVar{future} \gets \AlgVar{future} \setminus \{\langle \setG,\setH \rangle\}$\;
+\nl   \lIf {$\setG' \neq \emptyset$ \label{EndOfBranch1MS2}} {$\AlgVar{future} \gets \AlgVar{future} \cup \{\langle \setG',\setH \rangle \}$}
+      } \nl \Else {
+\nl   \LeftComment{Swapped version: branch on a vertex of $H$} \;
+\nl   $w \gets \FuncSty{SelectVertex}(\setH)$ \label{SelectVertexMS2Swap} \;
+\nl   \For {$v \in \setG$ \label{vLoopMS2Swap}} {
+\nl     $\FuncSty{Search}(\FuncSty{NewFuture}(\AlgVar{future}, v, w),M\cup \{(v,w)\})$ \label{ExpandWithwMS2Swap} \;
+  }
+\nl   $\setH' \gets \setH \setminus \{w\}$ \label{RemovewMS2Swap} \;
+\nl   $\AlgVar{future} \gets \AlgVar{future} \setminus \{\langle \setG,\setH \rangle\}$\;
+\nl   \lIf {$\setH' \neq \emptyset$ \label{LastNewLineMS2}} {$\AlgVar{future} \gets \AlgVar{future} \cup \{\langle \setG,\setH' \rangle \}$}
+    }
+\nl $\FuncSty{Search}(\AlgVar{future},M)$ \label{ExpandWithoutVMS2} \;
+}
+\;
+\nl $\FuncSty{McSplit}(\graphG,\graphH)$ \label{McSplitFunMS2} \;
+\nl \Begin{
+    \nl $\KwSty{global}~\AlgVar{incumbent} \gets \emptyset$ \;
+\nl $\FuncSty{Search}(\{\langle V(\graphG),V(\graphH) \rangle \},\emptyset)$ \label{FirstExpandCallMS2} \;
+\nl $\KwSty{return}$~$\AlgVar{incumbent}$ \;
+}
+\caption{McSplit: a branch-and-bound algorithm to find a maximum common induced subgraph of two graphs.}
+\label{McSplit2Alg}
+\end{algorithm}
 TODO: pseudocode for mcsplit-F
 
 Do cumumlative curves
