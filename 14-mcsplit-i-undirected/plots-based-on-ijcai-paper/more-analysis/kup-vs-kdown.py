@@ -2,9 +2,16 @@ import struct
 import sys
 import re
 
+sip_kdown_comparison = False
+
 def read_n(filename, home_dir):
     with open(filename.replace("../../", home_dir + "/OthersCode/"), "rb") as f:
         return struct.unpack("<H", f.read(2))[0]
+
+def read_n_kdown(filename, home_dir):
+    with open(filename.replace("../../", home_dir + "/OthersCode/"), "r") as f:
+        for line in f:
+            return int(line.strip())
 
 def read_sol_size(filename):
     with open(filename, "r") as f:
@@ -12,12 +19,26 @@ def read_sol_size(filename):
             if line.startswith("Solution size"):
                 return int(line.strip().split()[2])
 
+def read_sol_size_kdown(filename):
+    with open(filename, "r") as f:
+        for line in f:
+            if line.startswith("EXCEPT="):
+                return int(line.strip().split()[-1][5:])
+    return -1
+
 def analyse_instance(instance, runtime_kup, runtime_kdown, dataset_name, home_dir):
-    n0 = read_n(instance[1], home_dir)
-    n1 = read_n(instance[2], home_dir)
-    solsize_kup = read_sol_size(
-            home_dir + "/Code/ijcai2017-partitioning-common-subgraph/experiments/gpgnode-results/{}/james-cpp-max/{}.out".format(
-                dataset_name, instance[0]))
+    if sip_kdown_comparison:
+        n0 = read_n_kdown(instance[1], home_dir)
+        n1 = read_n_kdown(instance[2], home_dir)
+        solsize_kup = read_sol_size_kdown(
+                home_dir + "/Code/ijcai2017-partitioning-common-subgraph/experiments/gpgnode-results/{}/kdown/{}.out".format(
+                    dataset_name, instance[0]))
+    else:
+        n0 = read_n(instance[1], home_dir)
+        n1 = read_n(instance[2], home_dir)
+        solsize_kup = read_sol_size(
+                home_dir + "/Code/ijcai2017-partitioning-common-subgraph/experiments/gpgnode-results/{}/james-cpp-max/{}.out".format(
+                    dataset_name, instance[0]))
     solsize_kdown = read_sol_size(
             home_dir + "/Code/ijcai2017-partitioning-common-subgraph/experiments/gpgnode-results/{}/james-cpp-max-down/{}.out".format(
                 dataset_name, instance[0]))
@@ -63,4 +84,6 @@ def go(dataset_name, kup_time_column, kdown_time_column, home_dir):
         analyse_instance(instance, runtime["kup"], runtime["kdown"], dataset_name, home_dir)
 
 if __name__=="__main__":
+    if len(sys.argv) > 5 and sys.argv[5] == "--sip-kdown":
+        sip_kdown_comparison = True
     go(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4])

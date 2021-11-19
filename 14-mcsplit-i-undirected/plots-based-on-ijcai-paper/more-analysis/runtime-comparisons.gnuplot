@@ -62,19 +62,31 @@ set title
 plot "< awk 'NR==1 || ($4>=1 && $5>=1 && ($4>=100||$5 >= 100) && $4<1000000 && $5<1000000)' kup-vs-kdown-mcsplain.txt" using 7:($4/$5) w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
      "< awk 'NR==1 || ($4>=1 && $5>=1 && ($4>=100||$5 >= 100) && ($4>=1000000||$5>=1000000))' kup-vs-kdown-mcsplain.txt" using 7:($4/$5) w p pointtype 7 pointsize .18 lc rgb '#ff4444' notitle, \
     1 lc rgb '#888888' notitle
+
 set output "plots/mcs33ved-runtime-ratio-vs-solution-size.tex"
 set title
 plot "< awk 'NR==1 || ($4>=1 && $5>=1 && ($4>=100||$5 >= 100) && $4<1000000 && $5<1000000)' kup-vs-kdown-mcs33ved.txt" using 7:($4/$5) w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
      "< awk 'NR==1 || ($4>=1 && $5>=1 && ($4>=100||$5 >= 100) && ($4>=1000000||$5>=1000000))' kup-vs-kdown-mcs33ved.txt" using 7:($4/$5) w p pointtype 7 pointsize .18 lc rgb '#ff4444' notitle, \
     1 lc rgb '#888888' notitle
-set format x '$10^{%T}$'
+
+set border 1
+set terminal tikz standalone color size 8cm,5.5cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
 set format y '$10^{%T}$'
+set output "plots/sip-runtime-ratio-vs-solution-size.tex"
+set title
+set xlabel '$n_G$ minus order of max common subgraph'
+plot "< awk 'NR==1 || ($4>=1 && $5>=1 && ($4>=100||$5 >= 100) && $4<1000000 && $5<1000000)' realkdown-vs-kdown-sip.txt" using ($2-$6):($4/$5) w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+     "< awk 'NR==1 || ($4>=1 && $5>=1 && ($4>=100||$5 >= 100) && ($4>=1000000||$5>=1000000))' realkdown-vs-kdown-sip.txt" using ($2-$6):($4/$5) w p pointtype 7 pointsize .18 lc rgb '#ff4444' notitle, \
+    1 lc rgb '#888888' notitle
 
 
 
 set terminal tikz standalone color size 7cm,7cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
 set logscale x
+set border 3
 
+set format x '$10^{%T}$'
+set format y '$10^{%T}$'
 
 load 'moreland.pal'
 set cbrange [0:1]
