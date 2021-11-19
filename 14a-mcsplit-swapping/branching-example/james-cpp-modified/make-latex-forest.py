@@ -3,6 +3,7 @@ import sys
 b_and_b = False
 letters_first = False
 highlight_last_subtree=False
+compact=False
 for arg in sys.argv[1:]:
     if arg == "--b-and-b":
         b_and_b = True
@@ -10,6 +11,8 @@ for arg in sys.argv[1:]:
         letters_first = True
     if arg == "--highlight-last-subtree":
         highlight_last_subtree = True
+    if arg == "--compact":
+        compact = True
 
 lines = [[int(tok) for tok in line.strip().split()[1:]] for line in sys.stdin]
 children = {}
@@ -51,7 +54,7 @@ def visit_node(n):
         # Highlight subtree rooted at root node's last child
         node_decoration += """tikz={\\node [draw,uofgcobalt,thick,inner sep=0mm,minimum size=5mm,fit to=tree] {};},"""
     s += "{},{}edge label={{node[{}near end,inner sep=1pt,fill=white,font=\scriptsize]{{${}{}$}}}}".format(
-            ",s sep=5mm" if n == 1 else "", node_decoration, red, edge_a, edge_b)
+            ",s sep=1.5mm" if compact else ",s sep=5mm" if n == 1 else "", node_decoration, red, edge_a, edge_b)
     if n in children:
         for child in children[n]:
             s += visit_node(child)
