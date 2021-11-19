@@ -16,7 +16,7 @@ if __name__ == "__main__":
     else:
         n = int(sys.argv[1])
     if "-" in sys.argv[2]:   # a range of p values
-        p1, p2 = sys.argv[1].split("-")
+        p1, p2 = sys.argv[2].split("-")
         p = random.uniform(float(p1), float(p2))
     else:
         p = float(sys.argv[2])
