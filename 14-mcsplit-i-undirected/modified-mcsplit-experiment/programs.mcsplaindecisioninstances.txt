@@ -1,0 +1,2 @@
+mcsplitdown ./james-cpp-with-decision-problem-timings/mcsp -b -t {} min_max ../{} ../{}
+mcsplitdecisions ./james-cpp-with-decision-problem-timings/mcsp -D -t {} min_max ../{} ../{}

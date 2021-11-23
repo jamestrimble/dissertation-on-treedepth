@@ -705,12 +705,14 @@ int main(int argc, char** argv) {
                 cout << "(" << solution[j].v << " -> " << solution[j].w << ") ";
     cout << std::endl;
 
-    if (abort_due_to_timeout) {
+    if (aborted) {
         cout << "NODES_OR_TIMEOUT . . " << -1 << endl;
         cout << "NODESX_OR_TIMEOUT . . " << -1 << endl;
+        cout << "NODESY_OR_TIMEOUT . . " << -1 << endl;
     } else {
         cout << "NODES_OR_TIMEOUT . . " << nodes << endl;
         cout << "NODESX_OR_TIMEOUT . . " << nodes_x << endl;
+        cout << "NODESY_OR_TIMEOUT . . " << (nodes - nodes_x) << endl;
     }
     cout << "Nodes:                      " << nodes << endl;
     cout << "CPU time (ms):              " << time_elapsed << endl;

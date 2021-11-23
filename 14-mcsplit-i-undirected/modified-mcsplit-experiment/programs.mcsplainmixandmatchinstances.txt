@@ -5,6 +5,9 @@ mcsplit+fmm ./james-cpp-modified/mcsp -t {} -f min_min ../{} ../{}
 mcsplit+bigf ./james-cpp-modified/mcsp -t {} -F min_max ../{} ../{}
 mcsplit+r ./james-cpp-modified/mcsp -t {} -r min_max ../{} ../{}
 mcsplit+S ./james-cpp-modified/mcsp -t {} -S min_max ../{} ../{}
+mcsplit+O ./james-cpp-modified/mcsp -t {} -O min_max ../{} ../{}
 mcsplitb ./james-cpp-modified/mcsp -t {} -b min_max ../{} ../{}
 mcsplitb+f ./james-cpp-modified/mcsp -t {} -b -f min_max ../{} ../{}
 mcsplitb+bigf ./james-cpp-modified/mcsp -t {} -b -F min_max ../{} ../{}
+mcsplitb+S ./james-cpp-modified/mcsp -t {} -b -S min_max ../{} ../{}
+mcsplitb+O ./james-cpp-modified/mcsp -t {} -b -O min_max ../{} ../{}

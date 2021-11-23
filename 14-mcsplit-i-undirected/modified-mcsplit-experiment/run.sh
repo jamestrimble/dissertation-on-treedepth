@@ -3,9 +3,9 @@
 set -euo pipefail
 
 TIMEOUT=100
-NUM_INSTANCES=500
+NUM_INSTANCES=750
 
-#INSTANCETYPE should be mcs33vedinstances or mcsplaininstances
+#INSTANCETYPE should be mcs33vedinstances or mcsplaininstances etc.
 INSTANCETYPE=$1
 
 ./make-subset.sh $INSTANCETYPE $NUM_INSTANCES
