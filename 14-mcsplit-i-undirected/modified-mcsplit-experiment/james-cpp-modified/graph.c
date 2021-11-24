@@ -77,6 +77,12 @@ struct Graph readDimacsGraph(char* filename, bool directed, bool vertex_labelled
                 add_edge(g, v-1, w-1, directed);
                 edges_read++;
                 break;
+            case 'E':
+                if (sscanf(line, "E %d %d %d", &v, &w, &label)!=3)
+                    fail("Error reading a line beginning with E.\n");
+                add_edge(g, v-1, w-1, directed, label);
+                edges_read++;
+                break;
             case 'n':
                 if (sscanf(line, "n %d %d", &v, &label)!=2)
                     fail("Error reading a line beginning with n.\n");
