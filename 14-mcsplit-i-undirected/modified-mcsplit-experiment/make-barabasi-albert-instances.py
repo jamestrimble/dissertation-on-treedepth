@@ -16,6 +16,6 @@ def write_random_graph(filename, n):
 
 
 for i in range(1, num_inst + 1):
-    n = random.randint(30, 50)
+    n = random.randint(10, 50)
     write_random_graph("barabasi-albert-instances/r{}A.grf".format(i), n)
     write_random_graph("barabasi-albert-instances/r{}B.grf".format(i), n)
