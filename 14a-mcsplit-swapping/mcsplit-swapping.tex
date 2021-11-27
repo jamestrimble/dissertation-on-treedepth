@@ -498,6 +498,27 @@ maps a vertex from $\setH$ to each vertex in $\setG$ in turn
 In addition to \McSplit2, we implemented the reverse heuristic, which replaces the condition
 $|G| \leq |H|$ on \Cref{ChooseBranchingSideMS2} with $|G| > |H|$.  We call this \McSplit2'.
 
+\Cref{tab:mcsplit-variants} summarises the variants of \McSplit\ that we compare in this section.
+
+\begin{table}[htb]
+\centering
+ \begin{tabular}{p{0.18\linewidth} p{0.45\linewidth} p{0.14\linewidth}}
+ \toprule
+    Name & Description & Pseudocode \\ [0.5ex]
+ \midrule
+    \McSplit & The base \McSplit\ algorithm & \Cref{McSplitAlg} \\
+    \McSplit-SD & \McSplit\ with $G$ and $H$ swapped if and only if
+    		$\left|\frac{1}{2} - d_G\right| > \left|\frac{1}{2} - d_H\right|$ & \Cref{McSplitSDAlg} \\
+    \McSplit-SO & \McSplit\ with $G$ and $H$ swapped if and only if $n_G > n_H$ & \Cref{McSplitSOAlg} \\
+    \McSplit2 & \McSplit\ with branching on both sides & \Cref{McSplit2Alg} \\
+    \McSplit2' & The same as \McSplit2, but with the condition for branching on a vertex of $H$ rather than
+    		$G$ (\lineref{ChooseBranchingSideMS2}) negated & - \\
+ \bottomrule
+\end{tabular}
+\caption{Summary of \McSplit\ variants used in this chapter's experiments}
+\label{tab:mcsplit-variants}
+\end{table}
+
 \Cref{figure:mcsplit2-cumulative-random2} shows a cumulative plot comparing \McSplit, \McSplit2, \McSplit2',
 and \McSplit-SD on our family of 24-vertex graphs with varying density.  \McSplit-SD is fastest of
 the four algorithms, followed by \McSplit2.
