@@ -53,6 +53,7 @@ enum Heuristic { min_max, min_product, min_right, min_min };
 //};
 
 static struct {
+    bool which_swap;  // print whether SD and SO swap graphs, then exit
     bool no_sort;
     bool Order_smart_swapped_graphs;
     bool Smart_swapped_graphs;
@@ -97,7 +98,7 @@ void set_default_arguments() {
 
 static void parse_opts(int argc, char** argv) {
     int opt;
-    while ((opt = getopt(argc, argv, "yOSsrfFnqvdlciaxbt:")) != -1) {
+    while ((opt = getopt(argc, argv, "wyOSsrfFnqvdlciaxbt:")) != -1) {
         switch (opt) {
         case 'd':
             if (arguments.lad)
@@ -108,6 +109,9 @@ static void parse_opts(int argc, char** argv) {
             if (arguments.dimacs)
                 fail("The -d and -l options cannot be used together.\n");
             arguments.lad = true;
+            break;
+        case 'w':
+            arguments.which_swap = true;
             break;
         case 'y':
             arguments.no_sort = true;
@@ -636,6 +640,21 @@ int main(int argc, char** argv) {
     double g0_density = density(g0, g0_deg);
     double g1_density = density(g1, g1_deg);
 
+    if (arguments.which_swap) {
+        if ((g0_density < g1_density && g0_density < 1 - g1_density) ||
+            (g0_density > g1_density && g0_density > 1 - g1_density)) {
+            std::cout << "density-swap ";
+        } else {
+            std::cout << "density-no-swap ";
+        }
+        if (g0.n > g1.n) {
+            std::cout << "order-swap";
+        } else {
+            std::cout << "order-no-swap";
+        }
+        std::cout << std::endl;
+        exit(0);
+    }
     if (arguments.Smart_swapped_graphs &&
             ((g0_density < g1_density && g0_density < 1 - g1_density) ||
             (g0_density > g1_density && g0_density > 1 - g1_density))
