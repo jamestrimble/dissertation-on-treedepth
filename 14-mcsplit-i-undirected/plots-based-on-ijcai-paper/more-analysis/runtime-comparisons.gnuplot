@@ -145,7 +145,9 @@ plot "< awk 'NR==1 || /_b0[0-9]m_/' ../experiments/gpgnode-results/mcsplain/runt
 set xlabel 'Clique runtime (ms)'
 set ylabel '\textproc{McSplit}$\downarrow$ runtime (ms)'
 set output "plots/mcsplain-runtime-mcsplitdown-clique-random.tex"
-plot "< awk 'NR==1 || /_r[0-9]*_/' ../experiments/gpgnode-results/mcsplain/runtimes.data" u 2:9 w points lc rgb "#1f77b4" pointtype 7 pointsize .1 notitle, x lc rgb "#444444" notitle
+plot "< awk 'NR==1 || /_r[0-9]*_/' ../experiments/gpgnode-results/mcsplain/runtimes.data | awk 'NR==1 || !/r02/'" u 2:9 w points lc rgb "#1f77b4" pointtype 7 pointsize .1 notitle, \
+     "< awk 'NR==1 || /_r[0-9]*_/' ../experiments/gpgnode-results/mcsplain/runtimes.data | awk 'NR==1 || /r02/'" u 2:9 w points lc rgb "#ff7f0e" pointtype 7 pointsize .1 notitle, \
+    x lc rgb "#444444" notitle
 set output "plots/mcsplain-runtime-mcsplitdown-clique-regular-mesh.tex"
 plot "< awk 'NR==1 || /_m[0-9]D_/' ../experiments/gpgnode-results/mcsplain/runtimes.data" u 2:9 w points lc rgb "#1f77b4" pointtype 7 pointsize .1 notitle, x lc rgb "#444444" notitle
 set output "plots/mcsplain-runtime-mcsplitdown-clique-irregular-mesh.tex"
@@ -155,7 +157,7 @@ plot "< awk 'NR==1 || /_b0[0-9]_/' ../experiments/gpgnode-results/mcsplain/runti
 set output "plots/mcsplain-runtime-mcsplitdown-clique-irregular-bv.tex"
 plot "< awk 'NR==1 || /_b0[0-9]m_/' ../experiments/gpgnode-results/mcsplain/runtimes.data" u 2:9 w points lc rgb "#1f77b4" pointtype 7 pointsize .1 notitle, x lc rgb "#444444" notitle
 
-set xlabel '$k$\downarrow$$ runtime (ms)'
+set xlabel '$k\downarrow$ runtime (ms)'
 set ylabel '\textproc{McSplit}$\downarrow$ runtime (ms)'
 set output "plots/mcsplain-runtime-mcsplitdown-kdown-random.tex"
 plot "< awk 'NR==1 || /_r[0-9]*_/' ../experiments/gpgnode-results/mcsplain/runtimes.data" u 5:9 w points lc rgb "#1f77b4" pointtype 7 pointsize .1 notitle, x lc rgb "#444444" notitle
