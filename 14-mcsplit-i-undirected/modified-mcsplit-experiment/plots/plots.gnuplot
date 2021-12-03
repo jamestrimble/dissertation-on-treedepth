@@ -69,6 +69,31 @@ plot "../runtimes.randomplaininstances3.txt" using 6:8 w p pointtype 7 pointsize
     x lc rgb '#888888' notitle
 
 ######################################################################################################
+# Run times, McSplit vs McSplit2 Barabasi-Albert and G(n,m)
+######################################################################################################
+
+set output "plots/mcsplit-vs-mcsplit2-ba.tex"
+set title
+set xlabel "\\textproc{McSplit}"
+set ylabel "\\textproc{McSplit}-2S"
+plot "../runtimes.barabasialbertinstances.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+    x lc rgb '#888888' notitle
+
+set output "plots/mcsplit-vs-mcsplit2-ba-gnm.tex"
+set title
+set xlabel "\\textproc{McSplit}"
+set ylabel "\\textproc{McSplit}-2S"
+plot "../runtimes.ba-gnpinstances.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+    x lc rgb '#888888' notitle
+
+set output "plots/mcsplit-vs-mcsplit2-gnm.tex"
+set title
+set xlabel "\\textproc{McSplit}"
+set ylabel "\\textproc{McSplit}-2S"
+plot "../runtimes.gnminstances.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+    x lc rgb '#888888' notitle
+
+######################################################################################################
 # Plot showing densities of MCS plain graph pairs
 ######################################################################################################
 
@@ -105,7 +130,7 @@ set xtics autofreq
 set ytics autofreq
 set xrange[1:1000000]
 unset yrange
-set key right center
+set key right bottom
 plot "../runtimes.randomplaininstances2.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
      "../runtimes.randomplaininstances2.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
      "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../runtimes.randomplaininstances2.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
@@ -121,7 +146,7 @@ set xtics autofreq
 set ytics autofreq
 set xrange[1:1000000]
 unset yrange
-set key right center
+set key right bottom
 plot "../runtimes.randomplaininstances3.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
      "../runtimes.randomplaininstances3.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 2, \
      "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../runtimes.randomplaininstances3.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
@@ -133,7 +158,6 @@ plot "../runtimes.randomplaininstances3.txt" u 6:($6>=1e5?1e-10:1) smooth cumula
 set terminal tikz standalone color size 7cm,5cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
 
 set size nosquare
-set output "plots/mcsplain-mcsplit2-cumulative.tex"
 set logscale x
 unset logscale y
 set format x '$10^{%T}$'
@@ -143,22 +167,52 @@ set xtics autofreq
 set ytics autofreq
 set xrange[1:1000000]
 unset yrange
-set key right center
+set key right bottom
+set output "plots/mcsplain-mcsplit2-cumulative.tex"
 plot "../runtimes.mcsplaininstances.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../runtimes.mcsplaininstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}2' lc 3, \
-     "../runtimes.mcsplaininstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}2'" lc 4
+     "../runtimes.mcsplaininstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../runtimes.mcsplaininstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/random2-mcsplit2-cumulative.tex"
 plot "../runtimes.randomplaininstances2.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
      "../runtimes.randomplaininstances2.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "../runtimes.randomplaininstances2.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}2' lc 3, \
-     "../runtimes.randomplaininstances2.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}2'" lc 4
+     "../runtimes.randomplaininstances2.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../runtimes.randomplaininstances2.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/random3-mcsplit2-cumulative.tex"
 plot "../runtimes.randomplaininstances3.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../runtimes.randomplaininstances3.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "../runtimes.randomplaininstances3.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}2' lc 3, \
-     "../runtimes.randomplaininstances3.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}2'" lc 4
+     "../runtimes.randomplaininstances3.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
+     "../runtimes.randomplaininstances3.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../runtimes.randomplaininstances3.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+
+set output "plots/random4-mcsplit2-cumulative.tex"
+plot "../runtimes.randomplaininstances4.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../runtimes.randomplaininstances4.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "../runtimes.randomplaininstances4.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
+     "../runtimes.randomplaininstances4.txt" u 11:($11>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../runtimes.randomplaininstances4.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+
+set output "plots/mixandmatch-cumulative.tex"
+plot "../runtimes.mcsplainmixandmatchinstances.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../runtimes.mcsplainmixandmatchinstances.txt" u 7:($7>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "../runtimes.mcsplainmixandmatchinstances.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
+     "../runtimes.mcsplainmixandmatchinstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../runtimes.mcsplainmixandmatchinstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+
+set output "plots/ba-cumulative.tex"
+plot "../runtimes.barabasialbertinstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../runtimes.barabasialbertinstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../runtimes.barabasialbertinstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+
+set output "plots/ba-gnm-cumulative.tex"
+plot "../runtimes.ba-gnpinstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../runtimes.ba-gnpinstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../runtimes.ba-gnpinstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+
+set output "plots/gnm-cumulative.tex"
+plot "../runtimes.gnminstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../runtimes.gnminstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../runtimes.gnminstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 ######################################################################################################
 # Plots showing when it's better to swap graphs: varying density
