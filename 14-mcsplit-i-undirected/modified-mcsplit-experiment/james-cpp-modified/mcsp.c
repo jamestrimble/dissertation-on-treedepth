@@ -12,6 +12,7 @@
 #include <thread>
 #include <condition_variable>
 #include <atomic>
+#include <random>
 
 #include <unistd.h>
 #include <limits.h>
@@ -59,8 +60,10 @@ static struct {
     bool Smart_swapped_graphs;
     bool swapped_graphs;
     bool right_branching;
+    bool any_kind_of_fancy_branching;
     bool fancy_branching;
     bool Fancy_branching;
+    bool Random_Fancy_branching;
     bool naive_bound;
     bool quiet;
     bool verbose;
@@ -98,7 +101,7 @@ void set_default_arguments() {
 
 static void parse_opts(int argc, char** argv) {
     int opt;
-    while ((opt = getopt(argc, argv, "wyOSsrfFnqvdlciaxbt:")) != -1) {
+    while ((opt = getopt(argc, argv, "wyOSsrfFRnqvdlciaxbt:")) != -1) {
         switch (opt) {
         case 'd':
             if (arguments.lad)
@@ -129,10 +132,17 @@ static void parse_opts(int argc, char** argv) {
             arguments.right_branching = true;
             break;
         case 'f':
+            arguments.any_kind_of_fancy_branching = true;
             arguments.fancy_branching = true;
             break;
         case 'F':
+            arguments.any_kind_of_fancy_branching = true;
             arguments.Fancy_branching = true;
+            break;
+        case 'R':
+            arguments.any_kind_of_fancy_branching = true;
+            arguments.Fancy_branching = true;
+            arguments.Random_Fancy_branching = true;
             break;
         case 'n':
             arguments.naive_bound = true;
@@ -191,6 +201,13 @@ static void parse_opts(int argc, char** argv) {
     arg = argv[optind + 2];
     arguments.filename2 = arg;
 }
+
+/*******************************************************************************
+                                     RNG
+*******************************************************************************/
+
+std::mt19937 rng(1);
+std::uniform_real_distribution<double> distribution01(0.0, 1.0);
 
 /*******************************************************************************
                                      Stats
@@ -458,10 +475,19 @@ void solve(const Graph & g0, const Graph & g1, vector<VtxPair> & incumbent,
         return;
     Bidomain &bd = domains[bd_idx];
 
-    bool branch_on_right = 
-        arguments.right_branching ||
-        (arguments.fancy_branching && bd.left_len < bd.right_len) ||
-        (arguments.Fancy_branching && bd.left_len >= bd.right_len);
+    bool branch_on_right = arguments.right_branching;
+    if (arguments.any_kind_of_fancy_branching) {
+        if (arguments.fancy_branching) {
+            if (bd.left_len <= bd.right_len) branch_on_right = true;
+        } else if (arguments.Fancy_branching) {
+            if (bd.left_len > bd.right_len) branch_on_right = true;
+        } else if (arguments.Random_Fancy_branching) {
+            if (bd.left_len > bd.right_len || (bd.left_len == bd.right_len && distribution01(rng) < .5)) {
+                branch_on_right = true;
+            }
+        }
+    }
+
     if (branch_on_right) {
         int v = find_min_value(right, bd.r, bd.right_len);
         remove_vtx_from_right_domain(right, domains[bd_idx], v);
