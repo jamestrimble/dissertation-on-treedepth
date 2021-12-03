@@ -12,7 +12,7 @@ it can be useful to swap the two input graphs when calling a maximum common subg
 solver.  We will see that swapping the graphs can have a very large effect on the
 execution time of \McSplit\
 if the two graphs differ in density or order.  The second contribution of this
-chapter is to introduce \McSplit2, a modified
+chapter is to introduce \McSplit-2S, a modified
 version of \McSplit\ that generalises the idea of swapping graphs by choosing
 at each search node which side of a label class to branch on.
 
@@ -20,7 +20,7 @@ at each search node which side of a label class to branch on.
 and introduces two heuristics for deciding when we should swap.
 \Cref{sec:explaining-sd-so} gives reasons for the success of the swapping
 rules.
-\Cref{sec:mcsplit2} introduces \McSplit2, a version of \McSplit\ that can branch
+\Cref{sec:mcsplit2} introduces \McSplit-2S, a version of \McSplit\ that can branch
 on two sides.
 \Cref{sec:swapping-related-work} discusses related work, and
 \Cref{sec:swapping-conclusion} concludes.
@@ -44,7 +44,8 @@ version of \McSplit\ as \McSplit-Swap; this is shown in
 \end{algorithm}
 
 \Cref{subfig:runtime-swapping-scatter-mcsplain}
-shows run times for the MCS Plain instances.  The horizontal axis shows run time in milliseconds
+shows run times for the MCS Plain instances described in \Cref{sec:mcsplit-experiments}.
+The horizontal axis shows run time in milliseconds
 without swapping the graphs; the vertical axis shows run time with swapping.  Although swapping
 graphs can make a small difference, it does not change run time by as much as an order of 
 magnitude for any of these instances.
@@ -354,8 +355,8 @@ with the larger graph first.  This provides at least some explanation for the su
 
 We now turn to \McSplit-SD.  Why might passing the graph with the lowest density
 extremeness first to \McSplit\ result in a smaller search tree?  As an example, we
-use graph $G$ from the previous example along with edgeless graph on five vertices
-$I_5$.  These graphs have density extremeness $0$ and $0.5$ respectively --- the
+use graph $G$ from the previous example along with $I_5$, the edgeless graph on five vertices.
+These graphs have density extremeness $0$ and $0.5$ respectively --- the
 minimum and maximum possible values.  Thus, using the heuristic of \McSplit-SD,
 we would expect the search tree of $\McSplit(G, I_5)$ to be smaller than the search
 tree of $\McSplit(I_5, G)$.  Indeed, this is the case; the search trees,
@@ -424,19 +425,19 @@ parent.  There are no such nodes in the search tree of $\McSplit(I_5, G)$.
 
 The average branching factor of the search tree for $\McSplit(I_5, G)$ is lower
 than the average branching factor of the search tree for $\McSplit(G, I_5)$.  This
-suggests than with \McSplit-SD, as is the case for \McSplit-SO, there is a trade-off
+suggests that with \McSplit-SD, as is the case for \McSplit-SO, there is a trade-off
 where the average branching factor suggests we should use one ordering of the
 graphs, but this is outweighed by the better bounds computed with the opposite
 ordering.
 
-\section{\McSplit2: Generalising \McSplit-SD and \McSplit-SO}\label{sec:mcsplit2}
+\section{\McSplit-2S: Generalising \McSplit-SD and \McSplit-SO}\label{sec:mcsplit2}
 
 Our arguments in favour of \McSplit-SD and \McSplit-SO both point towards the benefit
 of choosing a vertex in the smaller side of a label class to branch on in the
 $\FuncSty{Search}()$ function of \McSplit.  This suggests a modified version of \McSplit\ in
 which branching may be carried out on vertices of either graph, with the decision of
 which side to choose based on the relative sizes of the sides of label class.  We
-show this algorithm, \McSplit2, in \Cref{McSplit2Alg}.
+show this algorithm, \McSplit-2S (with the name signifying ``2 sided''), in \Cref{McSplit-2SAlg}.
 
 \Linerangeref{ChooseBranchingSideMS2}{LastNewLineMS2} contain the section of
 code that is changed from \Cref{McSplitAlg}.
@@ -502,18 +503,18 @@ maps a vertex from $\setH$ to each vertex in $\setG$ in turn
 \nl $\FuncSty{Search}(\AlgVar{future},M)$ \label{ExpandWithoutVMS2} \;
 }
 \;
-\nl $\FuncSty{McSplit2}(\graphG,\graphH)$ \label{McSplitFunMS2} \;
+\nl $\FuncSty{McSplit-2S}(\graphG,\graphH)$ \label{McSplitFunMS2} \;
 \nl \Begin{
     \nl $\KwSty{global}~\AlgVar{incumbent} \gets \emptyset$ \;
 \nl $\FuncSty{Search}(\{\langle V(\graphG),V(\graphH) \rangle \},\emptyset)$ \label{FirstExpandCallMS2} \;
 \nl $\KwSty{return}$~$\AlgVar{incumbent}$ \;
 }
-\caption{McSplit2: a branch-and-bound algorithm to find a maximum common induced subgraph of two graphs.}
-\label{McSplit2Alg}
+\caption{McSplit-2S: a branch-and-bound algorithm to find a maximum common induced subgraph of two graphs.}
+\label{McSplit-2SAlg}
 \end{algorithm}
 
-In addition to \McSplit2, we implemented the reverse heuristic, which replaces the condition
-$|G| \leq |H|$ on \Cref{ChooseBranchingSideMS2} with $|G| > |H|$.  We call this \McSplit2'.
+In addition to \McSplit-2S, we implemented the reverse heuristic, which replaces the condition
+$|G| \leq |H|$ on \Cref{ChooseBranchingSideMS2} with $|G| > |H|$.  We call this \McSplit-2S'.
 
 \Cref{tab:mcsplit-variants} summarises the variants of \McSplit\ that we compare in this section.
 
@@ -529,8 +530,8 @@ $|G| \leq |H|$ on \Cref{ChooseBranchingSideMS2} with $|G| > |H|$.  We call this 
     \rule{0pt}{2.3ex}\McSplit-SD & \McSplit\ with $G$ and $H$ swapped if and only if
     	        $\left|\frac{1}{2} - d_G\right| > \left|\frac{1}{2} - d_H\right|$ & \Cref{McSplitSDAlg} \\
     \rule{0pt}{2.3ex}\McSplit-SO & \McSplit\ with $G$ and $H$ swapped if and only if $n_G > n_H$ & \Cref{McSplitSOAlg} \\
-    \rule{0pt}{2.3ex}\McSplit2 & \McSplit\ with branching on both sides & \Cref{McSplit2Alg} \\
-    \rule{0pt}{2.3ex}\McSplit2' & The same as \McSplit2, but with the condition for branching on a vertex of $H$ rather than
+    \rule{0pt}{2.3ex}\McSplit-2S & \McSplit\ with branching on both sides & \Cref{McSplit-2SAlg} \\
+    \rule{0pt}{2.3ex}\McSplit-2S' & The same as \McSplit-2S, but with the condition for branching on a vertex of $H$ rather than
     		$G$ (\lineref{ChooseBranchingSideMS2}) negated & - \\
  \bottomrule
 \end{tabular}
@@ -540,18 +541,18 @@ $|G| \leq |H|$ on \Cref{ChooseBranchingSideMS2} with $|G| > |H|$.  We call this 
 
 \FloatBarrier
 
-\Cref{figure:mcsplit2-cumulative-random2} shows a cumulative plot comparing \McSplit, \McSplit2, \McSplit2',
+\Cref{figure:mcsplit2-cumulative-random2} shows a cumulative plot comparing \McSplit, \McSplit-2S, \McSplit-2S',
 and \McSplit-SD on our family of 24-vertex graphs with varying density.  \McSplit-SD is fastest of
-the four algorithms, followed by \McSplit2.
+the four algorithms, followed by \McSplit-2S.
 
-\Cref{figure:mcsplit2-cumulative-random3} compares \McSplit, \McSplit2, \McSplit2',
+\Cref{figure:mcsplit2-cumulative-random3} compares \McSplit, \McSplit-2S, \McSplit-2S',
 and \McSplit-SO on our family of graphs with similar density but varying vertex count.
-\McSplit-SO and \McSplit2 have almost identical results.
+\McSplit-SO and \McSplit-2S have almost identical results.
 
 \Cref{figure:mcsplit2-cumulative-random4} introduces a new set of random instances, with both
 density and order varying.  Each graph is a $G(n,p)$ random graph, with $n$ selected at random
 from the set $\{10, 11, \dots, 40\}$ and $p$ chosen uniformly at random from the interval
-$[0,1]$.  Of the five algorithms, \McSplit-SD is the overall winner.  \McSplit2
+$[0,1]$.  Of the five algorithms, \McSplit-SD is the overall winner.  \McSplit-2S
 comes in second place.  \McSplit-SO appear to be slightly faster than \McSplit, particularly for the easiest instances, but
 the difference in run times is not large.
 
@@ -560,15 +561,15 @@ the ``mix and match'' MCS Plain instances.  Each of these instances is generated
 MCS Plain instances at random, and using graph $G$ from the first instance and graph $H$ from the second
 instance.  These compensate for what may be viewed as a weakness of the MCS Plain instances: that
 the two graphs in each instance are produced using the same generator and the same parameter values.
-On these ``mix and match'' instances, \McSplit-SD, \McSplit-SO, and \McSplit2 have similar performance, and
+On these ``mix and match'' instances, \McSplit-SD, \McSplit-SO, and \McSplit-2S have similar performance, and
 all are clearly faster overall than \McSplit.  A partial explanation for the similar performance
 of \McSplit-SD and \McSplit-SO on these instances is that density and degree are negatively correlated
 for this set of instances.  As a result, the two swapping rules agree --- and thus the two
 algorithms behave identically --- on 285 of the 400 instances.
 
-%Overall, these results may be viewed as a partial success story for \McSplit2.  For each of the four families
-%of graphs, \McSplit2 is faster overall than \McSplit, and its performance is not far from that of the better
-%of \McSplit-SD and \McSplit-SO.  However, it may be viewed as slightly disappointing that \McSplit2 is not
+%Overall, these results may be viewed as a partial success story for \McSplit-2S.  For each of the four families
+%of graphs, \McSplit-2S is faster overall than \McSplit, and its performance is not far from that of the better
+%of \McSplit-SD and \McSplit-SO.  However, it may be viewed as slightly disappointing that \McSplit-2S is not
 %the overall winner for any of these four graph classes, despite being able to branch on either side at each
 %search node.
 
@@ -604,27 +605,27 @@ algorithms behave identically --- on 285 of the 400 instances.
     %    \includegraphics*[width=0.46\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/gnm-cumulative}
     %    \label{figure:mcsplit2-cumulative-gnm}
     %}
-    \caption{Cumulative plots comparing \McSplit, \McSplit2, and the swapping versions of \McSplit\ on four graph classes.}
+    \caption{Cumulative plots comparing \McSplit, \McSplit-2S, and the swapping versions of \McSplit\ on four graph classes.}
     \label{figure:mcsplit2-cumulative}
 \end{figure}
 
-On all four instance families shown in \Cref{figure:mcsplit2-cumulative}, \McSplit2'
-is the worst-performing algorithm.  This is surprising in one sense, as \McSplit2' is the algorithm
+On all four instance families shown in \Cref{figure:mcsplit2-cumulative}, \McSplit-2S'
+is the worst-performing algorithm.  This is surprising in one sense, as \McSplit-2S' is the algorithm
 of the five used that comes closest to a smallest-domain-first heuristic.  However, the poor performance
-of \McSplit2' is explained by our foregoing discussion of the effect of branching side on upper
+of \McSplit-2S' is explained by our foregoing discussion of the effect of branching side on upper
 bounds.
 
 \subsection{Graph pairs with equal density and order}
 
-In the previous section, we saw that \McSplit2 is substantially faster overall than \McSplit\ for families
+In the previous section, we saw that \McSplit-2S is substantially faster overall than \McSplit\ for families
 of instances in which the pattern and target graph differ in density or order.  Yet the results in that
-section could be viewed as somewhat disappointing; \McSplit2 is outperformed by \McSplit-SD on instances
+section could be viewed as somewhat disappointing; \McSplit-2S is outperformed by \McSplit-SD on instances
 whose graphs have different densities, and by \McSplit-SO on instances whose graphs have similar density
-but different numbers of vertices.  Are there families of instances for which \McSplit2 clearly outperforms
+but different numbers of vertices.  Are there families of instances for which \McSplit-2S clearly outperforms
 both \McSplit-SD and \McSplit-SO?  To examine this question, this section considers three families of instances
 in which graphs $G$ and $H$ have the same number of vertices and equal density.  For these families
 of instances, \McSplit-SD and \McSplit-SO never swap graphs $G$ and $H$ and thus behave identically to
-\McSplit.  Thus, if \McSplit2 outperforms \McSplit on any of these families, it also
+\McSplit.  Thus, if \McSplit-2S outperforms \McSplit\ on any of these families, it also
 outperforms both \McSplit-SD and \McSplit-SO on that family.
 
 The first of our equal-density, equal-order families of instances contains pairs of Erdos-Renyi $G(n,m)$ graphs.  For each instance,
@@ -633,10 +634,10 @@ uniformly at random from the range of possible edge counts: $\{0, \dots, n(n-1)/
 $G$ and $H$ is generated by creating a set of $n$ vertices, then adding exactly $m$ of the possible edges
 between pairs of vertices.
 
-\Cref{figure:mcsplit-vs-mcsplit2-gnm} shows a cumulative plot and a scatter plot of run times of \McSplit\ and \McSplit2.
-The cumulative plot also shows results for \McSplit2'.  The results are somewhat disappointing; all three algorithms
-have very similar performance overall.  The scatter plot shows that \McSplit2 is often slightly faster than \McSplit\ --- indeed,
-\McSplit2 is faster than \McSplit\ on 174 instances and slower than \McSplit\ on only 91 instances --- but the differences
+\Cref{figure:mcsplit-vs-mcsplit2-gnm} shows a cumulative plot and a scatter plot of run times of \McSplit\ and \McSplit-2S.
+The cumulative plot also shows results for \McSplit-2S'.  The results are somewhat disappointing; all three algorithms
+have very similar performance overall.  The scatter plot shows that \McSplit-2S is often slightly faster than \McSplit\ --- indeed,
+\McSplit-2S is faster than \McSplit\ on 174 instances and slower than \McSplit\ on only 91 instances --- but the differences
 in run times are very marginal.
 
 \begin{figure}[htb]
@@ -651,22 +652,30 @@ in run times are very marginal.
 	\includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-gnm}
         \label{figure:mcsplit-vs-mcsplit2-gnm-scatter}
     }
-    \caption{Comparison of \McSplit\ and \McSplit2 on $G(n,m)$ graphs}
+    \caption{Comparison of \McSplit\ and \McSplit-2S on $G(n,m)$ graphs}
     \label{figure:mcsplit-vs-mcsplit2-gnm}
 \end{figure}
 
-Our second instance generator creates two graphs using the Barabási-Albert model \cite{barabasi1999emergence}.
-This model generates graphs with a wide distribution of degrees.  It has two parameters, $n$ and $m$, such that
-$1 \leq m < n$.  The generator works as follows: initially, a graph on $m$ vertices with no edges is created.
+Our second instance generator creates a pair of graphs using the Barabási-Albert model \cite{barabasi1999emergence},
+which is very widely cited in the field of network science.
+We chose this model because, as with the $G(n,m)$ model but unlike many other random graph models such
+as $G(n,p)$, we can fix the exact density of the generated graphs.
+The Barabási-Albert model generates graphs with a wide distribution of degrees, allowing us to test
+our algorithms on random graphs that are quite different in structure from those generated by
+an Erdos-Renyi model.
+The Barabási-Albert generator has two parameters, $n$ and $m$, such that
+$1 \leq m < n$.  The generator works as follows: begin with the star $K_{1,m}$.
 Extra vertices are added one by one until the graph has $n$ vertices.  Each time a vertex $v$ is added,
 $m$ edges are added from $v$ to earlier vertices.  These edges are added at random, but using a ``preferential
 attachment'' mechanism: at each step, vertices with more existing edges are proportionately more likely to have a new edge
-added.  We use NetworkX implementation of this generator \cite{networkx}.  For each instance, $n$ is chosen at random
+added.  We use the implementation of this generator from the Python package NetworkX \cite{networkx}.
+For each instance, we use the following ranges of parameter values in order to
+have wide variation in order and density between instances: $n$ is chosen at random
 from $\{10,\dots,50\}$, and $m$ is chosen at random from $\{2,\dots,n-1\}$.  Within each instance, the two
 generated graphs use the same parameter values $n$ and $m$.
-\Cref{figure:mcsplit-vs-mcsplit2-ba} compares \McSplit\ with \McSplit2 on these Barabási-Albert instances.
-Overall, \McSplit2 has a small speed advantage over \McSplit.  The scatter plot shows that the two algorithms
-tend to have very similar run times, with \McSplit2 the slightly faster algorithm in most cases.
+\Cref{figure:mcsplit-vs-mcsplit2-ba} compares \McSplit\ with \McSplit-2S on these Barabási-Albert instances.
+Overall, \McSplit-2S has a small speed advantage over \McSplit.  The scatter plot shows that the two algorithms
+tend to have very similar run times, with \McSplit-2S the slightly faster algorithm in most cases.
 
 \begin{figure}[htb]
     \centering
@@ -680,7 +689,7 @@ tend to have very similar run times, with \McSplit2 the slightly faster algorith
 	\includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-ba}
         \label{figure:mcsplit-vs-mcsplit2-ba-scatter}
     }
-    \caption{Comparison of \McSplit\ and \McSplit2 on Barabasi-Albert graphs}
+    \caption{Comparison of \McSplit\ and \McSplit-2S on Barabasi-Albert graphs}
     \label{figure:mcsplit-vs-mcsplit2-ba}
 \end{figure}
 
@@ -690,10 +699,10 @@ consists of one Barabasi-Albert graph and one $G(n,m)$ graph, with the parameter
 generator chosen to match the order and density of the Barabasi-Albert graph.  A ``coin flip''
 is used to determine whether $G$ is the Barabasi-Albert graph or the $G(n,m)$ graph.
 \Cref{figure:mcsplit-vs-mcsplit2-ba-gnm}
-shows the results of running our algorithms on these instances.  The cumulative curve shows that \McSplit2 is, by a small margin, the
-fastest algorithm overall, and that \McSplit2' is the slowest.  \McSplit2 and \McSplit\ exceeded
+shows the results of running our algorithms on these instances.  The cumulative curve shows that \McSplit-2S is, by a small margin, the
+fastest algorithm overall, and that \McSplit-2S' is the slowest.  \McSplit-2S and \McSplit\ exceeded
 the time limit on 105 and 127 instances respectively.  The scatter plot shows that the two
-algorithms often have very different run times, with \McSplit\ outperforming \McSplit2 on several instances.
+algorithms often have very different run times, with \McSplit\ outperforming \McSplit-2S on several instances.
 
 \begin{figure}[htb]
     \centering
@@ -707,12 +716,12 @@ algorithms often have very different run times, with \McSplit\ outperforming \Mc
 	\includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-ba-gnm}
         \label{figure:mcsplit-vs-mcsplit2-ba-gnm-scatter}
     }
-    \caption{Comparison of \McSplit\ and \McSplit2 on $G(n,m)$ / Barabasi-Albert graphs pairs}
+    \caption{Comparison of \McSplit\ and \McSplit-2S on $G(n,m)$ / Barabasi-Albert graphs pairs}
     \label{figure:mcsplit-vs-mcsplit2-ba-gnm}
 \end{figure}
 
-To summarise, this section has shown a very modest win for \McSplit2; for our two families of
-instances using the Barabasi-Albert model, \McSplit2 slightly outperforms \McSplit\ --- and therefore
+To summarise, this section has shown a modest win for \McSplit-2S; for our two families of
+instances using the Barabasi-Albert model, \McSplit-2S slightly outperforms \McSplit\ --- and therefore
 also outperforms \McSplit-SD and \McSplit-SO.
 
 %\begin{figure}[h!]
@@ -745,7 +754,7 @@ important in FMCS, which makes a call to a subgraph isomorphism algorithm for ev
 subgraph, but is not directly applicable to \McSplit.
 
 I have not found any prior maximum common subgraph algorithm that branches on both graphs,
-as \McSplit2 does.  However, it is common in constraint programming to combine multiple models
+as \McSplit-2S does.  However, it is common in constraint programming to combine multiple models
 for a problem, with ``channeling'' constraints to ensure consistency between these models
 \cite{DBLP:journals/constraints/ChengCLW99}.  In effect, the data structures of \McSplit\
 give us access to a second model --- the ``dual'' model with the roles of variables and values
@@ -760,7 +769,7 @@ when calling \McSplit: one using the graphs' densities, and the other using thei
 We have shown that both rules are very effective in reducing the run time of \McSplit\ both on random
 graphs and on ``mix and match'' instances created by choosing random pairs of graphs from the
 MCS Plain instances.  Using insights from the behaviour of these versions of \McSplit, we have
-introduced \McSplit2, a version of \McSplit\ that branches on vertices of both graphs.  We have
+introduced \McSplit-2S, a version of \McSplit\ that branches on vertices of both graphs.  We have
 shown that this achieves similar performance to \McSplit-SD and \McSplit-SO on several graph
 families, and demonstrated that there exist families of graphs on which it outperforms both
 of these algorithms.
@@ -772,8 +781,8 @@ dissertation.
 We could also explore rules for swapping graphs that take into account both density and order,
 perhaps along with additional characteristics of the two graphs.
 
-With \McSplit2, we have only begun to explore the possibilities of branching on both graphs.
+With \McSplit-2S, we have only begun to explore the possibilities of branching on both graphs.
 We could investigate replacing our simple ``branch on the larger side'' heuristic with more
 sophisticated rules for choosing which side to branch on at each search node.  We could also
-combine the two-sided branching of \McSplit2 with the initial swapping rules of \McSplit-SD
+combine the two-sided branching of \McSplit-2S with the initial swapping rules of \McSplit-SD
 or \McSplit-SO.
