@@ -1,0 +1,14 @@
+Preliminaries: Let T_v denote the subtree of T rooted at v.  Let G[S] the subgraph of G induced by S.  We say that the root of a tree is at depth 1, its children at depth 2, and so on.
+
+
+Definition: Let G=(V,E) be a connected graph, and let T=(V,E_T) be a treedepth decomposition of G.  Tree T is a *connected tree depth decomposition (CTDD)* of G if and only if G[V(T_v)] is connected for each v in V; that is, the subgraph of G induced by the vertex set of each subtree of T is connected.
+
+
+Proposition: Let G be a connected graph, and let T be a treedepth decomposition of G.  Tree T is an elimination tree of G if and only if T is a CTDD of G.
+
+Proof:
+(elimination tree => CTDD) Suppose we have a connected graph G and an elimination tree T of G which is not a CTDD of G.  There must be vertices v and w such that the following three things are true: w is the parent of v in T, G[V(T_v)] is not connected, and G[V(T_w)] is connected.  Since T_w is an elimination tree, G[V(T_v)] is a connected component of G[V(T_w)] - w.  Therefore we have a contradiction.
+
+(CTDD => elimination tree) By induction on |V|.  The base case |V|=1 is trivial.  For the inductive case, let k>1 be given and assume that for i<k we have that every CTDD of an i-vertex graph is also an elimination tree of the graph.  Let G be a k-vertex graph and let T be a CTDD of G.
+
+Let v be the root vertex of T.  To show that T is an elimination tree, it suffices to show for each depth-2 vertex w of T that the vertex set of T_w is a connected component of G[V(G)\{v}].  Since T is a CTDD, the vertex set of each T_w must be a subset of one of these connected components.  It remains to show that there is no depth-2 vertex w in T such that T_w is a proper subset of one of the connected components of G[V(G)\{v}].  Suppose, for contradiction, that one of the T_w is a proper subset of one of the components. Then there exist vertices t, u in that component such that t is in T_w and u is in the subtree rooted at a depth-2 vertex other than w.  Since the component is connected, there must be a path from t to u in G.  There must be an edge along this path that has one endpoint in V(T_w) and one endpoint outside V(T_w).  These two endpoints do not have an ancestor-descendant relationship in T, contradicting the assumption that T is a treedepth decomposition of G.
