@@ -24,6 +24,9 @@ ch15:
 ch50:
 	latexmk -pdf ch-trie.tex
 
+ch70:
+	latexmk -pdf ch-bute.tex
+
 chAA:
 	latexmk -pdf ch-appendices.tex
 
