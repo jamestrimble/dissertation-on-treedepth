@@ -403,6 +403,20 @@ and by association graph encodings. In Chapter 6, we introduce a variant of
 McSplit for block and bridge preserving MCIS, a version of the problem with
 applications to chemistry. Chapter 7 concludes.
 
+\section{Miscellaneous notes}
+
+MCIS is NP-hard, even if graphs are both bipartite.  This can be shown by a
+reduction from maximum induced matching.  (I think the proof for maximum induced
+matchings is in Induced Matchings (1989) by Kathie Cameron). Is there another
+proof somewhere?
+
+Independent set is NP-hard on planar graphs (see Wikipedia).  Therefore
+MCIS also is.
+
+Cuissart and Hebrard 2005 A Direct Algorithm to Find a Largest Common
+Connected Induced Subgraph of Two Graphs doesn't seem to do any
+pruning.  Is it slow?
+
 %==============================================================================
 \section{Thesis Statement}
 \label{c:intro:thesisstatement}
