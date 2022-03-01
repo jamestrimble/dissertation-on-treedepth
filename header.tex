@@ -41,6 +41,8 @@
 \algnewcommand{\LeftComment}[1]{\(\triangleright\) #1}
 
 \newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
 
 \usetikzlibrary{decorations, decorations.pathreplacing, decorations.pathmorphing,
     calc, backgrounds, positioning, tikzmark, patterns, matrix, fit, graphs,
@@ -122,6 +124,28 @@
 
 \newcommand{\calF}{\ensuremath{\mathcal{F}}}
 \newcommand{\calG}{\ensuremath{\mathcal{G}}}
+\newcommand{\calS}{\ensuremath{\mathcal{S}}}
+\newcommand{\calP}{\ensuremath{\mathcal{P}}}
+\newcommand{\calQ}{\ensuremath{\mathcal{Q}}}
+\newcommand{\calR}{\ensuremath{\mathcal{R}}}
+\newcommand{\calT}{\ensuremath{\mathcal{T}}}
+\newcommand{\calU}{\ensuremath{\mathcal{U}}}
+
+\newcommand\TDGeneral{\FuncSty{elimination\_forest}}
+\newcommand\TDConnected{\FuncSty{elimination\_tree}}
+\newcommand\TDOptimise{\FuncSty{optimise}}
+\newcommand\MakeSTSs{\FuncSty{make\_$\calS$}}
+\newcommand\MakeSTSsHelper{\FuncSty{make\_$\calS$\_helper}}
+\newcommand\AddSubtreeRoot{\FuncSty{add\_subtree\_root}}
+
+%\newcommand{\codelineref}[1]{line~\ref{#1}}
+%\newcommand{\linerangeref}[2]{lines~\ref{#1} to~\ref{#2}}
+%\newcommand{\Lineref}[1]{Line~\ref{#1}}
+%\newcommand{\Linerangeref}[2]{Lines~\ref{#1} to~\ref{#2}}
+
+\DeclareMathOperator{\td}{td}
+\DeclareMathOperator{\score}{score}
+\DeclareMathOperator{\depth}{depth}
 
 \DeclareMathOperator{\V}{V}
 \DeclareMathOperator{\E}{E}
