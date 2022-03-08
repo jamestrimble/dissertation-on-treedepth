@@ -51,6 +51,7 @@ enum Heuristic { min_max, min_product };
 //};
 
 static struct {
+    bool print_n;
     bool quiet;
     bool verbose;
     bool dimacs;
@@ -85,8 +86,11 @@ void set_default_arguments() {
 
 static void parse_opts(int argc, char** argv) {
     int opt;
-    while ((opt = getopt(argc, argv, "qvdlciaxbt:")) != -1) {
+    while ((opt = getopt(argc, argv, "nqvdlciaxbt:")) != -1) {
         switch (opt) {
+        case 'n':
+            arguments.print_n = true;
+            break;
         case 'd':
             if (arguments.lad)
                 fail("The -d and -l options cannot be used together.\n");
@@ -486,5 +490,7 @@ int main(int argc, char** argv) {
         total_deg += deg;
     int num_edges = total_deg / 2;
     double density = ((double) num_edges) / (g0.n * (g0.n-1) / 2);
+    if (arguments.print_n)
+        std::cout << g0.n << std::endl;
     std::cout << density << std::endl;
 }
