@@ -78,6 +78,8 @@ static struct {
     char *filename1;
     char *filename2;
     int timeout;
+    int G_sort_order;
+    int H_sort_order;
     int arg_num;
 } arguments;
 
@@ -97,11 +99,17 @@ void set_default_arguments() {
     arguments.filename2 = NULL;
     arguments.timeout = 0;
     arguments.arg_num = 0;
+    // Sort orders:
+    //   0: automatic based on density of other graph
+    //   1: small degree first
+    //   2: big degree first
+    arguments.G_sort_order = 0;
+    arguments.H_sort_order = 0;
 }
 
 static void parse_opts(int argc, char** argv) {
     int opt;
-    while ((opt = getopt(argc, argv, "wyOSsrfFRnqvdlciaxbt:")) != -1) {
+    while ((opt = getopt(argc, argv, "G:H:wyOSsrfFRnqvdlciaxbt:")) != -1) {
         switch (opt) {
         case 'd':
             if (arguments.lad)
@@ -179,6 +187,12 @@ static void parse_opts(int argc, char** argv) {
             break;
         case 't':
             arguments.timeout = std::stoi(optarg);
+            break;
+        case 'G':
+            arguments.G_sort_order = std::stoi(optarg);
+            break;
+        case 'H':
+            arguments.H_sort_order = std::stoi(optarg);
             break;
         }
 
@@ -701,18 +715,32 @@ int main(int argc, char** argv) {
     // the IJCAI 2017 paper.
     vector<int> vv0(g0.n);
     std::iota(std::begin(vv0), std::end(vv0), 0);
-    bool g1_dense = density(g1, g1_deg) > .5;
+    bool g0_small_deg_first;
+    if (arguments.G_sort_order == 0) {
+        g0_small_deg_first = density(g1, g1_deg) > .5;
+    } else if (arguments.G_sort_order == 1) {
+        g0_small_deg_first = true;
+    } else {
+        g0_small_deg_first = false;
+    }
     if (!arguments.no_sort) {
         std::stable_sort(std::begin(vv0), std::end(vv0), [&](int a, int b) {
-            return g1_dense ? (g0_deg[a]<g0_deg[b]) : (g0_deg[a]>g0_deg[b]);
+            return g0_small_deg_first ? (g0_deg[a]<g0_deg[b]) : (g0_deg[a]>g0_deg[b]);
         });
     }
     vector<int> vv1(g1.n);
     std::iota(std::begin(vv1), std::end(vv1), 0);
-    bool g0_dense = density(g0, g0_deg) > .5;
+    bool g1_small_deg_first;
+    if (arguments.H_sort_order == 0) {
+        g1_small_deg_first = density(g0, g0_deg) > .5;
+    } else if (arguments.H_sort_order == 1) {
+        g1_small_deg_first = true;
+    } else {
+        g1_small_deg_first = false;
+    }
     if (!arguments.no_sort) {
         std::stable_sort(std::begin(vv1), std::end(vv1), [&](int a, int b) {
-            return g0_dense ? (g1_deg[a]<g1_deg[b]) : (g1_deg[a]>g1_deg[b]);
+            return g1_small_deg_first ? (g1_deg[a]<g1_deg[b]) : (g1_deg[a]>g1_deg[b]);
         });
     }
 
