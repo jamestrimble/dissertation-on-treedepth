@@ -684,10 +684,10 @@ int main(int argc, char** argv) {
                 } else if (run == 1) {
                     arguments.G_sort_order = 1;
                     arguments.H_sort_order = 2;
-                } else if (run == 3) {
+                } else if (run == 2) {
                     arguments.G_sort_order = 2;
                     arguments.H_sort_order = 1;
-                } else if (run == 4) {
+                } else if (run == 3) {
                     arguments.G_sort_order = 2;
                     arguments.H_sort_order = 2;
                 }
