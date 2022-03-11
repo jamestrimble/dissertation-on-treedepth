@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     g = Graph(adjmat)
 
-    num_edges = sum(sum(row) for row in g.adjmat) // 2
+    num_edges = sum(sum(row) for row in g.adjmat)
     print("p edge {} {}".format(g.n, num_edges))
     for i in range(g.n):
         for j in range(g.n):
