@@ -25,7 +25,7 @@ with open('results{}.txt'.format(n), 'r') as f:
         d[run][2] += line[4]
         d[run][3] += line[5]
 
-for g in range(1, 100):
-    for h in range(1, 100):
+for g in range(0, 101):
+    for h in range(0, 101):
         r = d[(g, h)]
         print(g, h, " ".join(str(nodes) for nodes in r))
