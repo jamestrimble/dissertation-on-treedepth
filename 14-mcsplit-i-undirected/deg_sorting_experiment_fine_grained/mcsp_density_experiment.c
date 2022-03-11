@@ -674,8 +674,8 @@ int main(int argc, char** argv) {
     std::mt19937 generator(arguments.seed);
     std::uniform_real_distribution<double> dis(0.0, 100.0);
 
-    for (int p=1; p<100; p++) {
-        for (int q=1; q<100; q++) {
+    for (int p=0; p<=100; p++) {
+        for (int q=0; q<=100; q++) {
             std::cout << p << " " << q;
             for (int run=0; run<4; run++) {
                 if (run == 0) {
