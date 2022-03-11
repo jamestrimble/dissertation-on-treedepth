@@ -699,8 +699,8 @@ int main(int argc, char** argv) {
                     for (int i=0; i<arguments.graph_num_vertices; i++) {
                         for (int j=0; j<arguments.graph_num_vertices; j++) {
                             if (i == j) continue;
-                            if (dis(generator) < p) add_edge(g0, i, j);
-                            if (dis(generator) < q) add_edge(g1, i, j);
+                            if (dis(generator) < p) add_edge(g0, i, j, true);
+                            if (dis(generator) < q) add_edge(g1, i, j, true);
                         }
                     }
                 } else {
