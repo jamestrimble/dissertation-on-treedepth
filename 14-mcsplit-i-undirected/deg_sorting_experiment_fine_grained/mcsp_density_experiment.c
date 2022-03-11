@@ -695,10 +695,20 @@ int main(int argc, char** argv) {
 
                 Graph g0(arguments.graph_num_vertices);
                 Graph g1(arguments.graph_num_vertices);
-                for (int i=0; i<arguments.graph_num_vertices; i++) {
-                    for (int j=0; j<i; j++) {
-                        if (dis(generator) < p) add_edge(g0, i, j);
-                        if (dis(generator) < q) add_edge(g1, i, j);
+                if (arguments.directed) {
+                    for (int i=0; i<arguments.graph_num_vertices; i++) {
+                        for (int j=0; j<arguments.graph_num_vertices; j++) {
+                            if (i == j) continue;
+                            if (dis(generator) < p) add_edge(g0, i, j);
+                            if (dis(generator) < q) add_edge(g1, i, j);
+                        }
+                    }
+                } else {
+                    for (int i=0; i<arguments.graph_num_vertices; i++) {
+                        for (int j=0; j<i; j++) {
+                            if (dis(generator) < p) add_edge(g0, i, j);
+                            if (dis(generator) < q) add_edge(g1, i, j);
+                        }
                     }
                 }
 

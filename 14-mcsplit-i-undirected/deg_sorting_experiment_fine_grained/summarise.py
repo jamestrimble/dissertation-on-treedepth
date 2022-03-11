@@ -3,6 +3,8 @@ import sys
 
 n = int(sys.argv[1])
 
+directed = len(sys.argv) > 2 and sys.argv[2] == "--directed"
+
 d = {}
 
 def argmin(lst):
@@ -14,7 +16,7 @@ def argmin(lst):
             result = i
     return result
 
-with open('results{}.txt'.format(n), 'r') as f:
+with open('results{}{}.txt'.format("-directed" if directed else "", n), 'r') as f:
     for line in f:
         line = [int(x) for x in line.strip().split()]
         run = tuple(line[:2])
