@@ -732,7 +732,7 @@ int main(int argc, char** argv) {
     std::iota(std::begin(vv1), std::end(vv1), 0);
     bool g1_small_deg_first;
     if (arguments.H_sort_order == 0) {
-        g1_small_deg_first = density(g0, g0_deg) > .5;
+        g1_small_deg_first = density(g1, g1_deg) > .5;
     } else if (arguments.H_sort_order == 1) {
         g1_small_deg_first = true;
     } else {
