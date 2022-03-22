@@ -323,6 +323,240 @@ Directed graphs: could use same approach as with edge labels.
 
 TODO
 
+\section{Generalised arc consistency on the all-different constraint}
+
+The constraint programming model for induced subgraph isomorphism contains an all-different
+constraint over all the variables; this constraint ensures that each of the pattern-graph vertices
+is mapped to a distinct vertex in the target graph.  The strongest level of consistency that can
+be achieved for this constraint is \emph{generalised arc consistency (GAC)} (TODO define GAC).
+The classic algorithm for achieving GAC on an all-different constraint is R\'egin's
+\cite{DBLP:conf/aaai/Regin94}, which operates
+on a (perhaps implicit) bipartite graph with variables on the left and values on the right, and 
+deletes every edge that does not appear in any maximum matching.  The algorithm operates by computing
+a maximum matching on the bipartite graph, then finding strongly connected components on an related directed
+graph.  Many optimisations to the algorithm have been proposed since its introduction; see
+\cite{DBLP:journals/ai/GentMN08} for a detailed review and empirical study.
+
+The Glasgow Subgraph Solver \cite{DBLP:conf/cp/McCreeshP15} introduces a new propagation algorithm,
+the \emph{counting all-different propagator}.
+The algorithm iterates over the domains involved in the constraint, maintaining a set $A$ containing
+all values seen so far.  If, at any step during the algorithm, $|A|$ is smaller than the number
+of domains visited so far, the algorithm can backtrack.  If $|A|$ equals the number of domains visited
+so far, then all of the members of $A$ are added to a set $H$ (the \emph{Hall set}), and are deleted from
+the domains of subsequently-visited variables.\footnote{To simplify the presentation,
+I have made trivial changes from the algorithm described by McCreesh and Prosser.
+These changes affect neither the results nor the time complexity of the propagation algorithm.}
+The order in which variables are visited is crucial
+to the algorithm's effectiveness in practice; McCreesh and Prosser
+propose visiting variables in increasing order of domain size in order to keep the set $A$ small.
+
+The counting all-different propagator provides weaker filtering than
+R\'egin's propagator: it never deletes more values from domains than R\'egin's algorithm, and sometimes
+deletes fewer. Nevertheless, McCreesh and Prosser showed that that it runs many times faster than
+R\'egin's algorithm and its filtering is almost as effective as that of R\'egin's algorithm in practice
+on a large set of benchmark instances.
+
+This section has two contributions. First, we show that \McSplit-SI achieves generalised arc consistency
+on the all-different constraint for free, without requiring an all-different propagator.  Second, we describe
+a family of instances that cannot be solved efficiently by Glasgow, VF3, or RI, but can be solved very
+quickly by \McSplit-SI because it achieves GAC.
+
+\subsection{\McSplit-SI achieves GAC}
+
+In \Cref{gacProposition}, we view the label classes as a domain store in which each label
+class $\langle V_G, V_H \rangle$ represents to $|V_G|$ variables, each with domain $V_H$,
+and show that \McSplit-SI maintains GAC.  The proof depends on the fact that domains are
+either equal or disjoint, and also on the fact that \McSplit-SI backtracks if the $H$-set
+of a label class is larger than the $G$-set.
+
+\begin{proposition}\label{gacProposition}
+    \McSplit-SI maintains generalised arc consistency on the all-different constraint
+\end{proposition}
+
+\begin{proof}
+Let $\langle V_G^1, V_H^1 \rangle, \dots, \langle V_G^k, V_H^k \rangle$ be the list of
+label classes.  From \Cref{c:mcsplit-i-undirected}, we have that $|V_G^i| \leq |V_H^i|$
+for $1 \leq i \leq k$ and that $V_H^i \cap V_H^j = \emptyset$ for $i \not= j$.
+
+Let $v \in V_G^i$ and $w \in V_H^i$ for some $1 \leq i \leq k$.  We need to show that we
+extend the mapping
+$(v,w)$ to a complete assignment of the vertices in all $V_G^j$ ($1 \leq j \leq k$).
+This can be achieved by assiging the vertices of
+each $V_G^j \setminus \{v\}$ to any $|V_G^j \setminus \{v\}|$ vertex subset of
+$V_H^j \setminus \{w\}$.
+\end{proof}
+
+\subsection{A family of instances where \McSplit-SI outperforms other algorithms}
+
+In this subsection, we consider a family of graphs devised to deminstrate
+that the generalised arc consistency that \McSplit-SI achieves can --- at least
+for some instances --- give a dramatic
+speed-up compared to algorithms that do not achieve GAC.
+
+Consider the pattern graph $G_2$ in \Cref{figure:gac-example-3} and the target
+graph $H_2$ in \Cref{figure:gac-example-4}.  This induced subgraph isomorphism
+instance is unsatisfiable: $u$ may only be mapped to $x$ because the other
+vertices in $H_2$ have insufficient degree, after which we can deduce
+that each of the five $w_i$ vertices must be mapped to one of the four $z_j$ vertices.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][$G_2$] {
+        \centering
+        \scalebox{1}{
+          \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85,shape=circle,inner sep=.5pt,
+                  minimum size=5mm}]
+              \node[draw] (u) at (0,1) {$u$};
+              \node[draw] (v1) at (-.6,0) {$v_1$};
+              \node[draw] (v2) at (.6,0) {$v_2$};
+              \node[draw] (w1) at (-1.5,-1) {$w_1$};
+              \node[draw] (w2) at (-.75,-1) {$w_2$};
+              \node[draw] (w3) at (0,-1) {$w_3$};
+              \node[draw] (w4) at (.75,-1) {$w_4$};
+              \node[draw] (w5) at (1.5,-1) {$w_5$};
+              \draw (u) -- (v1);
+              \draw (u) -- (v2);
+          \end{tikzpicture}
+        }
+        \label{figure:gac-example-3}
+    }
+    \subfigure[][$H_2$] {
+        \centering
+        \scalebox{1}{
+          \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85,shape=circle,inner sep=.5pt,
+                  minimum size=5mm}]
+              \node[draw] (x) at (0,1) {$x$};
+              \node[draw] (y1) at (-1.2,0) {$y_1$};
+              \node[draw] (y2) at (-.4,0) {$y_2$};
+              \node[draw] (y3) at (.4,0) {$y_3$};
+              \node[draw] (y4) at (1.2,0) {$y_4$};
+              \node[draw] (z1) at (-1.2,-1) {$z_1$};
+              \node[draw] (z2) at (-.4,-1) {$z_2$};
+              \node[draw] (z3) at (.4,-1) {$z_3$};
+              \node[draw] (z4) at (1.2,-1) {$z_4$};
+              \draw (x) -- (y1);
+              \draw (x) -- (y2);
+              \draw (x) -- (y3);
+              \draw (x) -- (y4);
+          \end{tikzpicture}
+        }
+        \label{figure:gac-example-4}
+    }
+    \subfigure[][$G_k$] {
+        \centering
+        \scalebox{1}{
+          \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85,shape=circle,inner sep=.5pt,
+                  minimum size=5mm}]
+              \node[draw] (u) at (0,1) {$u$};
+              \node[draw] (v1) at (-.7,0) {$v_1$};
+              \node[] (vdots) at (0,0) {$\dots$};
+              \node[draw] (v2) at (.7,0) {$v_k$};
+              \node[draw] (w1) at (-.8,-1) {$w_1$};
+              \node[] (wdots) at (0,-1) {$\dots$};
+              \node[draw] (w5) at (.8,-1) {$w_{k+3}$};
+              \draw (u) -- (v1);
+              \draw (u) -- (v2);
+          \end{tikzpicture}
+        }
+        \label{figure:gac-example-1}
+    }
+    \subfigure[][$H_k$] {
+        \centering
+        \scalebox{1}{
+          \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85,shape=circle,inner sep=.5pt,
+                  minimum size=5mm}]
+              \node[draw] (x) at (0,1) {$x$};
+              \node[draw] (y1) at (-.7,0) {$y_1$};
+              \node[] (ydots) at (0,0) {$\dots$};
+              \node[draw] (y2) at (.7,0) {$y_{k+2}$};
+              \node[draw] (z1) at (-.8,-1) {$z_1$};
+              \node[] (zdots) at (0,-1) {$\dots$};
+              \node[draw] (z5) at (.8,-1) {$z_{k-1}$};
+              \draw (x) -- (y1);
+              \draw (x) -- (y2);
+          \end{tikzpicture}
+        }
+        \label{figure:gac-example-2}
+    }
+    \caption{Example graphs $G_2$ and $H_2$, and their generalised
+    versions $G_k$ and $H_k$.}\label{figure:gac-example}
+\end{figure}
+
+When solving this instance, \McSplit-SI begins by mapping $u$ to $x$.  This leaves
+two label classes:
+$\langle \{v_1,v_2\}, \{y_1,y_2,y_3,y_4\} \rangle$
+and
+$\langle \{w_1,w_2,w_3,w_4,w_5\}, \{z_1,z_2,z_3,z_4\} \rangle$.  In the latter
+label class, the first set of vertices is larger than the second, and therefore the
+algorithm can backtrack and terminate.
+
+Now we consider how the Glasgow algorithm behaves on this instance. After mapping
+$u$ to $x$, the domains correspond to our label classes, as shown in the first
+column of \Cref{tab:counting-all-diff}.  The remaining two columns of the table
+illustrate the behaviour of the counting all-different propagator on these domains.
+(Since all domains are of the same size, the stable sort function used by the algorithm
+does not reorder the domains.)  The third column shows set $A$, which is the union
+of domains in the current and previous rows.  The fourth column shows the number
+of variables up to and including the current row.  Since $|A| \geq n$ on each row,
+the propagator does not delete any values from the domains and does not conclude
+that we can backtrack.
+
+\begin{table}[h!]
+\centering
+\footnotesize
+    \begin{tabular}{p{0.09\linewidth} p{0.16\linewidth} p{0.3\linewidth} p{0.08\linewidth}}
+ \toprule
+     Variable & Domain & $A$ & $n$\\ [0.5ex]
+ \midrule
+     $v_1$ & $\{y_1,y_2,y_3,y_4\}$ & $\{y_1,y_2,y_3,y_4\}$ & 1\\
+     $v_2$ & $\{y_1,y_2,y_3,y_4\}$ & $\{y_1,y_2,y_3,y_4\}$ & 2\\
+     $w_1$ & $\{z_1,z_2,z_3,z_4\}$ & $\{y_1,y_2,y_3,y_4,z_1,z_2,z_3,z_4\}$ & 3\\
+     $w_2$ & $\{z_1,z_2,z_3,z_4\}$ & $\{y_1,y_2,y_3,y_4,z_1,z_2,z_3,z_4\}$ & 4\\
+     $w_3$ & $\{z_1,z_2,z_3,z_4\}$ & $\{y_1,y_2,y_3,y_4,z_1,z_2,z_3,z_4\}$ & 5\\
+     $w_4$ & $\{z_1,z_2,z_3,z_4\}$ & $\{y_1,y_2,y_3,y_4,z_1,z_2,z_3,z_4\}$ & 6\\
+     $w_5$ & $\{z_1,z_2,z_3,z_4\}$ & $\{y_1,y_2,y_3,y_4,z_1,z_2,z_3,z_4\}$ & 7\\
+%    $s_G$ & Pointer to Integer & Pointer to the first vertex of the $G$-set\\
+%    \rule{0pt}{2.3ex}$e_G$ & Pointer to Integer & Pointer to one element past the last vertex of the $G$-set\\
+ \bottomrule
+\end{tabular}
+\caption{A demonstration of the counting all-different propagator on $G_2$ and $H_2$
+    after assigning $u$ to $x$.}
+\label{tab:counting-all-diff}
+\end{table}
+
+The final two graphs in \Cref{fig:gac-example} generalise $G_2$ and $H_2$; as $k$ is incremented,
+a vertex is added to each of the $v$, $w$, $y$ and $z$ sets.
+\Cref{tab:gk-run-times} shows run times for the enumeration problem
+using \McSplit-SI, Glasgow, and RI for a range of values of $k$.
+VF3 was excluded because it reported incorrect results.
+\McSplit-SI solves the instance $k=1\,000\,000$ in less than a second;
+Glasgow and RI time out on the $k=10$ and $k=6$ instances respectively.
+
+\begin{table}[h!]
+\centering
+\footnotesize
+    \begin{tabular}{r r r r}
+ \toprule
+     $k$ & \McSplit-SI & Glasgow & RI \\ [0.5ex]
+ \midrule
+        3 & 0 & 0 & 2 \\
+        4 & 0 & 0 & 84 \\
+        5 & 0 & 2 & 3934 \\
+        6 & 0 & 18 & * \\
+        7 & 0 & 184 & * \\
+        8 & 0 & 1849 & * \\
+        9 & 0 & 21067 & * \\
+        10 & 0 & * & * \\
+        10000 & 5 & * & * \\
+        100000 & 148 &  * & * \\
+        1000000 & 584 & * & * \\
+ \bottomrule
+\end{tabular}
+\caption{Run times in ms for the induced subgraph isomorphism enumeration problem on $G_k$.
+    An asterisk indicates timeout at 30 seconds.}
+\label{tab:gk-run-times}
+\end{table}
+
 \section{Conclusion}
 
 We have introduced a version of McSplit for the induced subgraph isomorphism problem that is time- and memory-efficient for large, sparse graphs, and shown experimentally that it outperforms state-of-the-art algorithms on many instances.
