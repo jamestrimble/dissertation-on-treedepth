@@ -1,4 +1,4 @@
-\algnewcommand{\IfNDebug}[1]{#1}
+%\algnewcommand{\IfNDebug}[1]{#1}
 %\algnewcommand{\IfNDebug}[1]{}
 
 \chapter{McSplit-SI: An algorithm for the induced subgraph isomorphism problem
@@ -49,7 +49,8 @@ contain the $G$-set and $H$-set.
 
 \begin{table}[h!]
 \centering
- \begin{tabular}{p{0.15\linewidth} p{0.24\linewidth} p{0.45\linewidth}}
+\footnotesize
+ \begin{tabular}{p{0.13\linewidth} p{0.2\linewidth} p{0.5\linewidth}}
  \toprule
     Name & Type & Description \\ [0.5ex]
  \midrule
@@ -57,14 +58,16 @@ contain the $G$-set and $H$-set.
     \rule{0pt}{2.3ex}$e_G$ & Pointer to Integer & Pointer to one element past the last vertex of the $G$-set\\
     \rule{0pt}{2.3ex}$s_H$ & Pointer to Integer & Pointer to the first vertex of the $H$-set\\
     \rule{0pt}{2.3ex}$e_H$ & Pointer to Integer & Pointer to one element past the last vertex of the $H$-set\\
+    \rule{0pt}{2.3ex}$\AlgVar{a}$ & Boolean & ``active'': Is this label class in the doubly linked list? \\
+    \rule{0pt}{2.3ex}$\AlgVar{s}$ & Boolean & ``splitting'': Is this label class being split? \\
     \rule{0pt}{2.3ex}$\AlgVar{prev}$ & Pointer to Label Class & The previous label class in the doubly-linked list of all label classes \\
     \rule{0pt}{2.3ex}$\AlgVar{next}$ & Pointer to Label Class & The next label class in the doubly-linked list of all label classes \\
-     \rule{0pt}{2.3ex}$\AlgVar{next\_deleted}$ & Pointer to Label Class & The next label class in a singly-linked list of deleted label classes (to be restored on backtracking)\\
-     \rule{0pt}{2.3ex}$\AlgVar{next\_split}$ & Pointer to Label Class & The next label class in a singly-linked list of split label classes (to be merged on backtracking)\\
- \midrule
-    $a_G$ & Integer & Number of vertices adjacent to $v$ \\
-    $a_H$ & Integer & Number of vertices adjacent to $w$ \\
-     \rule{0pt}{2.3ex}$\AlgVar{next\_free}$ & Pointer to Label Class & The next label class in the free list \\
+%%      \rule{0pt}{2.3ex}$\AlgVar{next\_deleted}$ & Pointer to Label Class & The next label class in a singly-linked list of deleted label classes (to be restored on backtracking)\\
+%%      \rule{0pt}{2.3ex}$\AlgVar{next\_split}$ & Pointer to Label Class & The next label class in a singly-linked list of split label classes (to be merged on backtracking)\\
+%%  \midrule
+%%     $a_G$ & Integer & Number of vertices adjacent to $v$ \\
+%%     $a_H$ & Integer & Number of vertices adjacent to $w$ \\
+%%      \rule{0pt}{2.3ex}$\AlgVar{next\_free}$ & Pointer to Label Class & The next label class in the free list \\
  \bottomrule
 \end{tabular}
 \caption{The member variables of \McSplit-SI label class object}
@@ -72,6 +75,222 @@ contain the $G$-set and $H$-set.
 \end{table}
 
 \FloatBarrier
+
+Initially, the doubly-linked list of label classes contains a single element representing
+all vertices of graphs $G$ and $H$.  \Cref{figure:si-data-structures} shows the data structures
+after making the assignment $(1,a)$ in our example graphs $G$ and $H$ from \Cref{c:mcsplit-i-undirected}.
+
+The top and bottom rows of the diagram contain the final element of our data structure, which we
+have not yet described.  We have two arrays, $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$, which contain
+an object for each vertex $v$ of $G$ and $H$ respectively.  Each object contains two pointers.
+The first points to the position in the permutation at which $v$ appears, and the second points
+to the label class containing $v$.  The arrays $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$ will allow
+us to carry out the partitioning step without iterating over the vertices in each label class.
+
+\begin{figure}[h!]
+    \centering
+    $G=$\tikz {
+        \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+                clockwise=5] {
+                    1,2,3,4,5;
+            1--4; 1--5; 2--3; 2--5; 3--5;
+        };
+    }
+    \qquad\qquad
+    $H=$\tikz {
+        \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+                clockwise=6, phase=60] {
+                    a,b,c,d,e,f;
+            a--b; a--c; a--e; b--d; b--f; c--d; c--e; c--f; d--f; e--f;
+        };
+    }
+    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1}
+    \caption{The data structures of \McSplit-SI after assigning vertex $1$ to vertex $a$.
+        Circles represent pointers; hollow circles are null pointers.  The middle row shows
+        the doubly-linked list of label classes.  Shown immediately above and below this are the
+        permutations of $V(G)$ and $V(H)$, stored as arrays.  The top and bottom rows
+        show the arrays $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$.  Each element of these arrays
+        corresponds to a vertex $v$ of $G$ or $H$, and points to the position of $v$
+        the permutation and to the label class containing $v$.  To reduce clutter in the diagram,
+        the label class pointers are shown pointing to a rectangle of the same colour as the
+        label class.}
+    \label{figure:si-data-structures}
+\end{figure}
+
+\section{The partitioning algorithm}
+
+When making a tentative assignment of vertex $v$ to vertex $w$, we perform the same steps
+as the basic \McSplit\ algorithm: swap $v$ and $w$ to the
+end of their label class in the $V_G$ and $V_H$ arrays, and decrement the end pointers
+of that label class.  The \McSplit-SI algorithm requires additional (constant time)
+steps to maintain the invariants of
+the $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$ arrays: set the label-class pointers of
+$\AlgVar{Gptrs}[v]$ and $\AlgVar{Hptrs}[w]$ to null since these vertices
+are no longer in a label class, and update the vertex pointers
+for $v$, $w$, and the vertices with which these were swapped to point to these
+vertices' new positions in the $V_G$ and $V_H$ arrays.
+\Cref{figure:si-data-structures-2} shows the data structures after the assignment
+of $2$ to $d$ in our example.
+
+\FloatBarrier
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-2}
+    \caption{The data structures after mapping vertex $2$ to vertex $d$.}
+    \label{figure:si-data-structures-2}
+\end{figure}
+
+\FloatBarrier
+
+We now describe the partitioning step, referring in our running example to
+the refinement of label classes carried out after mapping $2$ to $d$.
+\Cref{figure:si-data-structures-3} shows the data structures after this step is completed.
+
+\FloatBarrier
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-3}
+    \caption{The data structures after partitioning}
+    \label{figure:si-data-structures-3}
+\end{figure}
+
+\FloatBarrier
+
+Each label class object that contained the sets $\langle V_G, V_H \rangle$ prior
+to the partitioning process contains $\langle V_G \setminus N_G(v), V_H \setminus N_H(w)\rangle$
+at the end of the partitioning process.  If either $V_G \cap H_G(v)$ or $V_H \cap N_H(w)$
+is non-empty, the partitioning process creates a new label class object
+$\langle V_G \cap N_G(v), V_H \cap N_H(w)\rangle$ which is
+positioned in the doubly linked list immediately after the original label class.
+To carry out the process, we iterate over $N_G(v)$ then $N_H(w)$,
+creating new label classes as required, as shown in
+the following (draft) pseudocode.
+
+{
+\scriptsize
+\begin{verbatim}
+split_label_classes = []
+
+for u in N_G(v):
+    lc = Gptrs[u].label_class
+    if lc == null:
+        continue    # u is not in a label class because it's in the mapping.
+    if lc.s = false:
+        Set lc.s = true
+        Create a new, empty label class after lc in the doubly-linked list
+        Set lc.next.s_G = lc.next.e_G = lc.e_G
+        Set lc.next.s_H = lc.next.e_H = lc.e_H
+        Set lc.next.a = true
+        Set lc.next.s = false
+        Append to split_label_classes a pointer to lc
+    Swap u to the end of lc in the V_G permutation
+    Decrement lc.e_G       # Delete u from lc
+    Decrement lc.next.s_G  # Add u to lc.next
+    Make the necessary updates to Gptrs
+        
+# Now, do the same thing for H...
+for u in N_H(w):
+    lc = Hptrs[u].label_class
+    if lc == null:
+        continue    # u is not in a label class because it's in the mapping.
+    if lc.a = false:
+        continue    # u is in a label class that was deleted at shallower level of the search tree
+    if lc.s = false:
+        Set lc.s = true
+        Create a new, empty label class after lc in the doubly-linked list
+        Set lc.next.s_G = lc.next.e_G = lc.e_G
+        Set lc.next.s_H = lc.next.e_H = lc.e_H
+        Set lc.next.a = true
+        Set lc.next.s = false
+        Append to split_label_classes a pointer to lc
+    Swap u to the end of lc in the V_H permutation
+    Decrement lc.e_H       # Delete u from lc
+    Decrement lc.next.s_H  # Add u to lc.next
+    Make the necessary updates to Hptrs
+\end{verbatim}
+}
+
+\section{Cleanup}
+
+In \Cref{figure:si-data-structures-3}, we can see that the first label class
+now contains no elements of $V_G$.  As a result, we can safely delete this label
+class object from the linked list.  The general procedure of deletion is as
+follows.\footnote{Our implementation has an extra pointer within each label
+class object so we can store the deleted\_label\_classes list as a linked list
+without the need for an external array of pointers.}
+
+{
+\scriptsize
+\begin{verbatim}
+deleted_label_classes = []
+
+For each LC in split_label_classes:
+    if LC.s_G == LC.e_G:
+        LC.active = false
+        remove LC from the doubly linked list and append it to deleted_label_classes
+    if LC.next.s_G == LC.next.e_G:
+        LC.active = false
+        remove LC.next from the doubly linked list and append it to deleted_label_classes
+\end{verbatim}
+}
+
+We leave the $\AlgVar{prev}$ and $\AlgVar{next}$ 
+pointers of this label class unchanged; we will use their values to return
+the label class to the doubly linked list when backtracking.
+
+\section{Backtracking}
+
+On backtracking, we must undo in reverse order the three steps of
+mapping a vertex, splitting label classes, and deleting label classes.
+
+First, we undo deletions, restoring each deleted label classes to its
+original position in the doubly linked list using the ``dancing links'' method
+introduced by (cite) and described by Knuth (cite).
+
+{
+\scriptsize
+\begin{verbatim}
+For each LC in deleted_label_classes, in reverse order:
+    LC.active = true
+    LC.prev.next = LC
+    LC.next.prev = LC
+\end{verbatim}
+}
+
+Next, we undo splits.  Just as in \McSplit, there is
+no need to reorder the $V_G$ and $V_H$ permutations when backtracking.
+TODO: make sure this matches my code exactly
+
+{
+\scriptsize
+\begin{verbatim}
+For each LC in split_label_classes:
+    LC.e_G = LC.next.e_G
+    LC.e_H = LC.next.e_H
+    Remove LC.next from the doubly linked list
+\end{verbatim}
+}
+
+Finally, we undo the vertex mapping.
+
+{
+\scriptsize
+\begin{verbatim}
+Let LC be the label class that contained v and w
+
+Increment LC.e_G and LC.e_H
+\end{verbatim}
+}
+
+\section{An optimisation}
+
+Often, after the partitioning step, one or more label classes contains more
+vertices in $V_G$ than vertices in $V_H$.  We can then backtrack because...
+TODO say how our implementation avoids some work by simply keeping track of
+how many vertices are moved out of each label class initially, then only
+doing the movements and creating the new label classes if we can't backtrack.
 
 \section{Implementation details}
 
@@ -88,6 +307,17 @@ Using the approach, the partitioning step does not need to make any dynamic memo
 on rare occasions when the free list is exhausted.
 This approach to memory allocation typically reduces run time by around $10\%$ in comparison to use of
 C++'s $\FuncSty{new}$ and $\FuncSty{delete}$ keywords for each allocation and deallocation.
+
+\section{Vertex and edge labels}
+
+Our implementation supports vertex labels.
+
+I haven't implemented edge labels, and don't plan to.
+I think partitioning could be done in $O(m \log m)$ time, where
+$m$ is the larger of $|N_G(v)|$ and $|N_H(w)|$. (Partition as if unlabelled, sort the vertices in
+the split label classes according to edge labels, then create a sequence of additional new label classes.)
+
+Directed graphs: could use same approach as with edge labels.
 
 \section{Variable-ordering heuristics}
 
