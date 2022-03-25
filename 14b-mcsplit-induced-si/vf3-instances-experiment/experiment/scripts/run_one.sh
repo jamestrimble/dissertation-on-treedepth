@@ -24,6 +24,7 @@ awk -f ../scripts/vf_to_csv.awk < $pf > $pf.csv
 awk -f ../scripts/vf_to_csv.awk < $tf > $tf.csv
 
 timeout $(($timelimit + $extratime)) ../programs/vf3lib/bin/vf3 -r0 $pf $tf > $out.vf3.out \
+        2> $out.vf3.err \
         || echo Failed $? >> $out.vf3.out
 timeout $(($timelimit + $extratime)) ../programs/RI/ri36_with_timing ind gfd $tf.gfd $pf.gfd > $out.ri.out \
         || echo Failed $? >> $out.ri.out
