@@ -1,0 +1,3 @@
+input/instances-summary.txt has descriptions of the instances (from the VF3 journal paper)
+
+scripts/make-instance-descriptions.sh makes a full list of instances in the intermediate/ directory

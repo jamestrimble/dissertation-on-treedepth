@@ -24,49 +24,23 @@ int main(int argc, char **argv)
     std::uniform_int_distribution<> label_distrib(0, num_distinct_labels - 1);
     std::uniform_real_distribution<double> dist(0.0, 1.0);
 
-    std::vector<int> pattern_labels(n_p);
-    for (unsigned i=0; i<n_p; i++)
-        pattern_labels[i] = label_distrib(rand);
-
     std::vector<int> t_to_p(n_t, -1);   // target vertex to pattern vertex
     for (unsigned i=0; i<n_p; i++)
         t_to_p[i] = i;
     std::shuffle(t_to_p.begin(), t_to_p.end(), rand);
 
-    std::vector<std::vector<bool>> pattern(n_p, std::vector<bool>(n_p));
-    std::vector<int> pattern_out_deg(n_p);
+    std::vector<int> pattern_labels(n_p);
+    std::vector<std::vector<int>> pattern_edge_lists(n_p);
 
-    for (unsigned i=0; i<n_p; i++) {
-        for (unsigned j=0; j<n_p; j++) {
-            if (i == j) continue;
-            if (dist(rand) < p) {
-                ++pattern_out_deg[i];
-                pattern[i][j] = true;
-            }
-        }
-    }
-
-    std::ofstream pf(p_filename);
-    pf << n_p << "\n";
-    for (int i=0; i<n_p; i++) {
-        pf << i << " " << pattern_labels[i] << "\n";
-    }
-    for (int i=0; i<n_p; i++) {
-        pf << pattern_out_deg[i] << "\n";
-        for (int j=0; j<n_p; j++) {
-            if (pattern[i][j]) {
-                pf << i << " " << j << "\n";
-            }
-        }
-    }
-    pf.close();
-    
     std::ofstream tf(t_filename);
     tf << n_t << "\n";
     for (int i=0; i<n_t; i++) {
-        int pattern_v = t_to_p[i];
-        int label = pattern_v == -1 ? label_distrib(rand) : pattern_labels[pattern_v];
+        int label = label_distrib(rand);
         tf << i << " " << label << "\n";
+        int pattern_v = t_to_p[i];
+        if (pattern_v != -1) {
+            pattern_labels[pattern_v] = label;
+        }
     }
     for (int i=0; i<n_t; i++) {
         std::vector<int> successors;
@@ -74,12 +48,11 @@ int main(int argc, char **argv)
         for (int j=0; j<n_t; j++) {
             if (i == j) continue;
             int pattern_w = t_to_p[j];
-            if (pattern_v != -1 && pattern_w != -1) {
-                if (pattern[pattern_v][pattern_w]) {
-                    successors.push_back(j);
-                }
-            } else if (dist(rand) < p) {
+            if (dist(rand) < p) {
                 successors.push_back(j);
+                if (pattern_v != -1 && pattern_w != -1) {
+                    pattern_edge_lists[pattern_v].push_back(pattern_w);
+                }
             }
         }
         tf << successors.size() << "\n";
@@ -88,6 +61,20 @@ int main(int argc, char **argv)
         }
     }
     tf.close();
+    
+    std::ofstream pf(p_filename);
+    pf << n_p << "\n";
+    for (int i=0; i<n_p; i++) {
+        pf << i << " " << pattern_labels[i] << "\n";
+    }
+    for (int i=0; i<n_p; i++) {
+        std::sort(pattern_edge_lists[i].begin(), pattern_edge_lists[i].end());
+        pf << pattern_edge_lists[i].size() << "\n";
+        for (int j : pattern_edge_lists[i]) {
+            pf << i << " " << j << "\n";
+        }
+    }
+    pf.close();
     
     return 0;
 }

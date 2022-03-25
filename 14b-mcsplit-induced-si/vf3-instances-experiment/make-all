@@ -1,5 +1,8 @@
 set -euo pipefail
 
+echo "Making generator..."
+(cd random-graph-generator/ && ./build.sh)
+
 find . -name Makefile | while read f; do
     d=$(dirname $f)
     echo
