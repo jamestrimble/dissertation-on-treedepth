@@ -34,7 +34,7 @@ void sig_handler(int sig) {
 			std::cout << "Aborted \n";
 			exit(-1);
 		case SIGTERM:
-			std::cout << "Terminated \n";
+//			std::cout << "Terminated \n";
 			exit(-1);
 		case SIGSEGV:
 			std::cout << "Segmentation fault \n";
