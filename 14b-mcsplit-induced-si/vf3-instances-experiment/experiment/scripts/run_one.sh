@@ -43,3 +43,5 @@ timeout $(($timelimit + $extratime)) ../programs/glasgow-subgraph-solver/glasgow
 ######  Add VF reader to mcsplit-si-adjmat, and use that program
 rm $pf
 rm $tf
+rm $pf.*
+rm $tf.*
