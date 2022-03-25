@@ -29,8 +29,9 @@ timeout $(($timelimit + $extratime)) ../programs/RI/ri36_with_timing ind gfd $tf
         || echo Failed $? >> $out.ri.out
 timeout $(($timelimit + $extratime)) ../programs/RI-DS/ri351ds_with_timing ind gfd $tf.gfd $pf.gfd > $out.ri-ds.out \
         || echo Failed $? >> $out.ri-ds.out
-../programs/glasgow-subgraph-solver/glasgow_subgraph_solver \
-    --enumerate --format csv --induced $pf.csv $tf.csv --timeout $timelimit > $out.glasgow.out
+timeout $(($timelimit + $extratime)) ../programs/glasgow-subgraph-solver/glasgow_subgraph_solver \
+    --enumerate --format csv --induced $pf.csv $tf.csv --timeout $timelimit > $out.glasgow.out \
+        || echo Failed $? >> $out.glasgow.out
 ../programs/glasgow-subgraph-solver/glasgow_subgraph_solver \
     --enumerate --no-supplementals --format csv --induced $pf.csv $tf.csv --timeout $timelimit > $out.glasgow-nosupp.out
 ../programs/mcsplit-si/mcsplit-si --enumerate --VF B $pf $tf --timeout $timelimit > $out.mcsplit-si.out
