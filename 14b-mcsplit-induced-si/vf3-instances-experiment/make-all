@@ -1,0 +1,10 @@
+set -euo pipefail
+
+find . -name Makefile | while read f; do
+    d=$(dirname $f)
+    echo
+    echo "------------------------------"
+    echo Making $d
+    echo "------------------------------"
+    (cd $d; make -j $(nproc))
+done
