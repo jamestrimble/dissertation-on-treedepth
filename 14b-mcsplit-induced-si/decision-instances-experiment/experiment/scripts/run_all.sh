@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-timelimit=20
+timelimit=1000
 
 rm -f program-output/*
 
