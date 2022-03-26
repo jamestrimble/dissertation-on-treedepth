@@ -29,10 +29,10 @@ if [ "$(head -n1 $out.connected.out)" == "Connected" ]; then
 else
     echo "PATTERN DISCONNECTED" > $out.vf3.out
 fi
-timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/RI/ri36_with_timing ind gfu \
+timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/RI/ri36_decision_with_timing ind gfu \
         instances/$instance.target.gfu instances/$instance.pattern.gfu > $out.ri.out \
         || echo Failed $? >> $out.ri.out
-timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/RI-DS/ri351ds_with_timing ind gfu \
+timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/RI-DS/ri351ds_decision_with_timing ind gfu \
         instances/$instance.target.gfu instances/$instance.pattern.gfu > $out.ri-ds.out \
         || echo Failed $? >> $out.ri-ds.out
 timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/glasgow-subgraph-solver/glasgow_subgraph_solver \
