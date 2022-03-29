@@ -23,7 +23,7 @@ show_glasgow_time_or_timeout() {
 }
 
 echo i labels p nt np mcsplit-si mcsplit-si-dom mcsplit-si-adjmat mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
-head -n2 intermediate/instances.txt | while read i count labels p nt np; do
+cat intermediate/instances.txt | while read i count labels p nt np; do
     echo $(
         echo $i $labels $p $nt $np
         cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si.out | grep Time | awk '{print $3}'
