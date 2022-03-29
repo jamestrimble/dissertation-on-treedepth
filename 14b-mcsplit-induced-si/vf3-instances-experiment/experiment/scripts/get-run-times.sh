@@ -22,12 +22,14 @@ show_glasgow_time_or_timeout() {
     fi
 }
 
-echo i labels p nt np mcsplit-si mcsplit-si-adjmat glasgow glasgow-nosupp ri ri-ds vf3
-head -n2 intermediate/instances.txt | while read i count labels p nt np; do
+echo i labels p nt np mcsplit-si mcsplit-si-dom mcsplit-si-adjmat mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
+cat intermediate/instances.txt | while read i count labels p nt np; do
     echo $(
         echo $i $labels $p $nt $np
         cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si.out | grep Time | awk '{print $3}'
+        cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si-dom.out | grep Time | awk '{print $3}'
         cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si-adjmat.out | grep Time | awk '{print $3}'
+        cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si-adjmat-dom.out | grep Time | awk '{print $3}'
         show_glasgow_time_or_timeout program-output/$np-$nt-$p-$labels-$i.glasgow.out
         cat program-output/$np-$nt-$p-$labels-$i.glasgow-nosupp.out | grep runtime | cut -d' ' -f3
         show_time_or_timeout program-output/$np-$nt-$p-$labels-$i.ri.out
