@@ -559,17 +559,69 @@ Glasgow and RI time out on the $k=10$ and $k=6$ instances respectively.
 
 \section{Experimental evaluation}
 
-In this section, we compare the speed of \McSplit SI with three state-of-the-art algorithms
-on two sets of benchmark instances.  For the first set of instances, we solve the problem
-of whether there exists an induced subgraph isomorphism from the pattern graph to the target
-graph.  For the second set of instances, we solve the problem of counting all induced subgraph
+In this section, we compare the speed of \McSplit-SI with three state-of-the-art algorithms
+on two sets of benchmark instances.  For the first set of instances, we solve the decision problem:
+does there exist an induced subgraph isomorphism from the pattern graph to the target
+graph?  For the second set of instances, we solve the problem of counting all induced subgraph
 isomorphisms from the pattern to the target.
 
-\subsection{Satisfiability instances}
+\subsection{Decision instances}
 
 \subsection{Enumeration instances}
 
-Our second set of benchmark instances
+Our second set of benchmark instances is based on the MIVIA LDGraphs dataset
+\cite{DBLP:journals/pami/CarlettiFSV18}.  In each LDGraphs instance, the pattern and
+target graphs are random directed graphs with vertex labels but without edge labels.
+Although the results of benchmarking graph algorithms on such instances cannot
+always be extrapolated to real-world instances \cite{DBLP:conf/cp/McCreeshPST17},
+we include these instances because they are the an established benchmark set,
+and in particular they are the main set of instances used to demonstrate the
+performance of VF3.
+
+In each instance, both the pattern and target graph are generated using a directed-graph
+version of the Erd\H{o}s-Rényi $G(n,p)$ model.  In this model, a graph on $n$ vertices
+is generated, and each of the $n(n-1)$ possible directed edges is added with independent
+probability $p$.  Carletti et al.\ use the values $\{0.2, 0.3, 0.4\}$ for $p$. In our experiment
+we additionally use the values $0.05$ and $0.1$.
+
+Following Carletti et al., we generate two families of directed graphs: an unlabelled family
+and a family with no edge labels in which the vertex labels are chosen uniformly at random
+from the set $\{1,\dots,8\}$.  (Carletti et al.\ generated a third family, in which labels
+are chosen from a non-uniform distribution.  Their experimental results show very similar
+outcomes for the uniform and non-uniform families, and therefore we have omitted the non-uniform
+family from our experiment.)
+
+For each value of $p$, we use the values
+of $n$ for the target graph that were used by Carletti et al.; these are shown in \Cref{tab:carletti-n}.
+In each instance, a randomly-selected subset of $20\%$ of the target vertices is selected,
+and the subgraph induced by this subset is used as the pattern graph.
+
+\FloatBarrier
+
+\begin{table}[h!]
+\centering
+\footnotesize
+ \begin{tabular}{p{0.2\linewidth} p{0.35\linewidth} p{0.35\linewidth}}
+ \toprule
+     $p$ & Target graph $n$ (unlabelled) & Target graph $n$ (labelled) \\ [0.5ex]
+ \midrule
+     $0.05$, $0.01$, and $0.2$ &
+         300, 500, 750, 1000, 1250, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000 &
+         300, 500, 750, 1000, 1250, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000,
+         5500, 6000, 6500, 7000, 7500, 8000, 9000, 10000\\
+     \rule{0pt}{2.3ex}$0.3$ & 
+        300, 500, 750, 1000, 1250, 1500, 2000, 2500, 3000 &
+        300, 500, 750, 1000, 1250, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000,
+        5500, 6000, 6500, 7000, 7500, 8000, 9000 \\
+     \rule{0pt}{2.3ex}$0.4$ & 300, 500, 750, 1000, 1250, 1500 &
+        300, 500, 750, 1000, 1250, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000 \\
+ \bottomrule
+\end{tabular}
+\caption{Values of $n$ used in enumeration instances}
+\label{tab:carletti-n}
+\end{table}
+
+\FloatBarrier
 
 \section{Conclusion}
 
