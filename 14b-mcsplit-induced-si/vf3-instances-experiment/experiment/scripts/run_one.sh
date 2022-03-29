@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-extratime=0
+extratime=100
 
 i=$1
 labels=$2
@@ -42,8 +42,6 @@ timeout $(($timelimit + $extratime)) ../programs/glasgow-subgraph-solver/glasgow
 ../cpp-utils/is-connected/is_vf_connected < $pf > $out.connected.out
 ../cpp-utils/is-connected/is_vf_connected < $tf >> $out.connected.out
 
-###### TODO
-######  Add VF reader to mcsplit-si-adjmat, and use that program
 rm $pf
 rm $tf
 rm $pf.*

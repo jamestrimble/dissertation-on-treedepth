@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-extratime=0
+extratime=100
 
 instance=$1
 file_a=$2
