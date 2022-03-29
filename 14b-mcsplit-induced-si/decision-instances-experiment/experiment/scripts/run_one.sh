@@ -20,8 +20,8 @@ out=program-output/$instance
 ../../vf3-instances-experiment/cpp-utils/ciaran-lad2arg-modified/lad2arg < $tf > instances/$instance.target.grf
 ../../vf3-instances-experiment/cpp-utils/ciaran-lad2gfu/lad2gfu < $tf > instances/$instance.target.gfu
 
-../../vf3-instances-experiment/cpp-utils/is-connected/is_lad_connected < $pf || true > $out.connected.out
-../../vf3-instances-experiment/cpp-utils/is-connected/is_lad_connected < $tf || true >> $out.connected.out
+(../../vf3-instances-experiment/cpp-utils/is-connected/is_lad_connected < $pf || true) > $out.connected.out
+(../../vf3-instances-experiment/cpp-utils/is-connected/is_lad_connected < $tf || true) >> $out.connected.out
 
 # FIXME The following `if` is temporary!
 if grep -q 'Disconnected' $out.connected.out; then
