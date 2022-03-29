@@ -1,3 +1,0 @@
-./scripts/run_one.sh all-images-CVIU11-pattern9-target97 ../instances/images-CVIU11/patterns/pattern9 ../instances/images-CVIU11/targets/target97 5
-./scripts/run_one.sh all-images-CVIU11-pattern9-target98 ../instances/images-CVIU11/patterns/pattern9 ../instances/images-CVIU11/targets/target98 5
-./scripts/run_one.sh all-images-CVIU11-pattern9-target99 ../instances/images-CVIU11/patterns/pattern9 ../instances/images-CVIU11/targets/target99 5
