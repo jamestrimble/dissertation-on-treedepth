@@ -578,6 +578,12 @@ we include these instances because they are the an established benchmark set,
 and in particular they are the main set of instances used to demonstrate the
 performance of VF3.
 
+Rather than using the instance files provided by the authors of the MIVIA LDGraphs
+dataset, we chose to generate our own random graphs from the same model and with the
+same parameters.  We made this choice for two reasons: first, because of the size
+of the LDGraphs files (90 GBytes compressed), and second, so that we could add sparser
+instances to the set of instances.
+
 In each instance, both the pattern and target graph are generated using a directed-graph
 version of the Erd\H{o}s-Rényi $G(n,p)$ model.  In this model, a graph on $n$ vertices
 is generated, and each of the $n(n-1)$ possible directed edges is added with independent
