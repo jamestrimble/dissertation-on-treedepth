@@ -4,4 +4,4 @@ set -euo pipefail
 
 cat program-output/*.connected.out | sort | uniq -c
 
-cat program-output/*.out | grep Failed | sort | uniq -c
+grep -h -R 'Failed' program-output | sort | uniq -c
