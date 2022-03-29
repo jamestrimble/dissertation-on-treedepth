@@ -42,6 +42,8 @@ timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/gla
     --no-supplementals --format lad --induced $pf $tf --timeout $timelimit > $out.glasgow-nosupp.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad B $pf $tf --timeout $timelimit > $out.mcsplit-si.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si-adjmat --lad B $pf $tf --timeout $timelimit > $out.mcsplit-si-adjmat.out
+../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom.out
+../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si-adjmat --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-adjmat-dom.out
 
 rm instances/$instance.pattern.grf
 rm instances/$instance.pattern.gfu
