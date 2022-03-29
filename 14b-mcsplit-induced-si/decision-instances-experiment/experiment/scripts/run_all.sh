@@ -4,7 +4,8 @@ set -euo pipefail
 
 timelimit=1000
 
-rm -f program-output/*
+#rm -rf program-output
+#mkdir program-output
 
 mkdir -p intermediate
 rm -f intermediate/commands.txt
