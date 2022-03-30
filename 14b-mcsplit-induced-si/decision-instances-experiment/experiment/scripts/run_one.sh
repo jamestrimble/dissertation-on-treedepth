@@ -23,12 +23,12 @@ out=program-output/$instance
 (../../vf3-instances-experiment/cpp-utils/is-connected/is_lad_connected < $pf || true) > $out.connected.out
 (../../vf3-instances-experiment/cpp-utils/is-connected/is_lad_connected < $tf || true) >> $out.connected.out
 
-if [ "$(head -n1 $out.connected.out)" == "Connected" ]; then
+if grep -q 'Disconnected' $out.connected.out; then
+    echo "DISCONNECTED" > $out.vf3.out
+else
     timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/vf3lib/bin/vf3_first_match_only -u -r0 \
         instances/$instance.pattern.grf instances/$instance.target.grf > $out.vf3.out \
             || echo Failed $? >> $out.vf3.out
-else
-    echo "PATTERN DISCONNECTED" > $out.vf3.out
 fi
 timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/RI/ri36_decision_with_timing ind gfu \
         instances/$instance.target.gfu instances/$instance.pattern.gfu > $out.ri.out \

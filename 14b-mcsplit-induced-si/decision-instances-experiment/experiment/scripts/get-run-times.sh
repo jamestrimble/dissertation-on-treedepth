@@ -36,7 +36,7 @@ cat ../cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt | while read
         cat program-output/$instance.glasgow-nosupp.out | grep runtime | cut -d' ' -f3
         show_time_or_timeout program-output/$instance.ri.out
         show_time_or_timeout program-output/$instance.ri-ds.out
-        if head -n1 program-output/$instance.connected.out | grep -q 'Disconnected'; then
+        if grep -q 'Disconnected' program-output/$instance.connected.out; then
             echo DISCONNECTED
         else
             show_time_or_timeout program-output/$instance.vf3.out
