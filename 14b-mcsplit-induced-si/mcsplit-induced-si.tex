@@ -1,8 +1,7 @@
 %\algnewcommand{\IfNDebug}[1]{#1}
 %\algnewcommand{\IfNDebug}[1]{}
 
-\chapter{McSplit-SI: An algorithm for the induced subgraph isomorphism problem
-optimised for large, sparse graphs}
+\chapter{McSplit-SI: An algorithm for the induced subgraph isomorphism problem}
 \label{c:mcsplit-si}
 
 \section{Introduction}
@@ -361,7 +360,7 @@ on the all-different constraint for free, without requiring an all-different pro
 a family of instances that cannot be solved efficiently by Glasgow, VF3, or RI, but can be solved very
 quickly by \McSplit-SI because it achieves GAC.
 
-\subsection{\McSplit-SI achieves GAC}
+\section{\McSplit-SI achieves GAC}
 
 In \Cref{gacProposition}, we view the label classes as a domain store in which each label
 class $\langle V_G, V_H \rangle$ represents to $|V_G|$ variables, each with domain $V_H$,
@@ -564,6 +563,49 @@ on two sets of benchmark instances.  For the first set of instances, we solve th
 does there exist an induced subgraph isomorphism from the pattern graph to the target
 graph?  For the second set of instances, we solve the problem of counting all induced subgraph
 isomorphisms from the pattern to the target.
+
+\subsection{Other solvers}
+
+Our experiments compare \McSplit-SI with three state-of-the-art subgraph isomorphism solvers:
+VF3, RI, and Glasgow.  
+
+The Glasgow algorithm \cite{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020}
+was the fastest solver for hard induced subgraph isomorphism instances in a recent
+experimental evaluation by Solnon \cite{DBLP:conf/gbrpr/Solnon19}.  The algorithm
+uses a constraint programming approach, in which the domain of each vertex is represented
+explicitly in memory.  Bitsets are used to represent domains and rows of each adjacency
+matrix, allowing very fast updates to domains, particularly on dense graphs
+\cite{ullmann1976algorithm}.  The Glasgow algorithm introduces the concept of
+\emph{supplemental graphs}: graphs derived from the pattern and target graphs that
+can also be used to filter domains.  This technique often results in a large
+improvement to the solver's run time.  Unfortunately we cannot use the same technique
+in \McSplit-SI because it breaks the invariant, required by \McSplit-SI's data structure,
+that any two domains are either equal or disjoint.
+We use the 14 March 2022 version of the Glasgow solver, published
+online.\footnote{\url{https://github.com/ciaranm/glasgow-subgraph-solver}}
+
+Like Glasgow, the VF3 \cite{DBLP:journals/pami/CarlettiFSV18} and RI
+\cite{DBLP:journals/bmcbi/BonniciGPSF13,DBLP:journals/tcbb/BonniciG17}
+solvers explore a search tree, adding one pair of vertices to the mapping at each
+search node.  However, the data structure maintained by these algorithms are
+much more lightweight than those of Glasgow.  VF3 and RI do not maintain
+a domain for each vertex in the pattern graph; they simply maintain a partition
+of the vertices in the each graph into three sets: ($A$) vertices that have been
+mapped already, ($B$) unmapped vertices that are adjacent to at least one mapped vertex, and
+($C$) all other unmapped vertices.
+If the $B$ (resp. $C$) set of the pattern graph is smaller than the $B$ (resp. $C$)
+set of the target graph, the algorithm can backtrack.
+This data structure can be updated with the same
+time complexity as the partitioning step of \McSplit-SI (and presumably with a slightly
+smaller constant factor given the simplicity of the data structure).  
+However, its ability to prune the search tree is worse than that of \McSplit-SI
+(since the $B$ sets are a union of the label classes in \McSplit-SI), and it
+leaves unavailable the smallest-domain-first heuristic used by \McSplit-SI.
+(TODO mention RI-DS)
+(TODO write about differences between VF3 and RI)
+
+In terms of effort per search node, \McSplit-SI may be viewed intuitively as sitting
+between Glasgow on one hand VF3 and RI on the other.
 
 \subsection{Decision instances}
 
