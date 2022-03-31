@@ -6,23 +6,23 @@
 
 \section{Introduction}
 
-In the induced subgraph isomorphism problem, we seek to find an induced copy of pattern graph $G$ in target graph $H$. This is special case of the decision version of maximum common induced subgraph in which we require the common subgraph to contain all of graph $G$'s vertices.
+In the induced subgraph isomorphism problem, we seek an induced copy of pattern graph $G$ in target graph $H$. This is a special case of the decision version of maximum common induced subgraph in which we require the common subgraph to contain all of graph $G$'s vertices.
 
 The \McSplit\ algorithm may be trivially modified to solve the induced subgraph isomorphism problem. Rather than calculating an upper bound at each search node, we simply backtrack when the $G$-set of any label class is larger than the corresponding $H$-set, since by the pigeonhole principle this implies that we cannot map each pattern-graph vertex to a target-graph vertex.
 
-While \McSplit\ is well suited to the small (tens of vertices), relatively dense graphs that are typical of maximum common subgraph instances, it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a boolean variable.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would still permit constant-time adjacency tests in the algorithm's partitioning step, but this would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, the \McSplit\ algorithm iterates over all of the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
+While \McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a boolean variable.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would still permit amortized constant time adjacency tests in the algorithm's partitioning step, but this would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, the \McSplit\ algorithm iterates over all of the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
 
-\Cref{figure:si-targets-n-density} shows vertex count and density for the target graphs of a random subset of the benchmark instances
+\Cref{figure:si-targets-n-density} shows vertex count and density for the target graphs of the benchmark instances
 that we will use in this chapter.  Of the entire benchmark set, $76\%$ of pattern graphs have density less than $0.01$.  Thus, it would
-greatly improve our \McSplit\ algorithm for subgraph isomorphism if we could reduce the time complexity of the partitioning
+greatly improve our \McSplit\ algorithm for subgraph isomorphism on these and similar instances if we could reduce the time complexity of the partitioning
 step from $O(n_G + n_H)$ to $O(|N(v)| + |N(w)|)$, where $(v,w)$ is the most-recently made mapping of a pattern vertex to a target
 vertex.  In this chapter we introduce this improved algorithm, which we call \McSplit-SI.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/density-chart/plots/n-density}
-    \caption{Number of vertices and density (log scale) of a sample of 1000 target graphs from the benchmark set
-    of $14,621$ subgraph isomorphism instances.}
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/density-chart/plots/n-density-pdf}
+    \caption{Number of vertices and density (log scale) for each target graph in the benchmark set
+    of $14,621$ subgraph isomorphism decision instances.}
     \label{figure:si-targets-n-density}
 \end{figure}
 
@@ -179,8 +179,10 @@ for u in N_G(v):
     if lc.s = false:
         Set lc.s = true
         Create a new, empty label class after lc in the doubly-linked list
-        Set lc.next.s_G = lc.next.e_G = lc.e_G
-        Set lc.next.s_H = lc.next.e_H = lc.e_H
+        Set lc.next.s_G = lc.e_G
+        Set lc.next.e_G = lc.e_G
+        Set lc.next.s_H = lc.e_H
+        Set lc.next.e_H = lc.e_H
         Set lc.next.a = true
         Set lc.next.s = false
         Append to split_label_classes a pointer to lc
@@ -302,7 +304,7 @@ locality of reference), and add each of these to the free list.  A label class i
 adding it to the head of the free list.  The pools of objects are released by the system allocator only when
 the algorithm terminates.
 
-Using the approach, the partitioning step does not need to make any dynamic memory allocations, except
+Using this approach, the partitioning step does not need to make any dynamic memory allocations, except
 on rare occasions when the free list is exhausted.
 This approach to memory allocation typically reduces run time by around $10\%$ in comparison to use of
 C++'s $\FuncSty{new}$ and $\FuncSty{delete}$ keywords for each allocation and deallocation.
@@ -608,6 +610,10 @@ In terms of effort per search node, \McSplit-SI may be viewed intuitively as sit
 between Glasgow on one hand VF3 and RI on the other.
 
 \subsection{Decision instances}
+
+\subsection{Families of instances}
+
+\subsection{Results}
 
 \begin{figure}[h!]
     \centering
