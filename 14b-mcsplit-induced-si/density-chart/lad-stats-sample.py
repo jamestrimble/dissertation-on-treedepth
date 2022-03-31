@@ -4,7 +4,7 @@ import sys
 
 print("n d")
 
-targets = []
+targets = set()
 
 with open("instances.txt", "r") as f:
     for i_line in f:
@@ -13,8 +13,9 @@ with open("instances.txt", "r") as f:
             "~/OthersCode/solnon-benchmarks/cpaior2019-sbs-for-subgraphs-paper/instances/" +
             tokens[2]
         )
-        targets.append(target)
+        targets.add(target)
 
+targets = list(targets)
 random.shuffle(targets)
 
 for target in targets[:1000]:

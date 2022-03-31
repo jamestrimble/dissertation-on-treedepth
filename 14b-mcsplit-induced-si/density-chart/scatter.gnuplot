@@ -1,6 +1,7 @@
 # vim: set et ft=gnuplot sw=4 :
 
-set terminal tikz standalone color size 8cm,5.5cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
+#set terminal tikz standalone color size 9cm,5.5cm font '\scriptsize' preamble '\usepackage{times}'
+set terminal tikz standalone color size 9cm,5.5cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
 set output "plots/n-density.tex"
 #set terminal png
 #set output "bounds-plot.png"
@@ -21,8 +22,10 @@ set logscale y
 #set format x '$10^{%T}$'
 #set format y '$10^{%T}$'
 
-plot \
-    "target-graph-stats-sample.txt" u 1:2 w p pt 7 lc rgb "#991f77b4" ps .3 notitle
-#plot \
-#    "results_pivoted.tsv" u 2:7 pt 7 lc rgb "#991f77b4" ps .3 notitle, \
-#    "results_summary.tsv" using ($1-.3):2:(.6):(0) with vectors nohead lw 2 lc rgb "#000000" notitle
+plot "target-graph-stats.txt" u 1:2 w p pt 7 lc rgb "#991f77b4" ps .3 notitle
+
+set term pdfcairo size 9cm,5.5cm font "Times,10"
+set xlabel 'Target graph order'
+set ylabel 'Target graph density'
+set output "plots/n-density-pdf.pdf"
+plot "target-graph-stats.txt" u 1:2 w p pt 7 lc rgb "#881f77b4" ps .15 notitle
