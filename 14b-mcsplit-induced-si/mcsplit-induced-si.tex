@@ -1,6 +1,15 @@
 %\algnewcommand{\IfNDebug}[1]{#1}
 %\algnewcommand{\IfNDebug}[1]{}
 
+\newcommand{\varStartG}{\ensuremath{\AlgVar{start}_G}}
+\newcommand{\varEndG}{\ensuremath{\AlgVar{end}_G}}
+\newcommand{\varStartH}{\ensuremath{\AlgVar{start}_H}}
+\newcommand{\varEndH}{\ensuremath{\AlgVar{end}_H}}
+\newcommand{\varActive}{\ensuremath{\AlgVar{active}}}
+\newcommand{\varSplitting}{\ensuremath{\AlgVar{splitting}}}
+\newcommand{\varPrev}{\ensuremath{\AlgVar{prev}}}
+\newcommand{\varNext}{\ensuremath{\AlgVar{next}}}
+
 \chapter{McSplit-SI: An algorithm for the induced subgraph isomorphism problem}
 \label{c:mcsplit-si}
 
@@ -25,6 +34,40 @@ vertex.  In this chapter we introduce this improved algorithm, which we call \Mc
     of $14,621$ subgraph isomorphism decision instances.}
     \label{figure:si-targets-n-density}
 \end{figure}
+
+\begin{algorithm}[h!]
+\DontPrintSemicolon
+\nl $\FuncSty{Search}(\AlgVar{future},M)$ \;
+\nl \Begin{
+    \nl \lIf {$|M| = |V(G)|$}{\KwSty{return} $\AlgVar{true}$} \label{DecisionReturnTrue}
+\medskip
+\nl $\langle \setG,\setH \rangle \gets \FuncSty{SelectLabelClass}(\AlgVar{future})$ \label{DecisionSelectClass} \;
+\nl $v \gets \FuncSty{SelectVertex}(\setG)$ \label{DecisionSelectVertex} \;
+    \nl \For {$w \in \setH$ \label{DecisionWLoop}} {
+\nl    $\AlgVar{future'} \gets \emptyset$ \label{DecisionNewFuture} \;
+\nl    \For {$\langle \setG',\setH'\rangle \in future$ \label{DecisionInnerLoop}}{
+\nl        $\setG'' \gets \setG' \cap \N(\graphG, v) \setminus \{v\}$ \label{DecisionNewPWithEdge} \;
+\nl        $\setH'' \gets \setH' \cap \N(\graphH, w) \setminus \{w\}$ \;
+\nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{DecisionIfNonEmpty}}{
+\nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$ \label{DecisionAddToFutureWithEdge}}
+\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v) \setminus \{v\}$ \label{DecisionNewPWithoutEdge}  \;
+\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w) \setminus \{w\}$ \;
+\nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{DecisionIfNonEmpty2}}{
+\nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$} \label{DecisionInnerLoopEnd}
+       }
+\nl   \lIf {$\FuncSty{Search}(\AlgVar{future'},M\cup \{(v,w)\})$ \label{DecisionExpandWithV}}{$\KwSty{return}$ $\AlgVar{true}$}
+  }
+\nl  $\KwSty{return}$ $\AlgVar{false}$\;
+}
+\;
+\nl $\FuncSty{McSplitSI}(\graphG,\graphH)$ \label{DecisionMcSplitFun} \;
+\nl \Begin{
+\nl \lIf {$|V(G)| > |V(H)|$}{\KwSty{return} $\AlgVar{false}$}
+\nl $\KwSty{return}$ $\FuncSty{Search}(\{\langle V(\graphG),V(\graphH) \rangle \},\emptyset, t)$ \label{DecisionFirstExpandCall} \;
+}
+\caption{\McSplit-SI}
+\label{McSplitSIAlg}
+\end{algorithm}
 
 \section{The label class object}
 
@@ -53,7 +96,7 @@ contain the $G$-set and $H$-set.
  \toprule
     Name & Type & Description \\ [0.5ex]
  \midrule
-    $s_G$ & Pointer to Integer & Pointer to the first vertex of the $G$-set\\
+    \varStartG & Pointer to Integer & Pointer to the first vertex of the $G$-set\\
     \rule{0pt}{2.3ex}$e_G$ & Pointer to Integer & Pointer to one element past the last vertex of the $G$-set\\
     \rule{0pt}{2.3ex}$s_H$ & Pointer to Integer & Pointer to the first vertex of the $H$-set\\
     \rule{0pt}{2.3ex}$e_H$ & Pointer to Integer & Pointer to one element past the last vertex of the $H$-set\\
@@ -358,17 +401,20 @@ R\'egin's algorithm and its filtering is almost as effective as that of R\'egin'
 on a large set of benchmark instances.
 
 This section has two contributions. First, we show that \McSplit-SI achieves generalised arc consistency
-on the all-different constraint for free, without requiring an all-different propagator.  Second, we describe
-a family of instances that cannot be solved efficiently by Glasgow, VF3, or RI, but can be solved very
-quickly by \McSplit-SI because it achieves GAC.
+on the all-different constraint for free, without requiring an all-different propagator.
+Second, as an existence proof that this can provide benefits beyond those of the counting all-different
+propagator, we describe
+a family of instances that cannot be solved efficiently by Glasgow --- or indeed by RI --- but can
+be solved very quickly by \McSplit-SI.
 
-\section{\McSplit-SI achieves GAC}
+\subsection{\McSplit-SI achieves GAC}
 
 In \Cref{gacProposition}, we view the label classes as a domain store in which each label
-class $\langle V_G, V_H \rangle$ represents to $|V_G|$ variables, each with domain $V_H$,
-and show that \McSplit-SI maintains GAC.  The proof depends on the fact that domains are
-either equal or disjoint, and also on the fact that \McSplit-SI backtracks if the $H$-set
-of a label class is larger than the $G$-set.
+class $\langle V_G, V_H \rangle$ represents a set of $|V_G|$ variables, each with domain $V_H$,
+and show that \McSplit-SI maintains GAC.  The proof depends on the fact that domains in
+\McSplit-SI are guaranteed to be
+either equal or disjoint, and also on the fact that \McSplit-SI backtracks if $|V_G| > |V_H|$
+for any label class.
 
 \begin{proposition}\label{gacProposition}
     \McSplit-SI maintains generalised arc consistency on the all-different constraint
@@ -376,29 +422,31 @@ of a label class is larger than the $G$-set.
 
 \begin{proof}
 Let $\langle V_G^1, V_H^1 \rangle, \dots, \langle V_G^k, V_H^k \rangle$ be the list of
-label classes.  From \Cref{c:mcsplit-i-undirected}, we have that $|V_G^i| \leq |V_H^i|$
+label classes.  From (a previous chapter) \Cref{c:mcsplit-i-undirected}, we have that $|V_G^i| \leq |V_H^i|$
 for $1 \leq i \leq k$ and that $V_H^i \cap V_H^j = \emptyset$ for $i \not= j$.
 
 Let $v \in V_G^i$ and $w \in V_H^i$ for some $1 \leq i \leq k$.  We need to show that we
 extend the mapping
 $(v,w)$ to a complete assignment of the vertices in all $V_G^j$ ($1 \leq j \leq k$).
-This can be achieved by assiging the vertices of
-each $V_G^j \setminus \{v\}$ to any $|V_G^j \setminus \{v\}|$ vertex subset of
+This can be achieved by assiging, for each $j$ ($1 \leq j \leq k$) the vertices of
+$V_G^j \setminus \{v\}$ to any $|V_G^j \setminus \{v\}|$ vertex subset of
 $V_H^j \setminus \{w\}$.
 \end{proof}
 
 \subsection{A family of instances where \McSplit-SI outperforms other algorithms}
 
 In this subsection, we consider a family of graphs devised to deminstrate
-that the generalised arc consistency that \McSplit-SI achieves can --- at least
-for some instances --- give a dramatic
+that the generalised arc consistency achieved by \McSplit-SI can give a dramatic
 speed-up compared to algorithms that do not achieve GAC.
+The instances described here are presented as an existence proof, rather than
+as representative of real-world instances.
 
 Consider the pattern graph $G_2$ in \Cref{figure:gac-example-3} and the target
 graph $H_2$ in \Cref{figure:gac-example-4}.  This induced subgraph isomorphism
 instance is unsatisfiable: $u$ may only be mapped to $x$ because the other
 vertices in $H_2$ have insufficient degree, after which we can deduce
-that each of the five $w_i$ vertices must be mapped to one of the four $z_j$ vertices.
+that each of the five isolated $w_i$ vertices must be mapped to one of the four
+isolated $z_j$ vertices.
 
 \begin{figure}[h!]
     \centering
@@ -488,12 +536,12 @@ two label classes:
 $\langle \{v_1,v_2\}, \{y_1,y_2,y_3,y_4\} \rangle$
 and
 $\langle \{w_1,w_2,w_3,w_4,w_5\}, \{z_1,z_2,z_3,z_4\} \rangle$.  In the latter
-label class, the first set of vertices is larger than the second, and therefore the
+label class, the set $V_G$ is larger than the set $V_H$, and therefore the
 algorithm can backtrack and terminate.
 
 Now we consider how the Glasgow algorithm behaves on this instance. After mapping
-$u$ to $x$, the domains correspond to our label classes, as shown in the first
-column of \Cref{tab:counting-all-diff}.  The remaining two columns of the table
+$u$ to $x$, the domains correspond to our label classes, as shown in the first two
+columns of \Cref{tab:counting-all-diff}.  The remaining two columns of the table
 illustrate the behaviour of the counting all-different propagator on these domains.
 (Since all domains are of the same size, the stable sort function used by the algorithm
 does not reorder the domains.)  The third column shows set $A$, which is the union
@@ -525,11 +573,11 @@ that we can backtrack.
 \label{tab:counting-all-diff}
 \end{table}
 
-The final two graphs in \Cref{fig:gac-example} generalise $G_2$ and $H_2$; as $k$ is incremented,
+The final two graphs in \Cref{figure:gac-example} generalise $G_2$ and $H_2$; as $k$ is incremented,
 a vertex is added to each of the $v$, $w$, $y$ and $z$ sets.
 \Cref{tab:gk-run-times} shows run times for the enumeration problem
 using \McSplit-SI, Glasgow, and RI for a range of values of $k$.
-VF3 was excluded because it reported incorrect results.
+VF3 was excluded from the experiment because the current version does not handle disconnected graphs correctly.
 \McSplit-SI solves the instance $k=1\,000\,000$ in less than a second;
 Glasgow and RI time out on the $k=10$ and $k=6$ instances respectively.
 
@@ -589,19 +637,19 @@ online.\footnote{\url{https://github.com/ciaranm/glasgow-subgraph-solver}}
 Like Glasgow, the VF3 \cite{DBLP:journals/pami/CarlettiFSV18} and RI
 \cite{DBLP:journals/bmcbi/BonniciGPSF13,DBLP:journals/tcbb/BonniciG17}
 solvers explore a search tree, adding one pair of vertices to the mapping at each
-search node.  However, the data structure maintained by these algorithms are
+search node.  However, the data structures maintained by these algorithms are
 much more lightweight than those of Glasgow.  VF3 and RI do not maintain
-a domain for each vertex in the pattern graph; they simply maintain a partition
-of the vertices in the each graph into three sets: ($A$) vertices that have been
+a domain for each vertex in the pattern graph; they simply store a partition
+of the vertex set of each graph into three sets: ($A$) vertices that have been
 mapped already, ($B$) unmapped vertices that are adjacent to at least one mapped vertex, and
 ($C$) all other unmapped vertices.
-If the $B$ (resp. $C$) set of the pattern graph is smaller than the $B$ (resp. $C$)
-set of the target graph, the algorithm can backtrack.
+If the $B$ (resp. $C$) set of the target graph is smaller than the $B$ (resp. $C$)
+set of the pattern graph, the algorithm can backtrack.
 This data structure can be updated with the same
-time complexity as the partitioning step of \McSplit-SI (and presumably with a slightly
+time complexity as the partitioning step of \McSplit-SI (and with a slightly
 smaller constant factor given the simplicity of the data structure).  
 However, its ability to prune the search tree is worse than that of \McSplit-SI
-(since the $B$ sets are a union of the label classes in \McSplit-SI), and it
+since the $B$ sets are a union of the label classes in \McSplit-SI, and it
 leaves unavailable the smallest-domain-first heuristic used by \McSplit-SI.
 (TODO mention RI-DS)
 (TODO write about differences between VF3 and RI)
@@ -684,7 +732,7 @@ performance of VF3.
 
 Rather than using the instance files provided by the authors of the MIVIA LDGraphs
 dataset, we chose to generate our own random graphs from the same model and with the
-same parameters.  We made this choice for two reasons: first, because of the size
+same parameters.  We made this choice for two reasons: first, because of the large size
 of the LDGraphs files (90 GBytes compressed), and second, so that we could add sparser
 instances to the set of instances.
 
@@ -730,6 +778,86 @@ and the subgraph induced by this subset is used as the pattern graph.
 \caption{Values of $n$ used in enumeration instances}
 \label{tab:carletti-n}
 \end{table}
+
+\FloatBarrier
+
+\subsection{Results for unlabelled instances}
+
+Each point shows the average of run times for 5 (?) instances.  The time limit was set at 1000 seconds, are timeouts are treated as 1000 seconds.  (Maybe there's a better way of presenting results with timeouts? A table?)
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.05-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.05$}
+    \label{figure:TODO}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.1-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.1$}
+    \label{figure:TODO}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.2-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.2$}
+    \label{figure:TODO}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.3-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.3$}
+    \label{figure:TODO}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.4-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.4$}
+    \label{figure:TODO}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Results for vertex-labelled instances}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.05-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.05$}
+    \label{figure:TODO}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.1-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.1$}
+    \label{figure:TODO}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.2-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.2$}
+    \label{figure:TODO}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.3-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.3$}
+    \label{figure:TODO}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.4-1.pdf}
+    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.4$}
+    \label{figure:TODO}
+\end{figure}
 
 \FloatBarrier
 
