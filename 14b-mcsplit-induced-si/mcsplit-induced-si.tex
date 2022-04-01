@@ -54,9 +54,14 @@ vertex.  In this chapter we introduce this improved algorithm, which we call \Mc
 \nl $v \gets \FuncSty{SelectVertex}(\setG)$ \label{DecisionSelectVertex} \;
     \nl \For {$w \in \setH$ \label{DecisionWLoop}} {
 \nl    $\FuncSty{Assign}(v,w)$ \;
-\nl    $(\AlgVar{splits}, \AlgVar{deletions}) \gets \FuncSty{Filter}(v, w)$ \;
-\nl    $\AlgVar{success} \gets \FuncSty{Search}(M \cup \{(v,w)\})$ \;
-\nl    $\FuncSty{Unfilter}(\AlgVar{splits}, \AlgVar{deletions})$ \;
+\nl    $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{failed}) \gets \FuncSty{Filter}(v, w)$ \;
+\nl    \If{$\AlgVar{failed}$}{
+\nl        $\AlgVar{success} \gets \AlgVar{false}$ \;
+       }
+\nl    \Else {
+\nl        $\AlgVar{success} \gets \FuncSty{Search}(M \cup \{(v,w)\})$ \;
+\nl        $\FuncSty{Unfilter}(\AlgVar{splits}, \AlgVar{deletions})$ \;
+       }
 \nl    $\FuncSty{Unassign}(v,w,\langle \setG,\setH \rangle)$ \;
 \nl    \lIf {$\AlgVar{success}$}{$\KwSty{return}$ $\AlgVar{true}$}
   }
@@ -263,6 +268,7 @@ the following (draft) pseudocode.
 
 \begin{algorithm}[h!]
 \DontPrintSemicolon
+\footnotesize
 \nl $\FuncSty{Filter}(v,w)$ \;
 \nl \Begin{
 \nl  $\AlgVar{splits} \gets []$  \LeftComment{Initialise array of pointers to split label classes} \;
@@ -303,9 +309,20 @@ the following (draft) pseudocode.
 \nl      Swap $u$ to the end of $\LC$ in \Harray, updating the relevant $\vertexPtr$ members in \Hptrs \;
 \nl      Decrement $\LC.\varEndH$  \LeftComment{Delete $u$ from $\LC$} \;
 \nl      Decrement $\LC'.\varStartH$  \LeftComment{Add $u$ to $\LC'$} \;
-\medskip
-\nl      $\FuncSty{DoDeletions}(\AlgVar{splits})$ \;
     }
+\medskip
+\nl  \For {$\LC \in \AlgVar{splits}$} {
+\nl     \If{$\LC.\varEndG - \LC.\varStartG > \LC.\varEndH - \LC.\varStartH$}{
+\nl         $\KwSty{return}$ $([],[],\AlgVar{true})$
+}
+\nl     \If{$\LC.next.\varEndG - \LC.next.\varStartG > \LC.next.\varEndH - \LC.next.\varStartH$}{
+\nl         $\KwSty{return}$ $([],[],\AlgVar{true})$
+}
+}
+\medskip
+\nl  $\AlgVar{deletions} \gets \FuncSty{DoDeletions}(\AlgVar{splits})$ \;
+\medskip
+\nl  $\KwSty{return}$ $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{false})$ \;
 }
 \;
 \nl $\FuncSty{CreateLabelClassAfter}(\LC)$ \;
@@ -348,6 +365,7 @@ without the need for an external array of pointers.}
             Append $\LC.next$ to $\AlgVar{deletions}$
         } 
     }
+    $\KwSty{return}$ $\AlgVar{deletions}$ \;
 }
 \;
 \nl $\FuncSty{DeleteLabelClass}(\LC)$ \;
