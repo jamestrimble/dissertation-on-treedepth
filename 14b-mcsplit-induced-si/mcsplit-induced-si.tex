@@ -161,16 +161,28 @@ At the top and bottom are the arrays $\Gptrs$ and $\Hptrs$.
 
 \section{The algorithm}
 
+\Cref{McSplitSIAlg} presents the overall structure of \McSplit-SI.  The entry point is
+on \lineref{McSplitSIFun}.  If $G$ has more vertices than $H$, the instance is trivially
+unsatisfiable. Otherwise, the global data label-class data structures are set up with
+a single label class, and the main recursive function $\FuncSty{Search}$ is called with
+an empty mapping.
+
+\Lineref{McSplitSIReturnTrue} returns true if a mapping containing all vertices of the
+pattern graph has been found.  Otherwise, the algorithm selects a label class
+$\langle S_G, S_H \rangle$, and from within $S_G$ a vertex on which to branch.
+(We will discuss variable selection heuristics in section ...) We then iterate
+over the vertices $w$ in $S_H$, attemptying to map $v$ to $w$.
+
 \begin{algorithm}[htb]
 \AlgorithmFontSize
 \DontPrintSemicolon
 \nl $\FuncSty{Search}(M)$ \;
 \nl \Begin{
-    \nl \lIf {$|M| = |V(G)|$}{\KwSty{return} $\AlgVar{true}$} \label{DecisionReturnTrue}
+    \nl \lIf {$|M| = |V(G)|$}{\KwSty{return} $\AlgVar{true}$} \label{McSplitSIReturnTrue}
 \medskip
-\nl $\langle \setG,\setH \rangle \gets \FuncSty{SelectLabelClass}(\AlgVar{future})$ \label{DecisionSelectClass} \;
-\nl $v \gets \FuncSty{SelectVertex}(\setG)$ \label{DecisionSelectVertex} \;
-    \nl \For {$w \in \setH$ \label{DecisionWLoop}} {
+\nl $\langle \setG,\setH \rangle \gets \FuncSty{SelectLabelClass}()$ \label{McSplitSISelectClass} \;
+\nl $v \gets \FuncSty{SelectVertex}(\setG)$ \label{McSplitSISelectVertex} \;
+    \nl \For {$w \in \setH$ \label{McSplitSIWLoop}} {
 \nl    $\FuncSty{Assign}(v,w)$ \;
 \nl    $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{failed}) \gets \FuncSty{Filter}(v, w)$ \;
 \nl    \If{$\AlgVar{failed}$}{
@@ -186,16 +198,40 @@ At the top and bottom are the arrays $\Gptrs$ and $\Hptrs$.
 \nl  $\KwSty{return}$ $\AlgVar{false}$\;
 }
 \;
-\nl $\FuncSty{McSplitSI}(\graphG,\graphH)$ \label{DecisionMcSplitFun} \;
+\nl $\FuncSty{McSplitSI}(\graphG,\graphH)$ \label{McSplitSIFun} \;
 \nl \Begin{
 \nl \lIf {$|V(G)| > |V(H)|$}{\KwSty{return} $\AlgVar{false}$}
 \nl Initialise global data structure with the label class $\{\langle V(\graphG),V(\graphH) \rangle \}$ \;
-\nl $\KwSty{return}$ $\FuncSty{Search}(\emptyset)$ \label{DecisionFirstExpandCall} \;
+\nl $\KwSty{return}$ $\FuncSty{Search}(\emptyset)$ \label{McSplitSIFirstExpandCall} \;
 }
 \caption{\McSplit-SI}
 \label{McSplitSIAlg}
 \end{algorithm}
 
+Within this loop, we have two pairs of functions:
+$\FuncSty{Assign}$ / $\FuncSty{Unassign}$
+and
+$\FuncSty{Filter}$ / $\FuncSty{Unfilter}$.  In each pair, the
+second function reverses the action of the first on the global
+data structure of label classes.
+
+The first pair of functions is shown in \Cref{McSplitSIAlgAssign}.
+Both of these run in constant time.
+The function $\FuncSty{Assign}(v,w)$ updates the label classes to reflect
+the assignment of $v$ in the pattern graph to $w$ in the target graph.  It 
+does this by moving $v$ and $w$ to the end of their label class in
+$\Garray$ and $\Harray$, then decrementing the end pointers of the label class.
+If no vertices of the pattern graph remain in the label class, the label-class
+object is deleted from the linked list $\calLC$.
+
+In addition, to maintain the invariants of
+the $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$ arrays, we set the label-class pointers of
+$\AlgVar{Gptrs}[v]$ and $\AlgVar{Hptrs}[w]$ to null since these vertices
+are no longer in a label class, and update the vertex pointers
+for $v$, $w$, and the vertices with which these were swapped to point to these
+vertices' new positions in the $V_G$ and $V_H$ arrays.
+\Cref{figure:si-data-structures-2} shows the data structures after the assignment
+of $2$ to $d$ in our example.
 
 \begin{algorithm}[htb]
 \AlgorithmFontSize
@@ -243,23 +279,6 @@ At the top and bottom are the arrays $\Gptrs$ and $\Hptrs$.
 \label{McSplitSIAlgAssign}
 \end{algorithm}
 
-\section{The partitioning algorithm}
-
-When making a tentative assignment of vertex $v$ to vertex $w$, we perform the same steps
-as the basic \McSplit\ algorithm: swap $v$ and $w$ to the
-end of their label class in the $V_G$ and $V_H$ arrays, and decrement the end pointers
-of that label class.  The \McSplit-SI algorithm requires additional (constant time)
-steps to maintain the invariants of
-the $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$ arrays: set the label-class pointers of
-$\AlgVar{Gptrs}[v]$ and $\AlgVar{Hptrs}[w]$ to null since these vertices
-are no longer in a label class, and update the vertex pointers
-for $v$, $w$, and the vertices with which these were swapped to point to these
-vertices' new positions in the $V_G$ and $V_H$ arrays.
-\Cref{figure:si-data-structures-2} shows the data structures after the assignment
-of $2$ to $d$ in our example.
-
-\FloatBarrier
-
 \begin{figure}[htb]
     \centering
     \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-2}
@@ -267,7 +286,7 @@ of $2$ to $d$ in our example.
     \label{figure:si-data-structures-2}
 \end{figure}
 
-\FloatBarrier
+\section{The partitioning algorithm}
 
 We now describe the partitioning step, referring in our running example to
 the refinement of label classes carried out after mapping $2$ to $d$.
@@ -282,8 +301,6 @@ the refinement of label classes carried out after mapping $2$ to $d$.
     \label{figure:si-data-structures-3}
 \end{figure}
 
-\FloatBarrier
-
 Each label class object that contained the sets $\langle V_G, V_H \rangle$ prior
 to the partitioning process contains $\langle V_G \setminus N_G(v), V_H \setminus N_H(w)\rangle$
 at the end of the partitioning process.  If either $V_G \cap H_G(v)$ or $V_H \cap N_H(w)$
@@ -291,8 +308,8 @@ is non-empty, the partitioning process creates a new label class object
 $\langle V_G \cap N_G(v), V_H \cap N_H(w)\rangle$ which is
 positioned in the doubly linked list immediately after the original label class.
 To carry out the process, we iterate over $N_G(v)$ then $N_H(w)$,
-creating new label classes as required, as shown in
-the following (draft) pseudocode.
+creating new label classes as required, as shown in the function $\FuncSty{Filter}$
+in \Cref{McSplitSIAlgFilter}.
 
 \begin{algorithm}[htb]
 \AlgorithmFontSize
@@ -367,9 +384,11 @@ the following (draft) pseudocode.
 \nl    $\LC'.\varActive \gets \AlgVar{true}$ \;
 \nl    $\LC'.\varSplitting \gets \AlgVar{false}$ \;
 }
-\caption{TODO}
+\caption{The $\FuncSty{Filter}$ function}
 \label{McSplitSIAlgFilter}
 \end{algorithm}
+
+\FloatBarrier
 
 \section{Cleanup}
 
@@ -407,12 +426,13 @@ without the need for an external array of pointers.}
 \nl     $\LC.\varNext.\varPrev \gets \AlgVar{null}$ \;
 \nl     $\LC.\varActive \gets \AlgVar{false}$
 }
-\caption{TODO}
+\caption{The $\FuncSty{DoDeletions}$ function}
 \label{McSplitSIAlgDelete}
 \end{algorithm}
 
-We leave the $\AlgVar{prev}$ and $\AlgVar{next}$ 
-pointers of this label class unchanged; we will use their values to return
+We do not garbage-collect this label class, and
+we leave its $\AlgVar{prev}$ and $\AlgVar{next}$ 
+pointers unchanged; we will use these pointers' values to return
 the label class to the doubly linked list when backtracking.
 
 \section{Backtracking}
@@ -444,7 +464,7 @@ introduced by (cite) and described by Knuth (cite).
 \nl     Remove $\LC.next$ from the doubly linked list of label classes
     }
 }
-\caption{TODO}
+\caption{The $\FuncSty{Unfilter}$ function}
 \label{McSplitSIAlgUnfilter}
 \end{algorithm}
 
