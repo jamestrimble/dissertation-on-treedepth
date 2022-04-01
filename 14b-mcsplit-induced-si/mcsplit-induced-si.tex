@@ -475,6 +475,14 @@ Finally, we undo the vertex mapping by calling $\FuncSty{Unassign}$.
 
 \section{Finding all solutions}
 
+The \McSplit-SI algorithm that we have described so far determines whether there
+exists an isomorphism from the pattern graph to an induced subgraph of the target
+graph.  We can trivially modify the program to solve the enumeration problem
+of counting \emph{all} such matchings.  The only change that is required is
+to increment a global counter of solutions on
+\lineref{McSplitSIReturnTrue} of \label{McSplitSIAlg} rather than returning
+$\AlgVar{true}$.
+
 \section{An optimisation}
 
 Often, after the partitioning step, one or more label classes contains more
