@@ -54,14 +54,9 @@ vertex.  In this chapter we introduce this improved algorithm, which we call \Mc
 \nl $v \gets \FuncSty{SelectVertex}(\setG)$ \label{DecisionSelectVertex} \;
     \nl \For {$w \in \setH$ \label{DecisionWLoop}} {
 \nl    $\FuncSty{Assign}(v,w)$ \;
-\nl    $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{failed}) \gets \FuncSty{Filter}(v, w)$ \;
-\nl    \If{$\AlgVar{failed}$}{
-\nl        $\AlgVar{success} \gets \AlgVar{false}$ \;
-       }
-\nl    \Else {
-\nl        $\AlgVar{success} \gets \FuncSty{Search}(M \cup \{(v,w)\})$ \;
-\nl        $\FuncSty{Unfilter}(v, w, \AlgVar{splits}, \AlgVar{deletions})$ \;
-       }
+\nl    $(\AlgVar{splits}, \AlgVar{deletions}) \gets \FuncSty{Filter}(v, w)$ \;
+\nl    $\AlgVar{success} \gets \FuncSty{Search}(M \cup \{(v,w)\})$ \;
+\nl    $\FuncSty{Unfilter}(v, w, \AlgVar{splits}, \AlgVar{deletions})$ \;
 \nl    $\FuncSty{Unassign}(v,w,\langle \setG,\setH \rangle)$ \;
 \nl    \lIf {$\AlgVar{success}$}{$\KwSty{return}$ $\AlgVar{true}$}
   }
