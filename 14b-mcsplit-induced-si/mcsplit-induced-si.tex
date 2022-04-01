@@ -11,11 +11,12 @@
 \newcommand{\varNext}{\ensuremath{\AlgVar{next}}}
 \newcommand{\labelClass}{\ensuremath{\AlgVar{labelClass}}}
 \newcommand{\vertexPtr}{\ensuremath{\AlgVar{vertexPtr}}}
+\newcommand{\calLC}{\ensuremath{\mathcal{LC}}}
 \newcommand{\LC}{\ensuremath{\AlgVar{LC}}}
 \newcommand{\Gptrs}{\ensuremath{\AlgVar{Gptrs}}}
 \newcommand{\Hptrs}{\ensuremath{\AlgVar{Hptrs}}}
-\newcommand{\Garray}{\ensuremath{\AlgVar{Garray}}}
-\newcommand{\Harray}{\ensuremath{\AlgVar{Harray}}}
+\newcommand{\Garray}{\ensuremath{A_G}}
+\newcommand{\Harray}{\ensuremath{A_H}}
 
 \chapter{McSplit-SI: An algorithm for the induced subgraph isomorphism problem}
 \label{c:mcsplit-si}
@@ -28,13 +29,7 @@ The \McSplit\ algorithm may be trivially modified to solve the induced subgraph 
 
 While \McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a boolean variable.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would still permit amortized constant time adjacency tests in the algorithm's partitioning step, but this would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, the \McSplit\ algorithm iterates over all of the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
 
-\Cref{figure:si-targets-n-density} shows vertex count and density for the target graphs of the benchmark instances
-that we will use in this chapter.  Of the entire benchmark set, $76\%$ of pattern graphs have density less than $0.01$.  Thus, it would
-greatly improve our \McSplit\ algorithm for subgraph isomorphism on these and similar instances if we could reduce the time complexity of the partitioning
-step from $O(n_G + n_H)$ to $O(|N(v)| + |N(w)|)$, where $(v,w)$ is the most-recently made mapping of a pattern vertex to a target
-vertex.  In this chapter we introduce this improved algorithm, which we call \McSplit-SI.
-
-\begin{figure}[h!]
+\begin{figure}[htb]
     \centering
     \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/density-chart/plots/n-density-pdf}
     \caption{Number of vertices and density (log scale) for each target graph in the benchmark set
@@ -42,9 +37,131 @@ vertex.  In this chapter we introduce this improved algorithm, which we call \Mc
     \label{figure:si-targets-n-density}
 \end{figure}
 
-\FloatBarrier
+\Cref{figure:si-targets-n-density} shows vertex count and density for the target graphs of the benchmark instances
+that we will use in this chapter.  Of the entire benchmark set, $76\%$ of pattern graphs have density less than $0.01$.  Thus, it would
+greatly improve our \McSplit\ algorithm for subgraph isomorphism on these and similar instances if we could reduce the time complexity of the partitioning
+step from $O(n_G + n_H)$ to $O(|N(v)| + |N(w)|)$, where $(v,w)$ is the most-recently made mapping of a pattern vertex to a target
+vertex.  In this chapter we introduce this improved algorithm, which we call \McSplit-SI.
 
-\begin{algorithm}[h!]
+\section{The label class object}
+
+In the basic version of the \McSplit\ algorithm that was described in
+\Cref{c:mcsplit-i-undirected}, the label class objects at each level of the search tree are stored
+contiguously in an array, and each object representing
+a label class $\langle S_G, S_H \rangle$ requires only four indices or pointers: to the start and
+end of the array slices that contain $S_G$ and $S_H$.
+To enable partitioning in $O(|N(v)| + |N(w)|)$ time, \McSplit-SI
+requires a more elaborate label-class object, and stores the objects in a doubly-linked list which is modified
+when partitioning domains and restored on backtracking.
+
+\Cref{tab:mcsplit-si-object} lists the member variables of a label class object.
+The first two members are $\AlgVar{prev}$ and $\AlgVar{next}$ pointers, which
+allow the set of label classes to be jointed together as a doubly-linked list.
+These pointers are useful not only for iterating over the list but also
+for restoring deleted elements when backtracking, as we will discuss later in the chapter.
+
+The next four members of the object play the same role as the four indices used in \McSplit's
+simpler label class object: they point to the ranges in the permuations of $V(G)$ and $V(H)$ that
+contain $S_G$ and $S_H$.
+
+Finally, we have two boolean flags, $\varActive$ and $\varSplitting$.  The first flag
+records whether the label class object is currently in the list of label classes.  (Inactive
+label classes have been deleted, but are maintained in memory so that they can be restored
+when backtracking.)  The second flag is used temporarily during the partitioning step
+to record which label class have been partitioned.
+
+\begin{table}[htb]
+\centering
+\footnotesize
+ \begin{tabular}{p{0.13\linewidth} p{0.2\linewidth} p{0.5\linewidth}}
+ \toprule
+    Name & Type & Description \\ [0.5ex]
+ \midrule
+    $\AlgVar{prev}$ & Pointer to Label Class & The previous label class in the doubly-linked list of all label classes \\
+    \rule{0pt}{2.3ex}$\AlgVar{next}$ & Pointer to Label Class & The next label class in the doubly-linked list of all label classes \\
+    \rule{0pt}{2.3ex}\varStartG & Pointer to Integer & Pointer to the first vertex of the $G$-set\\
+    \rule{0pt}{2.3ex}\varEndG & Pointer to Integer & Pointer to one element past the last vertex of the $G$-set\\
+    \rule{0pt}{2.3ex}\varStartH & Pointer to Integer & Pointer to the first vertex of the $H$-set\\
+    \rule{0pt}{2.3ex}\varEndH & Pointer to Integer & Pointer to one element past the last vertex of the $H$-set\\
+    \rule{0pt}{2.3ex}$\AlgVar{active}$ & Boolean & Is this label class in the doubly linked list? \\
+    \rule{0pt}{2.3ex}$\AlgVar{splitting}$ & Boolean & Is this label class being split? \\
+ \bottomrule
+\end{tabular}
+\caption{The member variables of \McSplit-SI label class object}
+\label{tab:mcsplit-si-object}
+\end{table}
+
+The collection of data structures used by \McSplit-SI to represent the set of active label
+classes has three components.  The first of these is the the doubly-linked list of label
+class objects that we have described; we refer to this as \calLC.  The second 
+component is the pair of arrays that store partitions of $V(G)$ and $V(H)$ that are pointed
+to by each label class object.   We call these arrays $\Garray$ and $\Harray$.
+
+The final component of our collection of data structures contains two arrays, $\Gptrs$
+and $\Hptrs$.  These contain
+an object for each vertex $v$ of $G$ and $H$ respectively.  Each object contains two pointers.
+The first pointer of $\Gptrs[v]$ points to the position in $\Garray$ at which $v$
+appears, and the second points to the label class containing $v$.
+Similarly, the pointers of $\Hptrs[w]$ point to the position in $\Harray$ at which $w$
+appears and the label class containing $w$.
+The arrays $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$ allows us to perform constant-time
+manipulations to label classes given only a vertex; it is these arrays that enable
+\McSplit-SI to carry out the partitioning step without iterating over the vertices in each label class.
+
+TODO move this sentence:
+Initially, the doubly-linked list of label classes contains a single element representing
+all vertices of graphs $G$ and $H$.
+
+\begin{figure}[h!]
+    \centering
+    \scalebox{.8}{
+        \tikz {
+            \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+                    clockwise=5] {
+                        1,2,3,4,5;
+                1--4; 1--5; 2--3; 2--5; 3--5;
+            };
+        }
+        \qquad\qquad
+        \tikz {
+            \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
+                    clockwise=6, phase=60] {
+                        a,b,c,d,e,f;
+                a--b; a--c; a--e; b--d; b--f; c--d; c--e; c--f; d--f; e--f;
+            };
+        }
+    }
+    \caption{Example graphs $G$ and $H$}
+    \label{figure:example-g-and-h-redux}
+\end{figure}
+
+\Cref{figure:example-g-and-h-redux} reproduces, for convenience, the example
+graphs from \Cref{c:mcsplit-i-undirected} which we will also use for our running example
+in this chapter.
+\Cref{figure:si-data-structures} shows the data structures of \McSplit-SI
+after making the assignment $(1,a)$ in the induced subgraph isomorphism instance with pattern
+graph $G$ and target graph $H$.  In the middle row of the figure we have the doubly-linked
+list $\calLC$.  Immediately above and below this are the $\Garray$ and $\Harray$ arrays.
+At the top and bottom are the arrays $\Gptrs$ and $\Hptrs$.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1}
+    \caption{The data structures of \McSplit-SI after assigning vertex $1$ to vertex $a$.
+        Circles represent pointers; hollow circles are null pointers.  The middle row shows
+        the doubly-linked list of label classes.  Shown immediately above and below this are the
+        permutations of $V(G)$ and $V(H)$, stored as arrays.  The top and bottom rows
+        show the arrays $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$.  Each element of these arrays
+        corresponds to a vertex $v$ of $G$ or $H$, and points to the position of $v$
+        the permutation and to the label class containing $v$.  To reduce clutter in the diagram,
+        the label class pointers are shown pointing to a rectangle of the same colour as the
+        label class.}
+    \label{figure:si-data-structures}
+\end{figure}
+
+\section{The algorithm}
+
+\begin{algorithm}[htb]
 \AlgorithmFontSize
 \DontPrintSemicolon
 \nl $\FuncSty{Search}(M)$ \;
@@ -80,7 +197,7 @@ vertex.  In this chapter we introduce this improved algorithm, which we call \Mc
 \end{algorithm}
 
 
-\begin{algorithm}[h!]
+\begin{algorithm}[htb]
 \AlgorithmFontSize
 \DontPrintSemicolon
 \nl $\FuncSty{Assign}(v,w)$ \;
@@ -88,15 +205,15 @@ vertex.  In this chapter we introduce this improved algorithm, which we call \Mc
 \nl   $\LC \gets \Gptrs[v].\labelClass$ \;
 \medskip
 \nl   \LeftComment{delete $v$ from \LC} \;
-\nl   $u \gets$ the vertex in $\AlgVar{Garray}$ whose address is one element before $\LC.\AlgVar{end}_G$ \;
-\nl   Swap $v$ with $u$ in $\AlgVar{Garray}$, using the address of $v$ in $\Gptrs[v].\vertexPtr$ \;
+\nl   $u \gets$ the vertex in $\Garray$ whose address is one element before $\LC.\AlgVar{end}_G$ \;
+\nl   Swap $v$ with $u$ in $\Garray$, using the address of $v$ in $\Gptrs[v].\vertexPtr$ \;
 \nl   Swap $\Gptrs[v].\vertexPtr$ with $\Gptrs[u].\vertexPtr$ \;
 \nl   Decrement $\LC.\AlgVar{end}_G$ \;
 \nl   $\Gptrs[v].\labelClass \gets \AlgVar{null}$ \;
 \medskip
 \nl   \LeftComment{delete $w$ from \LC} \;
-\nl   $u \gets$ the vertex in $\AlgVar{Harray}$ whose address is one element before $\LC.\AlgVar{end}_H$ \;
-\nl   Swap $w$ with $u$ in $\AlgVar{Harray}$, using the address of $w$ in $\Hptrs[w].\vertexPtr$ \;
+\nl   $u \gets$ the vertex in $\Harray$ whose address is one element before $\LC.\AlgVar{end}_H$ \;
+\nl   Swap $w$ with $u$ in $\Harray$, using the address of $w$ in $\Hptrs[w].\vertexPtr$ \;
 \nl   Swap $\Hptrs[w].\vertexPtr$ with $\Hptrs[u].\vertexPtr$ \;
 \nl   Decrement $\LC.\AlgVar{end}_H$ \;
 \nl   $\Hptrs[w].\labelClass \gets \AlgVar{null}$ \;
@@ -126,97 +243,6 @@ vertex.  In this chapter we introduce this improved algorithm, which we call \Mc
 \label{McSplitSIAlgAssign}
 \end{algorithm}
 
-
-\section{The label class object}
-
-In the \McSplit\ algorithm, the label class objects at each level of the search tree are stored
-contiguously in an array, and each object requires only four indices or pointers: to the start and
-end of the $G$-set and the $H$-set.  To enable partitioning in $O(|N(v)| + |N(w)|)$ time, \McSplit-SI
-requires a more elaborate object type, and stores the objects in a doubly-linked list which is modified
-when partitioning domains and restored on backtracking.
-
-\Cref{tab:mcsplit-si-object} lists the member variables of a label class object.  Rather than
-using an external doubly-linked containing label class objects, we store the $\AlgVar{prev}$
-and $\AlgVar{next}$ pointers within each object; thus our list of label classes is an ``intrusive
-linked list''.  These pointers are useful not only for iterating over the list but also
-for restoring deleted elements when backtracking, as we will discuss later in the chapter.
-
-The first four members of the object play the same role as the four indices used in \McSplit's
-simpler label class object: they point to the ranges in the permuations of $V(G)$ and $V(H)$ that
-contain the $G$-set and $H$-set.
-
-\FloatBarrier
-
-\begin{table}[h!]
-\centering
-\footnotesize
- \begin{tabular}{p{0.13\linewidth} p{0.2\linewidth} p{0.5\linewidth}}
- \toprule
-    Name & Type & Description \\ [0.5ex]
- \midrule
-    \varStartG & Pointer to Integer & Pointer to the first vertex of the $G$-set\\
-    \rule{0pt}{2.3ex}\varEndG & Pointer to Integer & Pointer to one element past the last vertex of the $G$-set\\
-    \rule{0pt}{2.3ex}\varStartH & Pointer to Integer & Pointer to the first vertex of the $H$-set\\
-    \rule{0pt}{2.3ex}\varEndH & Pointer to Integer & Pointer to one element past the last vertex of the $H$-set\\
-    \rule{0pt}{2.3ex}$\AlgVar{active}$ & Boolean & Is this label class in the doubly linked list? \\
-    \rule{0pt}{2.3ex}$\AlgVar{splitting}$ & Boolean & Is this label class being split? \\
-    \rule{0pt}{2.3ex}$\AlgVar{prev}$ & Pointer to Label Class & The previous label class in the doubly-linked list of all label classes \\
-    \rule{0pt}{2.3ex}$\AlgVar{next}$ & Pointer to Label Class & The next label class in the doubly-linked list of all label classes \\
-%%      \rule{0pt}{2.3ex}$\AlgVar{next\_deleted}$ & Pointer to Label Class & The next label class in a singly-linked list of deleted label classes (to be restored on backtracking)\\
-%%      \rule{0pt}{2.3ex}$\AlgVar{next\_split}$ & Pointer to Label Class & The next label class in a singly-linked list of split label classes (to be merged on backtracking)\\
-%%  \midrule
-%%     $a_G$ & Integer & Number of vertices adjacent to $v$ \\
-%%     $a_H$ & Integer & Number of vertices adjacent to $w$ \\
-%%      \rule{0pt}{2.3ex}$\AlgVar{next\_free}$ & Pointer to Label Class & The next label class in the free list \\
- \bottomrule
-\end{tabular}
-\caption{The member variables of \McSplit-SI label class object}
-\label{tab:mcsplit-si-object}
-\end{table}
-
-\FloatBarrier
-
-Initially, the doubly-linked list of label classes contains a single element representing
-all vertices of graphs $G$ and $H$.  \Cref{figure:si-data-structures} shows the data structures
-after making the assignment $(1,a)$ in our example graphs $G$ and $H$ from \Cref{c:mcsplit-i-undirected}.
-
-The top and bottom rows of the diagram contain the final element of our data structure, which we
-have not yet described.  We have two arrays, $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$, which contain
-an object for each vertex $v$ of $G$ and $H$ respectively.  Each object contains two pointers.
-The first points to the position in the permutation at which $v$ appears, and the second points
-to the label class containing $v$.  The arrays $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$ will allow
-us to carry out the partitioning step without iterating over the vertices in each label class.
-
-\begin{figure}[h!]
-    \centering
-    $G=$\tikz {
-        \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
-                clockwise=5] {
-                    1,2,3,4,5;
-            1--4; 1--5; 2--3; 2--5; 3--5;
-        };
-    }
-    \qquad\qquad
-    $H=$\tikz {
-        \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
-                clockwise=6, phase=60] {
-                    a,b,c,d,e,f;
-            a--b; a--c; a--e; b--d; b--f; c--d; c--e; c--f; d--f; e--f;
-        };
-    }
-    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1}
-    \caption{The data structures of \McSplit-SI after assigning vertex $1$ to vertex $a$.
-        Circles represent pointers; hollow circles are null pointers.  The middle row shows
-        the doubly-linked list of label classes.  Shown immediately above and below this are the
-        permutations of $V(G)$ and $V(H)$, stored as arrays.  The top and bottom rows
-        show the arrays $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$.  Each element of these arrays
-        corresponds to a vertex $v$ of $G$ or $H$, and points to the position of $v$
-        the permutation and to the label class containing $v$.  To reduce clutter in the diagram,
-        the label class pointers are shown pointing to a rectangle of the same colour as the
-        label class.}
-    \label{figure:si-data-structures}
-\end{figure}
-
 \section{The partitioning algorithm}
 
 When making a tentative assignment of vertex $v$ to vertex $w$, we perform the same steps
@@ -234,7 +260,7 @@ of $2$ to $d$ in our example.
 
 \FloatBarrier
 
-\begin{figure}[h!]
+\begin{figure}[htb]
     \centering
     \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-2}
     \caption{The data structures after mapping vertex $2$ to vertex $d$.}
@@ -249,7 +275,7 @@ the refinement of label classes carried out after mapping $2$ to $d$.
 
 \FloatBarrier
 
-\begin{figure}[h!]
+\begin{figure}[htb]
     \centering
     \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-3}
     \caption{The data structures after partitioning}
@@ -268,7 +294,7 @@ To carry out the process, we iterate over $N_G(v)$ then $N_H(w)$,
 creating new label classes as required, as shown in
 the following (draft) pseudocode.
 
-\begin{algorithm}[h!]
+\begin{algorithm}[htb]
 \AlgorithmFontSize
 \DontPrintSemicolon
 \nl $\FuncSty{Filter}(v,w)$ \;
@@ -314,6 +340,10 @@ the following (draft) pseudocode.
     }
 \medskip
 \nl  \For {$\LC \in \AlgVar{splits}$} {
+\nl     $\LC.\varSplitting \gets \AlgVar{false}$ \;
+}
+\medskip
+\nl  \For {$\LC \in \AlgVar{splits}$} {
 \nl     \If{$\LC.\varEndG - \LC.\varStartG > \LC.\varEndH - \LC.\varStartH$}{
 \nl         $\KwSty{return}$ $([],[],\AlgVar{true})$
 }
@@ -351,7 +381,7 @@ class object so we can store the deleted\_label\_classes list as a linked list
 without the need for an external array of pointers.}
 
 
-\begin{algorithm}[h!]
+\begin{algorithm}[htb]
 \AlgorithmFontSize
 \DontPrintSemicolon
 \nl $\FuncSty{DoDeletions}(\AlgVar{splits})$ \;
@@ -394,7 +424,7 @@ First, we undo deletions, restoring each deleted label classes to its
 original position in the doubly linked list using the ``dancing links'' method
 introduced by (cite) and described by Knuth (cite).
 
-\begin{algorithm}[h!]
+\begin{algorithm}[htb]
 \AlgorithmFontSize
 \DontPrintSemicolon
 \nl $\FuncSty{Unfilter}(\AlgVar{splits}, \AlgVar{deletions})$ \;
@@ -545,7 +575,7 @@ vertices in $H_2$ have insufficient degree, after which we can deduce
 that each of the five isolated $w_i$ vertices must be mapped to one of the four
 isolated $z_j$ vertices.
 
-\begin{figure}[h!]
+\begin{figure}[htb]
     \centering
     \subfigure[][$G_2$] {
         \centering
