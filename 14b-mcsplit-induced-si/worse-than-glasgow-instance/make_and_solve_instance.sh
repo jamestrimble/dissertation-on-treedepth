@@ -11,7 +11,7 @@ python3 ../better-than-glasgow-instance/lad_to_gfu.py < T.lad > T.gfu
 python3 ../better-than-glasgow-instance/lad_to_vf3_undirected.py < P.lad > P.grf
 python3 ../better-than-glasgow-instance/lad_to_vf3_undirected.py < T.lad > T.grf
 
-timeout $((TIMELIMIT + 2)) ~/OthersCode/solnon-benchmarks/mcsplit-induced-subgraph-isomorphism/mcsp_sparse --lad --enumerate B P.lad T.lad > tmp.txt
+timeout $((TIMELIMIT + 2)) ~/OthersCode/solnon-benchmarks/mcsplit-induced-subgraph-isomorphism/mcsp_sparse --lad --enumerate A P.lad T.lad > tmp.txt
 if [ "$?" -eq "124" ]; then
     echo TIMEOUT
 else
