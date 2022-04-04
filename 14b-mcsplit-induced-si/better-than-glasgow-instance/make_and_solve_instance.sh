@@ -18,27 +18,29 @@ else
     cat tmp.txt | grep time | awk '{print $4}'
 fi
 
-timeout $((TIMELIMIT + 2)) ~/OthersCode/glasgow-subgraph-solver/glasgow_subgraph_solver --format lad --induced --enumerate P.lad T.lad > tmp.txt
-if [ "$?" -eq "124" ]; then
-    echo TIMEOUT
-else
-    cat tmp.txt | grep runtime | awk '{print $3}'
-fi
+if [ "$1" -lt "1000" ]; then   # don't run other solvers for very large instances
+    timeout $((TIMELIMIT + 2)) ~/OthersCode/glasgow-subgraph-solver/glasgow_subgraph_solver --format lad --induced --enumerate P.lad T.lad > tmp.txt
+    if [ "$?" -eq "124" ]; then
+        echo TIMEOUT
+    else
+        cat tmp.txt | grep runtime | awk '{print $3}'
+    fi
 
-timeout $((TIMELIMIT + 2)) ~/OthersCode/glasgow-subgraph-solver/glasgow_subgraph_solver --no-supplementals --format lad --induced --enumerate P.lad T.lad > tmp.txt
-if [ "$?" -eq "124" ]; then
-    echo TIMEOUT
-else
-    cat tmp.txt | grep runtime | awk '{print $3}'
-fi
+    timeout $((TIMELIMIT + 2)) ~/OthersCode/glasgow-subgraph-solver/glasgow_subgraph_solver --no-supplementals --format lad --induced --enumerate P.lad T.lad > tmp.txt
+    if [ "$?" -eq "124" ]; then
+        echo TIMEOUT
+    else
+        cat tmp.txt | grep runtime | awk '{print $3}'
+    fi
 
-#~/OthersCode/solnon-benchmarks/vf3lib/bin/vf3 -r 0 -u P.grf T.grf
+    #~/OthersCode/solnon-benchmarks/vf3lib/bin/vf3 -r 0 -u P.grf T.grf
 
-timeout $((TIMELIMIT + 2)) ~/OthersCode/solnon-benchmarks/RI/ri36 ind gfu T.gfu P.gfu > tmp.txt
-if [ "$?" -eq "124" ]; then
-    echo TIMEOUT
-else
-    cat tmp.txt | grep 'total time' | awk '{print int($3 * 1000)}'
+    timeout $((TIMELIMIT + 2)) ~/OthersCode/solnon-benchmarks/RI/ri36 ind gfu T.gfu P.gfu > tmp.txt
+    if [ "$?" -eq "124" ]; then
+        echo TIMEOUT
+    else
+        cat tmp.txt | grep 'total time' | awk '{print int($3 * 1000)}'
+    fi
 fi
 
 rm -f tmp.txt
