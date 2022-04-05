@@ -25,6 +25,9 @@ cat fatanode-results/runtimes.txt \
 paste -d' ' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt intermediate/densities.txt \
     > fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-densities.txt
 
+paste -d' ' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt <(cut -d' ' -f11 fatanode-results/satisfiability-with-summary.txt) \
+    > fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt
+
 cat fatanode-results/runtimes.txt \
     | sed 's/TIMEOUT/1000000/g' \
     | grep -v 'DISCONNECTED' \
