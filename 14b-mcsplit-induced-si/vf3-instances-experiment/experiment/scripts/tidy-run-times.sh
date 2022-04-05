@@ -14,4 +14,4 @@ cat fatanode-results/runtimes.txt | sed 's/TIMEOUT/1000000/g' \
                                  $15 > 1000000 ? 1000000 : $15,
                                  $16 > 1000000 ? 1000000 : $16)}' \
     > fatanode-results/runtimes-tidied.txt
-cat fatanode-results/runtimes-tidied.txt | datamash -g2,3,4 -H -W --output-delimiter ' ' mean 6-14 > fatanode-results/runtimes-summary.txt
+cat fatanode-results/runtimes-tidied.txt | datamash -g2,3,4 -H -W --output-delimiter ' ' mean 6-16 > fatanode-results/runtimes-summary.txt

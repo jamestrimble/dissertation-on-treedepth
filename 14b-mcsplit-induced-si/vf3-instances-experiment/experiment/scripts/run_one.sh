@@ -38,6 +38,8 @@ timeout $(($timelimit + $extratime)) ../programs/glasgow-subgraph-solver/glasgow
 ../programs/mcsplit-si/mcsplit-si --enumerate --VF B $pf $tf --timeout $timelimit > $out.mcsplit-si.out
 ../programs/mcsplit-si/mcsplit-si-adjmat --enumerate --VF B $pf $tf --timeout $timelimit > $out.mcsplit-si-adjmat.out
 ../programs/mcsplit-si/mcsplit-si --enumerate --VF A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom.out
+../programs/mcsplit-si/mcsplit-si --enumerate --VF -D1 A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom-D1.out
+../programs/mcsplit-si/mcsplit-si --enumerate --VF -D2 A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom-D2.out
 ../programs/mcsplit-si/mcsplit-si-adjmat --enumerate --VF A $pf $tf --timeout $timelimit > $out.mcsplit-si-adjmat-dom.out
 ../cpp-utils/is-connected/is_vf_connected < $pf > $out.connected.out
 ../cpp-utils/is-connected/is_vf_connected < $tf >> $out.connected.out

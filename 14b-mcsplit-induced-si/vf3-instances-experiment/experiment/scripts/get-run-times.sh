@@ -28,6 +28,8 @@ cat intermediate/instances.txt | while read i count labels p nt np; do
         echo $i $labels $p $nt $np
         cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si.out | grep Time | awk '{print $3}'
         cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si-dom.out | grep Time | awk '{print $3}'
+        cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si-dom-D1.out | grep Time | awk '{print $3}'
+        cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si-dom-D2.out | grep Time | awk '{print $3}'
         cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si-adjmat.out | grep Time | awk '{print $3}'
         cat program-output/$np-$nt-$p-$labels-$i.mcsplit-si-adjmat-dom.out | grep Time | awk '{print $3}'
         show_glasgow_time_or_timeout program-output/$np-$nt-$p-$labels-$i.glasgow.out
