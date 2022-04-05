@@ -44,6 +44,8 @@ timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/gla
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad B $pf $tf --timeout $timelimit > $out.mcsplit-si.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si-adjmat --lad B $pf $tf --timeout $timelimit > $out.mcsplit-si-adjmat.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom.out
+../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si -D1 --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom-D1.out
+../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si -D2 --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom-D2.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si-adjmat --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-adjmat-dom.out
 
 rm instances/$instance.pattern.grf

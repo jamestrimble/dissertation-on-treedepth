@@ -34,12 +34,14 @@ show_mcsplit_time_or_timeout() {
     cat $FILENAME | awk '/^SATISFIABLE/ {print 1} /^UNSATISFIABLE/ {print 0} /TIMEOUT/ {print "X"}'
 }
 
-echo instance mcsplit-si mcsplit-si-dom mcsplit-si-adjmat mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
+echo instance mcsplit-si mcsplit-si-dom mcsplit-si-dom-D1 mcsplit-si-dom-D2 mcsplit-si-adjmat mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
 cat instances.txt | while read instance rest; do
     echo $(
         echo $instance
         show_mcsplit_time_or_timeout program-output/$instance.mcsplit-si.out
         show_mcsplit_time_or_timeout program-output/$instance.mcsplit-si-dom.out
+        show_mcsplit_time_or_timeout program-output/$instance.mcsplit-si-dom-D1.out
+        show_mcsplit_time_or_timeout program-output/$instance.mcsplit-si-dom-D2.out
         show_mcsplit_time_or_timeout program-output/$instance.mcsplit-si-adjmat.out
         show_mcsplit_time_or_timeout program-output/$instance.mcsplit-si-adjmat-dom.out
         show_glasgow_time_or_timeout program-output/$instance.glasgow.out
