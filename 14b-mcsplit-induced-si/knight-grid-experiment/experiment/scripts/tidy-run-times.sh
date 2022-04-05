@@ -12,17 +12,19 @@ cat fatanode-results/runtimes.txt \
                                  $7 > 1000000 ? 1000000 : $7,
                                  $8 > 1000000 ? 1000000 : $8,
                                  $9 > 1000000 ? 1000000 : $9,
-                                 $10 > 1000000 ? 1000000 : $10)}' \
+                                 $10 > 1000000 ? 1000000 : $10,
+                                 $11 > 1000000 ? 1000000 : $11,
+                                 $12 > 1000000 ? 1000000 : $12)}' \
     | awk 'NR==1 {print $0, "glasgow1sec-then-mcsplit", "mcsplit1sec-then-glasgow"} NR>1 {
-                                     gm = $6 < 1000 ? $6 : $2 + 1000;
+                                     gm = $8 < 1000 ? $8 : $2 + 1000;
                                      if (gm > 1000000) gm = 1000000;
-                                     mg = $2 < 1000 ? $2 : $6 + 1000;
+                                     mg = $2 < 1000 ? $2 : $8 + 1000;
                                      if (mg > 10000000) mg = 1000000;
-                                     print ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,gm, mg)
+                                     print ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,gm, mg)
                                     }' \
     > fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt
 
-paste -d' ' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt <(cut -d' ' -f11 fatanode-results/satisfiability-with-summary.txt) \
+paste -d' ' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt <(cut -d' ' -f13 fatanode-results/satisfiability-with-summary.txt) \
     > fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt
 
 cat fatanode-results/runtimes.txt \
@@ -37,12 +39,14 @@ cat fatanode-results/runtimes.txt \
                                  $7 > 1000000 ? 1000000 : $7,
                                  $8 > 1000000 ? 1000000 : $8,
                                  $9 > 1000000 ? 1000000 : $9,
-                                 $10 > 1000000 ? 1000000 : $10)}' \
+                                 $10 > 1000000 ? 1000000 : $10,
+                                 $11 > 1000000 ? 1000000 : $11,
+                                 $12 > 1000000 ? 1000000 : $12)}' \
     | awk 'NR==1 {print $0, "glasgow1sec-then-mcsplit", "mcsplit1sec-then-glasgow"} NR>1 {
-                                     gm = $6 < 1000 ? $6 : $2 + 1000;
+                                     gm = $8 < 1000 ? $8 : $2 + 1000;
                                      if (gm > 1000000) gm = 1000000;
-                                     mg = $2 < 1000 ? $2 : $6 + 1000;
+                                     mg = $2 < 1000 ? $2 : $8 + 1000;
                                      if (mg > 10000000) mg = 1000000;
-                                     print ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,gm, mg)
+                                     print ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,gm, mg)
                                     }' \
     > fatanode-results/runtimes-without-disconnected-patterns.txt
