@@ -83,6 +83,10 @@ auto main(int, char * argv[]) -> int
 
         long twice_edge_count = 0;
         for (int i=0; i<size; i++) {
+            // deduplicate
+            std::sort( adj[i].begin(), adj[i].end() );
+            adj[i].erase( unique( adj[i].begin(), adj[i].end() ), adj[i].end() );
+
             twice_edge_count += adj[i].size();
         }
         double density = (double) twice_edge_count / (size * (size - 1));
