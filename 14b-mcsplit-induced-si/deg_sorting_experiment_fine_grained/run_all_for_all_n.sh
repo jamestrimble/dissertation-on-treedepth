@@ -9,6 +9,6 @@ mkdir summary
 
 for n in 8 14 20; do
     echo Running n=$n
-    ./run_all.sh $n
+    time ./run_all.sh $n
     python3 summarise.py $n > summary/summary${n}sip.txt
 done
