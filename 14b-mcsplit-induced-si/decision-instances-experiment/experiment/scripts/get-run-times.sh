@@ -4,8 +4,6 @@ set -euo pipefail
 
 mkdir -p results
 
-rm -f results/*
-
 show_time_or_timeout() {
     FILENAME=$1
     if grep -q 'Failed' $FILENAME; then
