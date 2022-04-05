@@ -43,6 +43,8 @@ greatly improve our \McSplit\ algorithm for subgraph isomorphism on these and si
 step from $O(n_G + n_H)$ to $O(|N(v)| + |N(w)|)$, where $(v,w)$ is the most-recently made mapping of a pattern vertex to a target
 vertex.  In this chapter we introduce this improved algorithm, which we call \McSplit-SI.
 
+\FloatBarrier
+
 \section{The label class object}
 
 In the basic version of the \McSplit\ algorithm that was described in
@@ -158,6 +160,8 @@ At the top and bottom are the arrays $\Gptrs$ and $\Hptrs$.
         label class.}
     \label{figure:si-data-structures}
 \end{figure}
+
+\FloatBarrier
 
 \section{The algorithm}
 
@@ -286,13 +290,13 @@ of $2$ to $d$ in our example.
     \label{figure:si-data-structures-2}
 \end{figure}
 
+\FloatBarrier
+
 \section{The partitioning algorithm}
 
 We now describe the partitioning step, referring in our running example to
 the refinement of label classes carried out after mapping $2$ to $d$.
 \Cref{figure:si-data-structures-3} shows the data structures after this step is completed.
-
-\FloatBarrier
 
 \begin{figure}[htb]
     \centering
@@ -319,7 +323,7 @@ in \Cref{McSplitSIAlgFilter}.
 \nl  $\AlgVar{splits} \gets []$  \LeftComment{Initialise array of pointers to split label classes} \;
 \medskip 
 \nl  \LeftComment{For each neighbour of $v$ that is is a label class, move $v$ into a new label class} \;
-\nl  \For {$u \in \N_G(v)$} {
+\nl  \For {$u \in \N_G(v)$\label{FilterGLoop}} {
 \nl      $\LC \gets \Gptrs[u].\labelClass$ \;
 \nl      \If{$\LC = \AlgVar{null}$}{
 \nl          \LeftComment{$u$ is already in $M$, and therefore not in any label class} \;
@@ -336,7 +340,7 @@ in \Cref{McSplitSIAlgFilter}.
     }
 \medskip 
 \nl  \LeftComment{For each neighbour of $w$ that is is a label class, move $w$ into a new label class} \;
-\nl  \For {$u \in \N_H(w)$} {
+\nl  \For {$u \in \N_H(w)$\label{FilterHLoop}} {
 \nl      $\LC \gets \Hptrs[u].\labelClass$ \;
 \nl      \If{$\LC = \AlgVar{null}$}{
 \nl          \LeftComment{$u$ is already in $M$, and therefore not in any label class} \;
@@ -369,9 +373,9 @@ in \Cref{McSplitSIAlgFilter}.
 }
 }
 \medskip
-\nl  $\AlgVar{deletions} \gets \FuncSty{DoDeletions}(\AlgVar{splits})$ \;
+\nl  $\AlgVar{deletions} \gets \FuncSty{DoDeletions}(\AlgVar{splits})$ \label{McSplitSIDoDeletions}\;
 \medskip
-\nl  $\KwSty{return}$ $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{false})$ \;
+\nl  $\KwSty{return}$ $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{false})$ \label{ReturnFromFilter}\;
 }
 \;
 \nl $\FuncSty{CreateLabelClassAfter}(\LC)$ \;
@@ -435,6 +439,21 @@ we leave its $\AlgVar{prev}$ and $\AlgVar{next}$
 pointers unchanged; we will use these pointers' values to return
 the label class to the doubly linked list when backtracking.
 
+After calling the $\FuncSty{DoDeletions}$ function,
+the $\FuncSty{Filter}$ function returns on \lineref{ReturnFromFilter} 
+of \Cref{McSplitSIAlgFilter}.  Three values are returned. The lists
+of split label classes and deleted label classes will be used to restore
+the data structure when backtracking. The final returned value is a boolean
+flag that indicates that the filtering step completed successfully
+without finding a reason to backtrack immediately.
+
+A small implementation detail: rather than storing these returned values
+as linear lists of pointers, we store two additional pointers within
+each label class so that the lists can be stored as (intrusive) singly linked
+lists without any need to allocate additional arrays.  In the case of the
+$\AlgVar{splits}$ list, our implementation returns a list of the newly-created
+label classes rather than their parents.
+
 \section{Backtracking}
 
 On backtracking, we must undo in reverse order the three steps of
@@ -473,6 +492,8 @@ no need to reorder the $V_G$ and $V_H$ permutations when backtracking.
 
 Finally, we undo the vertex mapping by calling $\FuncSty{Unassign}$.
 
+\FloatBarrier
+
 \section{Finding all solutions}
 
 The \McSplit-SI algorithm that we have described so far determines whether there
@@ -483,15 +504,26 @@ to increment a global counter of solutions on
 \lineref{McSplitSIReturnTrue} of \label{McSplitSIAlg} rather than returning
 $\AlgVar{true}$.
 
-\section{An optimisation}
+\section{Optimisations}
 
-Often, after the partitioning step, one or more label classes contains more
-vertices in $V_G$ than vertices in $V_H$.  We can then backtrack because...
-TODO say how our implementation avoids some work by simply keeping track of
-how many vertices are moved out of each label class initially, then only
-doing the movements and creating the new label classes if we can't backtrack.
+This section describes optimisations in our implementation of \McSplit-SI.
 
-\section{Implementation details}
+\subsection{Lazy partitioning}\label{subsec:lazy-partitioning}
+
+The partitioning loops beginning on \lineref{FilterGLoop}
+and \lineref{FilterHLoop} of \Cref{McSplitSIAlgFilter} are critical to
+the performance of the algorithm; the Linux \text{perf} utility shows
+that the program typically spends more than half of its execution time
+on these two loops.  Therefore, it is helpful to do as little work in these
+loops as possible.
+
+To reduce the work carried out in these loops, our implementation does
+not create new label classes or swap vertices during the loops; these
+tasks are delayed until just before \lineref{McSplitSIDoDeletions}.  Often,
+the algorithm is able to backtrack before this point, and therefore does
+not need to create the new label classes or move vertices at all.
+
+\subsection{Memory allocation}
 
 Our implementation aims to make as few calls to the system memory allocator as possible when creating
 new label class objects.  We have implemented a very simple allocator, as follows.  There is a \emph{free list}
@@ -523,10 +555,6 @@ Directed graphs: could use same approach as with edge labels.
 TODO
 
 TODO: include heat maps from Observable
-
-\section{Adjacency matrix version}
-
-Talk about McSplit-SI-adjmat
 
 \section{Verification}
 
@@ -745,35 +773,155 @@ that we can backtrack.
 The final two graphs in \Cref{figure:gac-example} generalise $G_2$ and $H_2$; as $k$ is incremented,
 a vertex is added to each of the $v$, $w$, $y$ and $z$ sets.
 \Cref{tab:gk-run-times} shows run times for the enumeration problem
-using \McSplit-SI, Glasgow, and RI for a range of values of $k$.
+using \McSplit-SI, Glasgow, Glasgow with no supplemental graphs, and RI for a range of values of $k$.
 VF3 was excluded from the experiment because the current version does not handle disconnected graphs correctly.
 \McSplit-SI solves the instance $k=1\,000\,000$ in less than a second;
 Glasgow and RI time out on the $k=10$ and $k=6$ instances respectively.
 
-\begin{table}[h!]
+\begin{table}[htb]
 \centering
 \footnotesize
-    \begin{tabular}{r r r r}
+    \begin{tabular}{r r r r r}
  \toprule
-     $k$ & \McSplit-SI & Glasgow & RI \\ [0.5ex]
+        $k$ & \McSplit-SI & Glasgow & Glasgow-NS& RI \\ % [0.5ex]
  \midrule
-        3 & 0 & 0 & 2 \\
-        4 & 0 & 0 & 84 \\
-        5 & 0 & 2 & 3934 \\
-        6 & 0 & 18 & * \\
-        7 & 0 & 184 & * \\
-        8 & 0 & 1849 & * \\
-        9 & 0 & 21067 & * \\
-        10 & 0 & * & * \\
-        10000 & 5 & * & * \\
-        100000 & 148 &  * & * \\
-        1000000 & 584 & * & * \\
+        3 &  0 &  0 &  0 &  2\\
+        4 &  0 &  0 &  0 &  86\\
+        5 &  0 &  2 &  2 &  4305\\
+        6 &  0 &  21 &  19 &  *\\
+        7 &  0 &  195 &  191 &  *\\
+        8 &  0 &  2083 &  1966 &  *\\
+        9 &  0 &  24254 &  23443 &  *\\
+        10 &  0 &  * &  * &  *\\
+        10000 &  6 & * & * & *\\
+        100000 &  66 & * & * & *\\
+        1000000 &  676 & * & * & *\\
  \bottomrule
 \end{tabular}
-\caption{Run times in ms for the induced subgraph isomorphism enumeration problem on $G_k$.
-    An asterisk indicates timeout at 30 seconds.}
+\caption{Run times in ms for the induced subgraph isomorphism enumeration problem on $G_k$ and $H_k$.
+    An asterisk indicates timeout at 100 seconds. Glasgow-NS is the Glasgow Subgraph Solver
+    with supplemental graphs disabled.}
 \label{tab:gk-run-times}
 \end{table}
+
+\subsection{A family of instances where \McSplit-SI is outperformed by Glasgow}
+
+In the previous subsection, we saw a family of instances on which \McSplit-SI easily outperforms
+the Glasgow Subgraph Solver.  We can easily construct a family of instances where the reverse is true.
+Consider the graphs in \Cref{figure:glasgow-fast-example}.
+Graph $G'_3$ consists of three copies of the cycle $C_4$ and three copies of the star
+$K_{1,3}$, with no additional edges.  Graph $H'_3$ consists of three copies of $C_5$
+and three copies of $K_{1,3}$.  We generalise these definition to $G'_k$ and $H'_k$,
+which have $k$ copies the cycle and star rather than 3.
+For $k\geq 1$, no instance $(G'_k, H'_k)$ is satisfiable, since $H'_k$ does not contain
+an induced 4-cycle.
+
+The \McSplit-SI algorithm prefers to map high-degree vertices first, and therefore its first
+decisions on these instances involves the stars rather than the cycles.  Only at deeper
+levels of the search
+tree, when all of the stars have been mapped, does the algorithm begin to work on the cycles,
+at which point it can backtrack.  Unfortunately, there are $6^k k!$ ways to map the stars
+of $G'_k$ to the stars of $H'_k$, since any star in the pattern graph can be mapped to any
+star in the target graph and there are six possible ways to map the leaf nodes of any star.
+Therefore \McSplit-SI's search tree is very large even
+for small values of $k$.
+
+With supplemental graphs disabled, the Glasgow algorithm suffers from the same problem.
+However, supplemental graphs allow the Glasgow Subgraph Solver to solve these instances
+without search.  In particular, consider the supplemental graph in which $v$ and $w$
+are adjacent
+if and only there are at least two 2-paths between $v$ and $w$ in the original graph.
+This supplemental graph
+contains edges between vertices of the 4-cycles in the pattern graph, but has no edges for the
+target graph.
+
+\Cref{tab:gk-prime-run-times} shows that supplemental graphs make a huge
+difference to Glasgow's run times in practice on this family of instances.  The
+table shows times for \McSplit-SI, Glasgow, Glasgow without supplemental
+graphs, and RI.  \McSplit-SI and RI have similar run times, and cannot solve
+instances with $k$ greater than 5 within the 100 second time limit.  Glasgow can
+solve the instance with $k=1000$ (a 7000-vertex pattern graph and an
+8000-vertex target graph) in less than 4 seconds.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][$G'_3$] {
+        \centering
+        \scalebox{1}{
+          \foreach \n in {1,...,3}{
+              \begin{tikzpicture}[scale=0.75, every node/.style={scale=0.75,shape=circle,inner sep=.5pt,
+                      minimum size=3mm}]
+                  \node[draw] (a) at (0,0) {};
+                  \node[draw] (b) at (.5,.5) {};
+                  \node[draw] (c) at (1,0) {};
+                  \node[draw] (d) at (.5,-.5) {};
+                  \node[draw] (e) at (.5,-1) {};
+                  \node[draw] (f) at (0,-1.6) {};
+                  \node[draw] (g) at (.5,-1.7) {};
+                  \node[draw] (h) at (1,-1.6) {};
+                  \draw (a) -- (b) -- (c) -- (d) -- (a);
+                  \draw (e) -- (f);
+                  \draw (e) -- (g);
+                  \draw (e) -- (h);
+              \end{tikzpicture}
+          }
+        }
+    }
+    \subfigure[][$H'_3$] {
+        \centering
+        \scalebox{1}{
+          \foreach \n in {1,...,3}{
+              \begin{tikzpicture}[scale=0.75, every node/.style={scale=0.75,shape=circle,inner sep=.5pt,
+                      minimum size=3mm}]
+                  \node[draw] (z) at (0.5,0.55) {};
+                  \node[draw] (a) at (-0.02,0.17) {};
+                  \node[draw] (b) at (0.18,-0.44) {};
+                  \node[draw] (c) at (0.82,-0.44) {};
+                  \node[draw] (d) at (1.02,0.17) {};
+                  \node[draw] (e) at (.5,-1) {};
+                  \node[draw] (f) at (0,-1.6) {};
+                  \node[draw] (g) at (.5,-1.7) {};
+                  \node[draw] (h) at (1,-1.6) {};
+                  \draw (a) -- (b) -- (c) -- (d) -- (z) -- (a);
+                  \draw (e) -- (f);
+                  \draw (e) -- (g);
+                  \draw (e) -- (h);
+              \end{tikzpicture}
+          }
+        }
+    }
+    \caption{Example graphs $G'_3$ and $H'_3$.}\label{figure:glasgow-fast-example}
+\end{figure}
+
+\begin{table}[htb]
+\centering
+\footnotesize
+    \begin{tabular}{r r r r r}
+ \toprule
+     $k$ & \McSplit-SI & Glasgow & Glasgow-NS& RI \\ %[0.5ex]
+ \midrule
+     1 &  0 &  0 &  0 &  0\\
+     2 &  0 &  0 &  1 &  0\\
+     3 &  10 &  0 &  47 &  10\\
+     4 &  329 &  0 &  1793 &  324\\
+     5 &  12522 &  0 &  80880 &  11987\\
+     6 &  * &  0 &  * &  *\\
+     7 &  * &  0 &  * &  *\\
+     8 &  * &  0 &  * &  *\\
+     9 &  * &  0 &  * &  *\\
+     10 &  * &  0 &  * &  *\\
+     100 &  * &  27 &  * &  *\\
+     1000 &  * &  3825 &  * &  *\\
+ \bottomrule
+\end{tabular}
+\caption{Run times in ms for the induced subgraph isomorphism enumeration problem on $G'_k$ and $H'_k$.
+    An asterisk indicates timeout at 100 seconds. Glasgow-NS is the Glasgow Subgraph Solver
+    with supplemental graphs disabled.}
+\label{tab:gk-prime-run-times}
+\end{table}
+
+As we have seen in this section, neither \McSplit-SI nor Glasgow dominates the other solver.  In the next
+section, we perform an experimental evalulation to compare solvers on benchmark instances.
 
 \section{Experimental evaluation}
 
@@ -788,7 +936,9 @@ isomorphisms from the pattern to the target.
 Our experiments compare \McSplit-SI with three state-of-the-art subgraph isomorphism solvers:
 VF3, RI, and Glasgow.  
 
-The Glasgow algorithm \cite{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020}
+\paragraph*{Glasgow Subgraph Solver}
+The Glasgow Subgraph Solver \cite{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020}
+(henceforth Glasgow)
 was the fastest solver for hard induced subgraph isomorphism instances in a recent
 experimental evaluation by Solnon \cite{DBLP:conf/gbrpr/Solnon19}.  The algorithm
 uses a constraint programming approach, in which the domain of each vertex is represented
@@ -802,7 +952,10 @@ in \McSplit-SI because it breaks the invariant, required by \McSplit-SI's data s
 that any two domains are either equal or disjoint.
 We use the 14 March 2022 version of the Glasgow solver, published
 online.\footnote{\url{https://github.com/ciaranm/glasgow-subgraph-solver}}
+In addition, we report results of the Glasgow solver with supplemental graphs
+switched off.
 
+\paragraph*{VF3 and RI}
 Like Glasgow, the VF3 \cite{DBLP:journals/pami/CarlettiFSV18} and RI
 \cite{DBLP:journals/bmcbi/BonniciGPSF13,DBLP:journals/tcbb/BonniciG17}
 solvers explore a search tree, adding one pair of vertices to the mapping at each
@@ -820,11 +973,29 @@ smaller constant factor given the simplicity of the data structure).
 However, its ability to prune the search tree is worse than that of \McSplit-SI
 since the $B$ sets are a union of the label classes in \McSplit-SI, and it
 leaves unavailable the smallest-domain-first heuristic used by \McSplit-SI.
+
 (TODO mention RI-DS)
+
 (TODO write about differences between VF3 and RI)
 
 In terms of effort per search node, \McSplit-SI may be viewed intuitively as sitting
 between Glasgow on one hand VF3 and RI on the other.
+
+\paragraph*{\McSplit-SI-adjmat} Finally, we implemented a version of \McSplit\
+for subgraph isomorphism that stores graphs as adjacency matrices rather than
+adjacency lists.  This does not use the \McSplit-SI data structures described
+in this chapter, and is essentially a decision version of the \McSplit\ solver
+for maximum common subgraph described in \label{c:mcsplit-i-undirected}.
+However, we tried to make the implementation fast, and indeed we will see in
+the results that the algorithm often outperforms \McSplit-SI on instances with
+relatively dense graphs.  The main additional feature compared to the maximum
+common subgraph version of \McSplit is a version of the lazy partitioning
+technique that was described in \Cref{subsec:lazy-partitioning}.  Before
+running the partitioning algorithm, we iterate over the label classes, counting
+in each label class the number of vertices adjacent to $v$ in the pattern graph
+and to $w$ in the target class.  This often allows us to backtrack without the
+need for the relatively expensive step of swapping vertices within a label
+class.
 
 \subsection{Decision instances}
 
@@ -923,8 +1094,6 @@ of $n$ for the target graph that were used by Carletti et al.; these are shown i
 In each instance, a randomly-selected subset of $20\%$ of the target vertices is selected,
 and the subgraph induced by this subset is used as the pattern graph.
 
-\FloatBarrier
-
 \begin{table}[h!]
 \centering
 \footnotesize
@@ -947,8 +1116,6 @@ and the subgraph induced by this subset is used as the pattern graph.
 \caption{Values of $n$ used in enumeration instances}
 \label{tab:carletti-n}
 \end{table}
-
-\FloatBarrier
 
 \subsection{Results for unlabelled instances}
 
@@ -989,8 +1156,6 @@ Each point shows the average of run times for 5 (?) instances.  The time limit w
     \label{figure:TODO}
 \end{figure}
 
-\FloatBarrier
-
 \subsection{Results for vertex-labelled instances}
 
 \begin{figure}[h!]
@@ -1027,8 +1192,6 @@ Each point shows the average of run times for 5 (?) instances.  The time limit w
     \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.4$}
     \label{figure:TODO}
 \end{figure}
-
-\FloatBarrier
 
 \section{Conclusion}
 
