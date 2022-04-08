@@ -586,25 +586,11 @@ Each run was repeated 32 times, and an average (mean) number of calls was comput
 A node limit of 10 million was set; runs with more than 10 million recursive calls
 were counted as requiring 10 million calls.
 (Similar heatmaps for the Glasgow Subgraph Solver comparing the first and last of the strategies shown were
-presented by McCreesh et al.\ \cite{DBLP:journals/jair/McCreeshPST18}.  The results
-showed similar patterns to those shown here for \McSplit-SI.)
-
-The heatmaps in \Cref{fig:sip-heatmaps} show which pairing of variable and value
-ordering heuristics was best for each pattern density - target density pair.  To explain
-the plots, we refer to the first of the four squares in \Cref{figure:sip-heatmap-8}
-as an example.  On the $x$ and $y$ axes, we have values of the graph generator's $p$
-(density) parameter ranging from 0 to 1.  The plot shows, for each pair of density
-parameters, how the combination of ``G increasing'' variable-ordering tie breaker
-and ``H increasing'' value-ordering heuristic compares with the best of the four
-possible strategies.  Dark blue indicates that ``G increasing, H increasing'' is
-the best strategy, mid blue indicates that it requires between 1 and 2 times the search
-effort of the best strategy, and light blue indicates that it requires between 2 and
-10 times the search effort of the best strategy.
-
-TODO talk about what we see... complicated patterns, looks like diagonal, then looks
-like horizontal line... what heuristics should we conclude that we should use?
-
-\cref{figure:sip-heatmaps}
+presented by McCreesh et al.\ \cite{DBLP:journals/jair/McCreeshPST18}.  Moreover,
+that paper shows that there is a strong relationship between the optimal strategy
+and the location of the phase transition between unsatisfiable and satisfiable
+instances.
+The results of McCreesh et al.\ show similar patterns to those shown here for \McSplit-SI.)
 
 \begin{figure}[htb]
     \centering
@@ -631,11 +617,68 @@ like horizontal line... what heuristics should we conclude that we should use?
     \caption{Heatmaps of search effort compared to the best strategy, varying pattern and target density}\label{figure:sip-heatmaps}
 \end{figure}
 
-TODO: say that choosing a rule based on target density is somehow the same as choosing
-based on variable deg?
+The heatmaps in \Cref{fig:sip-heatmaps} show which pairing of variable and value
+ordering heuristics was best for each pattern density - target density pair.  To explain
+the plots, we refer to the first of the four squares in \Cref{figure:sip-heatmap-8}
+as an example.  On the $x$ and $y$ axes, we have values of the graph generator's $p$
+(density) parameter ranging from 0 to 1 for the pattern
+and target graph respectively.  The plot shows, for each pair of density
+parameters, how the combination of ``G increasing'' variable-ordering tie breaker
+and ``H increasing'' value-ordering heuristic compares with the best of the four
+possible strategies.  Dark blue indicates that ``G increasing, H increasing'' is
+the best strategy, mid blue indicates that it requires between 1 and 2 times the search
+effort of the best strategy, and light blue indicates that it requires between 2 and
+10 times the search effort of the best strategy.  From this subplot we can see that,
+for random graphs with pattern order 8 and target order 80, the ``G increasing,
+H increasing'' strategy appears to be preferable to the other three strategies
+if the density of the target graph exceeds that of the pattern graph.
 
-TODO Talk about RI's static heuristic.  Advantages include speed (no need to compute
-at each search node)
+The first subplot of
+\Cref{figure:sip-heatmap-8}
+shows that the ``G decreasing, H decreasing'' strategy is
+preferable if the density of the target graph is less than that of the pattern graph.
+The two middle subplots are predominantly lighter blues and white, implying that
+using opposite variable and value ordering heuristics is only of benefit in small
+parts of the parameter space.
+
+\Cref{figure:sip-heatmap-16} --- with pattern graphs of order 16 --- has a somewhat different
+pattern.  Now, the ``G increasing'' tie-break for the value ordering heuristic
+appear to be preferable in most cases where the target density exceeds $0.5$.  This is equivalent
+to preferring pattern vertices that are involved in as few constraints as possible.
+
+A clear message from these figures is that the optimal choice of variable and
+value ordering heuristic depends on the characteristics of an instance in a
+complex way.
+In the experimental evaluation in (TODO say which section), I consider two 
+strategies which broadly extrapolate from the results in
+\Cref{figure:sip-heatmap-8} and
+\Cref{figure:sip-heatmap-16}.  The first strategy is to use ``G increasing, H increasing''
+if the target density is greater than the pattern density, and ``G decreasing, H decreasing''
+otherwise.  The second strategy is to use ``G increasing, H increasing if the target
+density is greater than $0.5$, and ``G decreasing, H decreasing'' otherwise.
+In practice, my suggestion is that it would be useful to choose
+variable and value ordering heuristics empirically based on a subset of the family
+of instances to be solved, and perhaps even to try running multiple heuristics
+in parallel.
+
+\subsection{Static variable ordering heuristics}
+
+So far in this section, we have considered only \emph{dynamic} variable ordering heuristics,
+in which the choice of $v$ is made during search and takes into account the current
+sizes of label classes.  The RI solver, which does not use the concept of domains,
+takes a simpler approach \cite{DBLP:journals/tcbb/BonniciG17}; a static variable order
+is used, which is determined before search.  One advantage of this is speed per recursive
+call --- no effort beyond a constant-time lookup is required to choose the next variable.
+The RI order is generated one element at a time, maintaining three sets.  The first, $X_1$,
+contains pattern-graph vertices already in the order. The second, $X_2$, contains vertices
+not in $X_1$ but adjacent to at least one element of $X_1$.  The third set, $X_3$, contains
+all remaining pattern vertices.  At each step, the next element of the order is chosen
+by selecting a vertex with as many neighbours in $X_1$ as possible, tie-breaking by
+the number of neighbours in $X_2$, then finally tie-breaking by the number of neighbours
+in $X_3$.
+
+TODO say that RI maybe approximates dom+deg. Say that I've implemented RI heur (just
+for undirected), but for dense graphs I do the heuristic on the complements.
 
 \section{Generalised arc consistency on the all-different constraint}
 
