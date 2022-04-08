@@ -31,5 +31,5 @@ chAA:
 	latexmk -pdf ch-appendices.tex
 
 # Clean -----------------------------------------------------------------------
-clean:
-	git clean -f -X
+##clean:
+##	git clean -f -X
