@@ -1055,22 +1055,44 @@ class.
 
 \subsection{Knight's grid instances}
 
-Our second set of instances 
+Our second set of decision-problem instances were proposed by Knuth in a recent pre-fascicle
+of The Art of Computer Programming \cite{knuth2022art}.  Each pattern graph is a rectangular grid
+$P_m \square P_n$, and each target graph is a knight graph $N_t$ which has one vertex for each
+square of a $t \times t$ chessboard and an edge between any two squares that are a knight's
+move (two squares horizontally and one square vertically or vice versa) apart.
+\Cref{figure:knights-example} shows one of these instances and a solution.
 
 \begin{figure}[htb]
     \centering
-    \subfigure[][TODO] {
+    \subfigure[][The grid $P_2 \square P_{24}$] {
         \centering
-        \includegraphics*[width=0.45\textwidth]{14b-mcsplit-induced-si/knight-grid-experiment/img/p2-p24.pdf}
-        \label{figure:TODO}
+        \includegraphics*[width=0.36\textwidth]{14b-mcsplit-induced-si/knight-grid-experiment/img/p2-p24.pdf}
+        \label{figure:grid-p2-p24}
     }
-    \subfigure[][TODO] {
+    \subfigure[][The knight graph $N_{12}$] {
         \centering
-        \includegraphics*[width=0.45\textwidth]{14b-mcsplit-induced-si/knight-grid-experiment/img/12-by-12-p2-p24.pdf}
-        \label{figure:TODO}
+        \includegraphics*[width=0.36\textwidth]{14b-mcsplit-induced-si/knight-grid-experiment/img/12-by-12-p2-p24.pdf}
+        \label{figure:knight12}
     }
-    \caption{TODO}\label{figure:knights-example}
+    \caption{A satisfiable knight's grid instance. On the left is the pattern graph; on the right
+            is the target graph with an induced subgraph isomorphic to the pattern shown by heavy
+            nodes and edges.}\label{figure:knights-example}
 \end{figure}
+
+If $m=1$ and $n=t^2$, we have the classic knight's tour problem in which a single knight
+must visit every square of the chessboard without revisiting any square.  The instances proposed
+by Knuth have $m \in \{2,3,4\}$.  These instances may be interpreted as the problem of moving $m$
+knights --- themselves organised in the formation of a miniature knight's tour of length $m$ ---
+around the board without changing their positions relative to each other, and without revisiting
+any square.  In the induced case (which is the only case we consider in this chapter), there
+is the additional restriction that no knight attacks any square except the square that it has
+just visited, the square it will visit next, and the squares of its neighbours in the miniature
+tour of length $m$.
+
+TODO add experimental results
+
+TODO talk about structure of instances (regular, symmetric, sparse) and give at least one run
+time of Knuth's program.
 
 \FloatBarrier
 
