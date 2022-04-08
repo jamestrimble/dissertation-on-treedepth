@@ -52,9 +52,9 @@
 \usepackage{setspace}
 \onehalfspacing
 
-%%% % Added by James Trimble: no paragraph indent and space after paragraph
-%%% \setlength{\parindent}{0pt}
-%%% \setlength{\parskip}{1em}
+% Added by James Trimble: no paragraph indent and space after paragraph
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
 
 % Page margins. The University requires A4 (210 × 297 mm), with the following
 % spacings:
