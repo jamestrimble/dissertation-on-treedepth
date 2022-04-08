@@ -550,11 +550,92 @@ the split label classes according to edge labels, then create a sequence of addi
 
 Directed graphs: could use same approach as with edge labels.
 
-\section{Variable-ordering heuristics}
+\section{Variable and value ordering heuristics}
 
-TODO
+The speed of \McSplit-SI, like that of other subgraph isomorphism solvers
+\cite{DBLP:journals/tcbb/BonniciG17,DBLP:journals/jair/McCreeshPST18},
+is greatly affected by the order
+in which pattern and target vertices are chosen during search.
+Using terminology from constraint programming, we call the strategy
+used to select a pattern vertex on \lineref{McSplitSISelectVertex} of
+\lineref{McSplitSIAlg} the \emph{variable ordering heuristic}, and the
+strategy used to decide the iteration order over target vertices on
+\lineref{McSplitSIWLoop} the \emph{value ordering heuristic}.
 
-TODO: include heat maps from Observable
+Our variable ordering heuristic is the \emph{smallest domain first} heuristic,
+which is commonly used in constraint programming and was proposed as early as
+1965 \cite{golomb1965backtrack}.
+This heuristic is also used by the Glasgow Subgraph Solver.
+In \McSplit-SI, the smallest domain first heuristic requires
+that we choose a vertex $v$ from a label class $\langle G, H \rangle$ with
+as small a set $H$ as possible.  This leaves open the question of how
+to choose among vertices with equally small domains.
+
+As a first step towards understanding the effect of value ordering heuristics
+and tie-breaking rules for variable ordering heuristics, we carried out an experiment
+with random undirected graphs from the $G(n,p)$ model, in which pattern and target
+densities were varied from $0$ to $1$ in steps of $0.01$ (for a total of $10201$
+pairs of pattern density and target density).  We considered two tie-breaking
+strategies for the variable order heuristic: prefer pattern vertices of low
+degree (``G increasing'') and prefer pattern vertices of high degree (``G decreasing'').
+We considered two corresponding value ordering heuristics based on the degree of target
+vertices: ``H increasing'' and ``H decreasing''.  We ran the experiment three times,
+with 8-, 12- and 16-vertex pattern graphs; in each case, the target graph had 80 vertices.
+Search effort was measured by counting the number of calls to $\FuncSty{Search}$.
+Each run was repeated 32 times, and an average (mean) number of calls was computed.
+A node limit of 10 million was set; runs with more than 10 million recursive calls
+were counted as requiring 10 million calls.
+(Similar heatmaps for the Glasgow Subgraph Solver comparing the first and last of the strategies shown were
+presented by McCreesh et al.\ \cite{DBLP:journals/jair/McCreeshPST18}.  The results
+showed similar patterns to those shown here for \McSplit-SI.)
+
+The heatmaps in \Cref{fig:sip-heatmaps} show which pairing of variable and value
+ordering heuristics was best for each pattern density - target density pair.  To explain
+the plots, we refer to the first of the four squares in \Cref{figure:sip-heatmap-8}
+as an example.  On the $x$ and $y$ axes, we have values of the graph generator's $p$
+(density) parameter ranging from 0 to 1.  The plot shows, for each pair of density
+parameters, how the combination of ``G increasing'' variable-ordering tie breaker
+and ``H increasing'' value-ordering heuristic compares with the best of the four
+possible strategies.  Dark blue indicates that ``G increasing, H increasing'' is
+the best strategy, mid blue indicates that it requires between 1 and 2 times the search
+effort of the best strategy, and light blue indicates that it requires between 2 and
+10 times the search effort of the best strategy.
+
+TODO talk about what we see... complicated patterns, looks like diagonal, then looks
+like horizontal line... what heuristics should we conclude that we should use?
+
+\cref{figure:sip-heatmaps}
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Pattern order 8] {
+        \centering
+        \includegraphics*[width=0.85\textwidth]{14b-mcsplit-induced-si/deg_sorting_experiment_fine_grained/img/heatmap_sip8.pdf}
+        \label{figure:sip-heatmap-8}
+    }
+    \subfigure[][Pattern order 12] {
+        \centering
+        \includegraphics*[width=0.85\textwidth]{14b-mcsplit-induced-si/deg_sorting_experiment_fine_grained/img/heatmap_sip12.pdf}
+        \label{figure:sip-heatmap-12}
+    }
+    \subfigure[][Pattern order 16] {
+        \centering
+        \includegraphics*[width=0.85\textwidth]{14b-mcsplit-induced-si/deg_sorting_experiment_fine_grained/img/heatmap_sip16.pdf}
+        \label{figure:sip-heatmap-16}
+    }
+    \subfigure[][Colour key (search effort divided by search effort of best strategy)] {
+        \centering
+        \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/deg_sorting_experiment_fine_grained/img/key.pdf}
+        \label{figure:sip-heatmap-key}
+    }
+    \caption{Heatmaps of search effort compared to the best strategy, varying pattern and target density}\label{figure:sip-heatmaps}
+\end{figure}
+
+TODO: say that choosing a rule based on target density is somehow the same as choosing
+based on variable deg?
+
+TODO Talk about RI's static heuristic.  Advantages include speed (no need to compute
+at each search node)
 
 \section{Generalised arc consistency on the all-different constraint}
 
