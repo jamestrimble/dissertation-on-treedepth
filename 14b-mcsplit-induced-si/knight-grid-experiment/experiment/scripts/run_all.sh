@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-timelimit=1000
+timelimit=10000
 
 mkdir -p intermediate
 rm -f intermediate/commands.txt
