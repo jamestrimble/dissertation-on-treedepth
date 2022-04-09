@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-timelimit=1000
+timelimit=10000
 
 rm -f intermediate/commands.txt
 rm -f program-output/*
