@@ -13,7 +13,7 @@ PARTIAL_FILES=$(echo $PROGRAMS | tr ' ' '\n' | sed 's/^/partial-results\//' | se
 TIME_COLUMNS="last_unsat_time sat_time total_subproblem_time total_subproblem_time_minus_last_unsat"
 
 
-echo instance $TIME_COLUMNS run_time $TIME_COLUMNS run_time > runtimes.$INSTANCETYPE.txt
+echo instance $TIME_COLUMNS run_time $TIME_COLUMNS run_time > results/runtimes.$INSTANCETYPE.txt
 cat $INSTANCETYPE.sample.txt | while read instance a b _; do
     echo $(
         echo $instance
@@ -23,5 +23,5 @@ cat $INSTANCETYPE.sample.txt | while read instance a b _; do
             done
             cat program-output/$INSTANCETYPE/$instance.$p.out | grep CPU | awk '{print $4}'
         done
-    ) >> runtimes.$INSTANCETYPE.txt
+    ) >> results/runtimes.$INSTANCETYPE.txt
 done
