@@ -4,3 +4,4 @@ BACKUP
 *.sample.txt
 commands.txt
 program-output
+results

@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+mkdir -p results
+mkdir -p program-output
+
 #time ./run.sh mcsplaininstances
 time ./run.sh mcsplainmixandmatchinstances
 #time ./run.sh mcs33vedinstances
