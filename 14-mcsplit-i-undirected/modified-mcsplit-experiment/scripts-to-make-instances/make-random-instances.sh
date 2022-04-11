@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+rm -rf random-instances
+mkdir random-instances
+
 for i in $(seq 1 3); do
     for p in $(seq 1 9); do
         python scripts-to-make-instances/random_graph.py 24 0.$p > random-instances/r$p-$i.grf
