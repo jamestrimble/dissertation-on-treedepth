@@ -2,4 +2,4 @@
 
 set -euo pipefail
 
-shuf -n$2 $1.txt > $1.sample.txt
+shuf -n$2 instance-lists/$1.txt > $1.sample.txt

@@ -1,3 +1,6 @@
 */mcsp
 BACKUP
 .DS_Store
+*.sample.txt
+commands.txt
+program-output
