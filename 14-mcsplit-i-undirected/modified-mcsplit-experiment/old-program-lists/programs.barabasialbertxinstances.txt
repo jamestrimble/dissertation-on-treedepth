@@ -1,0 +1,3 @@
+mcsplit ./james-cpp-modified/mcsp -d -t {} min_max ../{} ../{}
+mcsplit+f ./james-cpp-modified/mcsp -d -t {} -f min_max ../{} ../{}
+mcsplit+bigf ./james-cpp-modified/mcsp -d -t {} -F min_max ../{} ../{}
