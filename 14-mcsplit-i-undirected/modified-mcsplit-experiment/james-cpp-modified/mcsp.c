@@ -149,7 +149,6 @@ static void parse_opts(int argc, char** argv) {
             break;
         case 'R':
             arguments.any_kind_of_fancy_branching = true;
-            arguments.Fancy_branching = true;
             arguments.Random_Fancy_branching = true;
             break;
         case 'n':
