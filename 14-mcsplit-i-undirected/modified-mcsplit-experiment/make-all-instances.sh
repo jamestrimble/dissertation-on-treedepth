@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+rm -rf instance-lists
+
+mkdir -p instance-lists
+
 ./scripts-to-make-instances/make-ba-gnp-instances.sh
 ./scripts-to-make-instances/make-barabasi-albert-instances.sh
 ./scripts-to-make-instances/make-barabasi-albertx-instances.sh
