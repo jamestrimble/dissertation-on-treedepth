@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-TIMEOUT=2
-NUM_INSTANCES=5
+TIMEOUT=100
+NUM_INSTANCES=100
 
 #INSTANCETYPE should be mcs33vedinstances or mcsplaininstances etc.
 INSTANCETYPE=$1
@@ -15,4 +15,4 @@ mkdir -p program-output/$INSTANCETYPE
 
 python3 make-commands.py $INSTANCETYPE $TIMEOUT > commands.txt
 
-parallel --bar < commands.txt
+parallel -P32 --bar < commands.txt
