@@ -11,3 +11,5 @@ mcsplitb+f ./james-cpp-modified/mcsp -t {} -b -f min_max ../{} ../{}
 mcsplitb+bigf ./james-cpp-modified/mcsp -t {} -b -F min_max ../{} ../{}
 mcsplitb+S ./james-cpp-modified/mcsp -t {} -b -S min_max ../{} ../{}
 mcsplitb+O ./james-cpp-modified/mcsp -t {} -b -O min_max ../{} ../{}
+mcsplit+randombigf ./james-cpp-modified/mcsp -t {} -R min_max ../{} ../{}
+mcsplitb+randombigf ./james-cpp-modified/mcsp -t {} -R min_max ../{} ../{}
