@@ -4,7 +4,7 @@ import sys
 instancetype = sys.argv[1]
 timeout = int(sys.argv[2])
 
-with open("programs.{}.txt".format(instancetype), "r") as f:
+with open("program-lists/programs.{}.txt".format(instancetype), "r") as f:
     programs = []
     for line in f:
         line = line.strip().split()

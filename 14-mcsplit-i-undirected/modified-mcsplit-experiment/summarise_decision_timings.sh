@@ -6,7 +6,7 @@ INSTANCETYPE=$1
 
 mkdir -p partial-results
 
-PROGRAMS=$(cut -d' ' -f1 programs.$INSTANCETYPE.txt)
+PROGRAMS=$(cut -d' ' -f1 program-lists/programs.$INSTANCETYPE.txt)
 PROGRAMS_COMMA_SEP=$(echo $PROGRAMS | sed 's/ /,/g')
 PARTIAL_FILES=$(echo $PROGRAMS | tr ' ' '\n' | sed 's/^/partial-results\//' | sed 's/$/.txt/')
 

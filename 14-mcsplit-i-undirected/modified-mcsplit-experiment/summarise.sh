@@ -6,7 +6,7 @@ INSTANCETYPE=$1
 
 # mkdir -p partial-results
 # 
-# PROGRAMS=$(cut -d' ' -f1 programs.$INSTANCETYPE.txt)
+# PROGRAMS=$(cut -d' ' -f1 program-lists/programs.$INSTANCETYPE.txt)
 # PROGRAMS_COMMA_SEP=$(echo $PROGRAMS | sed 's/ /,/g')
 # PARTIAL_FILES=$(echo $PROGRAMS | tr ' ' '\n' | sed 's/^/partial-results\//' | sed 's/$/.txt/')
 # 
@@ -36,7 +36,7 @@ INSTANCETYPE=$1
 # echo 'mcsplit mcsplitf mcsplitbigf mcsplitr mcsplitminush' > searchnodes.$INSTANCETYPE.txt
 # paste a.txt b.txt c.txt d.txt e.txt | awk '{print $1, $2, $3, $4, $5}' >> searchnodes.$INSTANCETYPE.txt
 
-PROGRAMS=$(cut -d' ' -f1 programs.$INSTANCETYPE.txt)
+PROGRAMS=$(cut -d' ' -f1 program-lists/programs.$INSTANCETYPE.txt)
 
 echo $PROGRAMS > runtimes.$INSTANCETYPE.txt
 cat $INSTANCETYPE.sample.txt | while read instance a b _; do
