@@ -47,11 +47,11 @@ cat $INSTANCETYPE.sample.txt | while read instance a b _; do
     ) >> results/runtimes.$INSTANCETYPE.txt
 done
 
-echo $PROGRAMS > searchnodes.$INSTANCETYPE.txt
+echo $PROGRAMS > results/searchnodes.$INSTANCETYPE.txt
 cat $INSTANCETYPE.sample.txt | while read instance a b _; do
     echo $(
         for p in $PROGRAMS; do
             cat program-output/$INSTANCETYPE/$instance.$p.out | grep NODES_OR_TIMEOUT | awk '{print $4}'
         done
-    ) >> searchnodes.$INSTANCETYPE.txt
+    ) >> results/searchnodes.$INSTANCETYPE.txt
 done
