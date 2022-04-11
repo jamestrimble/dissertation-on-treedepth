@@ -15,7 +15,7 @@ def write_random_graph(filename, n, m):
 
 
 for i in range(1, num_inst + 1):
-    n = random.randint(10, 30)
+    n = random.randint(15,40)
     m = random.randint(0, n * (n - 1) // 2)
     write_random_graph("gnm-instances/r{}A.grf".format(i), n, m)
     write_random_graph("gnm-instances/r{}B.grf".format(i), n, m)
