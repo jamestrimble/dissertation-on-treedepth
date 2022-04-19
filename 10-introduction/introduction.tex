@@ -44,30 +44,34 @@
   \end{tikzpicture}
 }
 
-
 This dissertation introduces algorithms for three NP-hard problems that
-take graphs as inputs.  The first of these is the maximum common subgraph
+take graphs as inputs.  The first of these is the \emph{maximum common induced subgraph}
 family of problems: we seek to find a large subgraph shared by two given graphs.
 Depending on the flavour of the problem, these
-graphs may be directed or undirected and may or may not have labels; the
-subgraphs that we are interested in may or may not be induced.  All of these
-variants of the can be handled by the \textit{McSplit} family of algorithms.
+graphs may be directed or undirected and may or may not have labels.
+All of these variants of the can be handled by the \McSplit\ family of algorithms.
 These algorithms use a simple, fast and space-efficient data structure to keep
-track of the set of vertices or edges in the second graph to which a given vertex
-or edge in the first graph may be mapped.
+track of the set of vertices in the second graph to which a given vertex
+in the first graph may be mapped.
 
-The second problem tackled by this dissertation is finding a small \textit{induced
-universal graph}---that is, for a given family of graphs, finding a graph that contains as
-an induced subgraph every member of the family.  This problem generalises
-the \textit{minimum common supergraph} problem to an arbitrary number of input
-graphs.  Although much progress has been made on asymptotic results on the size
-of induced universal graphs, little work has been done on developing algorithms
-to solve the problem exactly.
-This dissertation presents a simple algorithm for finding minimal induced
-universal graphs using McSplit as a subroutine, and presents new terms of
-integer sequences generated using the program.  In addition, a heuristic, hill-climbing
-method for finding small (but possibly not optimal) induced universal graphs is
-presented.
+The second problem we consider is \emph{induced subgraph isomorphism}: to determine
+whether a given graph (the ``target graph'') contains another given graph (the ``pattern graph'')
+as an induced subgraph.  We again use a variant of the \McSplit\ algorithm ---
+\McSplit-SI --- to solve the problem; this version of the algorithm has a specialised
+version of \McSplit's data structure that allows very fast processing of sparse graphs.
+
+For the final problem considered in this dissertation, we turn from subgraphs
+to supergraphs.  We study the problem of finding, for a given family of graphs
+an \textit{induced universal graph} --- that is, a graph that contains every
+member of the family as an induced subgraph --- with as few vertices as
+possible.  This problem generalises the \textit{minimum common supergraph}
+problem to an arbitrary number of input graphs.  Although much progress has
+been made on asymptotic results on the size of induced universal graphs, little
+work has been done on developing algorithms to solve the problem exactly.  This
+dissertation presents an algorithm for finding minimal induced universal graphs
+using \McSplit-SI as a subroutine, and presents new terms of integer sequences
+generated using the program.  Further, we present a hill-climbing method for
+finding small (but possibly not optimal) induced universal graphs.
 
 %The final problem covered in this dissertation is the treedepth problem: the
 %problem of finding a \textit{treedepth decomposition} of minimum height for a given
@@ -310,9 +314,9 @@ graphs is a common edge subgraph with as many edges as possible.
 
 ?? Chemistry application
 
-We can extend the definition of MCES to g-graphs to give the G-MCES problem.
-Analogously to its induced counterpart, this has maximum common edge subgraph
-in directed graphs and maximum common edge sub-hypergraph as special cases.
+%We can extend the definition of MCES to g-graphs to give the G-MCES problem.
+%Analogously to its induced counterpart, this has maximum common edge subgraph
+%in directed graphs and maximum common edge sub-hypergraph as special cases.
 
 \section{Variants}
 
