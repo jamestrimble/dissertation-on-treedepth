@@ -1,3 +1,35 @@
 \chapter{Conclusion}
 \label{c:conclusion}
 
+This dissertation has introduced the \McSplit\ family of algorithms ---
+\McSplit\ for maximum common induced subgraph and \McSplit-SI for induced
+subgraph isomorphism.  We have shown the close relationship between these
+algorithms and both constraint programming and clique algorithms, and have
+demonstrated experimentally that the \McSplit\ algorithms outperform the
+existing state of the art on many families of benchmark instances.
+
+We have applied \McSplit-SI to the problem of finding a small induced universal
+graph --- that is, a graph that contains every member of a given set of graphs
+as an induced subgraph --- which has received much theoretical attention on
+asymptotic results but very little attention on the development of solvers for
+small instances.  For this problem, we have developed new exact and heuristic
+algorithms for the problem and used these to generate new terms that have been
+included in the Online Encyclopedia of Integer Sequences.
+
+The strength of \McSplit\ --- its compact data structures that require little
+memory and enable very fast and simple filtering algorithms --- has the
+disadvantage that it makes the algorithm rather inflexible.  For example, there
+appears to be no obvious way to add supplemental graphs to \McSplit-SI because
+they would break the invariant that two domains must be equal or disjoint.  Yet
+I would argue that \McSplit\ and \McSplit-SI are far from local optima, and
+that there remain many promising avenues for future development of the
+algorithms.  We could explore new variable and value ordering heuristics, and
+indeed work by other authors subsequent to the work presented in this thesis
+(TODO cite) has shown the effectiveness of more sophisticated heuristics.  We
+could try new search strategies beyond depth-first traversal of the search
+tree; initial work on using solution-biased search for \McSplit\ showed
+promising results, and this could extended to \McSplit-SI.
+
+Finally, it would be interesting to look for other constraint satisfaction
+problems in which many domains and constraints are equal or similar, for which
+we might use a \McSplit-like data structure.
