@@ -5,6 +5,8 @@
 % ^^ add "nogutter" option for digital copy (without binding offsets),
 %    if printed copy is twoside, use [twoside,nogutter] for digital copy.
 
+\usepackage{natbib}
+\usepackage{array}
 \usepackage{graphics}
 \usepackage{graphicx}
 \usepackage{url}
@@ -18,7 +20,9 @@
 \usepackage{amsthm}
 \usepackage{bookmark}
 \usepackage{booktabs}
+\usepackage{longtable}
 \usepackage{trimclip}
+\usepackage{bibentry}
 
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{MnSymbol,wasysym}
@@ -96,6 +100,8 @@
 \crefname{section}{Section}{Sections}
 \Crefname{section}{Section}{Sections}
 
+\newcommand{\AlgorithmFontSize}{\footnotesize}
+
 \newcommand{\lineref}[1]{line~\ref{#1}}
 \newcommand{\codelineref}[1]{line~\ref{#1}}
 \newcommand{\linerangeref}[2]{lines~\ref{#1} to~\ref{#2}}
@@ -153,11 +159,11 @@
 \DeclareMathOperator{\invN}{\overline{N}}
 \DeclareMathOperator{\vtxlabel}{label}
 
-%\newcommand{\citet}[1]{\citeauthor{#1} \shortcite{#1}}
-% The following is temporary hack to make citet compile
-\newcommand{\citet}[1]{\cite{#1}}
-
-\newcommand{\citep}[1]{\cite{#1}}
+%%   %\newcommand{\citet}[1]{\citeauthor{#1} \shortcite{#1}}
+%%   % The following is temporary hack to make citet compile
+%%   \newcommand{\citet}[1]{\cite{#1}}
+%%   
+%%   \newcommand{\citep}[1]{\cite{#1}}
 
 \hyphenation{Internet analysis analyse}
 
@@ -273,3 +279,7 @@
 \setcounter{page}{1}
 % Number chapter boomarks
 \bookmarksetup{numbered}
+
+\nobibliography*
+%\bibliographystyle{apalike}
+\bibliographystyle{alpha}
