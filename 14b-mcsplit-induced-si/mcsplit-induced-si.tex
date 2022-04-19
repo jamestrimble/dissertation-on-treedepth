@@ -52,7 +52,7 @@ In the basic version of the \McSplit\ algorithm that was described in
 contiguously in an array, and each object representing
 a label class $\langle S_G, S_H \rangle$ requires only four indices or pointers: to the start and
 end of the array slices that contain $S_G$ and $S_H$.
-To enable partitioning in $O(|N(v)| + |N(w)|)$ time, \McSplit-SI
+To enable partitioning in $O(|N_G(v)| + |N_H(w)|)$ time, \McSplit-SI
 requires a more elaborate label-class object, and stores the objects in a doubly-linked list which is modified
 when partitioning domains and restored on backtracking.
 
@@ -539,16 +539,37 @@ on rare occasions when the free list is exhausted.
 This approach to memory allocation typically reduces run time by around $10\%$ in comparison to use of
 C++'s $\FuncSty{new}$ and $\FuncSty{delete}$ keywords for each allocation and deallocation.
 
-\section{Vertex and edge labels}
+\section{Variants: vertex and edge labels and directed graphs}
 
-Our implementation supports vertex labels.
+\McSplit-SI can be straightforwardly extended to support vertex labels (and loops, by
+treating a loop as a label modifier) using essentially
+the same method as in \McSplit: for each vertex label $l$ that appears in the pattern graph,
+we initially create a a label class that contains all vertices in the pattern and target
+graphs that have label $l$.  If any of these initial label classes contains more pattern vertices
+than target vertices, the algorithm can report failure immediately without calling
+$\FuncSty{Search}()$.
 
-I haven't implemented edge labels, and don't plan to.
-I think partitioning could be done in $O(m \log m)$ time, where
-$m$ is the larger of $|N_G(v)|$ and $|N_H(w)|$. (Partition as if unlabelled, sort the vertices in
-the split label classes according to edge labels, then create a sequence of additional new label classes.)
+Our implementation supports directed graphs using a straightforward approach.  For each
+vertex, we store lists of in-edges and out-edges separately.  The call to $\FuncSty{Filter}()$
+in \Cref{McSplitSIAlg} is then replaced with two calls: the first one for in-edges, the second
+for out-edges.  Correspondingly, two calls are made to $\FuncSty{Unfilter}()$ in reverse
+order of the calls to $\FuncSty{Filter}()$.
 
-Directed graphs: could use same approach as with edge labels.
+The implementation of \McSplit-SI does not yet support edge labels, but it
+would be possible to do so with a fairly simple modification to the algorithm.
+Moreover, this modification has the nice property that it does not change the
+$O(|N_G(v)| + |N_H(w)|)$ time complexity of the filtering step.  We assume that
+the labels belong to some ordered set such as the integers.  The key is to sort
+the adjacency lists according to edge label before running the \McSplit-SI
+algorithm: each adjacency list $N(v)$ is sorted such that if the label on edge
+$\{v,u\}$ is less than the label on $\{v,u'\}$ then $u$ appears before $u'$ in
+the adjacency lists.  When partitioning is carried out, this leaves the
+vertices in each new label class sorted by edge label.  By simultaneously
+traversing the $S_G$ and $S_H$ sets of a new label class from left to right, we
+can subdivide the label class according to edge labels.  This is similar to how
+edge labels are handled in \McSplit; unlike \McSplit, however, the
+data structures of \McSplit-SI allow us to avoid sorting in the $\FuncSty{Filter}()$
+function.
 
 \section{Variable and value ordering heuristics}
 
