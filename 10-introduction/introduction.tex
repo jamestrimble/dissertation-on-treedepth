@@ -24,6 +24,26 @@
   \end{tikzpicture}
 }
 
+\newcommand{\MCSDomains}[2] {
+  \begin{tikzpicture}[scale=0.6, every node/.style={black,scale=0.9}]
+    \newcommand*{\xMin}{0}%
+    \newcommand*{\xMax}{5}%
+    \newcommand*{\yMin}{0}%
+    \newcommand*{\yMax}{4}%
+    \foreach \i / \label in {0/a,1/b,2/c,3/d,4/e,5/f} {
+        \draw [] node at (\i+.5,\yMax+1.4) {$\label$};
+    }
+    \foreach \i / \label in {4/1,3/2,2/3,1/4,0/5} {
+        \draw [] node at (\xMin-.3,\i+.5) {$\label$};
+    }
+
+    \draw [step=1.0] (0,0) grid (6,5);
+    \foreach \x/\y/\m in {#2}
+        \draw [] node at (\x,\y) {\m};
+    \node[draw,circle,inner sep=1mm] at (-1.4,3.5) {#1};
+  \end{tikzpicture}
+}
+
 
 This dissertation introduces algorithms for three NP-hard problems that
 take graphs as inputs.  The first of these is the maximum common subgraph
@@ -49,9 +69,10 @@ integer sequences generated using the program.  In addition, a heuristic, hill-c
 method for finding small (but possibly not optimal) induced universal graphs is
 presented.
 
-The final problem covered in this dissertation is the treedepth problem: the
-problem of finding a \textit{treedepth decomposition} of minimum height for a given
-graph.  TODO say more
+%The final problem covered in this dissertation is the treedepth problem: the
+%problem of finding a \textit{treedepth decomposition} of minimum height for a given
+%graph.  TODO say more
+
 %This paper introduces a family of algorithms for finding maximum common
 %substructures in a broad class of objects that includes both graphs and
 %hypergraphs.
@@ -352,10 +373,7 @@ A subset of the vertices of the association graph is a valid mapping if and
 only if it is a clique in the association graph (?? proof?). Thus, we can find
 an MCIS of G and H by running a maximum clique solver on the association graph
 of G and H. Association graph encodings can be used to solve directed MCIS on
-directed graphs and (with modifications) MCES. However, they cannot be used to
-solve more complex variants such as maximum common induced sub-hypergraph.
-(Although it might be possible to solve such problems by devising an
-association hypergraph, we do not consider this possibility further.)
+directed graphs and (with modifications) MCES.
 
 \section{Backtracking Search}
 
@@ -399,6 +417,32 @@ TODO: describe search tree, CP, forward checking, levels of consistency.
 \end{forest}
 \caption{TODO}
 \label{fig:FourQueens}
+\end{figure}
+
+\newsavebox{\MCSDomainsBoxA}
+\newsavebox{\MCSDomainsBoxB}
+\newsavebox{\MCSDomainsBoxC}
+\newsavebox{\MCSDomainsBoxD}
+\sbox{\MCSDomainsBoxA}{\MCSDomains{A}{0.5/4.5/,1.5/4.5/,2.5/4.5/,3.5/4.5/,4.5/4.5/,5.5/4.5/,0.5/3.5/,1.5/3.5/,2.5/3.5/,3.5/3.5/,4.5/3.5/,5.5/3.5/,0.5/2.5/,1.5/2.5/,2.5/2.5/,3.5/2.5/,4.5/2.5/,5.5/2.5/,0.5/1.5/,1.5/1.5/,2.5/1.5/,3.5/1.5/,4.5/1.5/,5.5/1.5/,0.5/0.5/,1.5/0.5/,2.5/0.5/,3.5/0.5/,4.5/0.5/,5.5/0.5/}}
+\sbox{\MCSDomainsBoxB}{\MCSDomains{B}{0.5/4.5/M,1.5/4.5/$\times$,2.5/4.5/$\times$,3.5/4.5/$\times$,4.5/4.5/$\times$,5.5/4.5/$\times$,0.5/3.5/$\times$,1.5/3.5/$\times$,2.5/3.5/$\times$,3.5/3.5/,4.5/3.5/$\times$,5.5/3.5/,0.5/2.5/$\times$,1.5/2.5/$\times$,2.5/2.5/$\times$,3.5/2.5/,4.5/2.5/$\times$,5.5/2.5/,0.5/1.5/$\times$,1.5/1.5/,2.5/1.5/,3.5/1.5/$\times$,4.5/1.5/,5.5/1.5/$\times$,0.5/0.5/$\times$,1.5/0.5/,2.5/0.5/,3.5/0.5/$\times$,4.5/0.5/,5.5/0.5/$\times$}}
+\sbox{\MCSDomainsBoxC}{\MCSDomains{C}{0.5/4.5/M,1.5/4.5/$\times$,2.5/4.5/$\times$,3.5/4.5/$\times$,4.5/4.5/$\times$,5.5/4.5/$\times$,0.5/3.5/$\times$,1.5/3.5/$\times$,2.5/3.5/$\times$,3.5/3.5/M,4.5/3.5/$\times$,5.5/3.5/$\times$,0.5/2.5/$\times$,1.5/2.5/$\times$,2.5/2.5/$\times$,3.5/2.5/$\times$,4.5/2.5/$\times$,5.5/2.5/,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/$\times$,4.5/1.5/,5.5/1.5/$\times$,0.5/0.5/$\times$,1.5/0.5/,2.5/0.5/,3.5/0.5/$\times$,4.5/0.5/$\times$,5.5/0.5/$\times$}}
+\sbox{\MCSDomainsBoxD}{\MCSDomains{D}{0.5/4.5/M,1.5/4.5/$\times$,2.5/4.5/$\times$,3.5/4.5/$\times$,4.5/4.5/$\times$,5.5/4.5/$\times$,0.5/3.5/$\times$,1.5/3.5/$\times$,2.5/3.5/$\times$,3.5/3.5/M,4.5/3.5/$\times$,5.5/3.5/$\times$,0.5/2.5/$\times$,1.5/2.5/$\times$,2.5/2.5/$\times$,3.5/2.5/$\times$,4.5/2.5/$\times$,5.5/2.5/M,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/$\times$,4.5/1.5/$\times$,5.5/1.5/$\times$,0.5/0.5/$\times$,1.5/0.5/,2.5/0.5/,3.5/0.5/$\times$,4.5/0.5/$\times$,5.5/0.5/$\times$}}
+
+\begin{figure}[h!]
+\centering
+\begin{forest}
+[\usebox{\MCSDomainsBoxA}
+  [\usebox{\MCSDomainsBoxB}
+    [\usebox{\MCSDomainsBoxC}
+      [\usebox{\MCSDomainsBoxD}]%[$\dots$]
+    ]
+    %[$\dots$]
+  ]
+  %[$\dots$]
+]
+\end{forest}
+\caption{TODO}
+\label{fig:MCSDomains}
 \end{figure}
 
 \section{Branch and Bound}
