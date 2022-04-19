@@ -576,10 +576,44 @@ Small scale experiments (not presented here) were performed to identify
 suitable heuristics for the $\FuncSty{SelectLabelClass}$ and
 $\FuncSty{SelectVertex}$ functions.  Our $\FuncSty{SelectLabelClass}$
 function chooses a label class with the smallest $\max(|\setG|,|\setH|)$,
-breaking ties by selecting a class containing a vertex in $G$ with the largest degree. From
+breaking ties by selecting a class containing a vertex in $G$ with the largest degree (TODO fix this to say what we actually do). From
 the selected class, $\FuncSty{SelectVertex}$ chooses a vertex in $\setG$ with
 maximum degree. We further discuss the effectiveness of our
 $\FuncSty{SelectLabelClass}$ function in \cref{sec:comparison}.
+
+\subsubsection{Tie-breaking by vertex degree}
+
+We now turn to the $\FuncSty{SelectVertex}$ procedure and the order over which
+vertices in $H$ are iterated in \lineref{WLoop}.  In constraint programming
+terminology, the former corresponds to a tie-breaker for the variable-ordering
+heuristic, while the latter corresponds to a value-ordering heuristic.
+
+For both of these, the McSplit algorithm takes the simple approach of reordering
+graphs $G$ and $H$ by degree before search.  This prompts the question: is it
+better to sort each graph in ascending or descending order of degree?  The answer depends on the structure of the two graphs.  To shed some light on this question, we present results of an comparing increasing degree and decreasing degree orders for both graphs on random $G(n,p)$ graphs, where the density parameter $p$
+is varied from 0 to 1.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][Undirected graphs] {
+        \includegraphics*[width=.9\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10.pdf}
+    }
+    \subfigure[][Directed graphs] {
+        \includegraphics*[width=.9\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10directed.pdf}
+    }
+    \caption{Densities for which each pair of orderings requires the fewest search nodes to solve 64 instances. TODO: write more} \label{figure:winners10}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][Undirected graphs] {
+        \includegraphics*[width=0.72\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/bars10.pdf}
+    }
+    \subfigure[][Directed graphs] {
+        \includegraphics*[width=0.72\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/bars10directed.pdf}
+    }
+    \caption{TODO} \label{figure:bars10}
+\end{figure}
 
 \subsection{Extensions}\label{sec:extensions}
 
