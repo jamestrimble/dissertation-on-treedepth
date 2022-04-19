@@ -1,6 +1,30 @@
 \chapter{Introduction}
 \label{c:intro}
 
+\newcommand{\FourQueens}[2] {
+  \begin{tikzpicture}[scale=0.6, every node/.style={black,scale=0.9}]
+    \newcommand*{\xMin}{0}%
+    \newcommand*{\xMax}{3}%
+    \newcommand*{\yMin}{0}%
+    \newcommand*{\yMax}{3}%
+    \foreach \i / \label in {0/a,1/b,2/c,3/d} {
+        \draw [] node at (\i+.5,\yMin-.3) {$\label$};
+    }
+    \foreach \i / \label in {0/1,1/2,2/3,3/4} {
+        \draw [] node at (\xMin-.3,\i+.5) {$\label$};
+    }
+
+    \foreach \y in {0,2}{
+        \foreach \x in {0,2}{
+            \fill[black!8] (\x,\y) rectangle (1+\x,1+\y) rectangle (2+\x,2+\y);}}
+    \draw [step=1.0] (0,0) grid (4,4);
+    \foreach \x/\y/\m in {#2}
+        \draw [] node at (\x,\y) {\m};
+    \node[draw,circle,inner sep=1mm] at (-1.4,3.5) {#1};
+  \end{tikzpicture}
+}
+
+
 This dissertation introduces algorithms for three NP-hard problems that
 take graphs as inputs.  The first of these is the maximum common subgraph
 family of problems: we seek to find a large subgraph shared by two given graphs.
@@ -336,6 +360,46 @@ association hypergraph, we do not consider this possibility further.)
 \section{Backtracking Search}
 
 TODO: describe search tree, CP, forward checking, levels of consistency.
+
+\newsavebox{\FourQueensBoxA}
+\newsavebox{\FourQueensBoxB}
+\newsavebox{\FourQueensBoxC}
+\newsavebox{\FourQueensBoxD}
+\newsavebox{\FourQueensBoxE}
+\newsavebox{\FourQueensBoxF}
+\newsavebox{\FourQueensBoxG}
+\newsavebox{\FourQueensBoxH}
+\newsavebox{\FourQueensBoxI}
+\sbox{\FourQueensBoxA}{\FourQueens{A}{0.5/0.5/,1.5/0.5/,2.5/0.5/,3.5/0.5/,0.5/1.5/,1.5/1.5/,2.5/1.5/,3.5/1.5/,0.5/2.5/,1.5/2.5/,2.5/2.5/,3.5/2.5/,0.5/3.5/,1.5/3.5/,2.5/3.5/,3.5/3.5/}}
+\sbox{\FourQueensBoxB}{\FourQueens{B}{0.5/0.5/\symqueen,1.5/0.5/$\times$,2.5/0.5/$\times$,3.5/0.5/$\times$,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/,3.5/1.5/,0.5/2.5/$\times$,1.5/2.5/,2.5/2.5/$\times$,3.5/2.5/,0.5/3.5/$\times$,1.5/3.5/,2.5/3.5/,3.5/3.5/$\times$}}
+\sbox{\FourQueensBoxC}{\FourQueens{C}{0.5/0.5/\symqueen,1.5/0.5/$\times$,2.5/0.5/$\times$,3.5/0.5/$\times$,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/\symqueen,3.5/1.5/$\times$,0.5/2.5/$\times$,1.5/2.5/$\times$,2.5/2.5/$\times$,3.5/2.5/$\times$,0.5/3.5/$\times$,1.5/3.5/,2.5/3.5/$\times$,3.5/3.5/$\times$}}
+\sbox{\FourQueensBoxD}{\FourQueens{D}{0.5/0.5/\symqueen,1.5/0.5/$\times$,2.5/0.5/$\times$,3.5/0.5/$\times$,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/\symqueen,0.5/2.5/$\times$,1.5/2.5/,2.5/2.5/$\times$,3.5/2.5/$\times$,0.5/3.5/$\times$,1.5/3.5/$\times$,2.5/3.5/,3.5/3.5/$\times$}}
+\sbox{\FourQueensBoxE}{\FourQueens{E}{0.5/0.5/\symqueen,1.5/0.5/$\times$,2.5/0.5/$\times$,3.5/0.5/$\times$,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/\symqueen,0.5/2.5/$\times$,1.5/2.5/$\times$,2.5/2.5/\symqueen,3.5/2.5/$\times$,0.5/3.5/$\times$,1.5/3.5/$\times$,2.5/3.5/$\times$,3.5/3.5/$\times$}}
+\sbox{\FourQueensBoxF}{\FourQueens{F}{0.5/0.5/$\times$,1.5/0.5/\symqueen,2.5/0.5/$\times$,3.5/0.5/$\times$,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/,0.5/2.5/,1.5/2.5/$\times$,2.5/2.5/,3.5/2.5/$\times$,0.5/3.5/,1.5/3.5/$\times$,2.5/3.5/,3.5/3.5/}}
+\sbox{\FourQueensBoxG}{\FourQueens{G}{0.5/0.5/$\times$,1.5/0.5/\symqueen,2.5/0.5/$\times$,3.5/0.5/$\times$,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/\symqueen,0.5/2.5/,1.5/2.5/$\times$,2.5/2.5/$\times$,3.5/2.5/$\times$,0.5/3.5/,1.5/3.5/$\times$,2.5/3.5/,3.5/3.5/$\times$}}
+\sbox{\FourQueensBoxH}{\FourQueens{H}{0.5/0.5/$\times$,1.5/0.5/\symqueen,2.5/0.5/$\times$,3.5/0.5/$\times$,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/\symqueen,0.5/2.5/\symqueen,1.5/2.5/$\times$,2.5/2.5/$\times$,3.5/2.5/$\times$,0.5/3.5/$\times$,1.5/3.5/$\times$,2.5/3.5/,3.5/3.5/$\times$}}
+\sbox{\FourQueensBoxI}{\FourQueens{I}{0.5/0.5/$\times$,1.5/0.5/\symqueen,2.5/0.5/$\times$,3.5/0.5/$\times$,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/\symqueen,0.5/2.5/\symqueen,1.5/2.5/$\times$,2.5/2.5/$\times$,3.5/2.5/$\times$,0.5/3.5/$\times$,1.5/3.5/$\times$,2.5/3.5/\symqueen,3.5/3.5/$\times$}}
+
+\begin{figure}[h!]
+\centering
+\begin{forest}
+[\usebox{\FourQueensBoxA}
+  [\usebox{\FourQueensBoxB}
+    [\usebox{\FourQueensBoxC}]
+    [\usebox{\FourQueensBoxD} [\usebox{\FourQueensBoxE}]]
+  ]
+  [\usebox{\FourQueensBoxF}
+    [\usebox{\FourQueensBoxG}
+      [\usebox{\FourQueensBoxH}
+        [\usebox{\FourQueensBoxI}]
+      ]
+    ]
+  ]
+]
+\end{forest}
+\caption{TODO}
+\label{fig:FourQueens}
+\end{figure}
 
 \section{Branch and Bound}
 
