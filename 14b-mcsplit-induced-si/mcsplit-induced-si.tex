@@ -555,16 +555,17 @@ in \Cref{McSplitSIAlg} is then replaced with two calls: the first one for in-edg
 for out-edges.  Correspondingly, two calls are made to $\FuncSty{Unfilter}()$ in reverse
 order of the calls to $\FuncSty{Filter}()$.
 
-The implementation of \McSplit-SI does not yet support edge labels, but it
+The current implementation of \McSplit-SI does not support edge labels, but it
 would be possible to do so with a fairly simple modification to the algorithm.
-Moreover, this modification has the nice property that it does not change the
+Moreover, this modification does not change the
 $O(|N_G(v)| + |N_H(w)|)$ time complexity of the filtering step.  We assume that
 the labels belong to some ordered set such as the integers.  The key is to sort
 the adjacency lists according to edge label before running the \McSplit-SI
 algorithm: each adjacency list $N(v)$ is sorted such that if the label on edge
 $\{v,u\}$ is less than the label on $\{v,u'\}$ then $u$ appears before $u'$ in
-the adjacency lists.  When partitioning is carried out, this leaves the
-vertices in each new label class sorted by edge label.  By simultaneously
+the adjacency lists.  When partitioning is carried out, the
+vertices in each new label class are therefore ordered by edge label.
+By simultaneously
 traversing the $S_G$ and $S_H$ sets of a new label class from left to right, we
 can subdivide the label class according to edge labels.  This is similar to how
 edge labels are handled in \McSplit; unlike \McSplit, however, the
@@ -579,7 +580,7 @@ is greatly affected by the order
 in which pattern and target vertices are chosen during search.
 Using terminology from constraint programming, we call the strategy
 used to select a pattern vertex on \lineref{McSplitSISelectVertex} of
-\lineref{McSplitSIAlg} the \emph{variable ordering heuristic}, and the
+\Cref{McSplitSIAlg} the \emph{variable ordering heuristic}, and the
 strategy used to decide the iteration order over target vertices on
 \lineref{McSplitSIWLoop} the \emph{value ordering heuristic}.
 
@@ -1060,6 +1061,83 @@ solve the instance with $k=1000$ (a 7000-vertex pattern graph and an
 
 As we have seen in this section, neither \McSplit-SI nor Glasgow dominates the other solver.  In the next
 section, we perform an experimental evalulation to compare solvers on benchmark instances.
+
+\FloatBarrier
+
+\section{A version using linked lists of vertices}
+
+The data structure used by \McSplit-SI to represent the two lists of vertices
+within each label class enables fast partitioning, but has the disadvantage
+that the vertices in each list are not kept in any particular order.  This has
+two negative consequences.  First, when selecting a label class according to
+the smallest domain first heuristic with degree-based tie breaking, we need to
+scan the pattern-graph vertices within each label class of minimum size to find
+a vertex of optimal degree.  Second, we face a time-space tradeoff when
+iterating over the target-graph vertices in degree order on
+\lineref{McSplitSIWLoop} of \Cref{McSplitSIAlg}: we can choose either to copy
+the list of vertices representing $S_H$ and then sort this copy, or to scan the
+list $S_H$ on each iteration for the next-best element.  The first of these
+options --- which we use in our implementation --- requires $O(|S_H| \log
+|S_H|)$ time and $n$ words of additional space; the second requires
+$O(|S_H|^2)$ time and no additional space.
+
+These disadvantages tend to be small in practice, as the label class chosen for
+iteration tends to be small except at the root of the search tree.
+Nevertheless, there exist pathological instances in which the smallest label
+classes are large even deep in the search tree.  For example, if the pattern
+and target graphs have no edges then there is only one label class at every
+depth of recursion.  Therefore, it would be useful to have a version of
+\McSplit-SI that keeps the vertices sorted in each label class without increasing
+the time complexity of the partitioning procedure.  This section describes
+such a version, which we call \McSplit-SI-LL because it stores lists of
+vertices as doubly linked lists.
+
+The data structures of \McSplit-SI-LL differ from those of \McSplit-SI
+as follows.  \McSplit-SI-LL does not use the arrays \Garray\ and \Harray;
+rather, each element of \Gptrs\ and \Hptrs\ has forward and backward pointers
+that enable the vertices within a label class to be joined together as a linked list.
+Since the linked-list nodes are embedded in an array, we can delete a given
+vertex from a list in constant time in addition to the usual complexity
+guarantees of doubly linked lists for other operations.  \Cref{figure:si-data-structures-ll-version}
+shows the data structures of \McSplit-SI-LL after assigning vertex $1$ to vertex $a$;
+this corresponds to \Cref{figure:si-data-structures} which shows the same state
+using the data structures of \McSplit-SI.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1-ll-version}
+    \caption{TODO}
+    \label{figure:si-data-structures-ll-version}
+\end{figure}
+
+Before the first call to $\FuncSty{Search}()$, the two linked lists of vertices in
+each label class are sorted in order of vertex degree.  We also sort each adjacency list
+of graphs $G$ and $H$ in order of vertex degree.
+
+We require the order to be maintained
+by the $\FuncSty{Filter}$ and $\FuncSty{Unfilter}$ functions.  The first of these is straightforward:
+when iterating over an adjacency list in the $\FuncSty{Filter}$ function, we delete each vertex $v$
+from its label class and append it to the new label class.  Because the adjacency lists are sorted,
+each new label class is in sorted order.
+
+The $\FuncSty{Unfilter}$ function requires more work in \McSplit-SI-LL than in \McSplit-SI,
+since when merging label classes we must ensure that each vertex is returned to the position
+in its former label class from which it was removed.  To enable this, we perform a little extra
+bookkeeping during the $\FuncSty{filter}$ function: each time we remove a vertex $v$, we store
+$v$ in an array along with a pointer to its successor node in the linked list from which $v$
+was removed.  TODO: say where we store these.
+
+TODO (in pseudocode, not here): check if I'm updating label class pointers during filtering
+
+In the next section, we will see that \McSplit-SI-LL is space-efficient.  The experimental evaluation
+in the following section shows that \McSplit-SI-LL runs faster \McSplit-SI on some instances, but
+slightly slower on many instances.
+
+\FloatBarrier
+
+\section{Time and space complexity}
+
+
 
 \section{Experimental evaluation}
 
