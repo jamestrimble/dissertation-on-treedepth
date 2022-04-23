@@ -205,9 +205,62 @@ struct NewBidomain;
 
 using BdIt = NewBidomain *;  //std::list<NewBidomain>::iterator;
 
+struct Ptrs
+{
+    BdIt bd_it;
+    Ptrs *next;
+    Ptrs *prev;
+    int v;
+};
+
+// A circular doubly linked list of vertices
+struct LL {
+    Ptrs head;    // head of circular doubly-linked list of vertices
+    int size;
+
+    void clear() {
+        head.next = &head;
+        head.prev = &head;
+        size = 0;
+    }
+
+    Ptrs * remove_vtx(Ptrs * v_ptrs) {
+        v_ptrs->prev->next = v_ptrs->next;
+        v_ptrs->next->prev = v_ptrs->prev;
+        --size;
+        return v_ptrs->next;
+    }
+
+    // re-insert a removed vertex whose prev and next pointers
+    // still point to where it should be placed
+    void restore_vtx(Ptrs * v_ptrs) {
+        v_ptrs->prev->next = v_ptrs;
+        v_ptrs->next->prev = v_ptrs;
+        ++size;
+    }
+
+    void append_vtx(Ptrs * v_ptrs) {
+        v_ptrs->prev = head.prev;
+        v_ptrs->next = &head;
+        head.prev->next = v_ptrs;
+        head.prev = v_ptrs;
+        ++size;
+    }
+
+    void insert_vtx(Ptrs * v_ptrs, Ptrs * before) {
+        v_ptrs->prev = before->prev;
+        v_ptrs->next = before;
+        before->prev->next = v_ptrs;
+        before->prev = v_ptrs;
+        ++size;
+    }
+
+    bool empty() {
+        return head.next == &head;
+    }
+};
+
 struct NewBidomain {
-    It l, r;
-    It l_end, r_end;
     int l_adj_count, r_adj_count;   // used when partitioning
     union {
         NewBidomain *next_in_split_list;
@@ -216,17 +269,17 @@ struct NewBidomain {
     NewBidomain *next_in_deleted_list;
     NewBidomain *prev;
     NewBidomain *next;
+    LL left_ll;
+    LL right_ll;
     bool active;
     bool undergoing_split;
 
-    void initialise(It l, It r, It l_end, It r_end)
+    void initialise()
     {
-        this->l = l;
-        this->r = r;
-        this->l_end = l_end;
-        this->r_end = r_end;
         this->active = true;
         this->undergoing_split = false;
+        this->left_ll.clear();
+        this->right_ll.clear();
     }
 
     void insert_before(BdIt p)
@@ -267,8 +320,9 @@ struct NewBidomain {
         this->prev->next = this;
         this->next->prev = this;
     }
-    int l_size() const { return l_end - l; }
-    int r_size() const { return r_end - r; }
+    int l_size() const { return left_ll.size; }
+    int r_size() const { return right_ll.size; }
+    int l_first_vertex() const { return left_ll.head.next->v; }
 };
 
 struct BDLL {
@@ -294,6 +348,10 @@ struct BDLL {
     bool empty() { return head.next == &head; }
 };
 
+struct ReplacementDatum {
+    Ptrs *item;
+    Ptrs *location;
+};
 
 // Some temporary storage space
 struct Workspace {
@@ -330,8 +388,18 @@ struct Workspace {
     vector<int> vv0_inverse;
     vector<int> vv1_inverse;
     vector<int> order;
-    Workspace(vector<int> & vv0, vector<int> & vv1, vector<int> order) :
-            vv0(vv0), vv1(vv1), vv0_inverse(vv0.size()), vv1_inverse(vv1.size()), order(order)
+
+    // When we move a vertex from its bidomain to a new bidomain, we need
+    // to keep track of the list location it has been moved from.
+    // If the graphs are directed, we need twice as much storage since
+    // we filter on in-edges and out-edges separately.
+    vector<vector<ReplacementDatum>> g0_restore_locations;
+    vector<vector<ReplacementDatum>> g1_restore_locations;
+
+    Workspace(vector<int> & vv0, vector<int> & vv1, vector<int> order, bool directed) :
+            vv0(vv0), vv1(vv1), vv0_inverse(vv0.size()), vv1_inverse(vv1.size()), order(order),
+            g0_restore_locations(directed ? vv0.size() * 2 : vv0.size()),
+            g1_restore_locations(directed ? vv1.size() * 2 : vv1.size())
     {
         for (unsigned i=0; i<vv0.size(); i++) {
             vv0_inverse[vv0[i]] = i;
@@ -343,12 +411,6 @@ struct Workspace {
 private:
     NewBidomain *bd_free_list = nullptr;
     std::list<vector<NewBidomain>> bd_memory_pools;
-};
-
-struct Ptrs
-{
-    BdIt bd_it;
-    It vtx_it;
 };
 
 void show(const vector<Ptrs> & left_ptrs, const vector<Ptrs> & right_ptrs,
@@ -373,12 +435,16 @@ void show(const vector<Ptrs> & left_ptrs, const vector<Ptrs> & right_ptrs,
     cout << "---------------------" << std::endl;
     for (BdIt bd_it=bdll.begin(); bd_it!=bdll.end(); bd_it=bd_it->next) {
         cout << "Left  ";
-        for (It it=bd_it->l; it!=bd_it->l_end; it++)
-            cout << *it << " ";
+        Ptrs *h = &bd_it->left_ll.head;
+        for (Ptrs *p=h->next; p!=h; p=p->next) {
+            cout << p->v << " ";
+        }
         cout << std::endl;
         cout << "Right  ";
-        for (It it=bd_it->r; it!=bd_it->r_end; it++)
-            cout << *it << " ";
+        h = &bd_it->right_ll.head;
+        for (Ptrs *p=h->next; p!=h; p=p->next) {
+            cout << p->v << " ";
+        }
         cout << std::endl;
     }
     cout << "\n" << std::endl;
@@ -415,25 +481,6 @@ int calc_bound(Workspace & workspace, BDLL & bdll, const SparseGraph & g0, const
     return bound;
 }
 
-// Return the position in vv0 of the pattern vertex on which we'd like to branch from the range [begin,end)
-int find_best_v_score(It begin, It end, Workspace & workspace)
-{
-    int result_score = workspace.vv0_inverse[*begin];
-    for (It it=std::next(begin); it!=end; it++) {
-        int v_score = workspace.vv0_inverse[*it];
-        if (v_score < result_score) {
-            result_score = v_score;
-        }
-    }
-    return result_score;
-}
-
-// Return the pattern vertex on which we'd like to branch from the range [begin,end)
-int find_best_v(It begin, It end, Workspace & workspace)
-{
-    return workspace.vv0[find_best_v_score(begin, end, workspace)];
-}
-
 int select_branch_v_heur_A(BDLL & domains, Workspace & workspace)
 {
     // Select the bidomain with the smallest max(leftsize, rightsize), breaking
@@ -441,7 +488,7 @@ int select_branch_v_heur_A(BDLL & domains, Workspace & workspace)
     int min_size = INT_MAX;
     for (BdIt bd_it=domains.begin(); bd_it!=domains.end(); bd_it=bd_it->next) {
         auto const & bd = *bd_it;
-        int right_len = bd.r_end - bd.r;
+        int right_len = bd.r_size();
         if (right_len < min_size)
             min_size = right_len;
     }
@@ -449,10 +496,10 @@ int select_branch_v_heur_A(BDLL & domains, Workspace & workspace)
     int best = -1;
     for (BdIt bd_it=domains.begin(); bd_it!=domains.end(); bd_it=bd_it->next) {
         auto const & bd = *bd_it;
-        int right_len = bd.r_end - bd.r;
+        int right_len = bd.r_size();
         if (right_len != min_size)
             continue;
-        int tie_breaker = find_best_v_score(bd.l, bd.l_end, workspace);
+        int tie_breaker = workspace.vv0_inverse[bd.l_first_vertex()];
         if (tie_breaker < min_tie_breaker) {
             min_tie_breaker = tie_breaker;
             best = workspace.vv0[tie_breaker];
@@ -461,14 +508,14 @@ int select_branch_v_heur_A(BDLL & domains, Workspace & workspace)
     return best;
 }
 
-int select_branch_v_heur_B(BDLL & domains, const SparseGraph & g0, Workspace & workspace)
+int select_branch_v_heur_B(BDLL & domains, const SparseGraph & g0)
 {
     double best_score = INT_MIN;
     int best = -1;
     for (BdIt bd_it=domains.begin(); bd_it!=domains.end(); bd_it=bd_it->next) {
         auto const & bd = *bd_it;
-        int best_v = find_best_v(bd.l, bd.l_end, workspace);
-        int right_len = bd.r_end - bd.r;
+        int best_v = bd.l_first_vertex();
+        int right_len = bd.r_size();
         if (right_len == 1) {
             // Special case where no branching is required
             return best_v;
@@ -486,14 +533,14 @@ int select_branch_v_heur_B(BDLL & domains, const SparseGraph & g0, Workspace & w
     return best;
 }
 
-int select_branch_v_heur_C(BDLL & domains, const SparseGraph & g0, const vector<int> & g0_remaining_deg, Workspace & workspace)
+int select_branch_v_heur_C(BDLL & domains, const SparseGraph & g0, const vector<int> & g0_remaining_deg)
 {
     double best_score = INT_MIN;
     int best = -1;
     for (BdIt bd_it=domains.begin(); bd_it!=domains.end(); bd_it=bd_it->next) {
         auto const & bd = *bd_it;
-        int best_v = find_best_v(bd.l, bd.l_end, workspace);
-        int right_len = bd.r_end - bd.r;
+        int best_v = bd.l_first_vertex();
+        int right_len = bd.r_size();
         if (right_len == 1) {
             // Special case where no branching is required
             return best_v;
@@ -514,9 +561,9 @@ int select_branch_v(BDLL & domains, const SparseGraph & g0, const vector<int> & 
     if (arguments.heuristic == heur_A)
         return select_branch_v_heur_A(domains, workspace);
     else if (arguments.heuristic == heur_B)
-        return select_branch_v_heur_B(domains, g0, workspace);
+        return select_branch_v_heur_B(domains, g0);
     else if (arguments.heuristic == heur_C)
-        return select_branch_v_heur_C(domains, g0, g0_remaining_deg, workspace);
+        return select_branch_v_heur_C(domains, g0, g0_remaining_deg);
     else
         return workspace.order[current_len];
 }
@@ -565,14 +612,15 @@ void partition_right(const vector<int> & right_vv, vector<Ptrs> & right_ptrs,
 }
 
 NewBidomain * do_splits(Workspace & workspace, vector<BdIt> & split_bds,
-        vector<Ptrs> & left_ptrs, vector<Ptrs> & right_ptrs)
+        vector<Ptrs> & left_ptrs, vector<Ptrs> & right_ptrs,
+        vector<ReplacementDatum> & g0_restore_locations,
+        vector<ReplacementDatum> & g1_restore_locations)
 {
     NewBidomain *split_bds_list = nullptr;
     for (auto bd_it : split_bds) {
         BdIt new_elem = workspace.get_from_free_list();
         new_elem->insert_after(bd_it);
-        new_elem->initialise(bd_it->l_end - bd_it->l_adj_count,
-                bd_it->r_end - bd_it->r_adj_count, bd_it->l_end, bd_it->r_end);
+        new_elem->initialise();
 
         // Insert the new BD at the head of the linked list of split BDs
         new_elem->next_in_split_list = split_bds_list;
@@ -580,29 +628,21 @@ NewBidomain * do_splits(Workspace & workspace, vector<BdIt> & split_bds,
     }
 
     for (int u : workspace.left_swap_vv) {
-        auto & u_ptrs = left_ptrs[u];
-        auto & bd = *u_ptrs.bd_it;
-        It u_it = u_ptrs.vtx_it;
-        It m = --bd.l_end;
-        int t = *m;
-        *u_it = t;
-        *m = u;
-        u_ptrs.vtx_it = m;
-        u_ptrs.bd_it = bd.next;
-        left_ptrs[t].vtx_it = u_it;
+        Ptrs * u_ptrs = &left_ptrs[u];
+        auto & bd = *u_ptrs->bd_it;
+        Ptrs * restore_location = bd.left_ll.remove_vtx(u_ptrs);
+        bd.next->left_ll.append_vtx(u_ptrs);
+        u_ptrs->bd_it = bd.next;
+        g0_restore_locations.push_back({u_ptrs, restore_location});
     }
 
     for (int u : workspace.right_swap_vv) {
-        auto & u_ptrs = right_ptrs[u];
-        auto & bd = *u_ptrs.bd_it;
-        It u_it = u_ptrs.vtx_it;
-        It m = --bd.r_end;
-        int t = *m;
-        *u_it = t;
-        *m = u;
-        u_ptrs.vtx_it = m;
-        u_ptrs.bd_it = bd.next;
-        right_ptrs[t].vtx_it = u_it;
+        Ptrs * u_ptrs = &right_ptrs[u];
+        auto & bd = *u_ptrs->bd_it;
+        Ptrs * restore_location = bd.right_ll.remove_vtx(u_ptrs);
+        bd.next->right_ll.append_vtx(u_ptrs);
+        u_ptrs->bd_it = bd.next;
+        g1_restore_locations.push_back({u_ptrs, restore_location});
     }
 
     return split_bds_list;
@@ -615,7 +655,7 @@ NewBidomain * do_deletions(vector<BdIt> & split_bds)
         for (int i=0; i<2; i++) {
             // Delete old and new BDs if necessary
             auto & bd = *bd_it;
-            if (bd.l == bd.l_end) {
+            if (bd.l_size() == 0) {
                 bd.active = false;
 
                 // add to deleted list
@@ -633,7 +673,8 @@ SplitAndDeletedLists filter_domains(
         Workspace & workspace,
         BDLL & bdll, vector<Ptrs> & left_ptrs, vector<Ptrs> & right_ptrs,
         const vector<vector<int>> & g0_adj_lists, const vector<vector<int>> & g1_adj_lists,
-        int v, int w)
+        int v, int w,
+        vector<ReplacementDatum> & g0_restore_locations, vector<ReplacementDatum> & g1_restore_locations)
 {
     vector<BdIt> & split_bds = workspace.split_bds;
     split_bds.clear();
@@ -660,7 +701,8 @@ SplitAndDeletedLists filter_domains(
         }
     }
 
-    NewBidomain *split_bds_list = do_splits(workspace, split_bds, left_ptrs, right_ptrs);
+    NewBidomain *split_bds_list = do_splits(workspace, split_bds, left_ptrs, right_ptrs,
+            g0_restore_locations, g1_restore_locations);
 
     NewBidomain *deleted_bds_list = do_deletions(split_bds);
 
@@ -673,30 +715,37 @@ void unfilter_domains(
         vector<Ptrs> & left_ptrs,
         vector<Ptrs> & right_ptrs,
         NewBidomain *split_bds_list,
-        NewBidomain *deleted_bds)
+        NewBidomain *deleted_bds,
+        vector<ReplacementDatum> & g0_restore_locations,
+        vector<ReplacementDatum> & g1_restore_locations)
 {
     while (deleted_bds != nullptr) {
         NewBidomain & bd = *deleted_bds;
         bd.active = true;
         bd.reinsert();
         deleted_bds = bd.next_in_deleted_list;
-        //deleted_bds.back().move_to_before(bd.reinsertion_point);
-        //bdll.splice(bd.reinsertion_point, deleted_bds, std::prev(deleted_bds.end()));
+    }
+
+    while (!g0_restore_locations.empty()) {
+        ReplacementDatum & rd = g0_restore_locations.back();
+        BdIt bd_it = rd.item->bd_it->prev;
+        bd_it->left_ll.insert_vtx(rd.item, rd.location);
+        rd.item->bd_it = bd_it;
+        g0_restore_locations.pop_back();
+    }
+
+    while (!g1_restore_locations.empty()) {
+        ReplacementDatum & rd = g1_restore_locations.back();
+        BdIt bd_it = rd.item->bd_it->prev;
+        bd_it->right_ll.insert_vtx(rd.item, rd.location);
+        rd.item->bd_it = bd_it;
+        g1_restore_locations.pop_back();
     }
 
     for (NewBidomain *p=split_bds_list; p!=nullptr; ) {
         // TODO: better variable names
         //BdIt nxt_it = p;
         auto & nxt = *p;
-        BdIt bd_it = nxt.prev;
-        for (It it=nxt.l; it<nxt.l_end; it++) {
-            left_ptrs[*it].bd_it = bd_it;
-        }
-        for (It it=nxt.r; it<nxt.r_end; it++) {
-            right_ptrs[*it].bd_it = bd_it;
-        }
-        bd_it->l_end = nxt.l_end;
-        bd_it->r_end = nxt.r_end;
 
         p->remove();
         p = p->next_in_split_list;
@@ -711,31 +760,19 @@ void assign(int v, int w,
         vector<Ptrs> & left_ptrs, vector<Ptrs> & right_ptrs)
 {
     auto & bd = *left_ptrs[v].bd_it;
-    It v_it = left_ptrs[v].vtx_it;
-    It l_last = std::prev(bd.l_end);
-    std::swap(*v_it, *l_last);
-    left_ptrs[v].vtx_it = l_last;
+    bd.left_ll.remove_vtx(&left_ptrs[v]);
+    bd.right_ll.remove_vtx(&right_ptrs[w]);
     left_ptrs[v].bd_it = nullptr;
-    left_ptrs[*v_it].vtx_it = v_it;
-    --bd.l_end;
-
-    It w_it = right_ptrs[w].vtx_it;
-    It r_last = std::prev(bd.r_end);
-    std::swap(*w_it, *r_last);
-    right_ptrs[w].vtx_it = r_last;
     right_ptrs[w].bd_it = nullptr;
-    right_ptrs[*w_it].vtx_it = w_it;
-    --bd.r_end;
 }
 
 void unassign(int v, int w, BdIt bd_it,
         vector<Ptrs> & left_ptrs, vector<Ptrs> & right_ptrs)
 {
+    bd_it->left_ll.restore_vtx(&left_ptrs[v]);
+    bd_it->right_ll.restore_vtx(&right_ptrs[w]);
     left_ptrs[v].bd_it = bd_it;
     right_ptrs[w].bd_it = bd_it;
-//    cout << (bd.l_end - bd.l) << "------------" << endl;
-    ++bd_it->l_end;
-    ++bd_it->r_end;
 }
 
 void solve(Workspace & workspace, const SparseGraph & g0, const SparseGraph & g1, vector<VtxPair> & incumbent,
@@ -773,24 +810,14 @@ void solve(Workspace & workspace, const SparseGraph & g0, const SparseGraph & g1
 
     BdIt bd_it = left_ptrs[v].bd_it;
 
-    std::vector<int> ww;
-    ww.reserve(bd_it->r_end - bd_it->r);
-    for (auto it = bd_it->r; it != bd_it->r_end; it++) {
-        // Initially ww contains vertices' positions in the order.  After sorting,
-        // we'll convert these to vertices
-        ww.push_back(workspace.vv1_inverse[*it]);
-    }
-    std::sort(ww.begin(), ww.end());
-    for (auto & w : ww) {
-        w = workspace.vv1[w];
-    }
-
     if (arguments.heuristic == heur_C)
         for (int u : g0.adj_lists[v])
             --g0_remaining_deg[u];
 
-    // Try assigning v to each vertex w in the colour class beginning at bd.r, in turn
-    for (int w : ww) {
+    // Try assigning v to each vertex w in the label class, in turn
+    Ptrs *h = &bd_it->right_ll.head;
+    for (Ptrs *p=h->next; p!=h; p=p->next) {
+        int w = p->v;
         // Not necessary, but sometimes helps:
         if (g0.adj_lists[v].size() > g1.adj_lists[w].size())
             continue;
@@ -804,12 +831,14 @@ void solve(Workspace & workspace, const SparseGraph & g0, const SparseGraph & g1
         }
 
         auto filter_result = filter_domains(workspace,
-                bdll, left_ptrs, right_ptrs, g0.adj_lists, g1.adj_lists, v, w);
+                bdll, left_ptrs, right_ptrs, g0.adj_lists, g1.adj_lists, v, w,
+                workspace.g0_restore_locations[v], workspace.g1_restore_locations[w]);
 
         if (!filter_result.quit_early) {
             if (arguments.directed) {
                 auto filter_result2 = filter_domains(workspace,
-                        bdll, left_ptrs, right_ptrs, g0.in_edge_lists, g1.in_edge_lists, v, w);
+                        bdll, left_ptrs, right_ptrs, g0.in_edge_lists, g1.in_edge_lists, v, w,
+                        workspace.g0_restore_locations[g0.n + v], workspace.g1_restore_locations[g1.n + w]);
                 if (!filter_result2.quit_early) {
                     current.push_back(VtxPair(v, w));
 
@@ -818,7 +847,8 @@ void solve(Workspace & workspace, const SparseGraph & g0, const SparseGraph & g1
 
                     current.pop_back();
                     unfilter_domains(workspace, bdll, left_ptrs, right_ptrs,
-                            filter_result2.split_bds_list, filter_result2.deleted_bds_list);
+                            filter_result2.split_bds_list, filter_result2.deleted_bds_list,
+                            workspace.g0_restore_locations[g0.n + v], workspace.g1_restore_locations[g1.n + w]);
                 }
             } else {
                 current.push_back(VtxPair(v, w));
@@ -829,7 +859,8 @@ void solve(Workspace & workspace, const SparseGraph & g0, const SparseGraph & g1
                 current.pop_back();
             }
             unfilter_domains(workspace, bdll, left_ptrs, right_ptrs,
-                    filter_result.split_bds_list, filter_result.deleted_bds_list);
+                    filter_result.split_bds_list, filter_result.deleted_bds_list,
+                    workspace.g0_restore_locations[v], workspace.g1_restore_locations[w]);
         }
 
         if (removed_bd) {
@@ -906,6 +937,18 @@ vector<int> get_RI_style_static_order(const SparseGraph & g0, double g1_density)
     return order;
 }
 
+void sort_adj_lists(vector<vector<int>> & adj_lists, vector<int> & vv, vector<int> & vv_inverse)
+{
+    for (unsigned i=0; i<adj_lists.size(); i++) {
+        auto & lst = adj_lists[i];
+        for (unsigned j=0; j<lst.size(); j++)
+            lst[j] = vv_inverse[lst[j]];
+        std::sort(lst.begin(), lst.end());
+        for (unsigned j=0; j<lst.size(); j++)
+            lst[j] = vv[lst[j]];
+    }
+}
+
 // Returns a common subgraph and the number of induced subgraph isomorphisms found
 // vv0 and vv1 are vertex orders
 std::pair<vector<VtxPair>, long long> mcs(SparseGraph & g0, SparseGraph & g1, double g1_density,
@@ -927,11 +970,6 @@ std::pair<vector<VtxPair>, long long> mcs(SparseGraph & g0, SparseGraph & g1, do
     //    cout << endl;
     //}
     //cout << endl;
-    vector<int> left;  // the buffer of vertex indices for the left partitions
-    vector<int> right;  // the buffer of vertex indices for the right partitions
-    left.reserve(g0.n);
-    right.reserve(g1.n);
-
     vector<Ptrs> left_ptrs(g0.n);
     vector<Ptrs> right_ptrs(g1.n);
 
@@ -941,7 +979,21 @@ std::pair<vector<VtxPair>, long long> mcs(SparseGraph & g0, SparseGraph & g1, do
     if (arguments.heuristic == heur_RI) {
         order = get_RI_style_static_order(g0, g1_density);
     }
-    Workspace workspace {vv0, vv1, order};
+    Workspace workspace {vv0, vv1, order, arguments.directed};
+
+    sort_adj_lists(g0.adj_lists, vv0, workspace.vv0_inverse);
+    sort_adj_lists(g1.adj_lists, vv1, workspace.vv1_inverse);
+    if (arguments.directed) {
+        sort_adj_lists(g0.in_edge_lists, vv0, workspace.vv0_inverse);
+        sort_adj_lists(g1.in_edge_lists, vv1, workspace.vv1_inverse);
+    }
+
+    for (int i=0; i<g0.n; i++) {
+        left_ptrs[i].v = i;
+    }
+    for (int i=0; i<g1.n; i++) {
+        right_ptrs[i].v = i;
+    }
 
     std::vector<unsigned int> left_labels(g0.label.begin(), g0.label.end());
     // sort and deduplicate
@@ -950,38 +1002,28 @@ std::pair<vector<VtxPair>, long long> mcs(SparseGraph & g0, SparseGraph & g1, do
 
     // Create a bidomain for each label that appears in the pattern graph
     for (unsigned int label : left_labels) {
-        int left_len = 0;
-        int right_len = 0;
-
         NewBidomain *new_elem = workspace.get_from_free_list();
         new_elem->insert_before(&bdll.head);
+        new_elem->initialise();
 
-        for (int i=0; i<g0.n; i++) {
+        for (int i : vv0) {
             if (g0.label[i]==label) {
-                left.push_back(i);
-                left_ptrs[i].vtx_it = std::prev(left.end());
+                new_elem->left_ll.append_vtx(&left_ptrs[i]);
                 left_ptrs[i].bd_it = new_elem;
-                ++left_len;
             }
         }
-        for (int i=0; i<g1.n; i++) {
+        for (int i : vv1) {
             if (g1.label[i]==label) {
-                right.push_back(i);
-                right_ptrs[i].vtx_it = std::prev(right.end());
-                //cout << *right_ptrs[i].vtx_it << endl;
+                new_elem->right_ll.append_vtx(&right_ptrs[i]);
                 right_ptrs[i].bd_it = new_elem;
-                ++right_len;
             }
         }
 
+        int left_len = new_elem->left_ll.size;
+        int right_len = new_elem->right_ll.size;
         if (left_len > right_len) {
             return {{}, 0};
         }
-
-        new_elem->initialise(left.end() - left_len,
-                             right.end() - right_len,
-                             left.end(),
-                             right.end());
     }
 
     vector<VtxPair> incumbent;
