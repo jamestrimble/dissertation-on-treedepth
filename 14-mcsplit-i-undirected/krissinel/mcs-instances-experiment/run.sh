@@ -4,7 +4,7 @@ rm -f *_times.txt
 rm -rf program-output
 mkdir -p program-output
 rm -f commands.txt
-rm -f intermediate
+rm -rf intermediate
 
 mkdir -p intermediate
 mkdir -p results
