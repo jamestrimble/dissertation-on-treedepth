@@ -22,7 +22,7 @@ set xrange[1:1000000]
 unset yrange
 set key right bottom
 set output "plots/cumulative-with-disconnected-patterns-treated-as-timeout.tex"
-plot "fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt" u 2:($2>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI' lc 1, \
+plot "fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt" u 2:($2>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-LL' lc 1, \
      "fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt" u 3:($3>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom' lc 2, \
      "fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt" u 4:($4>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom-D1' lc 3, \
      "fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt" u 5:($5>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom-D2' lc 4, \
@@ -33,7 +33,7 @@ plot "fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.tx
      "fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout.txt" u 12:($12>=1e6?1e-10:1) smooth cumulative w l ti 'VF3' lc 9
 
 set output "plots/sat-cumulative-with-disconnected-patterns-treated-as-timeout.tex"
-plot "< awk 'NR==1 || $13==1' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 2:($2>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI' lc 1, \
+plot "< awk 'NR==1 || $13==1' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 2:($2>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-LL' lc 1, \
      "< awk 'NR==1 || $13==1' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 3:($3>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom' lc 2, \
      "< awk 'NR==1 || $13==1' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 4:($4>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom' lc 3, \
      "< awk 'NR==1 || $13==1' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 5:($5>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom' lc 4, \
@@ -44,7 +44,7 @@ plot "< awk 'NR==1 || $13==1' fatanode-results/runtimes-with-disconnected-patter
      "< awk 'NR==1 || $13==1' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 12:($12>=1e6?1e-10:1) smooth cumulative w l ti 'VF3' lc 9
 
 set output "plots/unsat-cumulative-with-disconnected-patterns-treated-as-timeout.tex"
-plot "< awk 'NR==1 || $13==0' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 2:($2>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI' lc 1, \
+plot "< awk 'NR==1 || $13==0' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 2:($2>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-LL' lc 1, \
      "< awk 'NR==1 || $13==0' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 3:($3>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom' lc 2, \
      "< awk 'NR==1 || $13==0' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 4:($4>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom-D1' lc 3, \
      "< awk 'NR==1 || $13==0' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 5:($5>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom-D2' lc 4, \
@@ -55,7 +55,7 @@ plot "< awk 'NR==1 || $13==0' fatanode-results/runtimes-with-disconnected-patter
      "< awk 'NR==1 || $13==0' fatanode-results/runtimes-with-disconnected-patterns-treated-as-timeout-and-satisfiabilities.txt" u 12:($12>=1e6?1e-10:1) smooth cumulative w l ti 'VF3' lc 9
 
 set output "plots/cumulative-without-disconnected-pattern.tex"
-plot "fatanode-results/runtimes-without-disconnected-patterns.txt" u 2:($2>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI' lc 1, \
+plot "fatanode-results/runtimes-without-disconnected-patterns.txt" u 2:($2>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-LL' lc 1, \
      "fatanode-results/runtimes-without-disconnected-patterns.txt" u 3:($3>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom' lc 2, \
      "fatanode-results/runtimes-without-disconnected-patterns.txt" u 4:($4>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom-D1' lc 3, \
      "fatanode-results/runtimes-without-disconnected-patterns.txt" u 5:($5>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SI-dom.D2' lc 4, \

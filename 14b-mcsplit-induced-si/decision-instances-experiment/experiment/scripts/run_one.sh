@@ -41,7 +41,7 @@ timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/gla
         || echo Failed $? >> $out.glasgow.out
 ../../vf3-instances-experiment/programs/glasgow-subgraph-solver/glasgow_subgraph_solver \
     --no-supplementals --format lad --induced $pf $tf --timeout $timelimit > $out.glasgow-nosupp.out
-../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad B $pf $tf --timeout $timelimit > $out.mcsplit-si.out
+../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si-ll --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-ll.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad RI $pf $tf --timeout $timelimit > $out.mcsplit-si-static.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad -D1 A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom-D1.out
