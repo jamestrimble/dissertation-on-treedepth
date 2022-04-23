@@ -37,7 +37,7 @@ enum Heuristic { min_max, min_product };
 *******************************************************************************/
 
 static char doc[] = "Find a maximum clique in a graph in DIMACS format\vHEURISTIC can be min_max or min_product";
-static char args_doc[] = "HEURISTIC FILENAME1 FILENAME2";
+static char args_doc[] = "HEURISTIC ALGORITHM-VERSION(0,1,2,3) FILENAME1 FILENAME2";
 static struct argp_option options[] = {
     {"quiet", 'q', 0, 0, "Quiet output"},
     {"verbose", 'v', 0, 0, "Verbose output"},
@@ -67,6 +67,7 @@ static struct {
     char *filename2;
     int timeout;
     int arg_num;
+    int algorithm_version;  // 0: full; 1: left-only heur; 2: left-only heur & bound; 3: left-only heur & bound, no sorting
 } arguments;
 
 static std::atomic<bool> abort_due_to_timeout;
@@ -141,8 +142,10 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
                 else
                     fail("Unknown heuristic (try min_max or min_product)");
             } else if (arguments.arg_num == 1) {
-                arguments.filename1 = arg;
+                arguments.algorithm_version = std::stoi(arg);
             } else if (arguments.arg_num == 2) {
+                arguments.filename1 = arg;
+            } else if (arguments.arg_num == 3) {
                 arguments.filename2 = arg;
             } else {
                 argp_usage(state);
@@ -235,8 +238,14 @@ bool check_sol(const Graph & g0, const Graph & g1 , const vector<VtxPair> & solu
 
 int calc_bound(const vector<Bidomain>& domains) {
     int bound = 0;
-    for (const Bidomain &bd : domains) {
-        bound += std::min(bd.left_len, bd.right_len);
+    if (arguments.algorithm_version > 1) {
+        for (const Bidomain &bd : domains) {
+            bound += bd.left_len;
+        }
+    } else {
+        for (const Bidomain &bd : domains) {
+            bound += std::min(bd.left_len, bd.right_len);
+        }
     }
     return bound;
 }
@@ -263,6 +272,9 @@ int select_bidomain(const vector<Bidomain>& domains, const vector<int> & left,
         int len = arguments.heuristic == min_max ?
                 std::max(bd.left_len, bd.right_len) :
                 bd.left_len * bd.right_len;
+
+        if (arguments.algorithm_version > 0) len = bd.right_len;
+
         if (len < min_size) {
             min_size = len;
             min_tie_breaker = find_min_value(left, bd.l, bd.left_len);
@@ -542,16 +554,18 @@ int main(int argc, char** argv) {
 
     vector<int> vv0(g0.n);
     std::iota(std::begin(vv0), std::end(vv0), 0);
-    bool g1_dense = sum(g1_deg) > g1.n*(g1.n-1);
-    std::stable_sort(std::begin(vv0), std::end(vv0), [&](int a, int b) {
-        return g0_deg[a]>g0_deg[b];
-    });
+    //bool g1_dense = sum(g1_deg) > g1.n*(g1.n-1);
     vector<int> vv1(g1.n);
     std::iota(std::begin(vv1), std::end(vv1), 0);
-    bool g0_dense = sum(g0_deg) > g0.n*(g0.n-1);
-    std::stable_sort(std::begin(vv1), std::end(vv1), [&](int a, int b) {
-        return g1_deg[a]>g1_deg[b];
-    });
+    //bool g0_dense = sum(g0_deg) > g0.n*(g0.n-1);
+    if (arguments.algorithm_version < 3) {
+        std::stable_sort(std::begin(vv0), std::end(vv0), [&](int a, int b) {
+            return g0_deg[a]>g0_deg[b];
+        });
+        std::stable_sort(std::begin(vv1), std::end(vv1), [&](int a, int b) {
+            return g1_deg[a]>g1_deg[b];
+        });
+    }
 
     struct Graph g0_sorted = induced_subgraph(g0, vv0);
     struct Graph g1_sorted = induced_subgraph(g1, vv1);

@@ -17,6 +17,8 @@ mcsplit-modified is a version of McSplit that is modified to solve the same prob
 
 mcsplit-modified2 is a version of McSplit that is modified to solve the same problem; it's also modified to try to do roughly the same thing as the program from Krissinel.  Again, the initial sorting by degree is removed.
 
-## new-mcsplit-modified and new-mcsplit-modified2
+## new-mcsplit-modified
 
-These are like mcsplit-modified and mcsplit-modified2, but always sort in descending order of degree
+This is like mcsplit-modified.  There are four versions, depending on a command-line parameter.
+0 is the best; 3 is the worst.
+Vertices are sorted in descending order of degree.
