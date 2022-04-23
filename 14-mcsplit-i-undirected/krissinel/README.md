@@ -1,3 +1,8 @@
+## Instances
+
+To get the instances for the large experiment, clone https://github.com/ciaranm/cp2016-max-common-connected-subgraph-paper
+as a sibling of the thesis directory.
+
 ## Krissinel and Henrick's program
 
 See the private repository github.com/jamestrimble/krissinel
