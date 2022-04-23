@@ -9,7 +9,7 @@ timelimit_plus_a_bit=$((timelimit + 5))
 check_mcsplit_timeout() {
     f=$1
     if grep -q TIMEOUT $f; then
-        echo "CPU - - 1000" > $f
+        echo "CPU - - ${timelimit}000" > $f
         echo "Count -1" >> $f
     fi
 }
@@ -33,7 +33,7 @@ check_mcsplit_timeout program-output/${instance}.mcsp3.txt
 timeout $timelimit_plus_a_bit ../../../../krissinel/csm-modified/mmdb2/a.out $g $h 0 > program-output/${instance}.csia.tmp.txt
 if [ "$?" -eq "124" ]; then
     echo "nMatches: -1" > program-output/${instance}.csia.txt
-    echo "time: 1000" >> program-output/${instance}.csia.txt
+    echo "time: ${timelimit}000" >> program-output/${instance}.csia.txt
 else
     cat program-output/${instance}.csia.tmp.txt | grep -E 'nMatches|time' > program-output/${instance}.csia.txt
 fi
