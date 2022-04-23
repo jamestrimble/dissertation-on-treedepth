@@ -6,6 +6,7 @@ mkdir -p program-output
 rm -f commands.txt
 rm -rf intermediate
 
+mkdir -p graphs
 mkdir -p intermediate
 mkdir -p results
 
