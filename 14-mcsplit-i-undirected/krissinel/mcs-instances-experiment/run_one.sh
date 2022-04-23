@@ -3,7 +3,7 @@
 g=$1
 h=$2
 instance=$3
-timelimit=3
+timelimit=1000
 timelimit_plus_a_bit=$((timelimit + 5))
 
 check_mcsplit_timeout() {

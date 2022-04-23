@@ -7,12 +7,12 @@ rm -f intermediate
 mkdir -p intermediate
 mkdir -p results
 
-cat mcsplaininstances.txt | shuf | head -10 | while read a b c d; do
+cat mcsplaininstances.txt | shuf | head -320 | while read a b c d; do
     echo $a >> intermediate/instance_names.txt
     echo ./run_one.sh ../../$b ../../$c $a >> intermediate/commands.txt
 done
 
-parallel -P4 --bar < intermediate/commands.txt
+parallel -P32 --bar < intermediate/commands.txt
 
 cat intermediate/instance_names.txt | while read a; do
     cat program-output/$a.mcsp0.txt >> results/mcsp0_times.txt
