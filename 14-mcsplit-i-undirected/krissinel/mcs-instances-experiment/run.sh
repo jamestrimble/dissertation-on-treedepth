@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm -f *_times.txt
 rm -rf program-output
 mkdir -p program-output
