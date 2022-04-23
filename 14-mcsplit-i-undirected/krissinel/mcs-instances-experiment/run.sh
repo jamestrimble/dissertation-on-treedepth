@@ -9,7 +9,7 @@ mkdir -p graphs
 mkdir -p intermediate
 mkdir -p results
 
-cat mcsplaininstances.txt while read a b c d; do
+cat mcsplaininstances.txt | while read a b c d; do
     echo $a >> intermediate/instance_names.txt
     echo ./run_one.sh ../../$b ../../$c $a >> intermediate/commands.txt
 done
