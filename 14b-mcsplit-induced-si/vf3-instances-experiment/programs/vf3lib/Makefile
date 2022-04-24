@@ -3,7 +3,7 @@ CFLAGS= -std=c++11 -march=native -O3 -Wno-deprecated
 LDFLAGS= -lpthread -latomic
 CPPFLAGS= -I./include
 
-all: vf3 vf3_first_match_only vf3p vf3l
+all: vf3 vf3_first_match_only vf3l
 
 vf3_first_match_only:
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o bin/$@ main.cpp c_program_timing.c -DVF3 -DFIRST_MATCH_ONLY

@@ -1,3 +1,12 @@
+## James Trimble's notes
+
+This code is based on commit a0493713481a6670775d6d4f38de9f36c0caad3f of https://github.com/MiviaLab/vf3lib . I've added timing code and a version that finds the first match only.  I also use the -march=native compiler flag. The files in `include/` are unchanged by me.
+
+The original README follows.
+
+--------------------------
+
+
 # vf3lib
 vf3lib is a software library containing all the currently published versions of VF3, the fastest algorithm to solve subgraph isomorphism on large and dense graphs. *Extremely efficient in time and memory!* 
 

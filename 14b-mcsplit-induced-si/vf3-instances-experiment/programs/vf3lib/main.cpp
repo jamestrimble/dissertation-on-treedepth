@@ -232,13 +232,13 @@ int32_t main(int32_t argc, char** argv)
 	{
 		std::cout<<"First Solution in: "<<timeFirst<<std::endl;
 		std::cout<<"Matching Finished in: "<<timeAll<<std::endl;
-		std::cout<<"Solutions: "<<sols<<std::endl;
+		std::cout<<"Solutions: "<<sols<<std::endl <<std::endl;
 	}else
 	{
 		std::cout << sols << " " << timeFirst << " " << timeAll;
 	}
 	delete me;
-  delete pattloader;
-  delete targloader;
+	delete pattloader;
+	delete targloader;
 	return 0;
 }
