@@ -1,0 +1,8220 @@
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              4126
+Count:                      392
+CPU time (ms):              1387
+Count:                      2400
+CPU time (ms):              3632
+Count:                      2880
+CPU time (ms):              2272
+Count:                      288
+CPU time (ms):              264
+Count:                      2208
+CPU time (ms):              12627
+Count:                      167040
+CPU time (ms):              3512
+Count:                      34608
+CPU time (ms):              801
+Count:                      1536
+CPU time (ms):              22629
+Count:                      24480
+CPU time (ms):              4005
+Count:                      39312
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              43454
+Count:                      8
+CPU - - 80000
+Count -1
+CPU time (ms):              4152
+Count:                      1034
+CPU time (ms):              14845
+Count:                      68
+CPU - - 80000
+Count -1
+CPU time (ms):              4303
+Count:                      192
+CPU time (ms):              9846
+Count:                      3340
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              861
+Count:                      61
+CPU time (ms):              908
+Count:                      38
+CPU time (ms):              324
+Count:                      37
+CPU time (ms):              385
+Count:                      2
+CPU time (ms):              588
+Count:                      1
+CPU time (ms):              782
+Count:                      3141
+CPU time (ms):              626
+Count:                      55
+CPU time (ms):              203
+Count:                      4
+CPU time (ms):              180
+Count:                      430
+CPU time (ms):              380
+Count:                      16
+CPU time (ms):              10926
+Count:                      1
+CPU time (ms):              41449
+Count:                      410
+CPU time (ms):              30477
+Count:                      261
+CPU time (ms):              8202
+Count:                      3
+CPU time (ms):              41080
+Count:                      207
+CPU time (ms):              42034
+Count:                      339
+CPU time (ms):              17682
+Count:                      17
+CPU time (ms):              53333
+Count:                      16
+CPU time (ms):              17535
+Count:                      3
+CPU time (ms):              19694
+Count:                      1116
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              732
+Count:                      388
+CPU time (ms):              447
+Count:                      5
+CPU time (ms):              345
+Count:                      11
+CPU time (ms):              532
+Count:                      4
+CPU time (ms):              819
+Count:                      1
+CPU time (ms):              783
+Count:                      292
+CPU time (ms):              449
+Count:                      3
+CPU time (ms):              945
+Count:                      414
+CPU time (ms):              539
+Count:                      479
+CPU time (ms):              483
+Count:                      14
+CPU time (ms):              7260
+Count:                      65
+CPU time (ms):              10396
+Count:                      197
+CPU time (ms):              13145
+Count:                      32
+CPU time (ms):              4050
+Count:                      1
+CPU time (ms):              12381
+Count:                      72
+CPU time (ms):              9361
+Count:                      51
+CPU time (ms):              10996
+Count:                      58
+CPU time (ms):              10559
+Count:                      45
+CPU time (ms):              9574
+Count:                      47
+CPU time (ms):              10400
+Count:                      69
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              36
+Count:                      1252
+CPU time (ms):              10
+Count:                      19
+CPU time (ms):              45
+Count:                      206
+CPU time (ms):              37
+Count:                      176
+CPU time (ms):              16
+Count:                      506
+CPU time (ms):              13
+Count:                      395
+CPU time (ms):              26
+Count:                      130
+CPU time (ms):              11
+Count:                      36
+CPU time (ms):              28
+Count:                      492
+CPU time (ms):              14
+Count:                      10
+CPU time (ms):              893
+Count:                      2792
+CPU time (ms):              1312
+Count:                      1344
+CPU time (ms):              737
+Count:                      1492
+CPU time (ms):              2909
+Count:                      42
+CPU time (ms):              1031
+Count:                      2384
+CPU time (ms):              4466
+Count:                      5748
+CPU time (ms):              602
+Count:                      1380
+CPU time (ms):              396
+Count:                      2
+CPU time (ms):              278
+Count:                      12
+CPU time (ms):              1023
+Count:                      8744
+CPU - - 80000
+Count -1
+CPU time (ms):              7261
+Count:                      41
+CPU - - 80000
+Count -1
+CPU time (ms):              68846
+Count:                      48
+CPU time (ms):              12051
+Count:                      416
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              27741
+Count:                      2354
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              75913
+Count:                      96
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              13
+Count:                      46
+CPU time (ms):              42
+Count:                      429
+CPU time (ms):              41
+Count:                      1971
+CPU time (ms):              9
+Count:                      12
+CPU time (ms):              122
+Count:                      1252
+CPU time (ms):              32
+Count:                      12
+CPU time (ms):              59
+Count:                      1328
+CPU time (ms):              65
+Count:                      2940
+CPU time (ms):              57
+Count:                      578
+CPU time (ms):              65
+Count:                      4
+CPU time (ms):              1427
+Count:                      41600
+CPU time (ms):              447
+Count:                      43632
+CPU time (ms):              7146
+Count:                      4044
+CPU time (ms):              1553
+Count:                      856
+CPU time (ms):              1570
+Count:                      138
+CPU time (ms):              1706
+Count:                      3356
+CPU time (ms):              8845
+Count:                      1752
+CPU time (ms):              1084
+Count:                      20
+CPU time (ms):              994
+Count:                      3112
+CPU time (ms):              1026
+Count:                      1370
+CPU time (ms):              49449
+Count:                      48
+CPU - - 80000
+Count -1
+CPU time (ms):              13942
+Count:                      8316
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              16167
+Count:                      352
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              29277
+Count:                      13794
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              4432
+Count:                      17
+CPU time (ms):              4240
+Count:                      34
+CPU time (ms):              4146
+Count:                      14
+CPU time (ms):              7133
+Count:                      52
+CPU time (ms):              9014
+Count:                      9
+CPU time (ms):              6728
+Count:                      148
+CPU time (ms):              23076
+Count:                      13
+CPU time (ms):              3460
+Count:                      212
+CPU time (ms):              36593
+Count:                      3816
+CPU time (ms):              8436
+Count:                      144
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              50887
+Count:                      232
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              7709
+Count:                      11
+CPU time (ms):              8235
+Count:                      2
+CPU time (ms):              28447
+Count:                      4
+CPU time (ms):              6095
+Count:                      1
+CPU time (ms):              5293
+Count:                      32
+CPU time (ms):              24013
+Count:                      1
+CPU time (ms):              10448
+Count:                      1533
+CPU time (ms):              11477
+Count:                      31
+CPU time (ms):              14751
+Count:                      41
+CPU time (ms):              19688
+Count:                      8
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              34555
+Count:                      4
+CPU time (ms):              11030
+Count:                      24
+CPU time (ms):              18260
+Count:                      24
+CPU time (ms):              6977
+Count:                      18
+CPU time (ms):              49440
+Count:                      35
+CPU - - 80000
+Count -1
+CPU time (ms):              10242
+Count:                      2
+CPU time (ms):              48334
+Count:                      1269
+CPU time (ms):              15588
+Count:                      30
+CPU time (ms):              20713
+Count:                      4
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              17703
+Count:                      1606
+CPU time (ms):              9939
+Count:                      40
+CPU time (ms):              22081
+Count:                      22
+CPU time (ms):              6072
+Count:                      2
+CPU time (ms):              42420
+Count:                      1559
+CPU time (ms):              8703
+Count:                      1
+CPU time (ms):              30203
+Count:                      1964
+CPU time (ms):              8713
+Count:                      160
+CPU time (ms):              10811
+Count:                      123
+CPU time (ms):              28877
+Count:                      482
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              7307
+Count:                      25
+CPU time (ms):              23032
+Count:                      2
+CPU time (ms):              8141
+Count:                      4
+CPU time (ms):              32060
+Count:                      4389
+CPU time (ms):              12693
+Count:                      52
+CPU time (ms):              8254
+Count:                      2
+CPU time (ms):              16134
+Count:                      50
+CPU time (ms):              12247
+Count:                      3
+CPU time (ms):              18798
+Count:                      1594
+CPU time (ms):              7047
+Count:                      54
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              14381
+Count:                      220
+CPU time (ms):              18581
+Count:                      151
+CPU time (ms):              16027
+Count:                      884
+CPU time (ms):              12215
+Count:                      138
+CPU time (ms):              12354
+Count:                      12
+CPU time (ms):              15950
+Count:                      347
+CPU time (ms):              11781
+Count:                      40
+CPU time (ms):              15524
+Count:                      192
+CPU time (ms):              21544
+Count:                      247
+CPU time (ms):              23985
+Count:                      388
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              11541
+Count:                      57288
+CPU time (ms):              39201
+Count:                      4248
+CPU time (ms):              1059
+Count:                      2552
+CPU time (ms):              11870
+Count:                      1072
+CPU time (ms):              3714
+Count:                      1192
+CPU time (ms):              2795
+Count:                      302160
+CPU time (ms):              3826
+Count:                      4464
+CPU time (ms):              1548
+Count:                      32
+CPU time (ms):              2071
+Count:                      8576
+CPU time (ms):              2710
+Count:                      4
+CPU time (ms):              20687
+Count:                      144
+CPU time (ms):              37342
+Count:                      33208
+CPU time (ms):              14174
+Count:                      432
+CPU time (ms):              25516
+Count:                      12
+CPU time (ms):              18741
+Count:                      1888
+CPU time (ms):              5663
+Count:                      10
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              16694
+Count:                      96
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      66
+CPU time (ms):              1
+Count:                      30
+CPU time (ms):              1
+Count:                      24
+CPU time (ms):              1
+Count:                      304
+CPU time (ms):              2
+Count:                      4
+CPU time (ms):              0
+Count:                      10
+CPU time (ms):              1
+Count:                      48
+CPU time (ms):              0
+Count:                      39
+CPU time (ms):              3
+Count:                      1056
+CPU time (ms):              26
+Count:                      50
+CPU time (ms):              43
+Count:                      164
+CPU time (ms):              61
+Count:                      294
+CPU time (ms):              58
+Count:                      20
+CPU time (ms):              74
+Count:                      266
+CPU time (ms):              33
+Count:                      96
+CPU time (ms):              16
+Count:                      244
+CPU time (ms):              38
+Count:                      6
+CPU time (ms):              49
+Count:                      48
+CPU time (ms):              34
+Count:                      151
+CPU time (ms):              538
+Count:                      14
+CPU time (ms):              467
+Count:                      29
+CPU time (ms):              630
+Count:                      174
+CPU time (ms):              298
+Count:                      2
+CPU time (ms):              400
+Count:                      17
+CPU time (ms):              249
+Count:                      244
+CPU time (ms):              673
+Count:                      53
+CPU time (ms):              1901
+Count:                      690
+CPU time (ms):              893
+Count:                      2
+CPU time (ms):              1191
+Count:                      6850
+CPU time (ms):              23079
+Count:                      493
+CPU time (ms):              7195
+Count:                      80
+CPU time (ms):              10442
+Count:                      1
+CPU time (ms):              39751
+Count:                      19
+CPU time (ms):              5656
+Count:                      2
+CPU time (ms):              16659
+Count:                      294
+CPU time (ms):              74289
+Count:                      111
+CPU time (ms):              64405
+Count:                      9169
+CPU time (ms):              23495
+Count:                      1
+CPU time (ms):              11885
+Count:                      2040
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      40
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              1
+Count:                      1
+CPU time (ms):              1
+Count:                      79
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      35
+CPU time (ms):              1
+Count:                      19
+CPU time (ms):              0
+Count:                      14
+CPU time (ms):              1
+Count:                      82
+CPU time (ms):              49
+Count:                      3
+CPU time (ms):              32
+Count:                      28
+CPU time (ms):              19
+Count:                      6
+CPU time (ms):              23
+Count:                      7
+CPU time (ms):              27
+Count:                      4
+CPU time (ms):              27
+Count:                      9
+CPU time (ms):              20
+Count:                      5
+CPU time (ms):              24
+Count:                      3
+CPU time (ms):              24
+Count:                      37
+CPU time (ms):              15
+Count:                      7
+CPU time (ms):              589
+Count:                      7
+CPU time (ms):              533
+Count:                      2
+CPU time (ms):              700
+Count:                      3
+CPU time (ms):              538
+Count:                      2
+CPU time (ms):              486
+Count:                      6
+CPU time (ms):              950
+Count:                      5
+CPU time (ms):              524
+Count:                      2
+CPU time (ms):              352
+Count:                      4
+CPU time (ms):              603
+Count:                      5
+CPU time (ms):              582
+Count:                      7
+CPU time (ms):              6339
+Count:                      2
+CPU time (ms):              12964
+Count:                      36
+CPU time (ms):              13111
+Count:                      117
+CPU time (ms):              11494
+Count:                      61
+CPU time (ms):              10368
+Count:                      86
+CPU time (ms):              12731
+Count:                      148
+CPU time (ms):              11795
+Count:                      45
+CPU time (ms):              10703
+Count:                      121
+CPU time (ms):              8910
+Count:                      62
+CPU time (ms):              9425
+Count:                      53
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      9
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              1
+Count:                      288
+CPU time (ms):              1
+Count:                      142
+CPU time (ms):              0
+Count:                      3
+CPU time (ms):              1
+Count:                      168
+CPU time (ms):              1
+Count:                      168
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      7
+CPU time (ms):              0
+Count:                      180
+CPU time (ms):              28
+Count:                      1196
+CPU time (ms):              9
+Count:                      592
+CPU time (ms):              12
+Count:                      2
+CPU time (ms):              8
+Count:                      24
+CPU time (ms):              26
+Count:                      792
+CPU time (ms):              15
+Count:                      28
+CPU time (ms):              29
+Count:                      600
+CPU time (ms):              41
+Count:                      332
+CPU time (ms):              17
+Count:                      12
+CPU time (ms):              84
+Count:                      2194
+CPU time (ms):              437
+Count:                      81
+CPU time (ms):              1016
+Count:                      215
+CPU time (ms):              4110
+Count:                      16298
+CPU time (ms):              206
+Count:                      8
+CPU time (ms):              460
+Count:                      969
+CPU time (ms):              651
+Count:                      4
+CPU time (ms):              221
+Count:                      12
+CPU time (ms):              2129
+Count:                      680
+CPU time (ms):              80
+Count:                      4
+CPU time (ms):              110
+Count:                      2
+CPU time (ms):              35078
+Count:                      591
+CPU time (ms):              62916
+Count:                      464
+CPU - - 80000
+Count -1
+CPU time (ms):              23160
+Count:                      2917
+CPU - - 80000
+Count -1
+CPU time (ms):              15776
+Count:                      15872
+CPU time (ms):              79036
+Count:                      14008
+CPU time (ms):              10520
+Count:                      2964
+CPU time (ms):              37177
+Count:                      1280
+CPU time (ms):              27509
+Count:                      962
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      210
+CPU time (ms):              1
+Count:                      42
+CPU time (ms):              1
+Count:                      144
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              2
+Count:                      424
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              91
+Count:                      808
+CPU time (ms):              29
+Count:                      8
+CPU time (ms):              69
+Count:                      549
+CPU time (ms):              13
+Count:                      20
+CPU time (ms):              19
+Count:                      2
+CPU time (ms):              10
+Count:                      8
+CPU time (ms):              51
+Count:                      400
+CPU time (ms):              3
+Count:                      2
+CPU time (ms):              41
+Count:                      500
+CPU time (ms):              45
+Count:                      1632
+CPU time (ms):              812
+Count:                      240
+CPU time (ms):              665
+Count:                      6
+CPU time (ms):              693
+Count:                      1478
+CPU time (ms):              1312
+Count:                      780
+CPU time (ms):              1615
+Count:                      522
+CPU time (ms):              30
+Count:                      28
+CPU time (ms):              1562
+Count:                      443
+CPU time (ms):              274
+Count:                      938
+CPU time (ms):              548
+Count:                      4
+CPU time (ms):              7864
+Count:                      90
+CPU time (ms):              4142
+Count:                      48
+CPU time (ms):              43009
+Count:                      7416
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              65438
+Count:                      1328
+CPU time (ms):              8795
+Count:                      30
+CPU time (ms):              16998
+Count:                      3360
+CPU time (ms):              14931
+Count:                      4
+CPU time (ms):              5482
+Count:                      1
+CPU time (ms):              3510
+Count:                      2
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              15
+Count:                      530
+CPU time (ms):              11
+Count:                      149
+CPU time (ms):              27
+Count:                      831
+CPU time (ms):              22
+Count:                      1154
+CPU time (ms):              9
+Count:                      16
+CPU time (ms):              17
+Count:                      18
+CPU time (ms):              11
+Count:                      32
+CPU time (ms):              10
+Count:                      44
+CPU time (ms):              6
+Count:                      2
+CPU time (ms):              8
+Count:                      66
+CPU time (ms):              426
+Count:                      14
+CPU time (ms):              321
+Count:                      5
+CPU time (ms):              201
+Count:                      4
+CPU time (ms):              136
+Count:                      10
+CPU time (ms):              323
+Count:                      78
+CPU time (ms):              119
+Count:                      3
+CPU time (ms):              288
+Count:                      31
+CPU time (ms):              283
+Count:                      55
+CPU time (ms):              236
+Count:                      54
+CPU time (ms):              176
+Count:                      18
+CPU time (ms):              7699
+Count:                      12
+CPU time (ms):              3147
+Count:                      31
+CPU time (ms):              2703
+Count:                      5
+CPU time (ms):              15078
+Count:                      34
+CPU time (ms):              10385
+Count:                      6
+CPU time (ms):              10312
+Count:                      4
+CPU time (ms):              14120
+Count:                      12
+CPU time (ms):              3645
+Count:                      2
+CPU time (ms):              16405
+Count:                      6
+CPU time (ms):              4121
+Count:                      24
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              67261
+Count:                      19
+CPU time (ms):              77967
+Count:                      52
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              68613
+Count:                      153
+CPU time (ms):              79807
+Count:                      4
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              43
+Count:                      134
+CPU time (ms):              24
+Count:                      25
+CPU time (ms):              17
+Count:                      70
+CPU time (ms):              25
+Count:                      10
+CPU time (ms):              50
+Count:                      8
+CPU time (ms):              38
+Count:                      1
+CPU time (ms):              23
+Count:                      19
+CPU time (ms):              17
+Count:                      35
+CPU time (ms):              14
+Count:                      3
+CPU time (ms):              16
+Count:                      2
+CPU time (ms):              301
+Count:                      4
+CPU time (ms):              278
+Count:                      1
+CPU time (ms):              823
+Count:                      2
+CPU time (ms):              617
+Count:                      156
+CPU time (ms):              781
+Count:                      132
+CPU time (ms):              887
+Count:                      333
+CPU time (ms):              380
+Count:                      8
+CPU time (ms):              209
+Count:                      2
+CPU time (ms):              319
+Count:                      10
+CPU time (ms):              307
+Count:                      6
+CPU time (ms):              5440
+Count:                      6
+CPU time (ms):              23142
+Count:                      1390
+CPU time (ms):              54544
+Count:                      340
+CPU time (ms):              12528
+Count:                      8
+CPU time (ms):              24440
+Count:                      600
+CPU time (ms):              16518
+Count:                      191
+CPU time (ms):              11154
+Count:                      1
+CPU time (ms):              12986
+Count:                      557
+CPU time (ms):              14031
+Count:                      375
+CPU time (ms):              28587
+Count:                      1289
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              82
+Count:                      180
+CPU time (ms):              238
+Count:                      3116
+CPU time (ms):              98
+Count:                      464
+CPU time (ms):              120
+Count:                      4
+CPU time (ms):              67
+Count:                      24
+CPU time (ms):              135
+Count:                      48
+CPU time (ms):              245
+Count:                      352
+CPU time (ms):              128
+Count:                      2
+CPU time (ms):              204
+Count:                      744
+CPU time (ms):              224
+Count:                      24
+CPU time (ms):              3227
+Count:                      1
+CPU time (ms):              3589
+Count:                      59
+CPU time (ms):              4793
+Count:                      703
+CPU time (ms):              3574
+Count:                      74
+CPU time (ms):              8649
+Count:                      187
+CPU time (ms):              5546
+Count:                      308
+CPU time (ms):              4237
+Count:                      1
+CPU time (ms):              5212
+Count:                      176
+CPU time (ms):              6176
+Count:                      275
+CPU time (ms):              2490
+Count:                      8
+CPU - - 80000
+Count -1
+CPU time (ms):              29203
+Count:                      2
+CPU time (ms):              32736
+Count:                      4
+CPU time (ms):              63038
+Count:                      21
+CPU time (ms):              67782
+Count:                      2
+CPU - - 80000
+Count -1
+CPU time (ms):              50724
+Count:                      28
+CPU - - 80000
+Count -1
+CPU time (ms):              41724
+Count:                      7
+CPU time (ms):              41220
+Count:                      9
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              347
+Count:                      65
+CPU time (ms):              417
+Count:                      11
+CPU time (ms):              290
+Count:                      33
+CPU time (ms):              295
+Count:                      287
+CPU time (ms):              273
+Count:                      54
+CPU time (ms):              142
+Count:                      3
+CPU time (ms):              295
+Count:                      52
+CPU time (ms):              312
+Count:                      2
+CPU time (ms):              185
+Count:                      28
+CPU time (ms):              374
+Count:                      44
+CPU time (ms):              7176
+Count:                      8
+CPU time (ms):              6174
+Count:                      81
+CPU time (ms):              5642
+Count:                      19
+CPU time (ms):              6611
+Count:                      22
+CPU time (ms):              6563
+Count:                      3
+CPU time (ms):              13321
+Count:                      1203
+CPU time (ms):              4786
+Count:                      2
+CPU time (ms):              5261
+Count:                      7
+CPU time (ms):              4994
+Count:                      8
+CPU time (ms):              7268
+Count:                      18
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              45187
+Count:                      29
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      7
+CPU time (ms):              0
+Count:                      11
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              1
+Count:                      120
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              1
+Count:                      249
+CPU time (ms):              1
+Count:                      8
+CPU time (ms):              0
+Count:                      426
+CPU time (ms):              0
+Count:                      708
+CPU time (ms):              0
+Count:                      10
+CPU time (ms):              505
+Count:                      186
+CPU time (ms):              2858
+Count:                      23
+CPU time (ms):              1004
+Count:                      398
+CPU time (ms):              151
+Count:                      15
+CPU time (ms):              472
+Count:                      48
+CPU time (ms):              1618
+Count:                      52
+CPU time (ms):              433
+Count:                      903
+CPU time (ms):              337
+Count:                      113
+CPU time (ms):              2298
+Count:                      36
+CPU time (ms):              1314
+Count:                      2
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              455
+Count:                      5
+CPU time (ms):              843
+Count:                      134
+CPU time (ms):              827
+Count:                      36
+CPU time (ms):              385
+Count:                      208
+CPU time (ms):              647
+Count:                      205
+CPU time (ms):              770
+Count:                      1
+CPU time (ms):              509
+Count:                      3
+CPU time (ms):              3549
+Count:                      1341
+CPU time (ms):              2298
+Count:                      3944
+CPU time (ms):              216
+Count:                      25
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              1
+Count:                      178
+CPU time (ms):              1
+Count:                      116
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              1
+Count:                      112
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              1
+Count:                      92
+CPU time (ms):              0
+Count:                      9
+CPU time (ms):              974
+Count:                      256
+CPU time (ms):              1279
+Count:                      522
+CPU time (ms):              655
+Count:                      178
+CPU time (ms):              426
+Count:                      24
+CPU time (ms):              426
+Count:                      147
+CPU time (ms):              294
+Count:                      22
+CPU time (ms):              661
+Count:                      77
+CPU time (ms):              318
+Count:                      54
+CPU time (ms):              1323
+Count:                      2269
+CPU time (ms):              1256
+Count:                      92
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      30
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      71
+CPU time (ms):              1
+Count:                      71
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              1
+Count:                      102
+CPU time (ms):              1
+Count:                      69
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              1
+Count:                      63
+CPU time (ms):              0
+Count:                      12
+CPU time (ms):              363
+Count:                      48
+CPU time (ms):              552
+Count:                      23
+CPU time (ms):              204
+Count:                      39
+CPU time (ms):              528
+Count:                      39
+CPU time (ms):              686
+Count:                      5
+CPU time (ms):              145
+Count:                      4
+CPU time (ms):              446
+Count:                      88
+CPU time (ms):              347
+Count:                      1
+CPU time (ms):              492
+Count:                      23
+CPU time (ms):              1009
+Count:                      2352
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              23
+Count:                      14
+CPU time (ms):              14
+Count:                      84
+CPU time (ms):              37
+Count:                      14
+CPU time (ms):              39
+Count:                      66
+CPU time (ms):              29
+Count:                      90
+CPU time (ms):              43
+Count:                      34
+CPU time (ms):              28
+Count:                      90
+CPU time (ms):              31
+Count:                      102
+CPU time (ms):              53
+Count:                      24
+CPU time (ms):              37
+Count:                      24
+CPU time (ms):              637
+Count:                      1
+CPU time (ms):              869
+Count:                      1108
+CPU time (ms):              281
+Count:                      1161
+CPU time (ms):              855
+Count:                      431
+CPU time (ms):              677
+Count:                      7
+CPU time (ms):              455
+Count:                      81
+CPU time (ms):              475
+Count:                      188
+CPU time (ms):              639
+Count:                      4
+CPU time (ms):              512
+Count:                      345
+CPU time (ms):              1484
+Count:                      249
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              41
+Count:                      1
+CPU time (ms):              28
+Count:                      12
+CPU time (ms):              18
+Count:                      2
+CPU time (ms):              15
+Count:                      3
+CPU time (ms):              20
+Count:                      5
+CPU time (ms):              22
+Count:                      22
+CPU time (ms):              14
+Count:                      3
+CPU time (ms):              37
+Count:                      3
+CPU time (ms):              15
+Count:                      11
+CPU time (ms):              9
+Count:                      8
+CPU time (ms):              424
+Count:                      17
+CPU time (ms):              553
+Count:                      4
+CPU time (ms):              807
+Count:                      12
+CPU time (ms):              1583
+Count:                      137
+CPU time (ms):              953
+Count:                      10
+CPU time (ms):              336
+Count:                      4
+CPU time (ms):              624
+Count:                      95
+CPU time (ms):              507
+Count:                      2
+CPU time (ms):              611
+Count:                      249
+CPU time (ms):              747
+Count:                      35
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              71
+Count:                      295
+CPU time (ms):              31
+Count:                      1
+CPU time (ms):              45
+Count:                      223
+CPU time (ms):              21
+Count:                      9
+CPU time (ms):              7
+Count:                      8
+CPU time (ms):              23
+Count:                      310
+CPU time (ms):              17
+Count:                      101
+CPU time (ms):              15
+Count:                      1
+CPU time (ms):              22
+Count:                      4
+CPU time (ms):              33
+Count:                      285
+CPU time (ms):              683
+Count:                      249
+CPU time (ms):              424
+Count:                      3
+CPU time (ms):              1360
+Count:                      313
+CPU time (ms):              631
+Count:                      145
+CPU time (ms):              278
+Count:                      7
+CPU time (ms):              557
+Count:                      1
+CPU time (ms):              1202
+Count:                      1095
+CPU time (ms):              350
+Count:                      3
+CPU time (ms):              341
+Count:                      8
+CPU time (ms):              870
+Count:                      1685
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              14
+Count:                      6
+CPU time (ms):              39
+Count:                      2
+CPU time (ms):              43
+Count:                      113
+CPU time (ms):              26
+Count:                      29
+CPU time (ms):              43
+Count:                      313
+CPU time (ms):              26
+Count:                      97
+CPU time (ms):              28
+Count:                      79
+CPU time (ms):              37
+Count:                      60
+CPU time (ms):              21
+Count:                      94
+CPU time (ms):              37
+Count:                      86
+CPU time (ms):              285
+Count:                      5
+CPU time (ms):              529
+Count:                      2
+CPU time (ms):              483
+Count:                      6
+CPU time (ms):              308
+Count:                      1
+CPU time (ms):              1327
+Count:                      229
+CPU time (ms):              844
+Count:                      235
+CPU time (ms):              181
+Count:                      1
+CPU time (ms):              685
+Count:                      200
+CPU time (ms):              458
+Count:                      13
+CPU time (ms):              324
+Count:                      4
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              60184
+Count:                      8
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              1288
+Count:                      3312
+CPU time (ms):              3022
+Count:                      13098
+CPU time (ms):              2188
+Count:                      1476
+CPU time (ms):              3166
+Count:                      740
+CPU time (ms):              1314
+Count:                      50
+CPU time (ms):              1015
+Count:                      310
+CPU time (ms):              4132
+Count:                      192
+CPU time (ms):              2311
+Count:                      1740
+CPU time (ms):              1557
+Count:                      2448
+CPU time (ms):              419
+Count:                      384
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              13679
+Count:                      96
+CPU time (ms):              58161
+Count:                      14940
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              13741
+Count:                      14
+CPU time (ms):              9893
+Count:                      149
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      16
+CPU time (ms):              2
+Count:                      54
+CPU time (ms):              1
+Count:                      35
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      70
+CPU time (ms):              0
+Count:                      84
+CPU time (ms):              0
+Count:                      44
+CPU time (ms):              0
+Count:                      28
+CPU time (ms):              1
+Count:                      116
+CPU time (ms):              0
+Count:                      6
+CPU time (ms):              14
+Count:                      3
+CPU time (ms):              31
+Count:                      4
+CPU time (ms):              40
+Count:                      30
+CPU time (ms):              23
+Count:                      6
+CPU time (ms):              83
+Count:                      82
+CPU time (ms):              42
+Count:                      2
+CPU time (ms):              61
+Count:                      116
+CPU time (ms):              25
+Count:                      316
+CPU time (ms):              24
+Count:                      20
+CPU time (ms):              17
+Count:                      97
+CPU time (ms):              1051
+Count:                      520
+CPU time (ms):              1552
+Count:                      347
+CPU time (ms):              804
+Count:                      199
+CPU time (ms):              644
+Count:                      94
+CPU time (ms):              395
+Count:                      953
+CPU time (ms):              422
+Count:                      462
+CPU time (ms):              251
+Count:                      4
+CPU time (ms):              1193
+Count:                      60
+CPU time (ms):              1032
+Count:                      4
+CPU time (ms):              665
+Count:                      162
+CPU time (ms):              32442
+Count:                      16
+CPU time (ms):              24723
+Count:                      4139
+CPU time (ms):              8487
+Count:                      256
+CPU time (ms):              10940
+Count:                      2
+CPU time (ms):              10274
+Count:                      226
+CPU time (ms):              4403
+Count:                      45
+CPU time (ms):              12822
+Count:                      2
+CPU time (ms):              27952
+Count:                      95
+CPU time (ms):              11536
+Count:                      6
+CPU time (ms):              16602
+Count:                      14
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      16
+CPU time (ms):              1
+Count:                      27
+CPU time (ms):              1
+Count:                      158
+CPU time (ms):              0
+Count:                      56
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              2
+Count:                      208
+CPU time (ms):              0
+Count:                      72
+CPU time (ms):              0
+Count:                      66
+CPU time (ms):              0
+Count:                      38
+CPU time (ms):              1
+Count:                      125
+CPU time (ms):              30
+Count:                      22
+CPU time (ms):              21
+Count:                      9
+CPU time (ms):              26
+Count:                      2
+CPU time (ms):              4
+Count:                      1
+CPU time (ms):              20
+Count:                      18
+CPU time (ms):              18
+Count:                      9
+CPU time (ms):              23
+Count:                      9
+CPU time (ms):              23
+Count:                      15
+CPU time (ms):              14
+Count:                      16
+CPU time (ms):              27
+Count:                      2
+CPU time (ms):              435
+Count:                      7
+CPU time (ms):              491
+Count:                      4
+CPU time (ms):              521
+Count:                      3
+CPU time (ms):              788
+Count:                      2
+CPU time (ms):              376
+Count:                      2
+CPU time (ms):              602
+Count:                      7
+CPU time (ms):              510
+Count:                      2
+CPU time (ms):              338
+Count:                      2
+CPU time (ms):              564
+Count:                      506
+CPU time (ms):              418
+Count:                      10
+CPU time (ms):              9391
+Count:                      52
+CPU time (ms):              12728
+Count:                      79
+CPU time (ms):              13350
+Count:                      35
+CPU time (ms):              14022
+Count:                      63
+CPU time (ms):              13806
+Count:                      115
+CPU time (ms):              8562
+Count:                      1
+CPU time (ms):              13460
+Count:                      96
+CPU time (ms):              12716
+Count:                      53
+CPU time (ms):              9894
+Count:                      127
+CPU time (ms):              12117
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      22
+CPU time (ms):              0
+Count:                      40
+CPU time (ms):              1
+Count:                      348
+CPU time (ms):              0
+Count:                      40
+CPU time (ms):              0
+Count:                      32
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      24
+CPU time (ms):              0
+Count:                      28
+CPU time (ms):              0
+Count:                      14
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              3
+Count:                      2
+CPU time (ms):              29
+Count:                      2
+CPU time (ms):              9
+Count:                      1
+CPU time (ms):              9
+Count:                      2
+CPU time (ms):              26
+Count:                      12
+CPU time (ms):              16
+Count:                      543
+CPU time (ms):              3
+Count:                      2
+CPU time (ms):              4
+Count:                      1
+CPU time (ms):              10
+Count:                      9
+CPU time (ms):              5
+Count:                      3
+CPU time (ms):              244
+Count:                      11
+CPU time (ms):              572
+Count:                      17
+CPU time (ms):              95
+Count:                      2
+CPU time (ms):              218
+Count:                      6
+CPU time (ms):              501
+Count:                      64
+CPU time (ms):              200
+Count:                      28
+CPU time (ms):              1046
+Count:                      22
+CPU time (ms):              141
+Count:                      2
+CPU time (ms):              399
+Count:                      9
+CPU time (ms):              194
+Count:                      13
+CPU time (ms):              9822
+Count:                      17
+CPU time (ms):              1453
+Count:                      10
+CPU time (ms):              1971
+Count:                      130
+CPU time (ms):              2495
+Count:                      8
+CPU time (ms):              945
+Count:                      8
+CPU time (ms):              2815
+Count:                      1
+CPU time (ms):              18261
+Count:                      2
+CPU time (ms):              2323
+Count:                      43
+CPU time (ms):              6284
+Count:                      26
+CPU time (ms):              4114
+Count:                      28
+CPU time (ms):              60823
+Count:                      52
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              70290
+Count:                      126
+CPU time (ms):              47534
+Count:                      24
+CPU time (ms):              8294
+Count:                      1
+CPU time (ms):              23120
+Count:                      58
+CPU time (ms):              69132
+Count:                      3
+CPU time (ms):              2285
+Count:                      2
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              1
+Count:                      36
+CPU time (ms):              0
+Count:                      9
+CPU time (ms):              1
+Count:                      223
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      40
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              1
+Count:                      48
+CPU time (ms):              0
+Count:                      17
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              17
+Count:                      4
+CPU time (ms):              12
+Count:                      32
+CPU time (ms):              12
+Count:                      8
+CPU time (ms):              23
+Count:                      2
+CPU time (ms):              23
+Count:                      16
+CPU time (ms):              18
+Count:                      16
+CPU time (ms):              25
+Count:                      14
+CPU time (ms):              56
+Count:                      839
+CPU time (ms):              17
+Count:                      28
+CPU time (ms):              14
+Count:                      4
+CPU time (ms):              1243
+Count:                      142
+CPU time (ms):              177
+Count:                      4
+CPU time (ms):              1210
+Count:                      118
+CPU time (ms):              1134
+Count:                      13
+CPU time (ms):              201
+Count:                      23
+CPU time (ms):              179
+Count:                      10
+CPU time (ms):              1552
+Count:                      145
+CPU time (ms):              391
+Count:                      4216
+CPU time (ms):              805
+Count:                      2
+CPU time (ms):              585
+Count:                      10
+CPU time (ms):              11262
+Count:                      2318
+CPU time (ms):              16897
+Count:                      654
+CPU time (ms):              18359
+Count:                      2088
+CPU time (ms):              11306
+Count:                      450
+CPU time (ms):              24723
+Count:                      18
+CPU time (ms):              36236
+Count:                      4513
+CPU time (ms):              26588
+Count:                      50
+CPU - - 80000
+Count -1
+CPU time (ms):              6965
+Count:                      40
+CPU time (ms):              16605
+Count:                      768
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              1
+Count:                      1080
+CPU time (ms):              0
+Count:                      36
+CPU time (ms):              1
+Count:                      1272
+CPU time (ms):              5
+Count:                      9528
+CPU time (ms):              0
+Count:                      48
+CPU time (ms):              1
+Count:                      720
+CPU time (ms):              0
+Count:                      288
+CPU time (ms):              1
+Count:                      522
+CPU time (ms):              6
+Count:                      11760
+CPU time (ms):              0
+Count:                      12
+CPU time (ms):              10
+Count:                      7
+CPU time (ms):              4
+Count:                      1
+CPU time (ms):              26
+Count:                      1
+CPU time (ms):              17
+Count:                      60
+CPU time (ms):              8
+Count:                      1
+CPU time (ms):              9
+Count:                      12
+CPU time (ms):              15
+Count:                      2
+CPU time (ms):              7
+Count:                      4
+CPU time (ms):              9
+Count:                      9
+CPU time (ms):              20
+Count:                      14
+CPU time (ms):              24
+Count:                      1
+CPU time (ms):              104
+Count:                      8
+CPU time (ms):              110
+Count:                      2
+CPU time (ms):              44
+Count:                      2
+CPU time (ms):              56
+Count:                      10
+CPU time (ms):              90
+Count:                      5
+CPU time (ms):              68
+Count:                      44
+CPU time (ms):              113
+Count:                      9
+CPU time (ms):              144
+Count:                      56
+CPU time (ms):              36
+Count:                      11
+CPU time (ms):              3289
+Count:                      1
+CPU time (ms):              1153
+Count:                      2
+CPU time (ms):              540
+Count:                      2
+CPU time (ms):              1119
+Count:                      7
+CPU time (ms):              567
+Count:                      30
+CPU time (ms):              853
+Count:                      9
+CPU time (ms):              394
+Count:                      17
+CPU time (ms):              654
+Count:                      21
+CPU time (ms):              2643
+Count:                      1
+CPU time (ms):              248
+Count:                      2
+CPU time (ms):              52677
+Count:                      2
+CPU time (ms):              5841
+Count:                      30
+CPU time (ms):              8810
+Count:                      16
+CPU time (ms):              1684
+Count:                      3
+CPU time (ms):              2995
+Count:                      2
+CPU time (ms):              3890
+Count:                      23
+CPU time (ms):              5388
+Count:                      10
+CPU time (ms):              14813
+Count:                      17
+CPU time (ms):              34375
+Count:                      3
+CPU time (ms):              18201
+Count:                      40
+CPU - - 80000
+Count -1
+CPU time (ms):              42186
+Count:                      25
+CPU - - 80000
+Count -1
+CPU time (ms):              18698
+Count:                      17
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              25211
+Count:                      3
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      165
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      338
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      32
+CPU time (ms):              0
+Count:                      119
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              1
+Count:                      158
+CPU time (ms):              40
+Count:                      20
+CPU time (ms):              21
+Count:                      22
+CPU time (ms):              34
+Count:                      7
+CPU time (ms):              30
+Count:                      22
+CPU time (ms):              9
+Count:                      1
+CPU time (ms):              8
+Count:                      2
+CPU time (ms):              24
+Count:                      14
+CPU time (ms):              13
+Count:                      1
+CPU time (ms):              12
+Count:                      13
+CPU time (ms):              28
+Count:                      2
+CPU time (ms):              207
+Count:                      16
+CPU time (ms):              275
+Count:                      8
+CPU time (ms):              213
+Count:                      1
+CPU time (ms):              230
+Count:                      14
+CPU time (ms):              144
+Count:                      1
+CPU time (ms):              492
+Count:                      1
+CPU time (ms):              228
+Count:                      8
+CPU time (ms):              97
+Count:                      2
+CPU time (ms):              315
+Count:                      2
+CPU time (ms):              202
+Count:                      3
+CPU time (ms):              2233
+Count:                      2
+CPU time (ms):              4056
+Count:                      1
+CPU time (ms):              1777
+Count:                      1
+CPU time (ms):              1289
+Count:                      3
+CPU time (ms):              7735
+Count:                      2
+CPU time (ms):              3283
+Count:                      1
+CPU time (ms):              2003
+Count:                      3
+CPU time (ms):              2997
+Count:                      1
+CPU time (ms):              4290
+Count:                      14
+CPU time (ms):              8654
+Count:                      2
+CPU time (ms):              53095
+Count:                      1
+CPU time (ms):              45817
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              54447
+Count:                      2
+CPU time (ms):              75622
+Count:                      2
+CPU - - 80000
+Count -1
+CPU time (ms):              14993
+Count:                      21
+CPU time (ms):              29736
+Count:                      24
+CPU - - 80000
+Count -1
+CPU time (ms):              11412
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              29
+Count:                      23184
+CPU time (ms):              225
+Count:                      524160
+CPU time (ms):              14
+Count:                      516
+CPU time (ms):              155
+Count:                      268848
+CPU time (ms):              48
+Count:                      912
+CPU time (ms):              3
+Count:                      288
+CPU time (ms):              30
+Count:                      3048
+CPU time (ms):              14
+Count:                      2112
+CPU time (ms):              9
+Count:                      6048
+CPU time (ms):              24
+Count:                      7464
+CPU time (ms):              61
+Count:                      3
+CPU time (ms):              107
+Count:                      36
+CPU time (ms):              166
+Count:                      42
+CPU time (ms):              102
+Count:                      30
+CPU time (ms):              125
+Count:                      44
+CPU time (ms):              98
+Count:                      42
+CPU time (ms):              165
+Count:                      38
+CPU time (ms):              178
+Count:                      1
+CPU time (ms):              79
+Count:                      1
+CPU time (ms):              69
+Count:                      1
+CPU time (ms):              2982
+Count:                      2
+CPU time (ms):              1517
+Count:                      21
+CPU time (ms):              3502
+Count:                      1
+CPU time (ms):              1507
+Count:                      56
+CPU time (ms):              426
+Count:                      5
+CPU time (ms):              943
+Count:                      91
+CPU time (ms):              837
+Count:                      7
+CPU time (ms):              1647
+Count:                      3
+CPU time (ms):              2534
+Count:                      43
+CPU time (ms):              753
+Count:                      7
+CPU time (ms):              3206
+Count:                      14
+CPU time (ms):              15669
+Count:                      61
+CPU time (ms):              36471
+Count:                      79
+CPU time (ms):              9639
+Count:                      3
+CPU time (ms):              2418
+Count:                      12
+CPU time (ms):              4397
+Count:                      3
+CPU time (ms):              2871
+Count:                      2
+CPU time (ms):              7663
+Count:                      85
+CPU time (ms):              2892
+Count:                      17
+CPU time (ms):              2583
+Count:                      2
+CPU time (ms):              25821
+Count:                      2
+CPU time (ms):              26606
+Count:                      69
+CPU time (ms):              13985
+Count:                      20
+CPU time (ms):              12884
+Count:                      7
+CPU time (ms):              13123
+Count:                      2
+CPU time (ms):              34232
+Count:                      76
+CPU time (ms):              12141
+Count:                      12
+CPU time (ms):              35699
+Count:                      5
+CPU time (ms):              22441
+Count:                      86
+CPU time (ms):              27540
+Count:                      5
+CPU - - 80000
+Count -1
+CPU time (ms):              67725
+Count:                      2
+CPU time (ms):              66395
+Count:                      6
+CPU - - 80000
+Count -1
+CPU time (ms):              54174
+Count:                      4
+CPU time (ms):              46740
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              72098
+Count:                      7
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              14
+Count:                      181
+CPU time (ms):              18
+Count:                      50
+CPU time (ms):              14
+Count:                      18
+CPU time (ms):              10
+Count:                      1
+CPU time (ms):              14
+Count:                      9
+CPU time (ms):              17
+Count:                      2418
+CPU time (ms):              16
+Count:                      5
+CPU time (ms):              15
+Count:                      133
+CPU time (ms):              13
+Count:                      4
+CPU time (ms):              11
+Count:                      18
+CPU time (ms):              140
+Count:                      1
+CPU time (ms):              240
+Count:                      2
+CPU time (ms):              118
+Count:                      1
+CPU time (ms):              350
+Count:                      2
+CPU time (ms):              93
+Count:                      4
+CPU time (ms):              218
+Count:                      2
+CPU time (ms):              63
+Count:                      1
+CPU time (ms):              79
+Count:                      1
+CPU time (ms):              157
+Count:                      4
+CPU time (ms):              164
+Count:                      4
+CPU time (ms):              3489
+Count:                      2
+CPU time (ms):              1318
+Count:                      1
+CPU time (ms):              1617
+Count:                      1
+CPU time (ms):              3306
+Count:                      1
+CPU time (ms):              3479
+Count:                      5
+CPU time (ms):              3935
+Count:                      2
+CPU time (ms):              1506
+Count:                      3
+CPU time (ms):              1905
+Count:                      1
+CPU time (ms):              1368
+Count:                      1
+CPU time (ms):              2311
+Count:                      8
+CPU time (ms):              4825
+Count:                      2
+CPU time (ms):              11124
+Count:                      1
+CPU time (ms):              31861
+Count:                      1
+CPU time (ms):              4511
+Count:                      2
+CPU time (ms):              16476
+Count:                      1
+CPU time (ms):              19333
+Count:                      4
+CPU time (ms):              52983
+Count:                      1
+CPU time (ms):              36577
+Count:                      2
+CPU time (ms):              16973
+Count:                      1
+CPU time (ms):              20680
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              9
+Count:                      14
+CPU time (ms):              23
+Count:                      12
+CPU time (ms):              33
+Count:                      2
+CPU time (ms):              10
+Count:                      4
+CPU time (ms):              6
+Count:                      17
+CPU time (ms):              15
+Count:                      2
+CPU time (ms):              41
+Count:                      718
+CPU time (ms):              34
+Count:                      83
+CPU time (ms):              30
+Count:                      5
+CPU time (ms):              9
+Count:                      4
+CPU time (ms):              6203
+Count:                      44
+CPU time (ms):              2275
+Count:                      2
+CPU time (ms):              26177
+Count:                      343
+CPU - - 80000
+Count -1
+CPU time (ms):              19599
+Count:                      98
+CPU time (ms):              11525
+Count:                      162
+CPU time (ms):              36135
+Count:                      269
+CPU time (ms):              10577
+Count:                      104
+CPU time (ms):              11214
+Count:                      76
+CPU time (ms):              18820
+Count:                      38
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              30
+Count:                      1
+CPU time (ms):              18
+Count:                      46
+CPU time (ms):              11
+Count:                      18
+CPU time (ms):              15
+Count:                      22
+CPU time (ms):              18
+Count:                      68
+CPU time (ms):              32
+Count:                      55
+CPU time (ms):              34
+Count:                      98
+CPU time (ms):              18
+Count:                      86
+CPU time (ms):              31
+Count:                      49
+CPU time (ms):              17
+Count:                      25
+CPU time (ms):              35220
+Count:                      1795
+CPU time (ms):              10894
+Count:                      404
+CPU time (ms):              10729
+Count:                      16
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              2414
+Count:                      4
+CPU time (ms):              7308
+Count:                      8
+CPU time (ms):              20235
+Count:                      722
+CPU time (ms):              8380
+Count:                      134
+CPU time (ms):              32643
+Count:                      4
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              18
+Count:                      4
+CPU time (ms):              15
+Count:                      2
+CPU time (ms):              37
+Count:                      2
+CPU time (ms):              28
+Count:                      3
+CPU time (ms):              23
+Count:                      8
+CPU time (ms):              10
+Count:                      17
+CPU time (ms):              23
+Count:                      8
+CPU time (ms):              24
+Count:                      4
+CPU time (ms):              23
+Count:                      2
+CPU time (ms):              10
+Count:                      7
+CPU time (ms):              18309
+Count:                      36
+CPU time (ms):              12862
+Count:                      32
+CPU time (ms):              20867
+Count:                      8
+CPU time (ms):              18560
+Count:                      1665
+CPU time (ms):              5061
+Count:                      4
+CPU time (ms):              3497
+Count:                      9
+CPU time (ms):              10098
+Count:                      7
+CPU time (ms):              47062
+Count:                      26
+CPU time (ms):              16066
+Count:                      32
+CPU time (ms):              42968
+Count:                      10
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              43
+Count:                      301
+CPU time (ms):              26
+Count:                      6
+CPU time (ms):              21
+Count:                      4
+CPU time (ms):              7
+Count:                      2
+CPU time (ms):              36
+Count:                      332
+CPU time (ms):              29
+Count:                      8
+CPU time (ms):              32
+Count:                      23
+CPU time (ms):              30
+Count:                      1
+CPU time (ms):              7
+Count:                      10
+CPU time (ms):              12
+Count:                      43
+CPU time (ms):              19241
+Count:                      91
+CPU time (ms):              17425
+Count:                      2
+CPU time (ms):              21757
+Count:                      194
+CPU time (ms):              15003
+Count:                      96
+CPU time (ms):              9242
+Count:                      124
+CPU time (ms):              33818
+Count:                      1779
+CPU time (ms):              5281
+Count:                      2
+CPU time (ms):              23710
+Count:                      69
+CPU time (ms):              15004
+Count:                      6
+CPU time (ms):              45492
+Count:                      2089
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              55654
+Count:                      88
+CPU time (ms):              18648
+Count:                      45
+CPU - - 80000
+Count -1
+CPU time (ms):              63614
+Count:                      38
+CPU time (ms):              77516
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              33153
+Count:                      4
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              4008
+Count:                      32
+CPU time (ms):              5710
+Count:                      64
+CPU time (ms):              3262
+Count:                      20
+CPU time (ms):              18886
+Count:                      502
+CPU time (ms):              6686
+Count:                      234
+CPU time (ms):              1167
+Count:                      142
+CPU time (ms):              20010
+Count:                      14
+CPU time (ms):              3624
+Count:                      399
+CPU time (ms):              3094
+Count:                      16
+CPU time (ms):              4361
+Count:                      8
+CPU time (ms):              12115
+Count:                      272
+CPU time (ms):              31492
+Count:                      221
+CPU time (ms):              28194
+Count:                      1086
+CPU time (ms):              15605
+Count:                      409
+CPU time (ms):              17477
+Count:                      189
+CPU time (ms):              10873
+Count:                      155
+CPU time (ms):              22031
+Count:                      515
+CPU time (ms):              3445
+Count:                      150
+CPU time (ms):              16922
+Count:                      41
+CPU time (ms):              6549
+Count:                      6
+CPU time (ms):              14061
+Count:                      13
+CPU time (ms):              6651
+Count:                      88
+CPU time (ms):              3078
+Count:                      5
+CPU time (ms):              8237
+Count:                      10
+CPU time (ms):              13967
+Count:                      38
+CPU time (ms):              15176
+Count:                      159
+CPU time (ms):              32247
+Count:                      1314
+CPU time (ms):              6289
+Count:                      4
+CPU time (ms):              5083
+Count:                      40
+CPU time (ms):              7753
+Count:                      153
+CPU time (ms):              3009
+Count:                      8
+CPU time (ms):              14903
+Count:                      2
+CPU time (ms):              4442
+Count:                      2
+CPU time (ms):              7247
+Count:                      59
+CPU time (ms):              12247
+Count:                      21
+CPU time (ms):              8822
+Count:                      1700
+CPU time (ms):              9783
+Count:                      128
+CPU time (ms):              5175
+Count:                      18
+CPU time (ms):              11937
+Count:                      86
+CPU time (ms):              9882
+Count:                      1
+CPU time (ms):              986
+Count:                      22968
+CPU time (ms):              2588
+Count:                      279128
+CPU time (ms):              817
+Count:                      3164
+CPU time (ms):              1583
+Count:                      30912
+CPU time (ms):              763
+Count:                      144
+CPU time (ms):              4342
+Count:                      4392
+CPU time (ms):              1867
+Count:                      168
+CPU time (ms):              1390
+Count:                      9984
+CPU time (ms):              1266
+Count:                      10512
+CPU time (ms):              17334
+Count:                      3792
+CPU time (ms):              54003
+Count:                      24
+CPU time (ms):              65071
+Count:                      24
+CPU time (ms):              66177
+Count:                      16
+CPU time (ms):              3408
+Count:                      1008
+CPU time (ms):              6575
+Count:                      52
+CPU time (ms):              33563
+Count:                      128
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              33733
+Count:                      24
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              2
+Count:                      1504
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      22
+CPU time (ms):              0
+Count:                      55
+CPU time (ms):              0
+Count:                      38
+CPU time (ms):              1
+Count:                      16
+CPU time (ms):              1
+Count:                      14
+CPU time (ms):              1
+Count:                      36
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              1
+Count:                      18
+CPU time (ms):              11
+Count:                      130
+CPU time (ms):              27
+Count:                      1000
+CPU time (ms):              21
+Count:                      1
+CPU time (ms):              26
+Count:                      8
+CPU time (ms):              14
+Count:                      36
+CPU time (ms):              37
+Count:                      5
+CPU time (ms):              17
+Count:                      1
+CPU time (ms):              14
+Count:                      72
+CPU time (ms):              7
+Count:                      24
+CPU time (ms):              103
+Count:                      1256
+CPU time (ms):              1493
+Count:                      150
+CPU time (ms):              196
+Count:                      4
+CPU time (ms):              516
+Count:                      56
+CPU time (ms):              677
+Count:                      6
+CPU time (ms):              1016
+Count:                      343
+CPU time (ms):              397
+Count:                      14
+CPU time (ms):              1212
+Count:                      142
+CPU time (ms):              666
+Count:                      814
+CPU time (ms):              1504
+Count:                      1073
+CPU time (ms):              557
+Count:                      36
+CPU time (ms):              13662
+Count:                      10
+CPU time (ms):              7077
+Count:                      40
+CPU time (ms):              18587
+Count:                      21
+CPU time (ms):              35566
+Count:                      6
+CPU time (ms):              13464
+Count:                      33
+CPU time (ms):              36274
+Count:                      4
+CPU time (ms):              25887
+Count:                      56
+CPU time (ms):              26195
+Count:                      6
+CPU time (ms):              22232
+Count:                      2
+CPU time (ms):              13215
+Count:                      19
+CPU - - 80000
+Count -1
+CPU time (ms):              38283
+Count:                      1
+CPU time (ms):              36770
+Count:                      2
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              53450
+Count:                      2
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      9
+CPU time (ms):              0
+Count:                      17
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              1
+Count:                      64
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              1
+Count:                      210
+CPU time (ms):              0
+Count:                      66
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      110
+CPU time (ms):              15
+Count:                      8
+CPU time (ms):              18
+Count:                      17
+CPU time (ms):              13
+Count:                      11
+CPU time (ms):              15
+Count:                      26
+CPU time (ms):              14
+Count:                      7
+CPU time (ms):              12
+Count:                      1
+CPU time (ms):              12
+Count:                      121
+CPU time (ms):              10
+Count:                      40
+CPU time (ms):              12
+Count:                      8
+CPU time (ms):              9
+Count:                      1
+CPU time (ms):              128
+Count:                      1
+CPU time (ms):              199
+Count:                      1
+CPU time (ms):              250
+Count:                      1
+CPU time (ms):              200
+Count:                      1
+CPU time (ms):              131
+Count:                      2
+CPU time (ms):              166
+Count:                      1
+CPU time (ms):              195
+Count:                      1
+CPU time (ms):              265
+Count:                      1
+CPU time (ms):              236
+Count:                      1
+CPU time (ms):              263
+Count:                      1
+CPU time (ms):              3015
+Count:                      1
+CPU time (ms):              1272
+Count:                      1
+CPU time (ms):              1683
+Count:                      1
+CPU time (ms):              2631
+Count:                      1
+CPU time (ms):              1906
+Count:                      1
+CPU time (ms):              3988
+Count:                      1
+CPU time (ms):              2469
+Count:                      1
+CPU time (ms):              3541
+Count:                      1
+CPU time (ms):              2491
+Count:                      1
+CPU time (ms):              2050
+Count:                      1
+CPU time (ms):              14467
+Count:                      1
+CPU time (ms):              22276
+Count:                      1
+CPU time (ms):              3885
+Count:                      1
+CPU time (ms):              13113
+Count:                      1
+CPU time (ms):              31693
+Count:                      1
+CPU time (ms):              30048
+Count:                      1
+CPU time (ms):              5042
+Count:                      1
+CPU time (ms):              4285
+Count:                      1
+CPU time (ms):              21689
+Count:                      1
+CPU time (ms):              34679
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      52
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      6
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              2
+Count:                      16
+CPU time (ms):              2
+Count:                      12
+CPU time (ms):              3
+Count:                      8
+CPU time (ms):              6
+Count:                      12
+CPU time (ms):              5
+Count:                      8
+CPU time (ms):              4
+Count:                      6
+CPU time (ms):              2
+Count:                      12
+CPU time (ms):              1
+Count:                      1
+CPU time (ms):              1
+Count:                      2
+CPU time (ms):              2
+Count:                      16
+CPU time (ms):              49
+Count:                      2
+CPU time (ms):              2
+Count:                      4
+CPU time (ms):              2
+Count:                      2
+CPU time (ms):              1
+Count:                      2
+CPU time (ms):              9
+Count:                      80
+CPU time (ms):              18
+Count:                      2
+CPU time (ms):              10
+Count:                      2
+CPU time (ms):              1
+Count:                      2
+CPU time (ms):              1
+Count:                      4
+CPU time (ms):              5
+Count:                      2
+CPU time (ms):              47
+Count:                      12
+CPU time (ms):              21
+Count:                      8
+CPU time (ms):              13
+Count:                      2
+CPU time (ms):              7
+Count:                      2
+CPU time (ms):              45
+Count:                      6
+CPU time (ms):              51
+Count:                      8
+CPU time (ms):              16
+Count:                      10
+CPU time (ms):              181
+Count:                      8
+CPU time (ms):              25
+Count:                      8
+CPU time (ms):              14
+Count:                      2
+CPU time (ms):              50
+Count:                      16
+CPU time (ms):              57
+Count:                      44
+CPU time (ms):              264
+Count:                      2
+CPU time (ms):              27
+Count:                      2
+CPU time (ms):              78
+Count:                      8
+CPU time (ms):              459
+Count:                      16
+CPU time (ms):              292
+Count:                      8
+CPU time (ms):              102
+Count:                      11
+CPU time (ms):              166
+Count:                      24
+CPU time (ms):              129
+Count:                      3
+CPU time (ms):              1308
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              1605
+Count:                      47
+CPU time (ms):              2766
+Count:                      32
+CPU time (ms):              2473
+Count:                      85
+CPU time (ms):              7867
+Count:                      8
+CPU time (ms):              11127
+Count:                      4
+CPU time (ms):              1245
+Count:                      2
+CPU time (ms):              833
+Count:                      26
+CPU time (ms):              1037
+Count:                      2
+CPU time (ms):              947
+Count:                      14
+CPU time (ms):              1186
+Count:                      28
+CPU time (ms):              3675
+Count:                      28
+CPU - - 80000
+Count -1
+CPU time (ms):              3642
+Count:                      14
+CPU time (ms):              445
+Count:                      1
+CPU time (ms):              24030
+Count:                      2
+CPU time (ms):              127
+Count:                      12
+CPU time (ms):              854
+Count:                      10
+CPU time (ms):              921
+Count:                      8
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              47685
+Count:                      93
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              42750
+Count:                      38
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      14
+CPU time (ms):              0
+Count:                      12
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      9
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      6
+CPU time (ms):              0
+Count:                      20
+CPU time (ms):              3
+Count:                      3
+CPU time (ms):              6
+Count:                      2
+CPU time (ms):              9
+Count:                      4
+CPU time (ms):              6
+Count:                      4
+CPU time (ms):              14
+Count:                      1
+CPU time (ms):              20
+Count:                      12
+CPU time (ms):              3
+Count:                      3
+CPU time (ms):              15
+Count:                      3
+CPU time (ms):              2
+Count:                      2
+CPU time (ms):              12
+Count:                      2
+CPU time (ms):              208
+Count:                      1
+CPU time (ms):              299
+Count:                      1
+CPU time (ms):              412
+Count:                      1
+CPU time (ms):              120
+Count:                      1
+CPU time (ms):              119
+Count:                      1
+CPU time (ms):              93
+Count:                      1
+CPU time (ms):              238
+Count:                      2
+CPU time (ms):              131
+Count:                      1
+CPU time (ms):              49
+Count:                      1
+CPU time (ms):              80
+Count:                      1
+CPU time (ms):              2320
+Count:                      1
+CPU time (ms):              29
+Count:                      1
+CPU time (ms):              4364
+Count:                      3
+CPU time (ms):              5166
+Count:                      4
+CPU time (ms):              1901
+Count:                      1
+CPU time (ms):              941
+Count:                      1
+CPU time (ms):              8014
+Count:                      2
+CPU time (ms):              1270
+Count:                      1
+CPU time (ms):              33
+Count:                      1
+CPU time (ms):              1059
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              23686
+Count:                      1
+CPU time (ms):              30794
+Count:                      2
+CPU - - 80000
+Count -1
+CPU time (ms):              15060
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              12097
+Count:                      6
+CPU time (ms):              331
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              48550
+Count:                      10
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      18
+CPU time (ms):              0
+Count:                      18
+CPU time (ms):              0
+Count:                      18
+CPU time (ms):              0
+Count:                      18
+CPU time (ms):              0
+Count:                      18
+CPU time (ms):              0
+Count:                      20
+CPU time (ms):              0
+Count:                      18
+CPU time (ms):              0
+Count:                      18
+CPU time (ms):              0
+Count:                      18
+CPU time (ms):              0
+Count:                      18
+CPU time (ms):              1
+Count:                      2
+CPU time (ms):              2
+Count:                      30
+CPU time (ms):              3
+Count:                      29
+CPU time (ms):              5
+Count:                      30
+CPU time (ms):              1
+Count:                      2
+CPU time (ms):              5
+Count:                      26
+CPU time (ms):              3
+Count:                      38
+CPU time (ms):              4
+Count:                      30
+CPU time (ms):              2
+Count:                      31
+CPU time (ms):              3
+Count:                      32
+CPU time (ms):              3
+Count:                      37
+CPU time (ms):              5
+Count:                      36
+CPU time (ms):              5
+Count:                      38
+CPU time (ms):              5
+Count:                      36
+CPU time (ms):              4
+Count:                      40
+CPU time (ms):              5
+Count:                      39
+CPU time (ms):              3
+Count:                      36
+CPU time (ms):              6
+Count:                      40
+CPU time (ms):              13
+Count:                      36
+CPU time (ms):              5
+Count:                      36
+CPU time (ms):              17
+Count:                      50
+CPU time (ms):              15
+Count:                      46
+CPU time (ms):              677
+Count:                      46
+CPU time (ms):              23
+Count:                      46
+CPU time (ms):              22
+Count:                      2
+CPU time (ms):              7
+Count:                      2
+CPU time (ms):              133
+Count:                      51
+CPU time (ms):              16
+Count:                      52
+CPU time (ms):              21
+Count:                      6
+CPU time (ms):              17
+Count:                      52
+CPU time (ms):              74
+Count:                      54
+CPU time (ms):              62
+Count:                      58
+CPU time (ms):              40
+Count:                      64
+CPU time (ms):              10
+Count:                      2
+CPU time (ms):              35
+Count:                      58
+CPU time (ms):              31762
+Count:                      54
+CPU time (ms):              37
+Count:                      58
+CPU time (ms):              35
+Count:                      62
+CPU time (ms):              25
+Count:                      1
+CPU time (ms):              98
+Count:                      56
+CPU time (ms):              177
+Count:                      70
+CPU time (ms):              219
+Count:                      62
+CPU time (ms):              52
+Count:                      2
+CPU time (ms):              1535
+Count:                      76
+CPU time (ms):              107
+Count:                      2
+CPU time (ms):              566
+Count:                      70
+CPU time (ms):              172
+Count:                      2
+CPU time (ms):              816
+Count:                      2
+CPU time (ms):              157
+Count:                      72
+CPU time (ms):              9349
+Count:                      71
+CPU time (ms):              1722
+Count:                      74
+CPU time (ms):              218
+Count:                      80
+CPU time (ms):              157
+Count:                      83
+CPU time (ms):              5004
+Count:                      2
+CPU time (ms):              126
+Count:                      82
+CPU time (ms):              621
+Count:                      2
+CPU time (ms):              8402
+Count:                      76
+CPU time (ms):              1205
+Count:                      2
+CPU time (ms):              372
+Count:                      80
+CPU time (ms):              107
+Count:                      2
+CPU time (ms):              1146
+Count:                      94
+CPU time (ms):              8617
+Count:                      108
+CPU time (ms):              3150
+Count:                      2
+CPU time (ms):              5814
+Count:                      4
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              1115
+Count:                      2
+CPU time (ms):              1233
+Count:                      6
+CPU time (ms):              945
+Count:                      102
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              5
+Count:                      2
+CPU time (ms):              3
+Count:                      1
+CPU time (ms):              1
+Count:                      1
+CPU time (ms):              3
+Count:                      1
+CPU time (ms):              3
+Count:                      1
+CPU time (ms):              4
+Count:                      2
+CPU time (ms):              9
+Count:                      1
+CPU time (ms):              10
+Count:                      1
+CPU time (ms):              7
+Count:                      1
+CPU time (ms):              3
+Count:                      1
+CPU time (ms):              85
+Count:                      1
+CPU time (ms):              35
+Count:                      1
+CPU time (ms):              135
+Count:                      1
+CPU time (ms):              42
+Count:                      1
+CPU time (ms):              58
+Count:                      1
+CPU time (ms):              27
+Count:                      1
+CPU time (ms):              241
+Count:                      1
+CPU time (ms):              35
+Count:                      1
+CPU time (ms):              20
+Count:                      1
+CPU time (ms):              143
+Count:                      1
+CPU time (ms):              995
+Count:                      1
+CPU time (ms):              3037
+Count:                      1
+CPU time (ms):              3376
+Count:                      1
+CPU time (ms):              52
+Count:                      1
+CPU time (ms):              764
+Count:                      1
+CPU time (ms):              1527
+Count:                      3
+CPU time (ms):              356
+Count:                      1
+CPU time (ms):              1512
+Count:                      1
+CPU time (ms):              1012
+Count:                      1
+CPU time (ms):              100
+Count:                      1
+CPU time (ms):              16203
+Count:                      2
+CPU time (ms):              4314
+Count:                      1
+CPU time (ms):              8060
+Count:                      1
+CPU time (ms):              158
+Count:                      1
+CPU time (ms):              3850
+Count:                      1
+CPU time (ms):              34142
+Count:                      1
+CPU time (ms):              3087
+Count:                      1
+CPU time (ms):              16733
+Count:                      1
+CPU time (ms):              28494
+Count:                      1
+CPU time (ms):              5542
+Count:                      1
+CPU time (ms):              32755
+Count:                      1
+CPU time (ms):              11995
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              56476
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              5789
+Count:                      1
+CPU time (ms):              10063
+Count:                      1
+CPU time (ms):              78623
+Count:                      2
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              2
+Count:                      26
+CPU time (ms):              1
+Count:                      1
+CPU time (ms):              3
+Count:                      30
+CPU time (ms):              1
+Count:                      1
+CPU time (ms):              2
+Count:                      24
+CPU time (ms):              2
+Count:                      30
+CPU time (ms):              2
+Count:                      2
+CPU time (ms):              1
+Count:                      1
+CPU time (ms):              3
+Count:                      24
+CPU time (ms):              2
+Count:                      27
+CPU time (ms):              64
+Count:                      36
+CPU time (ms):              8
+Count:                      36
+CPU time (ms):              9
+Count:                      36
+CPU time (ms):              10
+Count:                      36
+CPU time (ms):              12
+Count:                      36
+CPU time (ms):              9
+Count:                      36
+CPU time (ms):              9
+Count:                      36
+CPU time (ms):              12
+Count:                      36
+CPU time (ms):              41
+Count:                      36
+CPU time (ms):              10
+Count:                      40
+CPU time (ms):              51
+Count:                      44
+CPU time (ms):              22
+Count:                      44
+CPU time (ms):              216
+Count:                      44
+CPU time (ms):              47
+Count:                      46
+CPU time (ms):              35
+Count:                      44
+CPU time (ms):              39
+Count:                      44
+CPU time (ms):              41
+Count:                      48
+CPU time (ms):              45
+Count:                      44
+CPU time (ms):              26
+Count:                      45
+CPU time (ms):              25
+Count:                      44
+CPU time (ms):              184
+Count:                      53
+CPU time (ms):              477
+Count:                      54
+CPU time (ms):              222
+Count:                      52
+CPU time (ms):              277
+Count:                      56
+CPU time (ms):              142
+Count:                      53
+CPU time (ms):              55
+Count:                      1
+CPU time (ms):              212
+Count:                      54
+CPU time (ms):              165
+Count:                      56
+CPU time (ms):              140
+Count:                      52
+CPU time (ms):              244
+Count:                      55
+CPU time (ms):              460
+Count:                      63
+CPU time (ms):              816
+Count:                      60
+CPU time (ms):              580
+Count:                      60
+CPU time (ms):              994
+Count:                      62
+CPU time (ms):              418
+Count:                      63
+CPU time (ms):              394
+Count:                      62
+CPU time (ms):              716
+Count:                      60
+CPU time (ms):              423
+Count:                      60
+CPU time (ms):              485
+Count:                      66
+CPU time (ms):              476
+Count:                      64
+CPU time (ms):              567
+Count:                      76
+CPU time (ms):              2565
+Count:                      72
+CPU time (ms):              18573
+Count:                      72
+CPU time (ms):              318
+Count:                      72
+CPU time (ms):              974
+Count:                      74
+CPU time (ms):              1019
+Count:                      2
+CPU time (ms):              1210
+Count:                      72
+CPU time (ms):              1091
+Count:                      72
+CPU time (ms):              30143
+Count:                      73
+CPU time (ms):              292
+Count:                      72
+CPU time (ms):              3806
+Count:                      90
+CPU time (ms):              10261
+Count:                      2
+CPU - - 80000
+Count -1
+CPU time (ms):              2114
+Count:                      90
+CPU - - 80000
+Count -1
+CPU time (ms):              4060
+Count:                      88
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              2441
+Count:                      89
+CPU time (ms):              2
+Count:                      1
+CPU time (ms):              5
+Count:                      4
+CPU time (ms):              3
+Count:                      1
+CPU time (ms):              10
+Count:                      1
+CPU time (ms):              3
+Count:                      2
+CPU time (ms):              8
+Count:                      2
+CPU time (ms):              2
+Count:                      3
+CPU time (ms):              6
+Count:                      1
+CPU time (ms):              4
+Count:                      1
+CPU time (ms):              3
+Count:                      1
+CPU time (ms):              102
+Count:                      1
+CPU time (ms):              105
+Count:                      1
+CPU time (ms):              122
+Count:                      1
+CPU time (ms):              9
+Count:                      1
+CPU time (ms):              89
+Count:                      1
+CPU time (ms):              117
+Count:                      1
+CPU time (ms):              7
+Count:                      1
+CPU time (ms):              69
+Count:                      1
+CPU time (ms):              5
+Count:                      1
+CPU time (ms):              212
+Count:                      1
+CPU time (ms):              157
+Count:                      1
+CPU time (ms):              1936
+Count:                      1
+CPU time (ms):              493
+Count:                      1
+CPU time (ms):              732
+Count:                      1
+CPU time (ms):              423
+Count:                      1
+CPU time (ms):              1670
+Count:                      1
+CPU time (ms):              656
+Count:                      1
+CPU time (ms):              326
+Count:                      1
+CPU time (ms):              157
+Count:                      1
+CPU time (ms):              936
+Count:                      1
+CPU time (ms):              1177
+Count:                      1
+CPU time (ms):              506
+Count:                      1
+CPU time (ms):              8468
+Count:                      1
+CPU time (ms):              18570
+Count:                      1
+CPU time (ms):              5601
+Count:                      1
+CPU time (ms):              1215
+Count:                      1
+CPU time (ms):              12098
+Count:                      1
+CPU time (ms):              3131
+Count:                      1
+CPU time (ms):              17926
+Count:                      1
+CPU time (ms):              3769
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              40452
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              32772
+Count:                      1
+CPU time (ms):              72367
+Count:                      1
+CPU time (ms):              36572
+Count:                      1
+CPU time (ms):              35224
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              58147
+Count:                      1
+CPU time (ms):              66812
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      10
+CPU time (ms):              0
+Count:                      10
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      10
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              176
+Count:                      8
+CPU time (ms):              290
+Count:                      4
+CPU time (ms):              306
+Count:                      5
+CPU time (ms):              120
+Count:                      21
+CPU time (ms):              208
+Count:                      17
+CPU time (ms):              216
+Count:                      26
+CPU time (ms):              89
+Count:                      2
+CPU time (ms):              264
+Count:                      16
+CPU time (ms):              51
+Count:                      10
+CPU time (ms):              121
+Count:                      6
+CPU time (ms):              27879
+Count:                      1
+CPU time (ms):              17471
+Count:                      19
+CPU time (ms):              60285
+Count:                      1
+CPU time (ms):              6543
+Count:                      2
+CPU time (ms):              20413
+Count:                      2
+CPU time (ms):              75976
+Count:                      14
+CPU time (ms):              9744
+Count:                      15
+CPU time (ms):              1692
+Count:                      1
+CPU time (ms):              9906
+Count:                      1
+CPU time (ms):              32193
+Count:                      14
+CPU - - 80000
+Count -1
+CPU time (ms):              38022
+Count:                      24
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              3744
+Count:                      8
+CPU time (ms):              44749
+Count:                      8
+CPU time (ms):              3694
+Count:                      8
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              6002
+Count:                      8
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              1
+Count:                      2
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      16
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      16
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              211
+Count:                      1
+CPU time (ms):              335
+Count:                      12
+CPU time (ms):              29
+Count:                      2
+CPU time (ms):              128
+Count:                      7
+CPU time (ms):              128
+Count:                      8
+CPU time (ms):              290
+Count:                      4
+CPU time (ms):              171
+Count:                      7
+CPU time (ms):              439
+Count:                      1
+CPU time (ms):              64
+Count:                      2
+CPU time (ms):              412
+Count:                      1
+CPU time (ms):              58614
+Count:                      3
+CPU time (ms):              66714
+Count:                      1
+CPU time (ms):              69052
+Count:                      2
+CPU time (ms):              47776
+Count:                      2
+CPU time (ms):              30526
+Count:                      3
+CPU time (ms):              1872
+Count:                      1
+CPU time (ms):              11181
+Count:                      2
+CPU - - 80000
+Count -1
+CPU time (ms):              48784
+Count:                      5
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              12753
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              359
+Count:                      2
+CPU time (ms):              118
+Count:                      1
+CPU time (ms):              262
+Count:                      2
+CPU time (ms):              222
+Count:                      3
+CPU time (ms):              587
+Count:                      1
+CPU time (ms):              686
+Count:                      2
+CPU time (ms):              236
+Count:                      1
+CPU time (ms):              160
+Count:                      1
+CPU time (ms):              65
+Count:                      1
+CPU time (ms):              391
+Count:                      1
+CPU time (ms):              20720
+Count:                      3
+CPU - - 80000
+Count -1
+CPU time (ms):              33687
+Count:                      1
+CPU time (ms):              37279
+Count:                      10
+CPU time (ms):              68375
+Count:                      3
+CPU time (ms):              69486
+Count:                      1
+CPU time (ms):              40845
+Count:                      1
+CPU time (ms):              34140
+Count:                      1
+CPU time (ms):              14482
+Count:                      2
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              49920
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              249
+Count:                      3
+CPU time (ms):              375
+Count:                      1
+CPU time (ms):              29
+Count:                      3
+CPU time (ms):              264
+Count:                      1
+CPU time (ms):              946
+Count:                      1
+CPU time (ms):              24
+Count:                      2
+CPU time (ms):              89
+Count:                      2
+CPU time (ms):              318
+Count:                      1
+CPU time (ms):              441
+Count:                      1
+CPU time (ms):              252
+Count:                      1
+CPU time (ms):              35097
+Count:                      2
+CPU time (ms):              20224
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              25577
+Count:                      1
+CPU time (ms):              58060
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              66064
+Count:                      2
+CPU time (ms):              26557
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              60861
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              19526
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      6
+CPU time (ms):              0
+Count:                      104
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      12
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              1
+Count:                      116
+CPU time (ms):              0
+Count:                      6
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      136
+CPU time (ms):              1237
+Count:                      48
+CPU time (ms):              157
+Count:                      48
+CPU time (ms):              115
+Count:                      69
+CPU time (ms):              410
+Count:                      61
+CPU time (ms):              528
+Count:                      2
+CPU time (ms):              3213
+Count:                      48
+CPU time (ms):              117
+Count:                      48
+CPU time (ms):              1504
+Count:                      52
+CPU time (ms):              188
+Count:                      2
+CPU time (ms):              121
+Count:                      56
+CPU time (ms):              0
+Count:                      6
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      22
+CPU time (ms):              0
+Count:                      90
+CPU time (ms):              0
+Count:                      94
+CPU time (ms):              0
+Count:                      68
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      32
+CPU time (ms):              1037
+Count:                      1
+CPU time (ms):              6313
+Count:                      1
+CPU time (ms):              2953
+Count:                      1
+CPU time (ms):              1967
+Count:                      1
+CPU time (ms):              4008
+Count:                      2
+CPU time (ms):              2427
+Count:                      1
+CPU time (ms):              9997
+Count:                      1
+CPU time (ms):              18098
+Count:                      2
+CPU time (ms):              5343
+Count:                      1
+CPU time (ms):              5756
+Count:                      1
+CPU time (ms):              0
+Count:                      17
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      5
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      68
+CPU time (ms):              0
+Count:                      11
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      6
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      5
+CPU time (ms):              14398
+Count:                      1
+CPU time (ms):              6456
+Count:                      2
+CPU time (ms):              8990
+Count:                      1
+CPU time (ms):              7733
+Count:                      2
+CPU time (ms):              3441
+Count:                      1
+CPU time (ms):              46739
+Count:                      1
+CPU time (ms):              9231
+Count:                      1
+CPU time (ms):              4271
+Count:                      1
+CPU time (ms):              26940
+Count:                      2
+CPU time (ms):              22592
+Count:                      1
+CPU time (ms):              1
+Count:                      4
+CPU time (ms):              0
+Count:                      3
+CPU time (ms):              0
+Count:                      3
+CPU time (ms):              0
+Count:                      69
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      9
+CPU time (ms):              0
+Count:                      10
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              13995
+Count:                      1
+CPU time (ms):              12098
+Count:                      1
+CPU time (ms):              8454
+Count:                      1
+CPU time (ms):              35818
+Count:                      1
+CPU time (ms):              4658
+Count:                      1
+CPU time (ms):              12710
+Count:                      1
+CPU time (ms):              10330
+Count:                      1
+CPU time (ms):              3958
+Count:                      1
+CPU time (ms):              16708
+Count:                      1
+CPU time (ms):              8290
+Count:                      1
+CPU time (ms):              167
+Count:                      1152
+CPU time (ms):              113
+Count:                      20
+CPU time (ms):              7
+Count:                      32
+CPU time (ms):              43
+Count:                      12
+CPU time (ms):              82
+Count:                      216
+CPU time (ms):              68
+Count:                      648
+CPU time (ms):              99
+Count:                      72
+CPU time (ms):              79
+Count:                      60
+CPU time (ms):              224
+Count:                      8
+CPU time (ms):              10
+Count:                      12
+CPU time (ms):              103
+Count:                      6
+CPU time (ms):              143
+Count:                      84
+CPU time (ms):              152
+Count:                      4
+CPU time (ms):              290
+Count:                      8
+CPU time (ms):              124
+Count:                      3
+CPU time (ms):              159
+Count:                      13
+CPU time (ms):              94
+Count:                      1
+CPU time (ms):              264
+Count:                      2
+CPU time (ms):              172
+Count:                      4
+CPU time (ms):              77
+Count:                      10
+CPU time (ms):              225
+Count:                      2
+CPU time (ms):              13
+Count:                      2
+CPU time (ms):              166
+Count:                      2
+CPU time (ms):              294
+Count:                      6
+CPU time (ms):              92
+Count:                      1
+CPU time (ms):              149
+Count:                      4
+CPU time (ms):              260
+Count:                      3
+CPU time (ms):              81
+Count:                      4
+CPU time (ms):              452
+Count:                      1
+CPU time (ms):              574
+Count:                      1
+CPU time (ms):              30
+Count:                      1
+CPU time (ms):              422
+Count:                      1
+CPU time (ms):              128
+Count:                      2
+CPU time (ms):              362
+Count:                      2
+CPU time (ms):              452
+Count:                      1
+CPU time (ms):              130
+Count:                      1
+CPU time (ms):              64
+Count:                      2
+CPU time (ms):              18
+Count:                      1
+CPU time (ms):              76
+Count:                      2
+CPU time (ms):              113
+Count:                      1
+CPU time (ms):              21666
+Count:                      96
+CPU time (ms):              30
+Count:                      24
+CPU time (ms):              184
+Count:                      24
+CPU time (ms):              207
+Count:                      48
+CPU time (ms):              303
+Count:                      8
+CPU time (ms):              1023
+Count:                      80
+CPU time (ms):              928
+Count:                      168
+CPU time (ms):              810
+Count:                      24
+CPU time (ms):              642
+Count:                      8
+CPU time (ms):              126
+Count:                      32
+CPU time (ms):              13072
+Count:                      8
+CPU - - 80000
+Count -1
+CPU time (ms):              25615
+Count:                      2880
+CPU time (ms):              852
+Count:                      16
+CPU time (ms):              5936
+Count:                      144
+CPU time (ms):              7504
+Count:                      320
+CPU time (ms):              78
+Count:                      12
+CPU time (ms):              9879
+Count:                      32
+CPU time (ms):              4247
+Count:                      16
+CPU time (ms):              9609
+Count:                      96
+CPU - - 80000
+Count -1
+CPU time (ms):              24636
+Count:                      2
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              20150
+Count:                      2
+CPU - - 80000
+Count -1
+CPU time (ms):              1479
+Count:                      4
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      24
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      4
+CPU time (ms):              0
+Count:                      12
+CPU time (ms):              0
+Count:                      12
+CPU time (ms):              0
+Count:                      12
+CPU time (ms):              1
+Count:                      8
+CPU time (ms):              0
+Count:                      28
+CPU time (ms):              12
+Count:                      2
+CPU time (ms):              44
+Count:                      4
+CPU time (ms):              41
+Count:                      4
+CPU time (ms):              16
+Count:                      2
+CPU time (ms):              4
+Count:                      192
+CPU time (ms):              5
+Count:                      4
+CPU time (ms):              1
+Count:                      1
+CPU time (ms):              83
+Count:                      32
+CPU time (ms):              40
+Count:                      84
+CPU time (ms):              12
+Count:                      4
+CPU time (ms):              272
+Count:                      1
+CPU time (ms):              105
+Count:                      2
+CPU time (ms):              203
+Count:                      1
+CPU time (ms):              13
+Count:                      1
+CPU time (ms):              41
+Count:                      1
+CPU time (ms):              192
+Count:                      1
+CPU time (ms):              95
+Count:                      1
+CPU time (ms):              44
+Count:                      1
+CPU time (ms):              222
+Count:                      2
+CPU time (ms):              103
+Count:                      2
+CPU time (ms):              2031
+Count:                      1
+CPU time (ms):              1053
+Count:                      1
+CPU time (ms):              394
+Count:                      1
+CPU time (ms):              3069
+Count:                      1
+CPU time (ms):              2140
+Count:                      1
+CPU time (ms):              626
+Count:                      2
+CPU time (ms):              1167
+Count:                      1
+CPU time (ms):              2614
+Count:                      2
+CPU time (ms):              1119
+Count:                      2
+CPU time (ms):              446
+Count:                      1
+CPU time (ms):              3942
+Count:                      1
+CPU time (ms):              25858
+Count:                      1
+CPU time (ms):              1212
+Count:                      1
+CPU time (ms):              6003
+Count:                      1
+CPU time (ms):              4977
+Count:                      1
+CPU time (ms):              3633
+Count:                      1
+CPU time (ms):              142
+Count:                      1
+CPU time (ms):              240
+Count:                      1
+CPU time (ms):              7646
+Count:                      1
+CPU time (ms):              13969
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              29323
+Count:                      2
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              38260
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              74663
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              69605
+Count:                      1
+CPU time (ms):              5323
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      2
+CPU time (ms):              0
+Count:                      8
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              0
+Count:                      1
+CPU time (ms):              6
+Count:                      1
+CPU time (ms):              4
+Count:                      1
+CPU time (ms):              1
+Count:                      1
+CPU time (ms):              4
+Count:                      1
+CPU time (ms):              3
+Count:                      1
+CPU time (ms):              25
+Count:                      2
+CPU time (ms):              10
+Count:                      1
+CPU time (ms):              11
+Count:                      1
+CPU time (ms):              19
+Count:                      1
+CPU time (ms):              7
+Count:                      1
+CPU time (ms):              43
+Count:                      1
+CPU time (ms):              5
+Count:                      1
+CPU time (ms):              97
+Count:                      1
+CPU time (ms):              161
+Count:                      1
+CPU time (ms):              64
+Count:                      1
+CPU time (ms):              145
+Count:                      1
+CPU time (ms):              93
+Count:                      1
+CPU time (ms):              126
+Count:                      1
+CPU time (ms):              54
+Count:                      1
+CPU time (ms):              121
+Count:                      1
+CPU time (ms):              1412
+Count:                      1
+CPU time (ms):              1840
+Count:                      1
+CPU time (ms):              934
+Count:                      1
+CPU time (ms):              803
+Count:                      1
+CPU time (ms):              1750
+Count:                      1
+CPU time (ms):              398
+Count:                      1
+CPU time (ms):              1517
+Count:                      1
+CPU time (ms):              776
+Count:                      1
+CPU time (ms):              147
+Count:                      1
+CPU time (ms):              141
+Count:                      1
+CPU time (ms):              4972
+Count:                      1
+CPU time (ms):              1208
+Count:                      1
+CPU time (ms):              2574
+Count:                      1
+CPU time (ms):              3600
+Count:                      1
+CPU time (ms):              2425
+Count:                      1
+CPU time (ms):              2872
+Count:                      1
+CPU time (ms):              1805
+Count:                      1
+CPU time (ms):              5704
+Count:                      1
+CPU time (ms):              6963
+Count:                      1
+CPU time (ms):              1514
+Count:                      1
+CPU time (ms):              9214
+Count:                      1
+CPU time (ms):              22670
+Count:                      1
+CPU time (ms):              41570
+Count:                      1
+CPU time (ms):              491
+Count:                      1
+CPU time (ms):              51007
+Count:                      1
+CPU time (ms):              63571
+Count:                      1
+CPU time (ms):              47304
+Count:                      1
+CPU time (ms):              35316
+Count:                      1
+CPU time (ms):              62847
+Count:                      1
+CPU time (ms):              61491
+Count:                      1
+CPU - - 80000
+Count -1
+CPU time (ms):              26369
+Count:                      1
+CPU time (ms):              52423
+Count:                      1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1
+CPU - - 80000
+Count -1

@@ -1521,67 +1521,84 @@ memory cost and colouring time of encoding the full instance.
 \section{Finding all maximum common subgraphs}
 
 With two trivial modifications, the McSplit algorithm can be used to find
-all maximum common subgraphs of a pair of graphs, rather than just a single subgraph.
+\emph{all} maximum common subgraphs of a pair of graphs, rather than just a single
+example of a maximum common subgraph.
 First, we modify \lineref{StoreIncumbent} of \Cref{McSplitAlg} so that
 a mapping $M$ is stored if its size greater than or equal to --- rather than
 strictly greater than --- the size of the incumbent.  Second, on \lineref{PruneSearch},
 we return from the function only if the bound is \emph{strictly} less than the
 size of the incumbent.
 
-Krissinel and Henrick \cite{DBLP:journals/spe/KrissinelH04} introduce a forward-checking
-algorithm for finding all maximum common subgraphs of two given graphs.  Their algorithm
+\citet{DBLP:journals/spe/KrissinelH04} introduce a forward-checking
+algorithm --- which we will refer to as KH --- for finding all maximum common subgraphs of two given graphs.  Their algorithm
 is equivalent to the CP-FC algorithm, except that it uses a simpler upper-bound function:
 the bound is computed by counting the number of unmapped vertices in the first graph that
-may still be mapped to at least one vertex in the second graph.
+may still be mapped to at least one vertex in the second graph.  In this section we
+introduce a sequence of modifications to \McSplit\ that make the algorithm progressively
+closer to KH, and show experimentally how these versions of \McSplit\ compare to each
+other and to KH.
 
-We can emulate the search tree of Krissinel and Henrick's algorithm with McSplit
-by making two modifications in addition to the modifications for finding all maximum
-common subgraphs described in this section's first paragraph.  First, rather 
+We can emulate the search tree of KH
+by making the following three modifications to \McSplit\ in addition to the modifications for
+finding all maximum common subgraphs described in this section's first paragraph.
+
+\begin{enumerate}
+    \item Modify the variable selection heuristic so that it chooses a label class with
+as small a set $\setH$ as possible, rather than minimising $\max(|\setG|,|\setH|)$.
+    \item Rather 
 than using $|M|  + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} \min(|\setG|,|\setH|)$
-as the bound on \lineref{CalcBound} of \Cref{McSplitAlg},
-we use $|M|  + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} |\setG|$.  Clearly,
-the bound computed in this way is weaker than or equal to McSplit's bound.  The second
-change is to modify the variable selection heuristic so that it chooses a label class with
-as small an $H$ set as possible, rather than minimising $\max(|\setG|,|\setH|)$.
+as the upper bound bound on \lineref{CalcBound} of \Cref{McSplitAlg},
+use $|M|  + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} |\setG|$.  Clearly,
+this bound is weaker than or equal to McSplit's bound.
+    \item Leave the vertices of $G$ and $H$ in their original order rather than sorting
+        by degree.
+\end{enumerate}
 
-We ran a small experiment to compare \McSplit\ with the algorithm of Krissinel and Henrick (KH).
-We generated nine random $G(n,p)$ graphs with 18 vertices and values of $p$ in the set
-$\{0.1, 0.2, \dots, 0.9\}$.  For each pair of graphs --- a total of 81 graph pairs ---
-we ran three algorithms: KH, McSplit, and the version of version
-of McSplit described in the previous paragraph with modifications to mimic
-KH.  In each case, the problem was to find all maximum common subgraphs.
-The first plot in \Cref{fig:mcsplit-vs-kh} compares the run time of McSplit with that
-of KH, with one point per instance.  The mean run time of McSplit
-was 25 ms per instance, compared to 659 ms for KH.  On the most
-challenging instances, McSplit was around two orders of magnitude faster than KH.
-KH was faster than McSplit on only two instances.
+We hypothesise that each of these changes will make the \McSplit\ algorithm slower, and that
+by making all three changes to \McSplit\ we will have an algorithm with similar run times
+to the algorithm of KH (albeit with some variation due to the different data structures
+used by the two algorithms to represent domains).
+To test these hypotheses, we ran five algorithms
+on the set of 4110 unlabelled, undirected MCS instances.  In addition to \McSplit\ and
+KH, we used three modified versions of \McSplit:
+$\McSplit - 1$ has only the first change from the list above,
+$\McSplit - 1,2$ has the first two changes, and
+$\McSplit - 1,2,3$: has all three changes.
+
+\Cref{fig:mcsplit-vs-kh} shows the results of our experiment.  The cumulative plot shows,
+in line with our hypotheses,
+that \McSplit\ is around two orders of magnitude faster than KH overall, and that
+$\McSplit - 1,2,3$ and KH have very similar overall performance.  The first scatter
+plot shows that \McSplit\ clearly outperforms KH, with KH running faster than \McSplit\
+on only a handful of instances.  The fourth scatter plot shows that --- as we expected ---
+$\McSplit - 1,2,3$ and KH have similar run times on an instance-by-instance basis.
+(It appears, furthermore, that
+KH has a slight advantage on the easiest instances and
+$\McSplit - 1,2,3$ has a slight advantage on the hardest instances.)
+
+Returning to the cumulative plot, it is evident that the second and third changes (weakening
+the bound and not sorting by degree) have a large effect on the run time of \McSplit\,
+but that the first change (using the sizes of both $\setG$ and $\setH$ in the variable-ordering
+heuristic) has only a minor effect.
 
 \begin{figure}[h!]
     \centering
-    \subfigure[][Krissinel and Henrick (KH) vs McSplit] {
+    \subfigure[][Cumulative plot of run times] {
         \centering
-        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/krissinel/little-experiment/plots/kh-vs-mcsplit}
-        \label{figure:plain-cumulative}
-    }\subfigure[][KH vs modified McSplit] {
-        \centering
-        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/krissinel/little-experiment/plots/kh-vs-mcsplit-prime}
-        \label{figure:plain-scatter}
+        \includegraphics*[width=0.7\textwidth]{14-mcsplit-i-undirected/krissinel/mcs-instances-experiment/plots/cumulative}
+        \label{figure:kh-plain-scatter}
     }
-    \caption{Run times (ms) for McSplit, modified McSplit, and the algorithm of
-        Krissinel and Henrick \cite{DBLP:journals/spe/KrissinelH04} on a set
-        of random 18-vertex graphs, for the problem of finding all maximum
-        common subgraphs.}\label{fig:mcsplit-vs-kh}
+    \subfigure[][Per-instance run times, Krissinel and Henrick (KH) vs McSplit versions] {
+        \centering
+        \includegraphics*[width=0.25\textwidth]{14-mcsplit-i-undirected/krissinel/mcs-instances-experiment/plots/kh-vs-mcsplit}
+        \includegraphics*[width=0.25\textwidth]{14-mcsplit-i-undirected/krissinel/mcs-instances-experiment/plots/kh-vs-mcsplit-1}
+        \includegraphics*[width=0.25\textwidth]{14-mcsplit-i-undirected/krissinel/mcs-instances-experiment/plots/kh-vs-mcsplit-2}
+        \includegraphics*[width=0.25\textwidth]{14-mcsplit-i-undirected/krissinel/mcs-instances-experiment/plots/kh-vs-mcsplit-3}
+        \label{figure:kh-plain-cumulative}
+    }
+    \caption{Cumulative and scatter plots of run times (ms) of Krissinel and Henrick \cite{DBLP:journals/spe/KrissinelH04}
+            and four versions of \McSplit on the 4110 unlabelled, undirected MCS instances}\label{fig:mcsplit-vs-kh}
 \end{figure}
-
-The second plot of \Cref{fig:mcsplit-vs-kh} compares the run time of the modified
-McSplit --- which aims to imitate KH --- with that of KH on each instance.  On most
-instances, the algorithms had very similar run times, lending support to our claim
-that the algorithm function similarly.  Interestingly, KH was slightly faster than
-McSplit on most of these instances, suggesting that --- at least on these small,
-random graphs --- the benefits of McSplit come from the superior bounding function
-and variable selection heuristic made possible by its data structure, rather than
-from the speed of the partitioning method of domain filtering.  The modified version
-of McSplit took 525 ms per instance on average.
 
 \section{Proof of correctness}
 
