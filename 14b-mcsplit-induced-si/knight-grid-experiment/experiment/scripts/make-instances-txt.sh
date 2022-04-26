@@ -1,9 +1,11 @@
 #!/bin/bash
 
+# Start with 4x4 chessboard to avoid disconnected instances which VF3 doesn't like.
+
 awk '
 NR > 1 {
   grid_a = NR
-  for (i=1;i<=NF;i++) {
+  for (i=2;i<=NF;i++) {
     board_sz = i + 2;
     grid_b = $i;
     print "grid" grid_a "-" grid_b "-" "knight" board_sz "-SAT",

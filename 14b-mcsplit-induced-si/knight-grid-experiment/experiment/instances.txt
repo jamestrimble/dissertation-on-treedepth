@@ -1,5 +1,3 @@
-grid2-1-knight3-SAT grid2-1 knight3
-grid2-2-knight3-UNSAT grid2-2 knight3
 grid2-2-knight4-SAT grid2-2 knight4
 grid2-3-knight4-UNSAT grid2-3 knight4
 grid2-5-knight5-SAT grid2-5 knight5
@@ -30,8 +28,6 @@ grid2-46-knight17-SAT grid2-46 knight17
 grid2-47-knight17-UNSAT grid2-47 knight17
 grid2-52-knight18-SAT grid2-52 knight18
 grid2-53-knight18-UNSAT grid2-53 knight18
-grid3-1-knight3-SAT grid3-1 knight3
-grid3-2-knight3-UNSAT grid3-2 knight3
 grid3-1-knight4-SAT grid3-1 knight4
 grid3-2-knight4-UNSAT grid3-2 knight4
 grid3-3-knight5-SAT grid3-3 knight5
@@ -74,8 +70,6 @@ grid3-49-knight23-SAT grid3-49 knight23
 grid3-50-knight23-UNSAT grid3-50 knight23
 grid3-53-knight24-SAT grid3-53 knight24
 grid3-54-knight24-UNSAT grid3-54 knight24
-grid4-1-knight3-SAT grid4-1 knight3
-grid4-2-knight3-UNSAT grid4-2 knight3
 grid4-1-knight4-SAT grid4-1 knight4
 grid4-2-knight4-UNSAT grid4-2 knight4
 grid4-2-knight5-SAT grid4-2 knight5
