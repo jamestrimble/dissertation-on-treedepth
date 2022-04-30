@@ -18,19 +18,19 @@ set format y '$10^{%T}$'
 
 set output "plots/kh-vs-mcsplit.tex"
 set ylabel '\textproc{McSplit}'
-plot "fatanode-results/runtimes.txt" u 6:2 notitle w points pointtype 7 pointsize .2, x notitle lc rgb '#444444'
+plot "fatanode-results/runtimes.txt" u 6:2 notitle w points pointtype 7 pointsize .2 lc rgb '#1f77b4', x notitle lc rgb '#444444'
 
 set output "plots/kh-vs-mcsplit-1.tex"
 set ylabel '$\textproc{McSplit} - 1$'
-plot "fatanode-results/runtimes.txt" u 6:3 notitle w points pointtype 7 pointsize .2, x notitle lc rgb '#444444'
+plot "fatanode-results/runtimes.txt" u 6:3 notitle w points pointtype 7 pointsize .2 lc rgb '#1f77b4', x notitle lc rgb '#444444'
 
 set output "plots/kh-vs-mcsplit-2.tex"
 set ylabel '$\textproc{McSplit} - 1, 2$'
-plot "fatanode-results/runtimes.txt" u 6:4 notitle w points pointtype 7 pointsize .2, x notitle lc rgb '#444444'
+plot "fatanode-results/runtimes.txt" u 6:4 notitle w points pointtype 7 pointsize .2 lc rgb '#1f77b4', x notitle lc rgb '#444444'
 
 set output "plots/kh-vs-mcsplit-3.tex"
 set ylabel '$\textproc{McSplit} - 1, 2, 3$'
-plot "fatanode-results/runtimes.txt" u 6:5 notitle w points pointtype 7 pointsize .2, x notitle lc rgb '#444444'
+plot "fatanode-results/runtimes.txt" u 6:5 notitle w points pointtype 7 pointsize .2 lc rgb '#1f77b4', x notitle lc rgb '#444444'
 
 
 set terminal tikz standalone color size 8.5cm,5.5cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
