@@ -483,6 +483,22 @@ in this thesis.  Say what this approach would gain us.
 
 TODO
 
+\section{Algorithms for Subgraph Isomorphism} 
+
+\paragraph*{SubGlw}
+The SubGlw solver \citep{DBLP:journals/access/AnsariJA21}
+solves an incomplete enumeration problem: the problem of
+generating up to $k$ subgraph embeddings within a given time limit, for a given
+parameter $k$. To do this efficiently, the solver chooses a promising
+subgraph $S$ of the target graph, and runs the Glasgow Subgraph Solver in enumeration
+mode with pattern graph $G$ and target graph $S$. This avoids the overhead of
+building up the Glasgow solver's supplemental graph data structures for a large
+graph.  Since SubGlw is a small wrapper around an existing solver, and because
+it solves an incomplete enumeration problem that is not considered further
+in this thesis, we do not include it in our experimental evaluation.
+
+\section{Algorithms for Maximum Common Subgraph} 
+
 \section{New algorithms in this thesis}
 
 The McSplit family of algorithms has branch-and-bound variants and variants
@@ -509,7 +525,7 @@ The experiment in chapters ... were run on ...
 
 The experiments in chapter ... were run on ...
 
-All solvers were compiled using GCC version ... with the flags
+All solvers were compiled using GCC version 9.4.0 with the flags
 \texttt{-O3} (optimization level 3) and \texttt{-march=native}
 (which allows the compiler to use any CPU instruction that is available
 on the machine, and is particularly helpful in improving the performance
