@@ -35,8 +35,8 @@ timeout $(($timelimit + $extratime)) ../programs/glasgow-subgraph-solver/glasgow
         || echo Failed $? >> $out.glasgow.out
 ../programs/glasgow-subgraph-solver/glasgow_subgraph_solver \
     --enumerate --no-supplementals --format csv --induced $pf.csv $tf.csv --timeout $timelimit > $out.glasgow-nosupp.out
-../programs/mcsplit-si/mcsplit-si-ll --enumerate --VF B $pf $tf --timeout $timelimit > $out.mcsplit-si-ll.out
-../programs/mcsplit-si/mcsplit-si-adjmat --enumerate --VF B $pf $tf --timeout $timelimit > $out.mcsplit-si-adjmat.out
+../programs/mcsplit-si/mcsplit-si-ll --enumerate --VF A $pf $tf --timeout $timelimit > $out.mcsplit-si-ll.out
+../programs/mcsplit-si/mcsplit-si-adjmat --enumerate --VF A $pf $tf --timeout $timelimit > $out.mcsplit-si-adjmat.out
 ../programs/mcsplit-si/mcsplit-si --enumerate --VF A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom.out
 ../programs/mcsplit-si/mcsplit-si --enumerate --VF -D1 A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom-D1.out
 ../programs/mcsplit-si/mcsplit-si --enumerate --VF -D2 A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom-D2.out
