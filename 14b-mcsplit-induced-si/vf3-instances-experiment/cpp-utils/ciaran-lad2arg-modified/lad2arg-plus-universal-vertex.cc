@@ -89,7 +89,7 @@ auto main(int, char * argv[]) -> int
         cout << size << " " << 3 << endl;
 
         for (int r = 0 ; r < size ; ++r) {
-            cout << (accumulate(adj[r].begin(), adj[r].end(), 0) - (adj[r][r] ? 1 : 0)) << endl;
+            cout << (accumulate(adj[r].begin(), adj[r].end(), 0) - (adj[r][r] ? 1 : 0)) + 1 << endl;
             for (int s = 0 ; s < size ; ++s) {
                 if (r != s && adj[r][s]) {
                     cout << r << " " << s << endl;
