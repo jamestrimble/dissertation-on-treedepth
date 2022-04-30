@@ -15,21 +15,26 @@ mkdir -p program-output
 pf=../cpaior2019-sbs-for-subgraphs-paper/instances/$file_a
 tf=../cpaior2019-sbs-for-subgraphs-paper/instances/$file_b
 out=program-output/$instance
-../../vf3-instances-experiment/cpp-utils/ciaran-lad2arg-modified/lad2arg < $pf > instances/$instance.pattern.grf
-../../vf3-instances-experiment/cpp-utils/ciaran-lad2gfu/lad2gfu < $pf > instances/$instance.pattern.gfu
-../../vf3-instances-experiment/cpp-utils/ciaran-lad2arg-modified/lad2arg < $tf > instances/$instance.target.grf
-../../vf3-instances-experiment/cpp-utils/ciaran-lad2gfu/lad2gfu < $tf > instances/$instance.target.gfu
 
 (../../vf3-instances-experiment/cpp-utils/is-connected/is_lad_connected < $pf || true) > $out.connected.out
 (../../vf3-instances-experiment/cpp-utils/is-connected/is_lad_connected < $tf || true) >> $out.connected.out
 
 if grep -q 'Disconnected' $out.connected.out; then
-    echo "DISCONNECTED" > $out.vf3.out
+    # VF3 doesn't like disconnected instances, so add an extra vertex with a unique label to
+    # both the pattern and target graph.  This is adjacent to every existing vertex.
+    ../../vf3-instances-experiment/cpp-utils/ciaran-lad2arg-modified/lad2arg-plus-universal-vertex < $pf > instances/$instance.pattern.grf
+    ../../vf3-instances-experiment/cpp-utils/ciaran-lad2arg-modified/lad2arg-plus-universal-vertex < $tf > instances/$instance.target.grf
 else
-    timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/vf3lib/bin/vf3_first_match_only -u -r0 \
-        instances/$instance.pattern.grf instances/$instance.target.grf > $out.vf3.out \
-            || echo Failed $? >> $out.vf3.out
+    ../../vf3-instances-experiment/cpp-utils/ciaran-lad2arg-modified/lad2arg < $pf > instances/$instance.pattern.grf
+    ../../vf3-instances-experiment/cpp-utils/ciaran-lad2arg-modified/lad2arg < $tf > instances/$instance.target.grf
 fi
+
+../../vf3-instances-experiment/cpp-utils/ciaran-lad2gfu/lad2gfu < $pf > instances/$instance.pattern.gfu
+../../vf3-instances-experiment/cpp-utils/ciaran-lad2gfu/lad2gfu < $tf > instances/$instance.target.gfu
+
+timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/vf3lib/bin/vf3_first_match_only -u -r0 \
+    instances/$instance.pattern.grf instances/$instance.target.grf > $out.vf3.out \
+        || echo Failed $? >> $out.vf3.out
 timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/RI/ri36_decision_with_timing ind gfu \
         instances/$instance.target.gfu instances/$instance.pattern.gfu > $out.ri.out \
         || echo Failed $? >> $out.ri.out

@@ -22,7 +22,7 @@ show_glasgow_time_or_timeout() {
     fi
 }
 
-echo instance mcsplit-si-ll mcsplit-si-dom mcsplit-si-dom-D1 mcsplit-si-dom-D2 mcsplit-si-static mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
+echo instance mcsplit-si-ll mcsplit-si-dom mcsplit-si-dom-D1 mcsplit-si-dom-D2 mcsplit-si-static mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3 connected
 cat ../cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt | while read instance rest; do
     echo $(
         echo $instance
@@ -36,10 +36,11 @@ cat ../cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt | while read
         cat program-output/$instance.glasgow-nosupp.out | grep runtime | cut -d' ' -f3
         show_time_or_timeout program-output/$instance.ri.out
         show_time_or_timeout program-output/$instance.ri-ds.out
+        show_time_or_timeout program-output/$instance.vf3.out
         if grep -q 'Disconnected' program-output/$instance.connected.out; then
             echo DISCONNECTED
         else
-            show_time_or_timeout program-output/$instance.vf3.out
+            echo connected
         fi
     )
 done
