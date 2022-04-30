@@ -485,9 +485,98 @@ TODO
 
 \section{Algorithms for Subgraph Isomorphism} 
 
+TODO introduce this section. Also mention graph databases and indexing?
+
+\subsection{Algorithms based on constraint programming}
+
+\paragraph*{Ullmann} 
+The algorithm of \citet{ullmann1976algorithm} 
+is the first subgraph isomorphism algorithm based on constraint programming.
+The paper only considers the non-induced version of subgraph isomorphism,
+but the algorithm could easily be extended to the induced variant by adding
+constraints to ensure non-adjacent vertices are mapped to non-adjacent vertices.
+The algorithm maintains arc consistency on the adjacency constraints.
+
+\paragraph*{McGregor}
+\citet{DBLP:journals/isci/McGregor79} introduces a modified version of
+Ullmann's algorithm.  McGregor finds experimentally that the cost of maintaining
+arc consistency throughout search outweighs the benefit; as a compromise,
+McGregor enforces arc consistency only after assigning the first pattern-graph
+vertex, and uses forward checking at deeper levels of the search tree.
+McGregor uses a static variable ordering heuristic in which vertices
+with most constraints to previously-instantiated vertices are selected first.
+
+\paragraph*{R{\'{e}}gin's all-different propagator}
+\citet{DBLP:conf/aaai/Regin94}
+introduced a filtering algorithm for the all-different constraint that
+ensures generalised arc consistency.  The algorithm removes from each domain
+$D$ each value $x$ such that there exists no assignment of distinct
+values to all of the variables in which $D$ takes the value $x$.
+R{\'{e}}gin reports that this filtering algorithm was used to solve
+the subgraph isomorphism problem in the RESYN system \citep{vism92}.
+TODO maybe mention his thesis (cited in LAD paper)
+
+\paragraph*{ILF(k)} \citep(DBLP:journals/constraints/ZampelliDS10)
+introduces a filtering algorithm based on assigning during
+search a label
+to each vertex of the pattern graph and the target graph, with a partial ordering
+$\preccurlyeq$ over the labels such that $v \in \V(G)$ may be assigned to $w \in V(H)$
+if and only if $\mathit{label}(v) \preccurlyeq \mathit{label}(w)$.
+Labels are iteratively extended to include information about the labels of
+neighbouring vertices.
+Although this algorithm is described and implemented
+only for the non-induced version of
+subgraph isomorphism, it appears that it could be extended to solve
+the induced variant.  Like ILF(k), the McSplit family of algorithms
+described in this dissertation may be viewed as assigning a label
+to each vertex and requiring that only vertices with compatible labels
+be assigned to one another. Unlike ILF(k), however, McSplit requires
+labels to equal.  While this severly restricts the information that the
+McSplit labels may contain, it results in very fast and simple constraint
+propagation in the McSplit algorithm.
+
+\paragraph*{LAD}
+\citet{DBLP:journals/ai/Solnon10} proposes an algorithm for
+LAD (local all different) filtering,
+which propagates the following constraint:
+if $v \in V(G)$ is mapped to $w \in V(H)$, then the neighbours of $v$ in $G$
+must all be mapped to different values, and these values must all belong to
+the set $N_H(w)$.
+This strengtens the filtering of the nRF+ algorithm \citep{DBLP:journals/mscs/LarrosaV02},
+and can be performed in $O(|V(G)| \cdot |V(H)| \cdot \Delta_G^2 \cdot \Delta_H^2)$
+time, where $\Delta_G$ and $\Delta_H$
+are the maximum degrees of $G$ and $H$.
+
+\paragraph*{SND}
+The SND algorithm \citep{DBLP:conf/cp/AudemardLMGP14}
+extends LAD by counting the number of length-$k$ paths between
+pairs of vertices for small values of $k$, and enforcing within
+a LAD-style constraint that 
+a pair of pattern vertices connected by $p$ paths of lenght $k$
+may not be mapped to a pair of target vertices connected by fewer
+than $p$ paths of length $k$.
+PathLAD \citep{DBLP:conf/lion/KotthoffMS16} incorporates a subset
+of the SND filtering into the LAD algorithm.
+
+\paragraph*{Symmetry breaking}
+\citet{zampelli2007symmetry} show that the variable and value symmetries
+in the subgraph isomorphism problem can be completely broken using
+the automorphism groups of the pattern and target graph graphs.
+Moreover, the authors show how to break local symmetries that emerge
+during search.
+This work was extended in Zampelli's PhD thesis \citep{DBLP:phd/basesearch/Zampelli08}.
+A solver with symmetry breaking was shown to be able to solve many more instances
+than the same solver without symmetry breaking. 
+Techniques based on those of \citeauthor{zampelli2007symmetry} 
+could be applied to any subgraph isomorphism solver based on constraint programming,
+and the use of such techniques is understudied; neither McSplit-SI nor any of
+the state-of-the-art algorithms to which we compare it in our experiments
+uses symmetry breaking.  This appears to be a fruitful area for future
+work.
+
 \paragraph*{SubGlw}
-The SubGlw solver \citep{DBLP:journals/access/AnsariJA21}
-solves an incomplete enumeration problem: the problem of
+Finally, for completeness, we describe the SubGlw solver \citep{DBLP:journals/access/AnsariJA21},
+which solves an incomplete enumeration problem: the problem of
 generating up to $k$ subgraph embeddings within a given time limit, for a given
 parameter $k$. To do this efficiently, the solver chooses a promising
 subgraph $S$ of the target graph, and runs the Glasgow Subgraph Solver in enumeration
@@ -496,6 +585,17 @@ building up the Glasgow solver's supplemental graph data structures for a large
 graph.  Since SubGlw is a small wrapper around an existing solver, and because
 it solves an incomplete enumeration problem that is not considered further
 in this thesis, we do not include it in our experimental evaluation.
+
+\subsection{Pattern recognition algorithms}
+
+Algorithms for subgraph isomorphism from the pattern recognition (PR) community
+take a different approach from solvers based on constraint programming.  PR
+solvers take a lightweight approach --- they do not store domains and perform
+minimal work at each search node, resulting in algorithms with very low memory
+requirements that can visit many search nodes per second, but often have to
+visit many more search nodes in total than CP algorithms.
+
+TODO write more. Maybe cut and paste from McSplit-SI chapter?
 
 \section{Algorithms for Maximum Common Subgraph} 
 
