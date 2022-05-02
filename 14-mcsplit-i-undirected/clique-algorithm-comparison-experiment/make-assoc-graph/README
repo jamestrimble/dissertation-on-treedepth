@@ -1,0 +1,2 @@
+This is a version of the CP 2016 paper code, hacked to write the association
+graph to standard output then exit.
