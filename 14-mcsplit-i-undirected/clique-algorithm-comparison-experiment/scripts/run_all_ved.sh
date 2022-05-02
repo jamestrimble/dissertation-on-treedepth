@@ -12,4 +12,4 @@ cat mcs33vedinstances.txt | while read i p t; do
     echo './scripts/run_one_ved.sh' $i $p $t >> commands_ved.txt
 done
 
-parallel -P4 --bar < commands_ved.txt
+parallel -P32 --bar < commands_ved.txt

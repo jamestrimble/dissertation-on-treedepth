@@ -12,4 +12,4 @@ cat mcsplaininstances.txt | while read i p t; do
     echo './scripts/run_one_plain.sh' $i $p $t >> commands.txt
 done
 
-parallel -P4 --bar < commands.txt
+parallel -P32 --bar < commands.txt
