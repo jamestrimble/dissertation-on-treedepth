@@ -4,8 +4,8 @@ i=$1
 p=../$2
 t=../$3
 
-timelimit=10
-timelimit_plus=12
+timelimit=1000
+timelimit_plus=1100
 
 ./programs/make-assoc-graph/solve_max_common_subgraph --undirected --unlabelled $p $t > association-graphs-plain/$i.grf
 
