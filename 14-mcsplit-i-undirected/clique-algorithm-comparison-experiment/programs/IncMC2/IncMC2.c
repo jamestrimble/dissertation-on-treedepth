@@ -22,6 +22,9 @@
 #include <sys/resource.h>
 #include <math.h>
 #include <assert.h>
+
+#include "c_program_timing.h"
+
 #define SOMC
 #define WORD_LENGTH 100
 #define TRUE 1
@@ -2103,6 +2106,7 @@ int main(int argc, char *argv[]) {
 	printf("c reading %s ...\n", argv[1]);
 	getrusage(RUSAGE_SELF, &starttime);
 	if (build_simple_graph_instance(argv[1])) {
+                set_start_time();
 		search_initial_maximum_clique();
 		init_for_maxclique(ordering);
 		
@@ -2118,6 +2122,7 @@ int main(int argc, char *argv[]) {
 	usec_p = (int) lasttime.ru_utime.tv_usec;
 
 
+        printf("TIME %ld\n", get_elapsed_time_msec());
 	
 	printf(
 			"s Instance %s Max_CLQ %d Branching %d Time %4.2lf ProveBranching %d ProveTime %4.2lf\n",
