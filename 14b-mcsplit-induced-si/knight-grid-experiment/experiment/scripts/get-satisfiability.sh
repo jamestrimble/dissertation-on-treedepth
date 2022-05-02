@@ -20,6 +20,15 @@ show_ri_time_or_timeout() {
     fi
 }
 
+show_pathlad_time_or_timeout() {
+    FILENAME=$1
+    if grep -q 'Failed' $FILENAME; then
+        echo "X"
+    else
+        cat $FILENAME | awk '/Run completed:/ {print $3}'
+    fi
+}
+
 show_glasgow_time_or_timeout() {
     FILENAME=$1
     if grep -q 'Failed' $FILENAME; then
@@ -34,7 +43,7 @@ show_mcsplit_time_or_timeout() {
     cat $FILENAME | awk '/^SATISFIABLE/ {print 1} /^UNSATISFIABLE/ {print 0} /TIMEOUT/ {print "X"}'
 }
 
-echo instance mcsplit-si-ll mcsplit-si-dom mcsplit-si-dom-D1 mcsplit-si-dom-D2 mcsplit-si-static mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
+echo instance mcsplit-si-ll mcsplit-si-dom mcsplit-si-dom-D1 mcsplit-si-dom-D2 mcsplit-si-static mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3 pathlad
 cat instances.txt | while read instance rest; do
     echo $(
         echo $instance
@@ -53,5 +62,6 @@ cat instances.txt | while read instance rest; do
         else
             show_vf3_time_or_timeout program-output/$instance.vf3.out
         fi
+        show_pathlad_time_or_timeout program-output/$instance.pathlad.out
     )
 done

@@ -41,6 +41,14 @@ timeout $(($timelimit + $extratime)) ../../vf3-instances-experiment/programs/gla
         || echo Failed $? >> $out.glasgow.out
 ../../vf3-instances-experiment/programs/glasgow-subgraph-solver/glasgow_subgraph_solver \
     --no-supplementals --format lad --induced $pf $tf --timeout $timelimit > $out.glasgow-nosupp.out
+
+# -s 1000000 is a million second CPU time limit (to avoid stopping early),
+# -f is stop at first solution, -i is induced
+timeout $(($timelimit + $extratime))../../vf3-instances-experiment/programs/pathLAD/main \
+    -s 1000000 -i -f \
+    -p double-edged-$pf -t double-edged-$tf > $out.pathlad.out \
+        || echo Failed $? >> $out.pathlad.out
+
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si-ll --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-ll.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad RI $pf $tf --timeout $timelimit > $out.mcsplit-si-static.out
 ../../vf3-instances-experiment/programs/mcsplit-si/mcsplit-si --lad A $pf $tf --timeout $timelimit > $out.mcsplit-si-dom.out

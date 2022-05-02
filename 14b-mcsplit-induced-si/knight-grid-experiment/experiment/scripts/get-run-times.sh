@@ -24,7 +24,7 @@ show_glasgow_time_or_timeout() {
     fi
 }
 
-echo instance mcsplit-si-ll mcsplit-si-dom mcsplit-si-dom-D1 mcsplit-si-dom-D2 mcsplit-si-static mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
+echo instance mcsplit-si-ll mcsplit-si-dom mcsplit-si-dom-D1 mcsplit-si-dom-D2 mcsplit-si-static mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3 pathlad
 cat instances.txt | while read instance rest; do
     echo $(
         echo $instance
@@ -43,5 +43,6 @@ cat instances.txt | while read instance rest; do
         else
             show_time_or_timeout program-output/$instance.vf3.out
         fi
+        show_time_or_timeout program-output/$instance.pathlad.out
     )
 done
