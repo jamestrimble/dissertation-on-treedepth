@@ -2,6 +2,9 @@ This is http://perso.liris.cnrs.fr/christine.solnon/pathLAD2.tgz , downloaded on
 2 May 2022 from https://perso.liris.cnrs.fr/christine.solnon/LAD.  It is described
 as "Version 3 (January 2016)" (of LAD).
 
+I've added the c_program_timing library for consistent timings using a monotonic
+clock.
+
 The original README follows
 
 -----

@@ -27,6 +27,7 @@ struct rusage ru;     // reusable structure to get CPU time usage
 #include "allDiff.c"
 #include "lad.c"
 
+#include "c_program_timing.h"
 
 bool filter(bool induced, Tdomain* D, Tgraph* Gp, Tgraph* Gt){
     // filter domains of all vertices in D->toFilter wrt LAD and ensure GAC(allDiff)
@@ -177,6 +178,8 @@ void parse(int* timeLimit, bool* firstSol, bool* i, int* verbose,  char* fileNam
 }
 
 int printStats(bool timeout){
+        printf("TIME %ld\n", get_elapsed_time_msec());
+
 	// print statistics line and return exit status depending on timeout
 	getrusage(RUSAGE_SELF, &ru);
 	if (timeout)
@@ -215,6 +218,9 @@ int main(int argc, char* argv[]){
 		printf("Target graph:\n");
 		printGraph(Gt);
 	}
+
+    set_start_time();
+
     if ((Gp->nbVertices+nbIsolatedP > Gt->nbVertices) || (Gp->maxDegree > Gt->maxDegree))
         return printStats(false);
 

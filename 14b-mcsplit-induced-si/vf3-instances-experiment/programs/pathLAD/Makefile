@@ -8,5 +8,5 @@ test:main
 	@echo "Test 2: Induced subgraph isomorphism"
 	./main -p pattern.txt -t target.txt -i 
 
-main:main.c allDiff.c graph.c lad.c domainsPath.c
-	$(CC) $(CFLAGS) main.c -o $@
+main:main.c allDiff.c graph.c lad.c domainsPath.c c_program_timing.c
+	$(CC) $(CFLAGS) main.c c_program_timing.c -o $@
