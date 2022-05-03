@@ -52,3 +52,8 @@ cat fatanode-results/runtimes.txt \
                                      print ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,sd, ds)
                                     }' \
     > fatanode-results/runtimes-tidied-without-disconnected-instances.txt
+
+python3 scripts/make-winner-counts.py > fatanode-results/winner-counts.txt
+
+awk 'NR<=14' fatanode-results/winner-counts.txt | python3 scripts/make-table.py > fatanode-results/winner-counts.tex
+awk 'NR>=16' fatanode-results/winner-counts.txt | python3 scripts/make-table.py > fatanode-results/solved-counts.tex
