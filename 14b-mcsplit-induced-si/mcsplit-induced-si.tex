@@ -1265,30 +1265,37 @@ class.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/cumulative-with-disconnected-patterns-treated-as-timeout}
-    \caption{cumulative-with-disconnected-patterns-treated-as-timeout}
-    \label{figure:cumulative-with-disconnected-patterns-treated-as-timeout}
+    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/cumulative-presolve}
+    \caption{cumulative-presolve}
+    \label{figure:cumulative-presolve}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/sat-cumulative-with-disconnected-patterns-treated-as-timeout}
-    \caption{sat-cumulative-with-disconnected-patterns-treated-as-timeout}
-    \label{figure:sat-cumulative-with-disconnected-patterns-treated-as-timeout}
+    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/cumulative}
+    \caption{cumulative}
+    \label{figure:cumulative}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/unsat-cumulative-with-disconnected-patterns-treated-as-timeout}
-    \caption{unsat-cumulative-with-disconnected-patterns-treated-as-timeout}
-    \label{figure:unsat-cumulative-with-disconnected-patterns-treated-as-timeout}
+    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/sat-cumulative}
+    \caption{sat-cumulative}
+    \label{figure:sat-cumulative}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/cumulative-without-disconnected-pattern}
-    \caption{cumulative-without-disconnected-pattern}
-    \label{figure:cumulative-without-disconnected-pattern}
+    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/unsat-cumulative}
+    \caption{unsat-cumulative}
+    \label{figure:unsat-cumulative}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/cumulative-without-disconnected-instances}
+    \caption{cumulative-without-disconnected-instances}
+    \label{figure:cumulative-without-disconnected-instances}
 \end{figure}
 
 \begin{figure}[h!]
@@ -1300,14 +1307,21 @@ class.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.45\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/mcsplit-si-vs-dom}
-    \caption{mcsplit-si-vs-dom}
-    \label{figure:mcsplit-si-vs-dom}
+    \includegraphics*[width=0.45\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/mcsplit-si-vs-ll}
+    \caption{mcsplit-si-vs-ll}
+    \label{figure:mcsplit-si-vs-ll}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics*[width=0.45\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/mcsplit-si-vs-glasgow}
+    \caption{mcsplit-si-vs-glasgow}
+    \label{figure:mcsplit-si-vs-glasgow}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.45\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/mcsplit-si-domstatic-vs-glasgow}
     \caption{mcsplit-si-vs-glasgow}
     \label{figure:mcsplit-si-vs-glasgow}
 \end{figure}
@@ -1468,81 +1482,87 @@ and the subgraph induced by this subset is used as the pattern graph.
 \label{tab:carletti-n}
 \end{table}
 
+\FloatBarrier
+
 \subsection{Results for unlabelled instances}
 
-Each point shows the average of run times for 5 (?) instances.  The time limit was set at 1000 seconds, are timeouts are treated as 1000 seconds.  (Maybe there's a better way of presenting results with timeouts? A table?)
+\Cref{figure:unlabelled-vf-instance-runtimes} shows run times for the unlabelled instances.
+Since the instances have a natural ordering by the parameter $n$, we follow the example
+of \cite{DBLP:journals/pami/CarlettiFSV18} and plot average run time as a function of $n$
+rather than using cumulative plots.
+Each point shows, for a given solver and given values of $n$ and $p$, the arithmetic mean of
+run time in milliseconds for the 10 instances.
+The time limit was set to 10000 seconds because many of the larger instances in this experiment
+are particularly challenging.  Runs that exceeded the time limit were counted as taking 10000 seconds;
+since none of the \McSplit-SI runs timed out, this does not affect the \McSplit-SI results but biases
+the results slightly in favour of the other algorithms.  In cases where all ten runs timed out,
+the data point is omitted from the plot (as, for example,  is the case for RI with $p=0.4$ and $n=7000$).
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.05-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.05$}
-    \label{figure:TODO}
+    \subfigure[][Key] {
+        \includegraphics*[trim=-40 -30 -40 -30,width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/key.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.05$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.05-1.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.1$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.1-1.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.2$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.2-1.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.3$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.3-1.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.4$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.4-1.pdf}
+        \label{figure:TODO}
+    }
+    \caption{Run times on unlabelled enumeration instances with random directed pattern and target graphs}
+    \label{figure:unlabelled-vf-instance-runtimes}
 \end{figure}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.1-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.1$}
-    \label{figure:TODO}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.2-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.2$}
-    \label{figure:TODO}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.3-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.3$}
-    \label{figure:TODO}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.4-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.4$}
-    \label{figure:TODO}
-\end{figure}
+\FloatBarrier
 
 \subsection{Results for vertex-labelled instances}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.05-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.05$}
-    \label{figure:TODO}
+    \subfigure[][Key] {
+        \includegraphics*[trim=-40 -30 -40 -30,width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/key.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.05$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.05-8.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.1$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.1-8.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.2$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.2-8.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.3$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.3-8.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][$p=0.4$] {
+        \includegraphics*[width=0.44\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.4-8.pdf}
+        \label{figure:TODO}
+    }
+    \caption{Run times on unlabelled enumeration instances with random directed pattern and target graphs}
+    \label{figure:labelled-vf-instance-runtimes}
 \end{figure}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.1-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.1$}
-    \label{figure:TODO}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.2-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.2$}
-    \label{figure:TODO}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.3-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.3$}
-    \label{figure:TODO}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/vf3-instances-experiment/experiment/plots/runtimes0.4-1.pdf}
-    \caption{Run times on enumeration instances with random directed pattern and target graphs, $p=0.4$}
-    \label{figure:TODO}
-\end{figure}
+\FloatBarrier
 
 \section{Verification}
 

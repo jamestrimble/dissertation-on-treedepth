@@ -1,6 +1,6 @@
 # vim: set et ft=gnuplot sw=4 :
 
-set terminal tikz standalone color size 12cm,6cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
+set terminal tikz standalone color size 9cm,5.5cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
 
 set size nosquare
 set border 3
@@ -20,8 +20,7 @@ set ytics autofreq
 unset xrange
 unset yrange
 set yrange [1:10000000]
-set key outside
-set key right bottom
+unset key
 
 set output "plots/runtimes0.05-1.tex"
 plot "< awk '$1==1 && $2==0.05' fatanode-results/runtimes-summary.txt" using 3:($5==10000000 ? 1/0 : $5) w lp ti '\textproc{McSplit}-SI' lc 1, \
@@ -121,6 +120,28 @@ plot "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($
      "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($9==10000000 ? 1/0 : $9) w lp ti '\textproc{McSplit}-SI-a' lc 3, \
      "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($10==10000000 ? 1/0 : $10) w lp ti 'Glasgow' lc 5, \
      "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($11==10000000 ? 1/0 : $11) w lp ti 'Glasgow no-supp' lc 6, \
+     "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($12==10000000 ? 1/0 : $12) w lp ti 'RI' lc 7, \
+     "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($13==10000000 ? 1/0 : $13) w lp ti 'RI-DS' lc 8, \
+     "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($14==10000000 ? 1/0 : $14) w lp ti 'VF3' lc 9
+
+set noborder
+set noxtics
+set noytics
+set notitle
+set noxlabel
+set noylabel
+unset logscale
+set xrange [-2:-1]
+set yrange [-2:-1]
+set key outside
+set key right bottom
+set key Left reverse
+set output "plots/key.tex"
+plot "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($5==10000000 ? 1/0 : $5) w lp ti '\textproc{McSplit}-SI' lc 1, \
+     "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($4==10000000 ? 1/0 : $4) w lp ti '\textproc{McSplit}-SI-LL' lc 2, \
+     "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($9==10000000 ? 1/0 : $9) w lp ti '\textproc{McSplit}-SI-AM' lc 3, \
+     "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($10==10000000 ? 1/0 : $10) w lp ti 'Glasgow' lc 5, \
+     "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($11==10000000 ? 1/0 : $11) w lp ti 'Glasgow, no supp.' lc 6, \
      "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($12==10000000 ? 1/0 : $12) w lp ti 'RI' lc 7, \
      "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($13==10000000 ? 1/0 : $13) w lp ti 'RI-DS' lc 8, \
      "< awk '$1==8 && $2==0.4' fatanode-results/runtimes-summary.txt" using 3:($14==10000000 ? 1/0 : $14) w lp ti 'VF3' lc 9
