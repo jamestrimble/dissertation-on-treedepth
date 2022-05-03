@@ -22,7 +22,7 @@ show_glasgow_time_or_timeout() {
     fi
 }
 
-echo i labels p nt np mcsplit-si-ll mcsplit-si-dom mcsplit-si-adjmat mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
+echo i labels p nt np mcsplit-si-ll mcsplit-si-dom mcsplit-si-dom-D1 msplit-si-dom-D2 mcsplit-si-adjmat mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
 cat intermediate/instances.txt | while read i count labels p nt np; do
     echo $(
         echo $i $labels $p $nt $np
