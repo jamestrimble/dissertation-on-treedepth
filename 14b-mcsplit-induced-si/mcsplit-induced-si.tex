@@ -1459,6 +1459,11 @@ of $n$ for the target graph that were used by Carletti et al.; these are shown i
 In each instance, a randomly-selected subset of $20\%$ of the target vertices is selected,
 and the subgraph induced by this subset is used as the pattern graph.
 
+We do not include the LAD solver in our experiments because
+the experimental results of \cite{DBLP:journals/pami/CarlettiFSV18} show that LAD
+is orders of magnitude slower than VF3 on instances constructed in
+this way.
+
 \begin{table}[h!]
 \centering
 \footnotesize
@@ -1498,6 +1503,26 @@ since none of the \McSplit-SI runs timed out, this does not affect the \McSplit-
 the results slightly in favour of the other algorithms.  In cases where all ten runs timed out,
 the data point is omitted from the plot (as, for example,  is the case for RI with $p=0.4$ and $n=7000$).
 
+For all five values of $p$, either \McSplit-SI or \McSplit-SI-AM is the fastest algorithm.  For
+the smallest two values of $p$, \McSplit-SI is the winner; for $p=0.2$ and above, \McSplit-SI-AM
+is slightly faster.  This is as we would expect, since \McSplit-SI is designed to work well
+on instances with sparse pattern and target graphs.  
+\McSplit-SI-LL typically takes around two to three times as long as \McSplit-SI to find all solutions.
+
+For each value of $p$, there is approximately an order of magnitude difference in run time between
+the fastest variant of \McSplit-SI and the fastest non-\McSplit-SI algorithm.
+On sparser instances, VF3 and RI-DS have the closest run times to \McSplit-SI.  Around $p=0.1$,
+the Glasgow solver with supplemental graphs disabled becomes competitive with these algorithm, and at $p=0.4$
+it is at least an order of magnitude faster than either VF3 or RI-DS.
+
+When using the Glasgow solver, it is worthwhile to disable supplemental graphs
+on all but 11 of the instances.  In fact, supplemental graphs have no effect on
+the size of the search tree on the majority of instances, since most pairs of
+vertices in this set of instances are joined by many paths of length 2; thus,
+on this set of instances supplemental graphs have a double overhead --- in
+their construction and in their use during search --- with no corresponding
+benefit.
+
 \begin{figure}[h!]
     \centering
     \subfigure[][Key] {
@@ -1531,6 +1556,16 @@ the data point is omitted from the plot (as, for example,  is the case for RI wi
 \FloatBarrier
 
 \subsection{Results for vertex-labelled instances}
+
+\Cref{figure:unlabelled-vf-instance-runtimes} shows run times for instances with labelled vertices.
+As was the case for the unlabelled instances, \McSplit-SI is the fastest solver for sparse instances and \McSplit-SI-AM
+is the fastest solver for dense instances (with the exception of the smallest dense instances,
+where \McSplit-SI is fastest).  VF3 is the fastest non-CP solver for every value of $p$, and indeed is almost
+as fast as \McSplit-SI for $p=0.05$.  Around $p=0.3$, the Glasgow solver
+with supplemental graphs disabled overtakes VF3 as the fastest non-\McSplit-SI solver.
+
+The difference between Glasgow with and without supplemental graphs is even larger on these labelled instances
+than on the labelled instances, exceeding one order of magnitude in many cases.
 
 \begin{figure}[h!]
     \centering
