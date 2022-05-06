@@ -286,8 +286,10 @@ G-array that contains $\setG$, and start and end pointers to the portion
 of the H-array that contains $\setH$.
 This representation has
 similarities to data structures used in partition backtracking for graph isomorphism
-\citep{DBLP:conf/wea/Lopez-PresaA09,DBLP:journals/jsc/McKayP14} and the \citet{DBLP:journals/cacm/BronK73}
-clique enumeration algorithm.  TODO: say more about similarities and differences
+\citep{DBLP:journals/jsc/McKayP14,DBLP:conf/wea/Lopez-PresaA09}.
+%and the \citet{DBLP:journals/cacm/BronK73}
+%clique enumeration algorithm.
+%TODO: say more about similarities and differences
 
 \Cref{fig:data-structure} illustrates this data structure using our running example.
 The first subfigure shows the initial label classes when no vertex assignments have
@@ -569,6 +571,24 @@ Note that the partitioning step re-orders vertices within a label class in the G
 the H-array, but keeps the vertices of each label class together. Therefore, it never necessary
 to copy either of these arrays or store any bookkeeping information that might be used to
 restore them to a previous state.
+
+\paragraph{Related work}
+
+The graph isomorphism algorithm of \citet{DBLP:journals/jacm/SchmidtD76},
+henceforth SD, is a backtracking
+algorithm that uses a method of partitioning similar to that of \McSplit. Whereas \McSplit\ stores
+the vertices of a label class contiguously, SD stores an array containing one integer for
+each vertex of $G$, and a similar array for $H$; the array element corresponding to each vertex $v$
+stores an identifier for $v$'s label class.  Because SD solves the graph isomorphism
+problem, it is unnecessary to calculate an upper bound; the algorithm can backtrack as soon
+as the number of vertices of $G$ in a label class differs from the number of vertices of $H$
+in that class.  SD takes advantage of the distance matrix (a matrix of shortest path lengths)
+for each graph to give a good initial partition and to refine the partition more at each search
+node than \McSplit's method based on adjacency matrices. Unfortunately,
+the distance matrix cannot be straightforwardly used for the maximum common subgraph problem.
+However, it would be possible to adapt \McSplit\ to use SD's array-based representation of
+label classes, and the comparison of the two methods would be an interesting avenue for future
+work.
 
 \subsection{Heuristics}
 
