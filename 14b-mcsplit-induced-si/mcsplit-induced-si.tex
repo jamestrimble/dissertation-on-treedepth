@@ -322,29 +322,27 @@ in \Cref{McSplitSIAlgFilter}.
 \nl \Begin{
 \nl  $\AlgVar{splits} \gets []$  \LeftComment{Initialise array of pointers to split label classes} \;
 \medskip 
-\nl  \LeftComment{For each neighbour of $v$ that is is a label class, move $v$ into a new label class} \;
+\nl  \LeftComment{For each neighbour of $v$ that is in a label class, move $v$ into a new label class} \;
 \nl  \For {$u \in \N_G(v)$\label{FilterGLoop}} {
 \nl      $\LC \gets \Gptrs[u].\labelClass$ \;
 \nl      \If{$\LC = \AlgVar{null}$}{
-\nl          \LeftComment{$u$ is already in $M$, and therefore not in any label class} \;
-\nl          \KwSty{continue} \;
+\nl          \KwSty{continue} \LeftComment{$u$ is already in $M$, and therefore not in any label class} \;
          }
 \nl      \If{$\LC.\varSplitting = \AlgVar{false}$}{
 \nl          $\LC.\varSplitting \gets \AlgVar{true}$ \;
-\nl          $\FuncSty{CreateLabelClassAfter}(\LC)$ \;
+\nl          $\FuncSty{CreateLabelClassAfter}(\LC)$ \LeftComment{\Cref{McSplitSIAlgCreateLC}} \;
 \nl          Append to $\AlgVar{splits}$ a pointer to \LC \;
          }
-\nl      Swap $u$ to the end of $\LC$ in \Garray, updating the relevant $\vertexPtr$ members in \Gptrs \;
-\nl      Decrement $\LC.\varEndG$  \LeftComment{Delete $u$ from $\LC$} \;
-\nl      Decrement $\LC'.\varStartG$  \LeftComment{Add $u$ to $\LC'$} \;
+\nl      Swap $u$ to the end of $\LC$ in \Garray, updating the two relevant $\vertexPtr$ members in \Gptrs \;
+\nl      $\Gptrs[u].\labelClass \gets \LC.\varNext$ \;
+\nl      Decrement $\LC.\varEndG$ and $\LC.\varNext.\varStartG$ \LeftComment{Move $u$ from $\LC$ to $\LC.\varNext$} \;
     }
 \medskip 
-\nl  \LeftComment{For each neighbour of $w$ that is is a label class, move $w$ into a new label class} \;
+\nl  \LeftComment{For each neighbour of $w$ that is in a label class, move $w$ into a new label class} \;
 \nl  \For {$u \in \N_H(w)$\label{FilterHLoop}} {
 \nl      $\LC \gets \Hptrs[u].\labelClass$ \;
 \nl      \If{$\LC = \AlgVar{null}$}{
-\nl          \LeftComment{$u$ is already in $M$, and therefore not in any label class} \;
-\nl          \KwSty{continue} \;
+\nl          \KwSty{continue} \LeftComment{$u$ is already in $M$, and therefore not in any label class} \;
          }
 \nl      \If{$\LC.\varActive = \AlgVar{false}$}{
 \nl          \LeftComment{The label class containing $u$ was deleted at a shallower level of the search tree} \;
@@ -352,12 +350,12 @@ in \Cref{McSplitSIAlgFilter}.
          }
 \nl      \If{$\LC.\varSplitting = \AlgVar{false}$}{
 \nl          $\LC.\varSplitting \gets \AlgVar{true}$ \;
-\nl          $\FuncSty{CreateLabelClassAfter}(\LC)$ \;
+\nl          $\FuncSty{CreateLabelClassAfter}(\LC)$ \LeftComment{\Cref{McSplitSIAlgCreateLC}}\;
 \nl          Append to $\AlgVar{splits}$ a pointer to \LC \;
          }
-\nl      Swap $u$ to the end of $\LC$ in \Harray, updating the relevant $\vertexPtr$ members in \Hptrs \;
-\nl      Decrement $\LC.\varEndH$  \LeftComment{Delete $u$ from $\LC$} \;
-\nl      Decrement $\LC'.\varStartH$  \LeftComment{Add $u$ to $\LC'$} \;
+\nl      Swap $u$ to the end of $\LC$ in \Harray, updating the two relevant $\vertexPtr$ members in \Hptrs \;
+\nl      $\Hptrs[u].\labelClass \gets \LC.\varNext$ \;
+\nl      Decrement $\LC.\varEndH$ and $\LC.\varNext.\varStartH$ \LeftComment{Move $u$ from $\LC$ to $\LC.\varNext$} \;
     }
 \medskip
 \nl  \For {$\LC \in \AlgVar{splits}$} {
@@ -377,7 +375,13 @@ in \Cref{McSplitSIAlgFilter}.
 \medskip
 \nl  $\KwSty{return}$ $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{false})$ \label{ReturnFromFilter}\;
 }
-\;
+\caption{The $\FuncSty{Filter}$ function}
+\label{McSplitSIAlgFilter}
+\end{algorithm}
+
+\begin{algorithm}[htb]
+\AlgorithmFontSize
+\DontPrintSemicolon
 \nl $\FuncSty{CreateLabelClassAfter}(\LC)$ \;
 \nl \Begin{
 \nl    Insert a new label class object $\LC'$ after $\LC$ in the doubly linked list \;
@@ -388,11 +392,9 @@ in \Cref{McSplitSIAlgFilter}.
 \nl    $\LC'.\varActive \gets \AlgVar{true}$ \;
 \nl    $\LC'.\varSplitting \gets \AlgVar{false}$ \;
 }
-\caption{The $\FuncSty{Filter}$ function}
-\label{McSplitSIAlgFilter}
+\caption{The $\FuncSty{CreateLabelClassAfter}$ function}
+\label{McSplitSIAlgCreateLC}
 \end{algorithm}
-
-\FloatBarrier
 
 \section{Cleanup}
 
@@ -1070,7 +1072,7 @@ The data structure used by \McSplit-SI to represent the two lists of vertices
 within each label class enables fast partitioning, but has the disadvantage
 that the vertices in each list are not kept in any particular order.  This has
 two negative consequences.  First, when selecting a label class according to
-the smallest domain first heuristic with degree-based tie breaking, we need to
+the smallest domain first heuristic with tie breaking on degree, we need to
 scan the pattern-graph vertices within each label class of minimum size to find
 a vertex of optimal degree.  Second, we face a time-space tradeoff when
 iterating over the target-graph vertices in degree order on
@@ -1078,7 +1080,7 @@ iterating over the target-graph vertices in degree order on
 the list of vertices representing $S_H$ and then sort this copy, or to scan the
 list $S_H$ on each iteration for the next-best element.  The first of these
 options --- which we use in our implementation --- requires $O(|S_H| \log
-|S_H|)$ time and $n$ words of additional space; the second requires
+|S_H|)$ time and $|S_H|$ words of additional space; the second requires
 $O(|S_H|^2)$ time and no additional space.
 
 These disadvantages tend to be small in practice, as the label class chosen for
@@ -1089,16 +1091,24 @@ and target graphs have no edges then there is only one label class at every
 depth of recursion.  Therefore, it would be useful to have a version of
 \McSplit-SI that keeps the vertices sorted in each label class without increasing
 the time complexity of the partitioning procedure.  This section describes
-such a version, which we call \McSplit-SI-LL because it stores lists of
-vertices as doubly linked lists.
+such a version, which we call \McSplit-SI-LL because it stores
+vertices in linked lists.
 
-The data structures of \McSplit-SI-LL differ from those of \McSplit-SI
-as follows.  \McSplit-SI-LL does not use the arrays \Garray\ and \Harray;
-rather, each element of \Gptrs\ and \Hptrs\ has forward and backward pointers
-that enable the vertices within a label class to be joined together as a linked list.
+The data structures of \McSplit-SI-LL differ from those of \McSplit-SI as
+follows.  \McSplit-SI-LL does not use the arrays \Garray\ and \Harray; rather,
+each element of \Gptrs\ and \Hptrs\ has forward and backward pointers that
+enable the vertices within a label class to be joined together as a doubly
+linked list.  In each label class, \varStartG, \varEndG, \varStartH, and
+\varEndH\ point to the first and last nodes of these linked lists in \Gptrs\
+and \Hptrs.  Each label class has two additional integer members that store the
+lengths of the two lists of vertices.
+
 Since the linked-list nodes are embedded in an array, we can delete a given
-vertex from a list in constant time in addition to the usual complexity
-guarantees of doubly linked lists for other operations.  \Cref{figure:si-data-structures-ll-version}
+vertex from its list in constant time.  We have the usual time complexity
+guarantees of doubly linked lists for other operations: constant-time
+append and insert, and linear-time iteration.
+
+\Cref{figure:si-data-structures-ll-version}
 shows the data structures of \McSplit-SI-LL after assigning vertex $1$ to vertex $a$;
 this corresponds to \Cref{figure:si-data-structures} which shows the same state
 using the data structures of \McSplit-SI.
@@ -1114,20 +1124,19 @@ Before the first call to $\FuncSty{Search}()$, the two linked lists of vertices 
 each label class are sorted in order of vertex degree.  We also sort each adjacency list
 of graphs $G$ and $H$ in order of vertex degree.
 
-We require the order to be maintained
+We require the order of each linked list of vertices to be maintained
 by the $\FuncSty{Filter}$ and $\FuncSty{Unfilter}$ functions.  The first of these is straightforward:
 when iterating over an adjacency list in the $\FuncSty{Filter}$ function, we delete each vertex $v$
-from its label class and append it to the new label class.  Because the adjacency lists are sorted,
-each new label class is in sorted order.
+from its label class and append it to the new label class.  Because the adjacency lists have been sorted
+by degree before search, vertices are appended to each new label class in order of degree.
 
 The $\FuncSty{Unfilter}$ function requires more work in \McSplit-SI-LL than in \McSplit-SI,
 since when merging label classes we must ensure that each vertex is returned to the position
 in its former label class from which it was removed.  To enable this, we perform a little extra
-bookkeeping during the $\FuncSty{filter}$ function: each time we remove a vertex $v$, we store
-$v$ in an array along with a pointer to its successor node in the linked list from which $v$
-was removed.  TODO: say where we store these.
-
-TODO (in pseudocode, not here): check if I'm updating label class pointers during filtering
+bookkeeping during the $\FuncSty{Filter}$ function: each time we remove a vertex $u$, we store
+$v$ in an array along with a pointer to its successor node in the linked list from which $u$
+was removed.  This array is at most as long $|N_G(v)|$ or $|N_H(v)|$, and the storage
+space for all of these arrays can be pre-allocated before search.
 
 In the next section, we will see that \McSplit-SI-LL is space-efficient.  The experimental evaluation
 in the following section shows that \McSplit-SI-LL runs faster \McSplit-SI on some instances, but
@@ -1257,11 +1266,83 @@ and to $w$ in the target class.  This often allows us to backtrack without the
 need for the relatively expensive step of swapping vertices within a label
 class.
 
+\begin{table}[h!]
+\centering
+\footnotesize
+ \begin{tabular}{p{0.18\linewidth} p{0.75\linewidth} }
+ \toprule
+    Name & Description \\ [0.5ex]
+ \midrule
+    \McSplit-SI & The base \McSplit-SI algorithm \\
+    \rule{0pt}{2.3ex}\McSplit-SI-LL & \McSplit-SI with lists of vertices stored as sorted doubly-linked lists \\
+    \rule{0pt}{2.3ex}\McSplit-SI-AM & An adaptation of \McSplit\ decision-problem solver (using adjacence matrix
+        representation of graphs) to the induced subgraph isomorphism problem.  This does not use \McSplit-SI's
+        partitioning algorithm optimised for sparse graphs. \\
+    \rule{0pt}{2.3ex}\McSplit-SI-s & \McSplit-SI with the dynamic variable-ordering heuristic replaced by
+        the static heuristic of RI, described in TODO cite \\
+    \rule{0pt}{2.3ex}\McSplit-SI-pre & TODO, refer forward. \\
+\bottomrule
+\end{tabular}
+\caption{Summary of \McSplit-SI variants used in this chapter's experiments}
+\label{tab:mcsplit-si variants}
+\end{table}
+
 \subsection{Decision instances}
 
 \subsection{Families of instances}
 
+\begin{table}[h!]
+\centering
+\footnotesize
+    \begin{tabular}{p{0.2\linewidth} p{0.1\textwidth} p{0.1\linewidth} p{0.25\linewidth} p{0.2\linewidth} p{0.2\linewidth}}
+ \toprule
+     Family & Description & Count & Target $n$ & Target density & Source\\ [0.5ex]
+ \midrule
+     1 & \cite{DBLP:books/daglib/0012457} & y & z & w & \citet{DBLP:journals/constraints/ZampelliDS10} \\
+     \rule{0pt}{2.3ex}2 & x & y & z & w & v \\
+ \bottomrule
+\end{tabular}
+\caption{TODO instance families}
+\label{tab:TODO}
+\end{table}
+
+%%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=1?NaN:clamp(xcol)):(clamp(ycol)) ls 1 pt 1 ps 0.7 ti 'SF', \
+%%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:(column(famcol)!=2&&column(famcol)!=11)?NaN:clamp(xcol)):(clamp(ycol)) w p ls 2 pt 2 ps 0.7 ti 'LV', \
+%%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:(column(famcol)!=3&&column(famcol)!=4)?NaN:clamp(xcol)):(clamp(ycol)) ls 3 pt 3 ps 0.7 ti 'BVG(r)', \
+%%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:(column(famcol)!=5&&column(famcol)!=6)?NaN:clamp(xcol)):(clamp(ycol)) ls 4 pt 4 ps 0.7 ti 'M4D(r)', \
+%%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=7?NaN:clamp(xcol)):(clamp(ycol)) ls 5 pt 10 ps 0.7 ti 'Rand', \
+%%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=9?NaN:clamp(xcol)):(clamp(ycol)) ls 6 pt 6 ps 0.7 ti 'PR', \
+%%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=12?NaN:clamp(xcol)):(clamp(ycol)) ls 7 pt 8 ps 0.7 ti 'Phase', \
+%%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=13?NaN:clamp(xcol)):(clamp(ycol)) ls 13 pt 14 ps 0.7 ti 'Meshes', \
+%%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=14?NaN:clamp(xcol)):(clamp(ycol)) ls 8 pt 12 ps 0.7 ti 'Images', \
 \subsection{Results}
+
+\begin{table}[htb]
+\centering
+\footnotesize
+    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/solved-counts}
+\caption{The number of instances solved by each solver for each family of instances.  The second
+    column shows the total number of instances per family.}
+\label{tab:TODO}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\footnotesize
+    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/presolve-crosstab}
+\caption{TODO}
+\label{tab:TODO}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\footnotesize
+    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/winner-counts}
+\caption{For each family of instances, the number of instances for which each solver's
+    run time equalled the best run time among all solvers shown.  The second
+    column shows the total number of instances per family.}
+\label{tab:TODO}
+\end{table}
 
 \begin{figure}[h!]
     \centering
@@ -1368,22 +1449,6 @@ class.
 
 TODO: mention that D1 variant isn't very good.
 TODO: mention that D2 variant has similar results to Glasgow on phase instances.
-
-\begin{table}[htb]
-\centering
-\footnotesize
-    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/solved-counts}
-\caption{TODO solved counts}
-\label{tab:TODO}
-\end{table}
-
-\begin{table}[htb]
-\centering
-\footnotesize
-    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/winner-counts}
-\caption{TODO winner counts}
-\label{tab:TODO}
-\end{table}
 
 %% \begin{figure}[h!]
 %%     \centering
