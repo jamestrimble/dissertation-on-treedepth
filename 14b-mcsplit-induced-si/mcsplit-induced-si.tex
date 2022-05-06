@@ -187,16 +187,18 @@ over the vertices $w$ in $S_H$, attemptying to map $v$ to $w$.
 \nl $\langle \setG,\setH \rangle \gets \FuncSty{SelectLabelClass}()$ \label{McSplitSISelectClass} \;
 \nl $v \gets \FuncSty{SelectVertex}(\setG)$ \label{McSplitSISelectVertex} \;
     \nl \For {$w \in \setH$ \label{McSplitSIWLoop}} {
-\nl    $\FuncSty{Assign}(v,w)$ \;
-\nl    $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{failed}) \gets \FuncSty{Filter}(v, w)$ \;
-\nl    \If{$\AlgVar{failed}$}{
-\nl        $\AlgVar{success} \gets \AlgVar{false}$ \;
-       }
+    \nl    $\FuncSty{Assign}(v,w)$ \LeftComment{\Cref{McSplitSIAlgAssign}} \;
+\nl    $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{failed}) \gets \FuncSty{Filter}(v, w)$ 
+                \LeftComment{\Cref{McSplitSIAlgFilter}} \;
+\nl    \If{
+\nl         $\AlgVar{failed}$}{ $\AlgVar{success} \gets \AlgVar{false}$
+}
 \nl    \Else {
-\nl        $\AlgVar{success} \gets \FuncSty{Search}(M \cup \{(v,w)\})$ \;
-\nl        $\FuncSty{Unfilter}(\AlgVar{splits}, \AlgVar{deletions})$ \;
-       }
-\nl    $\FuncSty{Unassign}(v,w,\langle \setG,\setH \rangle)$ \;
+\nl         $\AlgVar{success} \gets \FuncSty{Search}(M \cup \{(v,w)\})$
+}
+\nl    $\FuncSty{Unfilter}(\AlgVar{splits}, \AlgVar{deletions})$ 
+                \LeftComment{\Cref{McSplitSIAlgUnfilter}} \;
+\nl    $\FuncSty{Unassign}(v,w,\langle \setG,\setH \rangle)$ \LeftComment{\Cref{McSplitSIAlgAssign}} \;
 \nl    \lIf {$\AlgVar{success}$}{$\KwSty{return}$ $\AlgVar{true}$}
   }
 \nl  $\KwSty{return}$ $\AlgVar{false}$\;
@@ -362,16 +364,17 @@ in \Cref{McSplitSIAlgFilter}.
 \nl     $\LC.\varSplitting \gets \AlgVar{false}$ \;
 }
 \medskip
-\nl  \For {$\LC \in \AlgVar{splits}$} {
+\nl  \For {$\LC \in \AlgVar{splits}$ \label{McSplitSIBacktrackEarlyLoop}} {
 \nl     \If{$\LC.\varEndG - \LC.\varStartG > \LC.\varEndH - \LC.\varStartH$}{
-\nl         $\KwSty{return}$ $([],[],\AlgVar{true})$
+\nl         $\KwSty{return}$ $(\AlgVar{splits},[],\AlgVar{true})$
 }
 \nl     \If{$\LC.next.\varEndG - \LC.next.\varStartG > \LC.next.\varEndH - \LC.next.\varStartH$}{
-\nl         $\KwSty{return}$ $([],[],\AlgVar{true})$
+\nl         $\KwSty{return}$ $(\AlgVar{splits},[],\AlgVar{true})$
 }
 }
 \medskip
-\nl  $\AlgVar{deletions} \gets \FuncSty{DoDeletions}(\AlgVar{splits})$ \label{McSplitSIDoDeletions}\;
+    \nl  $\AlgVar{deletions} \gets \FuncSty{DoDeletions}(\AlgVar{splits})$
+                \LeftComment{\Cref{McSplitSIAlgDelete}} \label{McSplitSIDoDeletions}\;
 \medskip
 \nl  $\KwSty{return}$ $(\AlgVar{splits}, \AlgVar{deletions}, \AlgVar{false})$ \label{ReturnFromFilter}\;
 }
@@ -415,12 +418,12 @@ without the need for an external array of pointers.}
 \medskip 
 \nl   \For {$\LC \in \AlgVar{splits}$} {
 \nl     \If {$\LC.\varStartG = \LC.\varEndG$} {
-            $\FuncSty{DeleteLabelClass}(\LC)$
-            Append $\LC$ to $\AlgVar{deletions}$
+\nl         $\FuncSty{DeleteLabelClass}(\LC)$ \;
+\nl         Append $\LC$ to $\AlgVar{deletions}$
         } 
 \nl     \If {$\LC.next.\varStartG = \LC.next.\varEndG$} {
-            $\FuncSty{DeleteLabelClass}(\LC.next)$
-            Append $\LC.next$ to $\AlgVar{deletions}$
+\nl         $\FuncSty{DeleteLabelClass}(\LC.next)$ \;
+\nl         Append $\LC.next$ to $\AlgVar{deletions}$
         } 
     }
     $\KwSty{return}$ $\AlgVar{deletions}$ \;
@@ -428,8 +431,8 @@ without the need for an external array of pointers.}
 \;
 \nl $\FuncSty{DeleteLabelClass}(\LC)$ \;
 \nl \Begin{
-\nl     $\LC.\varPrev.\varNext \gets \AlgVar{null}$ \;
-\nl     $\LC.\varNext.\varPrev \gets \AlgVar{null}$ \;
+\nl     $\LC.\varPrev.\varNext \gets \LC.\varNext$ \;
+\nl     $\LC.\varNext.\varPrev \gets \LC.\varPrev$ \;
 \nl     $\LC.\varActive \gets \AlgVar{false}$
 }
 \caption{The $\FuncSty{DoDeletions}$ function}
@@ -514,15 +517,17 @@ This section describes optimisations in our implementation of \McSplit-SI.
 
 The partitioning loops beginning on \lineref{FilterGLoop}
 and \lineref{FilterHLoop} of \Cref{McSplitSIAlgFilter} are critical to
-the performance of the algorithm; the Linux \text{perf} utility shows
+the performance of the algorithm; the Linux \texttt{perf} utility shows
 that the program typically spends more than half of its execution time
 on these two loops.  Therefore, it is helpful to do as little work in these
 loops as possible.
 
 To reduce the work carried out in these loops, our implementation does
 not create new label classes or swap vertices during the loops; these
-tasks are delayed until just before \lineref{McSplitSIDoDeletions}.  Often,
-the algorithm is able to backtrack before this point, and therefore does
+tasks are delayed until just before \lineref{McSplitSIDoDeletions}.
+Often, the algorithm is able to determine that the subproblem
+is infeasible during the loop beginning on line
+\lineref{McSplitSIBacktrackEarlyLoop}, and therefore does
 not need to create the new label classes or move vertices at all.
 
 \subsection{Memory allocation}
