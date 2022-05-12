@@ -3,7 +3,7 @@ import sys
 print(r"""
 \begin{tabular}{crrrrrrrr}
     \toprule
-    Family & Count & McS-SI & McS-SI-LL & Gla & Gla, no supp. & RI & VF3 & McS + pre.\\
+    Family & Count & McS-SI & McS-SI-LL & Gla & Gla, no supp. & RI & VF3 & McS pre.\\
     \midrule
 """)
 

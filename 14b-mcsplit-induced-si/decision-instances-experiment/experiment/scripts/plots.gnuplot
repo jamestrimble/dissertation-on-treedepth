@@ -210,35 +210,35 @@ plot "fatanode-results/runtimes-tidied.txt" using ($3-.5+rand(0)):($12-.5+rand(0
 
 
 set output "plots/scatter-presolve-mcsplit-si-ll.tex"
-plot "fatanode-results/runtimes-tidied.txt" using ($13-.5+rand(0)):($2-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
+plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($2-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/scatter-presolve-mcsplit-si-am.tex"
-plot "fatanode-results/runtimes-tidied.txt" using ($13-.5+rand(0)):($7-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
+plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($7-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/scatter-presolve-mcsplit-si-static.tex"
-plot "fatanode-results/runtimes-tidied.txt" using ($13-.5+rand(0)):($6-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
+plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($6-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/scatter-presolve-mcsplit-glasgow.tex"
-plot "fatanode-results/runtimes-tidied.txt" using ($13-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
+plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/scatter-presolve-mcsplit-glasgow-nosupp.tex"
-plot "fatanode-results/runtimes-tidied.txt" using ($13-.5+rand(0)):($9-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
+plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($9-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/scatter-presolve-mcsplit-ri.tex"
-plot "fatanode-results/runtimes-tidied.txt" using ($13-.5+rand(0)):($10-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
+plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($10-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/scatter-presolve-mcsplit-ri-ds.tex"
-plot "fatanode-results/runtimes-tidied.txt" using ($13-.5+rand(0)):($11-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
+plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($11-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/scatter-presolve-mcsplit-vf3.tex"
-plot "fatanode-results/runtimes-tidied.txt" using ($13-.5+rand(0)):($12-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
+plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($12-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 #### end of Scatter small multiples ####

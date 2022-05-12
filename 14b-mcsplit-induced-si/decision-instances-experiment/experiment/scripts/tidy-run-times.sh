@@ -23,6 +23,12 @@ cat fatanode-results/runtimes.txt \
                                     }' \
     > fatanode-results/runtimes-tidied.txt
 
+paste -d' ' intermediate/densities.txt <(echo family; cut -d' ' -f4 ../cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt) \
+    > fatanode-results/densities-with-families.txt
+
+datamash -t' ' -H -g 6 --sort --round 3 min 2 max 2 mean 2 min 3 max 3 mean 3 min 4 max 4 mean 4 min 5 max 5 mean 5 \
+    < fatanode-results/densities-with-families.txt > fatanode-results/densities-with-families-summary.txt
+
 paste -d' ' fatanode-results/runtimes-tidied.txt intermediate/densities.txt \
     > fatanode-results/runtimes-tidied-and-densities.txt
 
@@ -57,3 +63,5 @@ python3 scripts/make-winner-counts.py > fatanode-results/winner-counts.txt
 
 awk 'NR<=14' fatanode-results/winner-counts.txt | python3 scripts/make-table.py > fatanode-results/winner-counts.tex
 awk 'NR>=16' fatanode-results/winner-counts.txt | python3 scripts/make-table.py > fatanode-results/solved-counts.tex
+
+python3 scripts/make-presolve-crosstabulation.py > fatanode-results/presolve-crosstab.tex

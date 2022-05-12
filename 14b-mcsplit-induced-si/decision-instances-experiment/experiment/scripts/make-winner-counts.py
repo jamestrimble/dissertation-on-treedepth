@@ -16,7 +16,7 @@ with open('fatanode-results/runtimes-tidied.txt', 'r') as f:
             line[8],
             line[9],
             line[11],
-            line[12]
+            line[13]
         ]
         if i == 0:
             programs = line[1:]
