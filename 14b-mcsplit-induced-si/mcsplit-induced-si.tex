@@ -1299,12 +1299,17 @@ class.
 \begin{table}[h!]
 \centering
 \footnotesize
-    \begin{tabular}{p{0.2\linewidth} p{0.1\textwidth} p{0.1\linewidth} p{0.25\linewidth} p{0.2\linewidth} p{0.2\linewidth}}
+    \begin{tabular}{p{0.1\linewidth} p{0.2\textwidth} p{0.1\linewidth} p{0.1\linewidth} p{0.1\linewidth} p{0.18\linewidth}}
  \toprule
      Family & Description & Count & Target $n$ & Target density & Source\\ [0.5ex]
  \midrule
-     1 & \cite{DBLP:books/daglib/0012457} & y & z & w & \citet{DBLP:journals/constraints/ZampelliDS10} \\
-     \rule{0pt}{2.3ex}2 & x & y & z & w & v \\
+    1 & Randomly generated scale-free graphs \cite{DBLP:books/daglib/0012457}: 80
+        satisfiable instances and 20 unsatisfiable instances.  In each instance,
+        $|V(G)| = 0.9 \times |V(H)|$.
+        & 100 & \numrange{200}{1000} & w & \citet{DBLP:journals/constraints/ZampelliDS10} \\
+     \rule{0pt}{2.3ex}Pairs of graphs derived from the Stanford GraphBase \cite{DBLP:books/daglib/0071477}.
+     	TODO NOTE TO SELF: have a look at Cortadella and Valiente 1999 A relational view of SI
+     	& x & y & z & w & v \\
  \bottomrule
 \end{tabular}
 \caption{TODO instance families}
@@ -1321,6 +1326,26 @@ class.
 %%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=13?NaN:clamp(xcol)):(clamp(ycol)) ls 13 pt 14 ps 0.7 ti 'Meshes', \
 %%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=14?NaN:clamp(xcol)):(clamp(ycol)) ls 8 pt 12 ps 0.7 ti 'Images', \
 \subsection{Results}
+
+When is it better to use \McSplit-SI than \McSplit-SI-AM?
+\Cref{figure:density-runtime-ratio} has a point per instance, with target graph density on the x axis and the ratio of the two solvers' run times 
+on the y axis; a ratio below 1 indicates that \McSplit-SI is the faster solver.  Trivial instances and instances where at least one
+solver timed out are excluded.  There is a clear positive relationship between density and ratio of run times.  For most instances of
+density below $0.002$, \McSplit-SI is more than $10$ times faster than \McSplit-SI-AM.  However,
+\McSplit-SI-AM soon begins to catch up as target graph density increases, and becomes the faster solver at a target graph density of around
+$0.1$.\footnote{This analysis was carried out using target graph density because we would expect the target graph to have
+a larger effect on run times than the (smaller) pattern graph.  We also re-created the plot with the x axis showing the proportion
+of all possible edges across pattern \emph{and} target graphs: $(m_G + m_H) / (n_G(n_G-1) + n_H(n_H-1))$,
+where $m_G$ and $n_G$ denote the edge and vertex counts of $G$.  The resulting
+plot was almost identical to \Cref{figure:density-runtime-ratio}.}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/density-runtime-ratio}
+    \caption{On the horizontal axis, the target graph density; on the vertical axis, the ratio of \McSplit-SI run time to \McSplit-SI-AM run time.
+            Instances where either solver took less than 1 ms or exceeded the time limit are excluded.}
+    \label{figure:density-runtime-ratio}
+\end{figure}
 
 \begin{table}[htb]
 \centering
@@ -1534,7 +1559,8 @@ of The Art of Computer Programming \cite{knuth2022art}.  Each pattern graph is a
 $P_m \square P_n$, and each target graph is a knight graph $N_t$ which has one vertex for each
 square of a $t \times t$ chessboard and an edge between any two squares that are a knight's
 move (two squares horizontally and one square vertically or vice versa) apart.
-\Cref{figure:knights-example} shows one of these instances and a solution.
+\Cref{figure:knights-example} shows the pattern and target graph for one such instance,
+with a solution shown on the target graph.
 
 \begin{figure}[htb]
     \centering
@@ -1555,64 +1581,111 @@ move (two squares horizontally and one square vertically or vice versa) apart.
 
 If $m=1$ and $n=t^2$, we have the classic knight's tour problem in which a single knight
 must visit every square of the chessboard without revisiting any square.  The instances proposed
-by Knuth have $m \in \{2,3,4\}$.  These instances may be interpreted as the problem of moving $m$
-knights --- themselves organised in the formation of a miniature knight's tour of length $m$ ---
+by Knuth have $m \in \{2,3,4\}$.
+Clearly, the embedding of each row and of each column of the grid graph must itself be a miniature
+knight's tour.
+Thus, these instances may be interpreted as the problem of moving $m$
+knights --- themselves organised in the formation of a knight's tour of length $m$ ---
 around the board without changing their positions relative to each other, and without revisiting
-any square.  In the induced case (which is the only case we consider in this chapter), there
+any square.  In the induced case (which is the only case we consider here), there
 is the additional restriction that no knight attacks any square except the square that it has
 just visited, the square it will visit next, and the squares of its neighbours in the miniature
 tour of length $m$.
+
+\paragraph{Instances}
+
+For $m \in \{2,3,4\}$, we considered instances of the form ``is $P_m \square P_n$ isomorphic
+to a subgraph of $K_k$, with $k \geq 4$ and $n$ equal to either the largest value for which
+the instance is satisfiable or the smallest value for which the instance is unsatisfiable.
+
+\paragraph{Results for satisfiable instances}
+Tables \ref{tab:KnightSat2} to \ref{tab:KnightSat4} show run times for satisfiable instances.
+\McSplit-SI-static, Glasgow without supplemental graphs, and RI are excluded from the tables for brevity,
+because they are outperformed by \McSplit-SI, Glasgow, and RI respectively.
+\McSplit-SI and \McSplit-SI-LL both outperformed \McSplit-SI-AM, as we would expect given the
+sparsity of the instances.
+For instances with pattern graphs of the form $P_2 \square P_n$,
+there was no clear winning solver, but RI-DS and VF3 performed very well overall.
+For instances with pattern graphs of the form $P_3 \square P_n$, there was again no clear winner.
+\McSplit-SI-LL was the best solver overall for instances with pattern graphs of the form $P_4 \square P_n$,
+running orders of magnitude faster than all of the non-\McSplit-SI solvers on many instances.
 
 \begin{table}[htb]
 \centering
 \footnotesize
     \input{14b-mcsplit-induced-si/knight-grid-experiment/experiment/fatanode-results/knight-sat-2}
-\caption{TODO SAT 2}
-\label{tab:TODO}
+\caption{Runtimes in ms for satisfiable knight's grid instances with pattern graphs of
+        the form $P_2 \square P_n$.  An asterisk indicates timeout at $10\,000$ seconds;
+        the best run time for each instance is underlined.  Trivial instances that all solvers
+        could solve in less than 10 ms are not shown.}
+\label{tab:KnightSat2}
 \end{table}
 
 \begin{table}[htb]
 \centering
 \footnotesize
     \input{14b-mcsplit-induced-si/knight-grid-experiment/experiment/fatanode-results/knight-sat-3}
-\caption{TODO SAT 3}
-\label{tab:TODO}
+\caption{Runtimes in ms for satisfiable knight's grid instances with pattern graphs of
+        the form $P_3 \square P_n$.}
+\label{tab:KnightSat3}
 \end{table}
 
 \begin{table}[htb]
 \centering
 \footnotesize
     \input{14b-mcsplit-induced-si/knight-grid-experiment/experiment/fatanode-results/knight-sat-4}
-\caption{TODO SAT 4}
-\label{tab:TODO}
+\caption{Runtimes in ms for satisfiable knight's grid instances with pattern graphs of
+        the form $P_4 \square P_n$.}
+\label{tab:KnightSat4}
 \end{table}
+
+\paragraph{Results for unsatisfiable instances}
+Tables \ref{tab:KnightSat2} to \ref{tab:KnightSat4} show run times for unsatisfiable instances.
+For each of these families of instances, \McSplit-SI-LL is the overall winner. Among the
+non-\McSplit\ solvers, Glasgow is the fastest constraint programming solver and RI-DS
+is the fastest other solver.
 
 \begin{table}[htb]
 \centering
 \footnotesize
     \input{14b-mcsplit-induced-si/knight-grid-experiment/experiment/fatanode-results/knight-unsat-2}
-\caption{TODO UNSAT 2}
-\label{tab:TODO}
+\caption{Runtimes in ms for unsatisfiable knight's grid instances with pattern graphs of
+        the form $P_2 \square P_n$.}
+\label{tab:KnightUnsat2}
 \end{table}
 
 \begin{table}[htb]
 \centering
 \footnotesize
     \input{14b-mcsplit-induced-si/knight-grid-experiment/experiment/fatanode-results/knight-unsat-3}
-\caption{TODO UNSAT 3}
-\label{tab:TODO}
+\caption{Runtimes in ms for unsatisfiable knight's grid instances with pattern graphs of
+        the form $P_3 \square P_n$.}
+\label{tab:KnightUnsat3}
 \end{table}
 
 \begin{table}[htb]
 \centering
 \footnotesize
     \input{14b-mcsplit-induced-si/knight-grid-experiment/experiment/fatanode-results/knight-unsat-4}
-\caption{TODO UNSAT 4}
-\label{tab:TODO}
+\caption{Runtimes in ms for unsatisfiable knight's grid instances with pattern graphs of
+        the form $P_3 \square P_n$.}
+\label{tab:KnightUnsat4}
 \end{table}
 
-TODO talk about structure of instances (regular, symmetric, sparse) and give at least one run
-time of Knuth's program.
+\paragraph{Knuth's specialised program}
+The goal of this experiment was to compare a set of general-purpose subgraph isomorphism
+solvers on an interesting set of benchmark instances, but we should note that the solvers
+compared here are far from the fastest way to solve the specific problem of embedding
+a large grid in an knight graph.
+Donald Knuth, in preparing \citet{knuth2022art}, wrote a series of six specialised
+programs for finding such maximal embeddings.  To give an example of the programs' run times,
+the program \texttt{back-knightgrid2-strict} takes less than
+three seconds to find the largest $k$ such that $P_2 \square P_k$
+is isomorphic to an induced subgraph of $K_{14}$; the fastest
+program in our experiment needs more than 600 seconds to solve the same problem.
+Among several other interesting techniques, Knuth's programs use symmetry breaking;
+it would certainly be possible to add symmetry breaking to each of the solvers considered
+here in order to decrease their run times on these instances \citep{zampelli2007symmetry}.
 
 \FloatBarrier
 
@@ -1793,17 +1866,36 @@ than on the labelled instances, exceeding one order of magnitude in many cases.
 
 \section{Verification}
 
-For each of the decision instances, we checked that all of the programs that did not time out
-agreed on whether the instance was satistfiable or unsatisfiable.  With the exception of VF3
-which occasionally gave an incorrect solution to a satisfiable instance, all of the programs
-agreed.
+For each of the decision instances, we verified that all of the programs that did not time out
+agreed on whether the instance was satistfiable or unsatisfiable.  For enumeration instances,
+we verified that the solvers agreed on the number of solutions.
 
-In addition, we check the number of search nodes visited by \McSplit-SI and \McSplit-SI-adjmat
-on instance where neither solver timed out.  In each case, the counts of search nodes were equal,
-indicating that the two solvers explored exactly the same search tree as expected.
+In addition, we checked the number of search nodes visited by \McSplit-SI,
+\McSplit-SI-LL, and \McSplit-SI-AM
+on instances where neither solver timed out.  In each case, the counts of search nodes were equal,
+indicating that --- as expected --- the three solvers explored exactly the same search tree.
+
+I verified that the the pseudocode in this chapter accurately describes the \McSplit-SI
+algorithm by re-implementing the algorithm in Python from the pseudocode and checking
+that it gives the same result and search node count as the original C++ implementation.
 
 \section{Conclusion}
 
-We have introduced a version of McSplit for the induced subgraph isomorphism problem that is time- and memory-efficient for large, sparse graphs, and shown experimentally that it outperforms state-of-the-art algorithms on many instances.
+We have introduced a version of \McSplit\ for the induced subgraph isomorphism problem that is time- and memory-efficient for large, sparse graphs.
+We have shown experimentally that this algorithm outperforms state-of-the-art algorithms on many instances.
+Compared to the pattern-recognition solvers RI and VF3, \McSplit-SI appears to be a clear improvement
+on the instances considered, with the exception of some satisfiable knights' grid instances.  The situation
+with respect to the Glasgow Subgraph Solver is more complex, yet \McSplit-SI clearly outperforms Glasgow on
+two of the three experiments, and is a strong competitor even on the hard decision instances
+where Glasgow performs best.
+
+As a minor contribution of this chapter, our experimental evaluation has
+brought to light two potential improvements to the Glasgow solver.  First, the
+algorithm could swap the degree-based heuristic (or alternatively, work on
+complement graphs) if the density of the target graph exceeds $0.5$.  Second,
+the algorithm should discard supplemental graphs that can be determined in
+advance to provide no domain filtering.
 
 Future work could use the data structures of McSplit-SI in the McSplit algorithm for maximum common induced subgraph.
+TODO future work could include portfolio with algorithm selection by target graph density.
+TODO maybe save future work for final chapter
