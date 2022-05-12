@@ -8,7 +8,6 @@ set ytics nomirror
 set key outside
 set key right bottom
 
-set size nosquare
 set logscale x
 unset logscale y
 set format x '$10^{%T}$'
@@ -242,3 +241,16 @@ plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($12-.5+rand(
     x lc rgb '#888888' notitle
 
 #### end of Scatter small multiples ####
+
+#### Density of target graph vs runtime ratio ####
+
+unset xrange
+unset yrange
+unset format x
+unset format y
+set size nosquare
+
+set terminal tikz standalone color size 8cm,6cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
+set output "plots/density-runtime-ratio.tex"
+plot "<awk 'NR==1 || (($3>1 && $7>1) && $3<1000000 && $7<1000000)' fatanode-results/runtimes-tidied-and-densities.txt" \
+	using 19:($3/$7) pointtype 7 pointsize .15 lc rgb '#1f77b4'
