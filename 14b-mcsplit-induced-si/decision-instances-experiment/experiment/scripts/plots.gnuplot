@@ -254,3 +254,8 @@ set terminal tikz standalone color size 8cm,6cm font '\scriptsize' preamble '\us
 set output "plots/density-runtime-ratio.tex"
 plot "<awk 'NR==1 || (($3>1 && $7>1) && $3<1000000 && $7<1000000)' fatanode-results/runtimes-tidied-and-densities.txt" \
 	using 19:($3/$7) pointtype 7 pointsize .15 lc rgb '#1f77b4'
+
+# Instead of using just the target graph density, try using "number of possible edges across both graphs"
+set output "plots/density-runtime-ratio-using-both-graphs.tex"
+plot "<awk 'NR==1 || (($3>1 && $7>1) && $3<1000000 && $7<1000000)' fatanode-results/runtimes-tidied-and-densities.txt" \
+	using (($17*$16*($16-1) + $19*$18*($18-1)) / ($16*($16-1) + $18*($18-1))):($3/$7) pointtype 7 pointsize .15 lc rgb '#1f77b4'
