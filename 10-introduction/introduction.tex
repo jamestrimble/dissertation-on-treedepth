@@ -44,6 +44,18 @@
   \end{tikzpicture}
 }
 
+Graphs, or networks --- collections of items (vertices), some pairs of which
+are related --- are a concept that can be used for modelling a huge
+range of systems.  We can, for example, view a molecule as a collection
+of vertices (the atoms) joined together by bonds
+\citep{sussenguth1965graph}; 
+an image may be summarised using a vertex for each coloured region
+and joining adjacent regions \citep{DBLP:conf/icip/OlatunbosunDE96}.
+We may wish to determine whether all or a large
+part of a given object --- such as a molecule or image --- is contained
+in another given object.  This dissertation presents new algorithms
+for such problems.
+
 This dissertation introduces algorithms for three NP-hard problems that
 take graphs as inputs.  The first of these is the \emph{maximum common induced subgraph}
 family of problems: we seek to find a large subgraph shared by two given graphs.
@@ -487,6 +499,25 @@ TODO
 
 TODO introduce this section. Also mention graph databases and indexing?
 
+\citet{sussenguth1965graph} presents one of the earliest algorithms for
+induced subgraph isomorphism.  The algorithm uses a variety of vertex properties
+to generate pairs of sets of vertices $\langle S_G, S_H \rangle$
+such that $S_G \subseteq V(G)$, $S_H \subseteq V(H)$,
+and each vertex in $S_G$ may only be mapped to some member of $S_H$.
+For example, the vertices in in the pattern graph of degree 3 may only be mapped to vertices
+in the target graph of degree at least 3.  Other properties used include
+vertex labels and the size of the smallest cycle containing a vertex.
+Further reasoning is performed based on adjacency to members of these
+sets $S_G$ and $S_H$.  Certainly Sussenguth's algorithm has a strong
+constraint-programming flavour, albeit without storing each domain
+individually.  (To preview the family of algorithms presented
+in this dissertation, the \McSplit\ algorithm shares with Sussenguth's
+algorithm the approach of storing
+pairs of sets $\langle S_G, S_H \rangle$ respresenting vertices
+that may be mapped to one another. However, \McSplit\ uses a very different
+data structure to store these sets, taking advantage of the fact the
+sets used by \McSplit\ are guaranteed to be disjoint.)
+
 \subsection{Algorithms based on constraint programming}
 
 \paragraph*{Ullmann} 
@@ -597,7 +628,38 @@ visit many more search nodes in total than CP algorithms.
 
 TODO write more. Maybe cut and paste from McSplit-SI chapter?
 
+\subsection{Other approaches}
+
+\citet{DBLP:conf/RelMiCS/CortadellaV00} represent an instance of the subgraph
+isomorphism problem as a binary decision diagram (BDD), and solve this BDD
+in order to find all solutions to the subgraph isomorphism problem.  A limitation
+is that for large
+pattern graphs, the size of the BDDs quickly becomes unmanageable; the experiments
+in the paper only consider pattern graphs with 10 or fewer vertices.
+
 \section{Algorithms for Maximum Common Subgraph} 
+
+\textbf{TODO see \citet{DBLP:journals/jcamd/RaymondW02a} for a helpful lit review}
+
+\citep{DBLP:journals/jcheminf/DalkeH13}
+
+\citet{cao2008maximum} is a backtracking algorithm that does not store domains,
+but tests before making each assignment $(v,w)$ whether the set of vertices in $M$
+that are adjacent to $v$ in $G$ corresponds to the set of vertices in $M$ that
+are adjacent to $w$ in $H$.  The main upper bound proposed by the authors
+is, in CP terms, the bound given by adding to $|M|$ the number of unassigned
+variables whose domains contain at least one vertex.  The authors also outline
+a matching upper bound.  In each case, it appears likely that the fact that the algorithm does not
+store domains results in substantial addition work on each call of the upper bound
+function.  (TODO tidy up that last sentence!)
+
+TODO The RASCAL algorithm \citep{raymond2002rascal} solves MCES by finding a maximum
+clique in the modular product graph of the line graphs.  The algorithm is
+optimised for matching chemical structures, and does not solve the maximum common
+\emph{connected} subgraph problem.  In addition to greedy
+colouring, the algorithm uses a number of other heuristic colourings to derive
+an upper bound depending on the size of the modular product graph.  Unfortunately
+the authors were unable to provide code for RASCAL.
 
 \section{New algorithms in this thesis}
 
