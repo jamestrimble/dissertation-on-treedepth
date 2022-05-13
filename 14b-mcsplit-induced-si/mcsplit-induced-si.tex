@@ -1328,7 +1328,7 @@ class.
 \subsection{Results}
 
 When is it better to use \McSplit-SI than \McSplit-SI-AM?
-\Cref{figure:density-runtime-ratio} has a point per instance, with target graph density on the x axis and the ratio of the two solvers' run times 
+\Cref{figure:density-runtime-ratio-am} has a point per instance, with target graph density on the x axis and the ratio of the two solvers' run times 
 on the y axis; a ratio below 1 indicates that \McSplit-SI is the faster solver.  Trivial instances and instances where at least one
 solver timed out are excluded.  There is a clear positive relationship between density and ratio of run times.  For most instances of
 density below $0.002$, \McSplit-SI is more than $10$ times faster than \McSplit-SI-AM.  However,
@@ -1337,12 +1337,28 @@ $0.1$.\footnote{This analysis was carried out using target graph density because
 a larger effect on run times than the (smaller) pattern graph.  We also re-created the plot with the x axis showing the proportion
 of all possible edges across pattern \emph{and} target graphs: $(m_G + m_H) / (n_G(n_G-1) + n_H(n_H-1))$,
 where $m_G$ and $n_G$ denote the edge and vertex counts of $G$.  The resulting
-plot was almost identical to \Cref{figure:density-runtime-ratio}.}
+plot was almost identical to \Cref{figure:density-runtime-ratio-am}.}
+
+\Cref{figure:density-runtime-ratio-glasgow} is a similar plot comparing the run time of \McSplit-SI to that of Glasgow.
+(Note the larger range of values of the y axis.)  For very sparse target graphs with density below around $0.002$,
+\McSplit-SI consistently runs faster than Glasgow---often by more than an order of magnitude.  For most of the
+instances with denser target graphs,
+\McSplit-SI is again the faster algorithm, and this holds true even for very dense graphs which are not well suited
+to \McSplit-SI's data structures.  However, there is a long tail of instances
+on which a combination of Glasgow's restarts and stronger filtering methods results in
+an orders-of-magnitude speedup over \McSplit-SI.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/density-runtime-ratio}
-    \caption{On the horizontal axis, the target graph density; on the vertical axis, the ratio of \McSplit-SI run time to \McSplit-SI-AM run time.
+    \subfigure[][\McSplit-SI-AM] {
+        \includegraphics*[width=0.5\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/density-runtime-ratio}
+        \label{figure:density-runtime-ratio-am}
+    }\subfigure[][Glasgow] {
+        \includegraphics*[width=0.5\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/density-runtime-ratio-glasgow}
+        \label{figure:density-runtime-ratio-glasgow}
+    }
+    \caption{On the horizontal axis, the target graph density; on the vertical axis, the ratio of \McSplit-SI run time to
+            the run time of the algorithm named in the subfigure caption.
             Instances where either solver took less than 1 ms or exceeded the time limit are excluded.}
     \label{figure:density-runtime-ratio}
 \end{figure}
