@@ -252,13 +252,29 @@ set size nosquare
 set xlabel "Density of target graph"
 set ylabel "Ratio of run times"
 
-set terminal tikz standalone color size 8cm,6cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
-set output "plots/density-runtime-ratio.tex"
+set term pdfcairo size 8cm,6cm font "Times,10"
+
+set output "plots/density-runtime-ratio.pdf"
 plot "<awk 'NR==1 || (($3>1 && $7>1) && $3<1000000 && $7<1000000)' fatanode-results/runtimes-tidied-and-densities.txt" \
-	using 19:($3/$7) pointtype 7 pointsize .15 lc rgb '#1f77b4'
+	using 19:($3/$7) pointtype 7 pointsize .15 lc rgb '#bb1f77b4'
 
 set xlabel "Combined density"
 # Instead of using just the target graph density, try using "number of possible edges across both graphs"
-set output "plots/density-runtime-ratio-using-both-graphs.tex"
+set output "plots/density-runtime-ratio-using-both-graphs.pdf"
 plot "<awk 'NR==1 || (($3>1 && $7>1) && $3<1000000 && $7<1000000)' fatanode-results/runtimes-tidied-and-densities.txt" \
-	using (($17*$16*($16-1) + $19*$18*($18-1)) / ($16*($16-1) + $18*($18-1))):($3/$7) pointtype 7 pointsize .15 lc rgb '#1f77b4'
+	using (($17*$16*($16-1) + $19*$18*($18-1)) / ($16*($16-1) + $18*($18-1))):($3/$7) pointtype 7 pointsize .15 lc rgb '#bb1f77b4'
+
+set xlabel "Density of target graph"
+set output "plots/density-runtime-ratio-glasgow.pdf"
+plot "<awk 'NR==1 || (($3>1 && $8>1) && $3<1000000 && $8<1000000)' fatanode-results/runtimes-tidied-and-densities.txt" \
+	using 19:($3/$8) pointtype 7 pointsize .15 lc rgb '#bb1f77b4'
+
+set xlabel "Density of target graph"
+set output "plots/density-runtime-ratio-glasgow-nosupps.pdf"
+plot "<awk 'NR==1 || (($3>1 && $9>1) && $3<1000000 && $9<1000000)' fatanode-results/runtimes-tidied-and-densities.txt" \
+	using 19:($3/$9) pointtype 7 pointsize .15 lc rgb '#bb1f77b4'
+
+set xlabel "Density of target graph"
+set output "plots/density-runtime-ratio-glasgow-adjmat.pdf"
+plot "<awk 'NR==1 || (($7>1 && $8>1) && $7<1000000 && $8<1000000)' fatanode-results/runtimes-tidied-and-densities.txt" \
+	using 19:($7/$8) pointtype 7 pointsize .15 lc rgb '#bb1f77b4'
