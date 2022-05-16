@@ -1456,7 +1456,7 @@ an orders-of-magnitude speedup over \McSplit-SI.
         \label{figure:TODO}
     }
     \caption{Scatter plots of run times for decision instances. TODO explain}
-    \label{figure:unlabelled-vf-instance-runtimes-scatter}
+    \label{figure:TODO}
 \end{figure}
 
 \begin{figure}[h!]
@@ -1490,11 +1490,129 @@ an orders-of-magnitude speedup over \McSplit-SI.
         \label{figure:TODO}
     }
     \caption{Scatter plots of run times for decision instances with presolve. TODO explain}
-    \label{figure:unlabelled-vf-instance-runtimes-scatter}
+    \label{figure:TODO}
 \end{figure}
 
 TODO: mention that D1 variant isn't very good.
 TODO: mention that D2 variant has similar results to Glasgow on phase instances.
+
+To give a finer-grained look at the performance of the two best solvers overall---\McSplit-SI and
+Glasgow---\Cref{figure:mcsplitsi-scatter-by-family} shows those solvers' run times for each
+instance, with a separate sub-figure for each instance family.  On the PR, Phase, Meshes,
+and Images families, \McSplit-SI is the clear winner.   On each of
+the remaining five families, \McSplit-SI is the faster solver on most instances, but Glasgow
+is much faster than \McSplit-SI on a small proportion of instances.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][Scalefree] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Scalefree.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][LV] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-LV.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][BVG] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-BVG.pdf}
+        \label{figure:TODO}
+    }
+
+    \subfigure[][M4D] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-M4D.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][Rand] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Rand.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][PR] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-PR.pdf}
+        \label{figure:TODO}
+    }
+
+    \subfigure[][Phase] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Phase.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][Meshes] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Meshes.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][Images] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Images.pdf}
+        \label{figure:TODO}
+    }
+    \caption{Run times in ms of \McSplit-SI (horizontal axis) and Glasgow (vertical axis), by family.}
+    \label{figure:mcsplitsi-scatter-by-family}
+\end{figure}
+
+On an instance-by-instance basis, does the best \McSplit-SI variant typically run faster than
+the best of the other solvers? To answer this question, consider two virtual solvers:
+VBM (virtual best \McSplit-SI) which takes the fastest run time of \McSplit-SI, \McSplit-SI-AM,
+and \McSplit-SI-static, and VBO (virtual best other solver), which takes the fastest run time
+of the five non-\McSplit\ solvers: Glasgow, Glasgow without supplemental graphs, RI, RI-DS, and VF3.
+Each of these virtual solvers is equivalent to running the constitutent solvers in parallel
+and stopping when the first solver terminates; alternatively, we can view a virtual solver
+as an idealised portfolio solver with an oracle that can
+to select the best constituent solver for a given instance.
+
+\Cref{figure:mcsplitsi-vbs-scatter-by-family} shows the run times of VBM (horizontal axis)
+and VBO (vertical axis) for each instance.  On all families except Scalefree, the number
+of instances where VBM is faster than VBO is greater than the number of instances where
+the reverse is true. 
+The overall patterns in this picture are similar to those in
+\Cref{figure:mcsplitsi-scatter-by-family}, which compared only \McSplit-SI and Glasgow.
+There are two notable differences.  First, RI and VF3 outperform Glasgow on some of the easier
+families such as Images, moving points closer to the $x=y$ line in
+\Cref{figure:mcsplitsi-vbs-scatter-by-family} than in
+\Cref{figure:mcsplitsi-scatter-by-family}.  Second, \McSplit-SI-static performs well
+on many of the instances where Glasgow is much faster than \McSplit-SI; as a result,
+there are few instances where VBO is much faster than VBM.
+
+\begin{figure}[h!]
+    \centering
+    \subfigure[][Scalefree] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Scalefree-vbmcsplit-vbos.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][LV] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-LV-vbmcsplit-vbos.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][BVG] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-BVG-vbmcsplit-vbos.pdf}
+        \label{figure:TODO}
+    }
+
+    \subfigure[][M4D] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-M4D-vbmcsplit-vbos.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][Rand] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Rand-vbmcsplit-vbos.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][PR] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-PR-vbmcsplit-vbos.pdf}
+        \label{figure:TODO}
+    }
+
+    \subfigure[][Phase] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Phase-vbmcsplit-vbos.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][Meshes] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Meshes-vbmcsplit-vbos.pdf}
+        \label{figure:TODO}
+    }
+    \subfigure[][Images] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Images-vbmcsplit-vbos.pdf}
+        \label{figure:TODO}
+    }
+    \caption{Run times in ms of virtual best \McSplit-SI variant (horizontal axis) and virtual best other solver (vertical axis), by family.}
+    \label{figure:mcsplitsi-vbs-scatter-by-family}
+\end{figure}
 
 %% \begin{figure}[h!]
 %%     \centering
