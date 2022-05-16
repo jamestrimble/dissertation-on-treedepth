@@ -242,6 +242,109 @@ plot "fatanode-results/runtimes-tidied.txt" using ($14-.5+rand(0)):($12-.5+rand(
 
 #### end of Scatter small multiples ####
 
+#### Scatter small multiples: by family ####
+
+set format x '10^{%T}'
+set format y '10^{%T}'
+##awk 'NR==1 || $15==1' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Scalefree.txt
+##awk 'NR==1 || $15==2 || $15==11' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-LV.txt
+##awk 'NR==1 || $15==3 || $15==4' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-BVG.txt
+##awk 'NR==1 || $15==5 || $15==6' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-M4D.txt
+##awk 'NR==1 || $15==7' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Rand.txt
+##awk 'NR==1 || $15==9' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-PR.txt
+##awk 'NR==1 || $15==12' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Phase.txt
+##awk 'NR==1 || $15==13' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Meshes.txt
+##awk 'NR==1 || $15==14' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Images.txt
+set term pdfcairo size 5cm,5cm font "Times,10"
+
+set output "plots/by-family/scatter-Scalefree.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Scalefree.txt" using ($3-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-LV.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-LV.txt" using ($3-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-BVG.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-BVG.txt" using ($3-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-M4D.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-M4D.txt" using ($3-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Rand.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Rand.txt" using ($3-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-PR.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-PR.txt" using ($3-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Phase.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Phase.txt" using ($3-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Meshes.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Meshes.txt" using ($3-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Images.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Images.txt" using ($3-.5+rand(0)):($8-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+
+set output "plots/by-family/scatter-Scalefree-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Scalefree.txt" using ($3-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-LV-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-LV.txt" using ($3-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-BVG-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-BVG.txt" using ($3-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-M4D-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-M4D.txt" using ($3-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Rand-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Rand.txt" using ($3-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-PR-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-PR.txt" using ($3-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Phase-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Phase.txt" using ($3-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Meshes-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Meshes.txt" using ($3-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Images-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Images.txt" using ($3-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+
+set output "plots/by-family/scatter-Scalefree-vbmcsplit-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Scalefree.txt" using ($17-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-LV-vbmcsplit-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-LV.txt" using ($17-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-BVG-vbmcsplit-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-BVG.txt" using ($17-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-M4D-vbmcsplit-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-M4D.txt" using ($17-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Rand-vbmcsplit-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Rand.txt" using ($17-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-PR-vbmcsplit-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-PR.txt" using ($17-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Phase-vbmcsplit-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Phase.txt" using ($17-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Meshes-vbmcsplit-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Meshes.txt" using ($17-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Images-vbmcsplit-vbos.pdf"
+plot "fatanode-results/by-family/runtimes-tidied-Images.txt" using ($17-.5+rand(0)):($16-.5+rand(0)) w p pointtype 7 pointsize .15 lc rgb '#cc1f77b4' notitle, x lc rgb '#888888' notitle
+
+set format x '$10^{%T}$'
+set format y '$10^{%T}$'
+
+#### end of Scatter small multiples: by family  ####
+
 #### Density of target graph vs runtime ratio ####
 
 unset xrange

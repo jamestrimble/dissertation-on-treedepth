@@ -71,12 +71,12 @@ python3 scripts/make-presolve-crosstabulation.py > fatanode-results/presolve-cro
 
 # Make files of results by family
 mkdir -p fatanode-results/by-family
-awk 'NR==1 || $15==1' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Scalefree.txt
-awk 'NR==1 || $15==2 || $15==11' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-LV.txt
-awk 'NR==1 || $15==3 || $15==4' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-BVG.txt
-awk 'NR==1 || $15==5 || $15==6' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-M4D.txt
-awk 'NR==1 || $15==7' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Rand.txt
-awk 'NR==1 || $15==9' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-PR.txt
-awk 'NR==1 || $15==12' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Phase.txt
-awk 'NR==1 || $15==13' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Meshes.txt
-awk 'NR==1 || $15==14' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Images.txt
+awk 'NR==1 || $15==1' fatanode-results/runtimes-tidied-with-families.txt | awk -f scripts/add-virtual-best-other-solver.awk > fatanode-results/by-family/runtimes-tidied-Scalefree.txt
+awk 'NR==1 || $15==2 || $15==11' fatanode-results/runtimes-tidied-with-families.txt | awk -f scripts/add-virtual-best-other-solver.awk > fatanode-results/by-family/runtimes-tidied-LV.txt
+awk 'NR==1 || $15==3 || $15==4' fatanode-results/runtimes-tidied-with-families.txt | awk -f scripts/add-virtual-best-other-solver.awk > fatanode-results/by-family/runtimes-tidied-BVG.txt
+awk 'NR==1 || $15==5 || $15==6' fatanode-results/runtimes-tidied-with-families.txt | awk -f scripts/add-virtual-best-other-solver.awk > fatanode-results/by-family/runtimes-tidied-M4D.txt
+awk 'NR==1 || $15==7' fatanode-results/runtimes-tidied-with-families.txt | awk -f scripts/add-virtual-best-other-solver.awk > fatanode-results/by-family/runtimes-tidied-Rand.txt
+awk 'NR==1 || $15==9' fatanode-results/runtimes-tidied-with-families.txt | awk -f scripts/add-virtual-best-other-solver.awk > fatanode-results/by-family/runtimes-tidied-PR.txt
+awk 'NR==1 || $15==12' fatanode-results/runtimes-tidied-with-families.txt | awk -f scripts/add-virtual-best-other-solver.awk > fatanode-results/by-family/runtimes-tidied-Phase.txt
+awk 'NR==1 || $15==13' fatanode-results/runtimes-tidied-with-families.txt | awk -f scripts/add-virtual-best-other-solver.awk > fatanode-results/by-family/runtimes-tidied-Meshes.txt
+awk 'NR==1 || $15==14' fatanode-results/runtimes-tidied-with-families.txt | awk -f scripts/add-virtual-best-other-solver.awk > fatanode-results/by-family/runtimes-tidied-Images.txt
