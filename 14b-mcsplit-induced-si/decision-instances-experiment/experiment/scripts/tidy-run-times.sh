@@ -23,6 +23,9 @@ cat fatanode-results/runtimes.txt \
                                     }' \
     > fatanode-results/runtimes-tidied.txt
 
+paste -d' ' fatanode-results/runtimes-tidied.txt <(echo family; cut -d' ' -f4 ../cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt) \
+    > fatanode-results/runtimes-tidied-with-families.txt
+
 paste -d' ' intermediate/densities.txt <(echo family; cut -d' ' -f4 ../cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt) \
     > fatanode-results/densities-with-families.txt
 
@@ -65,3 +68,15 @@ awk 'NR<=14' fatanode-results/winner-counts.txt | python3 scripts/make-table.py 
 awk 'NR>=16' fatanode-results/winner-counts.txt | python3 scripts/make-table.py > fatanode-results/solved-counts.tex
 
 python3 scripts/make-presolve-crosstabulation.py > fatanode-results/presolve-crosstab.tex
+
+# Make files of results by family
+mkdir -p fatanode-results/by-family
+awk 'NR==1 || $15==1' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Scalefree.txt
+awk 'NR==1 || $15==2 || $15==11' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-LV.txt
+awk 'NR==1 || $15==3 || $15==4' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-BVG.txt
+awk 'NR==1 || $15==5 || $15==6' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-M4D.txt
+awk 'NR==1 || $15==7' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Rand.txt
+awk 'NR==1 || $15==9' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-PR.txt
+awk 'NR==1 || $15==12' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Phase.txt
+awk 'NR==1 || $15==13' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Meshes.txt
+awk 'NR==1 || $15==14' fatanode-results/runtimes-tidied-with-families.txt > fatanode-results/by-family/runtimes-tidied-Images.txt
