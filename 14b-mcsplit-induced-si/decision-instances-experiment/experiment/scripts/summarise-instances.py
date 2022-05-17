@@ -23,7 +23,7 @@ family_num_to_name = {
     14: "Images"
 }
 
-families = ["Scalefree", "LV", "BVG", "M4D", "Rand", "PR", "Phase", "Meshes", "Images"]
+families = ["Scalefree", "LV", "BVG", "M4D", "Rand", "Phase", "PR", "Meshes", "Images"]
 
 family_to_values = {}
 

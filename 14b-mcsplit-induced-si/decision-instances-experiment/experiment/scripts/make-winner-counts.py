@@ -1,9 +1,24 @@
+family_num_to_name = {
+    1: "Scalefree",
+    2: "LV",
+    11: "LV",
+    3: "BVG",
+    4: "BVG",
+    5: "M4D",
+    6: "M4D",
+    7: "Rand",
+    9: "PR",
+    12: "Phase",
+    13: "Meshes",
+    14: "Images"
+}
+
+family_names = ["Scalefree", "LV", "BVG", "M4D", "Rand", "Phase", "PR", "Meshes", "Images"]
+
 families = []
 with open('../cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt', 'r') as f:
     for line in f:
         families.append(int(line.strip().split()[3]))
-
-families_set = set(families)
 
 with open('fatanode-results/runtimes-tidied.txt', 'r') as f:
     for i, line in enumerate(f):
@@ -20,11 +35,11 @@ with open('fatanode-results/runtimes-tidied.txt', 'r') as f:
         ]
         if i == 0:
             programs = line[1:]
-            winner_counts = {p: {f: 0 for f in families_set} for p in programs}
-            solved_counts = {p: {f: 0 for f in families_set} for p in programs}
+            winner_counts = {p: {f: 0 for f in set(family_names)} for p in programs}
+            solved_counts = {p: {f: 0 for f in set(family_names)} for p in programs}
             continue
         
-        family = families[i - 1]
+        family = family_num_to_name[families[i - 1]]
 
         times = [int(t) for t in line[1:]]
 
@@ -37,9 +52,9 @@ with open('fatanode-results/runtimes-tidied.txt', 'r') as f:
                 winner_counts[p][family] += 1
 
 print("family count {}".format(" ".join(programs)))
-for f in sorted(families_set):
+for f in family_names:
     results = [winner_counts[p][f] for p in programs]
-    count = sum(f_ == f for f_ in families)
+    count = sum(family_num_to_name[f_] == f for f_ in families)
     print("{} {} {}".format(f, count, " ".join(str(c) for c in results)))
 results = [sum(winner_counts[p].values()) for p in programs]
 count = len(families)
@@ -47,9 +62,9 @@ print("{} {} {}".format('TOTAL', count, " ".join(str(c) for c in results)))
 
 print()
 print("family count {}".format(" ".join(programs)))
-for f in sorted(families_set):
+for f in family_names:
     results = [solved_counts[p][f] for p in programs]
-    count = sum(f_ == f for f_ in families)
+    count = sum(family_num_to_name[f_] == f for f_ in families)
     print("{} {} {}".format(f, count, " ".join(str(c) for c in results)))
 results = [sum(solved_counts[p].values()) for p in programs]
 count = len(families)

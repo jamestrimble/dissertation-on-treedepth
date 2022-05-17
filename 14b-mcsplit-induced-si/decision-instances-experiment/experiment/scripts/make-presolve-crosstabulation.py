@@ -54,7 +54,7 @@ for i, pi in enumerate(programs):
                 if times[i] < 100 or times[j] < 999900:
                     solved_count += 1
             row.append(solved_count)
-    print(pi + " & " + " & ".join(number_with_spaces(n, n != "" and n > 14524) for n in row[1:]) + r" \\")
+    print("\\rule{0pt}{2.3ex}" + pi + " & " + " & ".join(number_with_spaces(n, n != "" and n > 14524) for n in row[1:]) + r" \\")
 
 #for i, line in enumerate(sys.stdin):
 #    if i == 0:

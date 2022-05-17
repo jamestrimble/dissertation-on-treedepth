@@ -1,7 +1,7 @@
 import sys
 
 print(r"""
-\begin{tabular}{crrrrrrrr}
+\begin{tabular}{lrrrrrrrr}
     \toprule
     Family & Count & McS-SI & McS-SI-LL & Gla & Gla, no supp. & RI & VF3 & McS pre.\\
     \midrule
@@ -25,7 +25,9 @@ for i, line in enumerate(sys.stdin):
     line = [x for x in line.strip().split()]
     values = [int(x) for x in line[2:]]
     formatted_values = [number_with_spaces(val, val==max(values)) for val in values]
-    print(" & ".join([line[0], number_with_spaces(line[1], False)] + formatted_values) + r"\\")
+    if line[0] == "TOTAL":
+        print("\midrule")
+    print("\\rule{0pt}{2.3ex}" + " & ".join([line[0], number_with_spaces(line[1], False)] + formatted_values) + r"\\")
 
 print(r"""
     \bottomrule

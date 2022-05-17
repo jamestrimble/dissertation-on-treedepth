@@ -66,8 +66,8 @@ cat fatanode-results/runtimes.txt \
 
 python3 scripts/make-winner-counts.py > fatanode-results/winner-counts.txt
 
-awk 'NR<=14' fatanode-results/winner-counts.txt | python3 scripts/make-table.py > fatanode-results/winner-counts.tex
-awk 'NR>=16' fatanode-results/winner-counts.txt | python3 scripts/make-table.py > fatanode-results/solved-counts.tex
+awk 'NR<=11' fatanode-results/winner-counts.txt | python3 scripts/make-table.py > fatanode-results/winner-counts.tex
+awk 'NR>=13' fatanode-results/winner-counts.txt | python3 scripts/make-table.py > fatanode-results/solved-counts.tex
 
 python3 scripts/make-presolve-crosstabulation.py > fatanode-results/presolve-crosstab.tex
 
