@@ -32,6 +32,8 @@ paste -d' ' intermediate/densities.txt <(echo family; cut -d' ' -f4 ../cpaior201
 datamash -t' ' -H -g 6 --sort --round 3 min 2 max 2 mean 2 min 3 max 3 mean 3 min 4 max 4 mean 4 min 5 max 5 mean 5 \
     < fatanode-results/densities-with-families.txt > fatanode-results/densities-with-families-summary.txt
 
+python3 scripts/summarise-instances.py > fatanode-results/densities-with-families-summary-table.tex
+
 paste -d' ' fatanode-results/runtimes-tidied.txt intermediate/densities.txt \
     > fatanode-results/runtimes-tidied-and-densities.txt
 
