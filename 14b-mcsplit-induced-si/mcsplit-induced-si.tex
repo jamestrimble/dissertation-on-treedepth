@@ -1200,10 +1200,14 @@ to solve any satisfiable instance.
 \section{Experimental evaluation}
 
 In this section, we compare the speed of \McSplit-SI with three state-of-the-art algorithms
-on two sets of benchmark instances.  For the first set of instances, we solve the decision problem:
-does there exist an induced subgraph isomorphism from the pattern graph to the target
-graph?  For the second set of instances, we solve the problem of counting all induced subgraph
-isomorphisms from the pattern to the target.
+on three sets of benchmark instances.  The first set of instances is a large,
+existing set of unlabelled graph pairs where we solve the decision problem.
+The second set of instances is a new set of decision-problem
+instances recently proposed by Donald Knuth.
+The final set of instances is based on another existing benchmark set;
+we solve the problem of counting all induced subgraph isomorphisms from the pattern to the target.
+In this set of instances, all graphs are directed and some have labelled
+vertices.
 
 \subsection{Other solvers}
 
@@ -1317,12 +1321,12 @@ TODO introduce this subsection
     \item \textbf{M4D:} Regular and irregular 4-dimensional meshes.  The irregular instances have
         extra edges added to the mesh graph.
     \item \textbf{Rand:} Erd\H{o}s-Rényi $G(n,p)$ random graphs.
-    \item \textbf{PR:} Instances derived from a pattern recognition problem, where
-    	the graphs are generated from the adjacencies of regions of an image. \citep{DBLP:journals/pr/SolnonDHJ15}
     \item \textbf{Phase:} Pairs of Erd\H{o}s-Rényi $G(n,p)$ random graphs
         with parameters chosen near the satisfiable/unsatifiable phase transition.
         \citep{DBLP:journals/jair/McCreeshPST18}
-    \item \textbf{Meshes} and \textbf{Images:} TODO
+    \item \textbf{PR}, \textbf{Meshes} and \textbf{Images:} Instances derived from a pattern recognition problem, where
+    	the graphs are generated from the adjacencies of regions of an image (PR, Images)
+	or 3D object model (Meshes). \citep{DBLP:journals/pr/SolnonDHJ15,DBLP:journals/cviu/DamiandSHJS11}
 \end{itemize}
 
 \begin{table}[htb]
@@ -1343,8 +1347,8 @@ TODO introduce this subsection
  \bottomrule
 \end{tabular}
     \caption{Summary of instance families. The values $n_{\min{}}$ and $n_{\max{}}$
-            are the smallest and largest vertex counts; the values $d_{\min{}}$ and $d_{\max{}}$}
-            are the smallest and largest densities.
+            are the smallest and largest vertex counts; the values $d_{\min{}}$ and $d_{\max{}}$
+            are the smallest and largest densities.}
 \label{tab:instance-family-summary}
 \end{table}
 
@@ -1399,8 +1403,9 @@ an orders-of-magnitude speedup over \McSplit-SI.
 \centering
 \footnotesize
     \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/solved-counts}
-\caption{The number of instances solved by each solver for each family of instances.  The second
-    column shows the total number of instances per family.}
+\caption{The number of instances in each family that were solved by each solver
+    within the 1000 second time limit.
+    The ``Count'' column shows the total number of instances per family.}
 \label{tab:TODO}
 \end{table}
 
