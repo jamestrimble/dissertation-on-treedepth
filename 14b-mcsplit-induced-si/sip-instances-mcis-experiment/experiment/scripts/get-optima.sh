@@ -23,7 +23,7 @@ show_kdown_optimum() {
 }
 
 echo instance mcsplit-mcis-sparse kdown2017 kdown2019 kdown2019-restarts
-head -n10 ../../decision-instances-experiment/cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt | while read instance rest; do
+cat ../../decision-instances-experiment/cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt | while read instance rest; do
     echo $(
         echo $instance
         show_mcsp_optimum program-output/$instance.mcsplit-mcis-sparse.out

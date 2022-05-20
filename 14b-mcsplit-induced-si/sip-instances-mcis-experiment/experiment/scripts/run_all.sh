@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-timelimit=1
+timelimit=10
 
 #rm -rf program-output
 #mkdir program-output
@@ -10,7 +10,7 @@ timelimit=1
 mkdir -p intermediate
 rm -f intermediate/commands.txt
 
-head -n10 ../../decision-instances-experiment/cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt | while read inst file_a file_b _; do
+cat ../../decision-instances-experiment/cpaior2019-sbs-for-subgraphs-paper/experiments/instances.txt | while read inst file_a file_b _; do
     echo ./scripts/run_one.sh $inst $file_a $file_b $timelimit >> intermediate/commands.txt
 done
 
