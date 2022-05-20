@@ -1,139 +1,139 @@
-instance mcsplit-si-ll mcsplit-si-dom mcsplit-si-dom-D1 mcsplit-si-dom-D2 mcsplit-si-static mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3
-grid2-2-knight4-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-3-knight4-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-5-knight5-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-6-knight5-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-8-knight6-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-9-knight6-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-8-knight7-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-9-knight7-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-10-knight8-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-11-knight8-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-12-knight9-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-13-knight9-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-15-knight10-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-16-knight10-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-19-knight11-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-20-knight11-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-24-knight12-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-25-knight12-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-28-knight13-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-29-knight13-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-32-knight14-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid2-33-knight14-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid2-36-knight15-SAT 1 1 1 1 1 1 X X 1 1 1
-grid2-37-knight15-UNSAT 0 0 0 0 0 X X X X X X
-grid2-40-knight16-SAT 1 1 1 1 1 1 X 1 1 1 1
-grid2-41-knight16-UNSAT X X X X X X X X X X X
-grid2-46-knight17-SAT 1 1 1 1 1 X X X X X X
-grid2-47-knight17-UNSAT X X X X X X X X X X X
-grid2-52-knight18-SAT X X X X X X X X X X X
-grid2-53-knight18-UNSAT X X X X X X X X X X X
-grid3-1-knight4-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-2-knight4-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid3-3-knight5-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-4-knight5-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid3-4-knight6-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-5-knight6-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid3-5-knight7-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-6-knight7-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid3-6-knight8-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-7-knight8-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid3-7-knight9-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-8-knight9-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid3-10-knight10-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-11-knight10-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid3-11-knight11-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-12-knight11-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid3-12-knight12-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-13-knight12-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid3-14-knight13-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid3-15-knight13-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid3-16-knight14-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid3-17-knight14-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid3-20-knight15-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid3-21-knight15-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid3-21-knight16-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid3-22-knight16-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid3-25-knight17-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid3-26-knight17-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid3-28-knight18-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid3-29-knight18-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid3-32-knight19-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid3-33-knight19-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid3-34-knight20-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid3-35-knight20-UNSAT 0 0 0 0 0 0 X X 0 0 X
-grid3-41-knight21-SAT X X X X X X 1 X 1 1 X
-grid3-42-knight21-UNSAT X X X X X X X X X X X
-grid3-44-knight22-SAT 1 1 1 1 1 1 X X 1 1 X
-grid3-45-knight22-UNSAT X X X X X X X X X X X
-grid3-49-knight23-SAT X X X X X X X X X X X
-grid3-50-knight23-UNSAT X X X X X X X X X X X
-grid3-53-knight24-SAT X X X X X X X X X X X
-grid3-54-knight24-UNSAT X X X X X X X X X X X
-grid4-1-knight4-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-2-knight4-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-2-knight5-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-3-knight5-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-4-knight6-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-5-knight6-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-4-knight7-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-5-knight7-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-5-knight8-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-6-knight8-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-6-knight9-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-7-knight9-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-8-knight10-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-9-knight10-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-8-knight11-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-9-knight11-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-10-knight12-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-11-knight12-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-12-knight13-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-13-knight13-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-12-knight14-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-13-knight14-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-14-knight15-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-15-knight15-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-15-knight16-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-16-knight16-UNSAT 0 0 0 0 0 0 0 0 0 0 0
-grid4-17-knight17-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-18-knight17-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid4-18-knight18-SAT 1 1 1 1 1 1 1 1 1 1 1
-grid4-19-knight18-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid4-20-knight19-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid4-21-knight19-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid4-20-knight20-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid4-21-knight20-UNSAT 0 0 0 0 0 0 0 0 0 0 X
-grid4-22-knight21-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid4-23-knight21-UNSAT 0 0 0 0 0 0 0 0 X X X
-grid4-24-knight22-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid4-25-knight22-UNSAT 0 0 0 0 0 0 0 0 X X X
-grid4-25-knight23-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid4-26-knight23-UNSAT 0 0 0 0 X 0 X X X X X
-grid4-26-knight24-SAT 1 1 1 1 1 1 1 1 1 1 X
-grid4-27-knight24-UNSAT 0 0 0 0 X 0 X X X X X
-grid4-28-knight25-SAT 1 1 1 1 1 1 1 1 X X X
-grid4-29-knight25-UNSAT 0 0 0 0 X X X X X X X
-grid4-29-knight26-SAT 1 1 1 1 1 1 1 1 X X X
-grid4-30-knight26-UNSAT X X X X X X X X X X X
-grid4-31-knight27-SAT 1 1 1 1 X 1 1 1 X X X
-grid4-32-knight27-UNSAT X X X X X X X X X X X
-grid4-32-knight28-SAT 1 1 1 1 X 1 1 1 X X X
-grid4-33-knight28-UNSAT X X X X X X X X X X X
-grid4-34-knight29-SAT 1 1 1 1 X 1 1 1 X X X
-grid4-35-knight29-UNSAT X X X X X X X X X X X
-grid4-35-knight30-SAT 1 1 1 1 X 1 1 1 X X X
-grid4-36-knight30-UNSAT X X X X X X X X X X X
-grid4-37-knight31-SAT 1 1 1 1 X 1 1 1 X X X
-grid4-38-knight31-UNSAT X X X X X X X X X X X
-grid4-38-knight32-SAT 1 1 1 1 X 1 1 X X X X
-grid4-39-knight32-UNSAT X X X X X X X X X X X
-grid4-40-knight33-SAT 1 1 1 1 X 1 X 1 X X X
-grid4-41-knight33-UNSAT X X X X X X X X X X X
-grid4-41-knight34-SAT 1 1 1 1 X X X X X X X
-grid4-42-knight34-UNSAT X X X X X X X X X X X
-grid4-43-knight35-SAT 1 1 1 1 X X X X X X X
-grid4-44-knight35-UNSAT X X X X X X X X X X X
-grid4-44-knight36-SAT 1 1 1 1 X X X X X X X
-grid4-45-knight36-UNSAT X X X X X X X X X X X
+instance mcsplit-si-ll mcsplit-si-dom mcsplit-si-dom-D1 mcsplit-si-dom-D2 mcsplit-si-static mcsplit-si-adjmat-dom glasgow glasgow-nosupp ri ri-ds vf3 pathlad
+grid2-2-knight4-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-3-knight4-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-5-knight5-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-6-knight5-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-8-knight6-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-9-knight6-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-8-knight7-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-9-knight7-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-10-knight8-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-11-knight8-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-12-knight9-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-13-knight9-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-15-knight10-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-16-knight10-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-19-knight11-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-20-knight11-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-24-knight12-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-25-knight12-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-28-knight13-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-29-knight13-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid2-32-knight14-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid2-33-knight14-UNSAT 0 0 0 0 0 0 0 0 0 0 0 X
+grid2-36-knight15-SAT 1 1 1 1 1 1 X X 1 1 1 1
+grid2-37-knight15-UNSAT 0 0 0 0 0 X X X X X X X
+grid2-40-knight16-SAT 1 1 1 1 1 1 X 1 1 1 1 1
+grid2-41-knight16-UNSAT X X X X X X X X X X X X
+grid2-46-knight17-SAT 1 1 1 1 1 X X X X X X X
+grid2-47-knight17-UNSAT X X X X X X X X X X X X
+grid2-52-knight18-SAT X X X X X X X X X X X X
+grid2-53-knight18-UNSAT X X X X X X X X X X X X
+grid3-1-knight4-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-2-knight4-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid3-3-knight5-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-4-knight5-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid3-4-knight6-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-5-knight6-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid3-5-knight7-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-6-knight7-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid3-6-knight8-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-7-knight8-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid3-7-knight9-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-8-knight9-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid3-10-knight10-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-11-knight10-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid3-11-knight11-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-12-knight11-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid3-12-knight12-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-13-knight12-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid3-14-knight13-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid3-15-knight13-UNSAT 0 0 0 0 0 0 0 0 0 0 X 0
+grid3-16-knight14-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid3-17-knight14-UNSAT 0 0 0 0 0 0 0 0 0 0 X 0
+grid3-20-knight15-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid3-21-knight15-UNSAT 0 0 0 0 0 0 0 0 0 0 X 0
+grid3-21-knight16-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid3-22-knight16-UNSAT 0 0 0 0 0 0 0 0 0 0 X 0
+grid3-25-knight17-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid3-26-knight17-UNSAT 0 0 0 0 0 0 0 0 0 0 X 0
+grid3-28-knight18-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid3-29-knight18-UNSAT 0 0 0 0 0 0 0 0 0 0 X X
+grid3-32-knight19-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid3-33-knight19-UNSAT 0 0 0 0 0 0 0 0 0 0 X X
+grid3-34-knight20-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid3-35-knight20-UNSAT 0 0 0 0 0 0 X X 0 0 X X
+grid3-41-knight21-SAT X X X X X X 1 X 1 1 X 1
+grid3-42-knight21-UNSAT X X X X X X X X X X X X
+grid3-44-knight22-SAT 1 1 1 1 1 1 X X 1 1 X X
+grid3-45-knight22-UNSAT X X X X X X X X X X X X
+grid3-49-knight23-SAT X X X X X X X X X X X X
+grid3-50-knight23-UNSAT X X X X X X X X X X X X
+grid3-53-knight24-SAT X X X X X X X X X X X X
+grid3-54-knight24-UNSAT X X X X X X X X X X X X
+grid4-1-knight4-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-2-knight4-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-2-knight5-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-3-knight5-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-4-knight6-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-5-knight6-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-4-knight7-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-5-knight7-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-5-knight8-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-6-knight8-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-6-knight9-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-7-knight9-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-8-knight10-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-9-knight10-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-8-knight11-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-9-knight11-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-10-knight12-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-11-knight12-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-12-knight13-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-13-knight13-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-12-knight14-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-13-knight14-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-14-knight15-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-15-knight15-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-15-knight16-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-16-knight16-UNSAT 0 0 0 0 0 0 0 0 0 0 0 0
+grid4-17-knight17-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-18-knight17-UNSAT 0 0 0 0 0 0 0 0 0 0 X 0
+grid4-18-knight18-SAT 1 1 1 1 1 1 1 1 1 1 1 1
+grid4-19-knight18-UNSAT 0 0 0 0 0 0 0 0 0 0 X 0
+grid4-20-knight19-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid4-21-knight19-UNSAT 0 0 0 0 0 0 0 0 0 0 X 0
+grid4-20-knight20-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid4-21-knight20-UNSAT 0 0 0 0 0 0 0 0 0 0 X X
+grid4-22-knight21-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid4-23-knight21-UNSAT 0 0 0 0 0 0 0 0 X X X X
+grid4-24-knight22-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid4-25-knight22-UNSAT 0 0 0 0 0 0 0 0 X X X X
+grid4-25-knight23-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid4-26-knight23-UNSAT 0 0 0 0 X 0 X X X X X X
+grid4-26-knight24-SAT 1 1 1 1 1 1 1 1 1 1 X 1
+grid4-27-knight24-UNSAT 0 0 0 0 X 0 X X X X X X
+grid4-28-knight25-SAT 1 1 1 1 1 1 1 1 X X X 1
+grid4-29-knight25-UNSAT 0 0 0 0 X X X X X X X X
+grid4-29-knight26-SAT 1 1 1 1 1 1 1 1 X X X 1
+grid4-30-knight26-UNSAT X X X X X X X X X X X X
+grid4-31-knight27-SAT 1 1 1 1 X 1 1 1 X X X 1
+grid4-32-knight27-UNSAT X X X X X X X X X X X X
+grid4-32-knight28-SAT 1 1 1 1 X 1 1 1 X X X X
+grid4-33-knight28-UNSAT X X X X X X X X X X X X
+grid4-34-knight29-SAT 1 1 1 1 X 1 1 1 X X X X
+grid4-35-knight29-UNSAT X X X X X X X X X X X X
+grid4-35-knight30-SAT 1 1 1 1 X 1 1 1 X X X X
+grid4-36-knight30-UNSAT X X X X X X X X X X X X
+grid4-37-knight31-SAT 1 1 1 1 X 1 1 1 X X X X
+grid4-38-knight31-UNSAT X X X X X X X X X X X X
+grid4-38-knight32-SAT 1 1 1 1 X 1 1 X X X X X
+grid4-39-knight32-UNSAT X X X X X X X X X X X X
+grid4-40-knight33-SAT 1 1 1 1 X 1 X 1 X X X X
+grid4-41-knight33-UNSAT X X X X X X X X X X X X
+grid4-41-knight34-SAT 1 1 1 1 X X X X X X X X
+grid4-42-knight34-UNSAT X X X X X X X X X X X X
+grid4-43-knight35-SAT 1 1 1 1 X X X X X X X X
+grid4-44-knight35-UNSAT X X X X X X X X X X X X
+grid4-44-knight36-SAT 1 1 1 1 X X X X X X X X
+grid4-45-knight36-UNSAT X X X X X X X X X X X X

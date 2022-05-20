@@ -4,9 +4,9 @@ sat = sys.argv[1]
 grid_height = int(sys.argv[2])
 
 print(r"""
-\begin{tabular}{ccrrrrrr}
+\begin{tabular}{ccrrrrrrr}
     \toprule
-    {$G$} & {$H$} & {McS-SI} & {McS-SI-LL} & {McS-SI-am} & Glasgow & RI-DS & VF3\\ 
+    {$G$} & {$H$} & {McS-SI} & {McS-SI-LL} & {McS-SI-am} & Glasgow & RI-DS & VF3 & pathLAD \\ 
     \midrule
 """)
 
@@ -47,8 +47,9 @@ with open('fatanode-results/runtimes.txt', 'r') as f:
         glasgow = nice_number(line[7])
         ri_ds = nice_number(line[10])
         vf3 = nice_number(line[11])
-        values = [mcsplit_si, mcsplit_si_ll, mcsplit_si_adjmat, glasgow, ri_ds, vf3]
-        if all(item == 0 for item in values):
+        pathLAD = nice_number(line[12])
+        values = [mcsplit_si, mcsplit_si_ll, mcsplit_si_adjmat, glasgow, ri_ds, vf3, pathLAD]
+        if all(item < 10 for item in values):
             continue
         formatted_values = [number_with_spaces(val, val<10000000 and val==min(values)) for val in values]
 
