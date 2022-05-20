@@ -770,13 +770,31 @@ Experiments were performed on machines with dual Intel Xeon E5-2640 v2 CPUs and
 implemented\footnote{Source code, instances, experimental scripts and raw
 results are available at
 https://github.com/jamestrimble/ijcai2017-partitioning-common-subgraph}
-in C++ and compiled using g++ 5.3.0. We compare against the best constraint
+in C++ and compiled using g++ 5.3.0. We compare against the
+following implementations.
+
+\begin{itemize}
+\item The best constraint
 programming implementations of \citet{DBLP:conf/cp/NdiayeS11} and
 \citet{DBLP:conf/cp/McCreeshNPS16} (CP-FC in the unlabelled cases, and CP-MAC
 in the labelled cases, using both branching and filtering for connected
-subgraphs), the clique encodings of \citet{DBLP:conf/cp/McCreeshNPS16}, and the
+subgraphs),
+\item The clique encodings and solver of \citet{DBLP:conf/cp/McCreeshNPS16}.
+(TODO: check I'm saying giving the details in the right place.) This uses
+Prosser's MCSa1 algorithm \citep{DBLP:journals/algorithms/Prosser12}, which is
+based on an algorithm by \citet{DBLP:journals/ieicet/TomitaSHW13} and uses a
+bitset representation to enable very fast operations on sets
+\citep{DBLP:journals/cor/SegundoRJ11}. (I also tried using another state of the
+art maximum clique solver, IncMC2 \citep{DBLP:journals/informs/LiFJX18}, which
+uses a technique from MaxSat solvers to tighten the upper bound during search.
+This performed worse overall than MCSa1, and I therefore do not report its
+results.)
+\item The
 $k{\downarrow}$ algorithm of \citet{UpcomingAAAIPaper} (which only supports
-unlabelled, undirected, unconnected instances).  Each of these comparator
+unlabelled, undirected, unconnected instances).
+\end{itemize}
+
+Each of these comparator
 programs is an optimised, dedicated implementation and does not use a
 general-purpose constraint programming toolkit.  We used the original authors'
 code in each case.
