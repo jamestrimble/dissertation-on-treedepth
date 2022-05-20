@@ -18,7 +18,7 @@ show_kdown_optimum() {
     if grep -q 'aborted' $FILENAME; then
         echo "X"
     else
-        cat $FILENAME | awk '/SIZE=/ {print $2}' | sed 's/.*=//'
+        cat $FILENAME | awk '/SIZE=/ {print $2}' | sed 's/.*SIZE=//' | cut -d' ' -f1
     fi
 }
 
