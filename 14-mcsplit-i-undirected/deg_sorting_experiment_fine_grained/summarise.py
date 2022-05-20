@@ -3,7 +3,7 @@ import sys
 
 n = int(sys.argv[1])
 
-directed = len(sys.argv) > 2 and sys.argv[2] == "--directed"
+graphtype = sys.argv[2] if len(sys.argv) > 2 else None
 
 d = {}
 
@@ -16,7 +16,7 @@ def argmin(lst):
             result = i
     return result
 
-with open('results{}{}.txt'.format("-directed" if directed else "", n), 'r') as f:
+with open('results{}{}.txt'.format("-" + graphtype if graphtype is not None else "", n), 'r') as f:
     for line in f:
         line = [int(x) for x in line.strip().split()]
         run = tuple(line[:2])

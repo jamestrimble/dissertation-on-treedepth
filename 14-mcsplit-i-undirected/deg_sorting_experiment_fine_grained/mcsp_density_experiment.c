@@ -673,10 +673,34 @@ int main(int argc, char** argv) {
 
     std::mt19937 generator(arguments.seed);
     std::uniform_real_distribution<double> dis(0.0, 100.0);
+    std::uniform_int_distribution<int> edge_dis(1, 5);
 
     for (int p=0; p<=100; p++) {
         for (int q=0; q<=100; q++) {
             std::cout << p << " " << q;
+            Graph g0(arguments.graph_num_vertices);
+            Graph g1(arguments.graph_num_vertices);
+            if (arguments.directed) {
+                for (int i=0; i<arguments.graph_num_vertices; i++) {
+                    for (int j=0; j<arguments.graph_num_vertices; j++) {
+                        if (i == j) continue;
+                        if (dis(generator) < p) add_edge(g0, i, j, true,
+                                arguments.edge_labelled ? edge_dis(generator) : 1);
+                        if (dis(generator) < q) add_edge(g1, i, j, true,
+                                arguments.edge_labelled ? edge_dis(generator) : 1);
+                    }
+                }
+            } else {
+                for (int i=0; i<arguments.graph_num_vertices; i++) {
+                    for (int j=0; j<i; j++) {
+                        if (dis(generator) < p) add_edge(g0, i, j, false,
+                                arguments.edge_labelled ? edge_dis(generator) : 1);
+                        if (dis(generator) < q) add_edge(g1, i, j, false,
+                                arguments.edge_labelled ? edge_dis(generator) : 1);
+                    }
+                }
+            }
+
             for (int run=0; run<4; run++) {
                 if (run == 0) {
                     arguments.G_sort_order = 1;
@@ -692,25 +716,6 @@ int main(int argc, char** argv) {
                     arguments.H_sort_order = 2;
                 }
                 nodes = 0;
-
-                Graph g0(arguments.graph_num_vertices);
-                Graph g1(arguments.graph_num_vertices);
-                if (arguments.directed) {
-                    for (int i=0; i<arguments.graph_num_vertices; i++) {
-                        for (int j=0; j<arguments.graph_num_vertices; j++) {
-                            if (i == j) continue;
-                            if (dis(generator) < p) add_edge(g0, i, j, true);
-                            if (dis(generator) < q) add_edge(g1, i, j, true);
-                        }
-                    }
-                } else {
-                    for (int i=0; i<arguments.graph_num_vertices; i++) {
-                        for (int j=0; j<i; j++) {
-                            if (dis(generator) < p) add_edge(g0, i, j);
-                            if (dis(generator) < q) add_edge(g1, i, j);
-                        }
-                    }
-                }
 
                 vector<int> g0_deg = calculate_degrees(g0);
                 vector<int> g1_deg = calculate_degrees(g1);
