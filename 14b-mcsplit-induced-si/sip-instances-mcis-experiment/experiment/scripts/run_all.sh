@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-timelimit=10
+timelimit=1000
 
 #rm -rf program-output
 #mkdir program-output
