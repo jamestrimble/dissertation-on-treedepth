@@ -85,223 +85,253 @@ using \McSplit-SI as a subroutine, and presents new terms of integer sequences
 generated using the program.  Further, we present a hill-climbing method for
 finding small (although possibly not optimal) induced universal graphs.
 
-\section{Maximum Common Induced Subgraph}
+\section{Preliminaries}
 
-We begin with a the maximum common induced subgraph (MCIS) problem. A
-graph $G$ is a pair $(V, E)$, where $V = V(G)$ is the vertex set and $E = E(G)$
-is the edge set. Each element of $E$ is a two-element subset of $V$, whose
-elements are referred to as its endpoints. For example, suppose we have
+A graph $G$ is a pair $(V, E)$ whose \emph{vertex set} $V = V(G)$
+is an arbitrary finite set and whose \emph{edge set} $E = E(G)$
+comprises two-elements subset of $V$. The elements of each edge
+$e \in E$ are called its \emph{endpoints}, and two vertices that
+are the endpoints of some edge are said to be \emph{adjacent}.
+
+For example, \Cref{fig:g1} shows the graph $G_1 = (V,E)$, where
 \[
 V = \{1, 2, 3, 4, 5, 6\},
 E = \{\{1,2\}, \{1,3\}, \{2,3\}, \{3,4\}, \{4,5\}, \{4,6\}, \{5,6\}\}
 .
 \]
-This graph may be drawn as shown in \Cref{fig:introA}, with a point for each
-vertex and a line for each edge.  The positions of the points in the plane have
-no significance.
 
-\begin{figure}[h!]
-\centering
-\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.8}]
-%\begin{tikzpicture}
-  \node [draw,circle] (1) at (0,1.6) {1};
-  \node [draw,circle] (2) at (0,0) {2};
-  \node [draw,circle] (3) at (1.2,.8) {3};
-  \node [draw,circle] (4) at (2.4,.8) {4};
-  \node [draw,circle] (5) at (3.6,1.6) {5};
-  \node [draw,circle] (6) at (3.6,0) {6};
-  \draw (1) -- (2);
-  \draw (1) -- (3);
-  \draw (2) -- (3);
-  \draw (3) -- (4);
-  \draw (4) -- (5);
-  \draw (4) -- (6);
-  \draw (5) -- (6);
-\end{tikzpicture}
-\caption{A graph}
-\label{fig:introA}
+\begin{figure}[htb]
+    \centering
+    \subfigure[][$G_1$] {
+        \begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+          \node [draw,circle] (1) at (0,1.6) {1};
+          \node [draw,circle] (2) at (0,0) {2};
+          \node [draw,circle] (3) at (1.2,.8) {3};
+          \node [draw,circle] (4) at (2.4,.8) {4};
+          \node [draw,circle] (5) at (3.6,1.6) {5};
+          \node [draw,circle] (6) at (3.6,0) {6};
+          \draw (1) -- (2);
+          \draw (1) -- (3);
+          \draw (2) -- (3);
+          \draw (3) -- (4);
+          \draw (4) -- (5);
+          \draw (4) -- (6);
+          \draw (5) -- (6);
+        \end{tikzpicture}
+        \label{fig:g1}
+    }
+    \quad\subfigure[][$G_2$] {
+        \begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+          \node [draw,circle] (1) at (0,1.6) {7};
+          \node [draw,circle] (2) at (0,0) {8};
+          \node [draw,circle] (3) at (1.2,.8) {9};
+          \node [draw,circle] (4) at (2.4,.8) {10};
+          \node [draw,circle] (5) at (3.6,1.6) {11};
+          \node [draw,circle] (6) at (3.6,0) {12};
+          \draw (1) -- (2);
+          \draw (1) -- (3);
+          \draw (2) -- (3);
+          \draw (3) -- (4);
+          \draw (4) -- (5);
+          \draw (4) -- (6);
+          \draw (5) -- (6);
+        \end{tikzpicture}
+        \label{fig:g2}
+    }
+    \quad\subfigure[][$G_3$] {
+        \begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+          \node [draw,circle] (1) at (0,1.6) {1};
+          \node [draw,circle] (2) at (0,0) {2};
+          \node [draw,circle] (3) at (1.2,.8) {3};
+          \node [draw,circle] (4) at (2.4,.8) {4};
+          \draw (1) -- (2);
+          \draw (1) -- (3);
+          \draw (2) -- (3);
+          \draw (3) -- (4);
+        \end{tikzpicture}
+        \label{fig:g3}
+    }
+%    \quad\subfigure[][$G_4$] {
+%        \begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+%          \node [draw,circle] (1) at (0,1.6) {1};
+%          \node [draw,circle] (2) at (0,0) {2};
+%          \node [draw,circle] (3) at (1.2,.8) {3};
+%          \node [draw,circle] (4) at (2.4,1.6) {4};
+%          \node [draw,circle] (5) at (2.4,0) {5};
+%          \draw (1) -- (2);
+%          \draw (1) -- (3);
+%          \draw (2) -- (3);
+%          \draw (3) -- (4);
+%          \draw (3) -- (5);
+%          \draw (4) -- (5);
+%        \end{tikzpicture}
+%        \label{fig:g4}
+%    }
+    \caption{Example graphs $G_1$ to $G_3$}
+    \label{fig:intro-examples}
 \end{figure}
 
-Two graphs are isomorphic if they can be drawn identically. Thus, the graph in
-Figure B is isomorphic to the graph in \Cref{fig:introA}, despite having a different
-vertex set. Formally, an isomorphism between graphs $G$ and $H$ is a bijection $f$
-between the vertex set of $G$ and the vertex set of $H$, such that if we apply $f$ to
-the endpoints of each edge of $G$ we obtain the edge set of $H$. If such an $f$
-exists, we say that $G$ and $H$ are isomorphic.
+A \emph{loop} is an edge from a vertex to itself. We assume throughout this
+dissertation that graphs have no loops, except in clearly marked sections where
+we discuss extensions of algorithms to graphs with loops.
+
+The set of vertices adjacent to vertex $v \in V(G)$
+is called the \emph{neighbourhood} of $v$, denoted $\N_G(v)$. We denote
+by $\invN_G(v)$ the \emph{inverse neighbourhood} of $v$: the set
+of the vertices other than $v$ itself that are not adjacent to $v$.
+We omit the subscript $G$ where there is no ambiguity.
+In \Cref{fig:g1}, for example, we have $\N(3) = \{1,2,4\}$ and
+$\invN(3) = \{5,6\}$.
+
+We say that graphs $G$ and $H$ are \emph{isomorphic} if we can relabel
+the vertices of $G$ to produce graph $H$. For example, graphs $G_1$
+and $G_2$ in \Cref{fig:intro-examples} are isomorphic.
+Formally, an isomorphism between graphs $G$ and $H$ is a bijection $f$
+from $V(G)$ to $V(H)$, such that $E(H) = \{\{f(u), f(v)\} \mid \{u, v\} \in E(G)\}$.
+If such an $f$ exists, we say that $G$ and $H$ are isomorphic.
+
+An \emph{induced subgraph} of $G = (V, E)$ has a subset $W \subseteq V$ as its
+vertex set, and $\{\{u, v\} \in E \mid \{u, v\} \in W\}$ as its edge set; that
+is, the subgraph includes all edges of $G$ whose endpoints both appear in
+$W$.  We say that this subgraph is \emph{induced by} $W$.
+Graph $G_3$ of \Cref{fig:intro-examples} is thus the subgraph
+of $G_1$ induced by the set $\{1,2,3,4\}$.
+A \emph{subgraph} (without the ``induced'' qualifier) is an induced subgraph
+with zero or more of the edges deleted.
+
+A \emph{common induced subgraph} of graphs $G$ and $H$ is an induced subgraph
+of $G$ which is isomorphic to an induced subgraph of $H$. In
+\Cref{fig:cis-example}, a common induced subgraph of the two graphs (which is
+induced by $\{1,2,3,4\}$) is highlighted on the first graph, and its isomorphic
+subgraph is highlighted on the second graph.  It is often convenient to summarise
+a common induced subgraph and its associated isomorphism $f$ by the \emph{mapping}
+$\{(v,f(v)) \mid v \in W\}$, where $W \subseteq V$ is the set of vertices that
+induces the common subgraph.  In our example, $M = \{(1,6), (2,7), (3,8), (4,9)\}$.
 
 \begin{figure}[h!]
 \centering
-\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.8}]
-%\begin{tikzpicture}
-  \node [draw,circle] (1) at (0,1.6) {7};
-  \node [draw,circle] (2) at (0,0) {8};
-  \node [draw,circle] (3) at (1.2,.8) {9};
-  \node [draw,circle] (4) at (2.4,.8) {10};
-  \node [draw,circle] (5) at (3.6,1.6) {11};
-  \node [draw,circle] (6) at (3.6,0) {12};
-  \draw (1) -- (2);
-  \draw (1) -- (3);
-  \draw (2) -- (3);
-  \draw (3) -- (4);
-  \draw (4) -- (5);
-  \draw (4) -- (6);
-  \draw (5) -- (6);
-\end{tikzpicture}
-\caption{Figure B TODO: add caption}
-\end{figure}
-
-An induced subgraph of $G = (V, E)$ has a subset $W$ of $V$ as its vertex set, and
-$\{\{u, v\} \in E \mid u, v \in W\}$ as its edge set; that is, the subgraph
-includes all edges of $G$ both of whose endpoints appear in $W$.  The first graph
-in Figure C is thus an induced subgraph of the graph in Figure A, whereas the
-second graph is not. We say that the set $W$ induces the subgraph.
-
-\begin{figure}[h!]
-\centering
-\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.8}]
-  \node [draw,circle] (1) at (0,1.6) {1};
-  \node [draw,circle] (2) at (0,0) {2};
-  \node [draw,circle] (3) at (1.2,.8) {3};
-  \node [draw,circle] (4) at (2.4,.8) {4};
-  \draw (1) -- (2);
-  \draw (1) -- (3);
-  \draw (2) -- (3);
-  \draw (3) -- (4);
-\end{tikzpicture}
-\qquad
-\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.8}]
-  \node [draw,circle] (1) at (0,1.6) {1};
-  \node [draw,circle] (2) at (0,0) {2};
-  \node [draw,circle] (3) at (1.2,.8) {3};
-  \node [draw,circle] (4) at (2.4,.8) {4};
-  \draw (1) -- (2);
-  \draw (2) -- (3);
-  \draw (3) -- (4);
-\end{tikzpicture}
-\caption{Figure C TODO: add caption}
-\end{figure}
-
-A \emph{common induced subgraph} of graphs $G$ and $H$ is an induced subgraph of $G$ which
-is isomorphic to an induced subgraph of $H$. In figure D, a common induced
-subgraph of the two graphs is shown in bold on the first graph, and its
-isomorphic subgraph is shown in bold on the second graph.
-
-\begin{figure}[h!]
-\centering
-\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.8}]
-  \node [draw,circle] (1) at (0,1.6) {1};
-  \node [draw,circle] (2) at (0,0) {2};
-  \node [draw,circle] (3) at (1.2,.8) {3};
-  \node [draw,circle] (4) at (2.4,.8) {4};
+\begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+  \node [very thick,draw,circle] (1) at (0,1.6) {1};
+  \node [very thick,draw,circle] (2) at (0,0) {2};
+  \node [very thick,draw,circle] (3) at (1.2,.8) {3};
+  \node [very thick,draw,circle] (4) at (2.4,.8) {4};
   \node [draw,circle] (5) at (1.2,2.4) {5};
-  \draw [red] (1) -- (2);
-  \draw [red] (1) -- (3);
-  \draw [red] (2) -- (3);
-  \draw [red] (3) -- (4);
+  \draw [very thick] (1) -- (2);
+  \draw [very thick] (1) -- (3);
+  \draw [very thick] (2) -- (3);
+  \draw [very thick] (3) -- (4);
   \draw (3) -- (5);
 \end{tikzpicture}
 \qquad
-\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.8}]
-  \node [draw,circle] (1) at (0,1.6) {6};
-  \node [draw,circle] (2) at (0,0) {7};
-  \node [draw,circle] (3) at (1.2,.8) {8};
-  \node [draw,circle] (4) at (2.4,.8) {9};
+\begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+  \node [very thick,draw,circle] (1) at (0,1.6) {6};
+  \node [very thick,draw,circle] (2) at (0,0) {7};
+  \node [very thick,draw,circle] (3) at (1.2,.8) {8};
+  \node [very thick,draw,circle] (4) at (2.4,.8) {9};
   \node [draw,circle] (5) at (3.6,.8) {10};
-  \draw [red] (1) -- (2);
-  \draw [red] (1) -- (3);
-  \draw [red] (2) -- (3);
-  \draw [red] (3) -- (4);
+  \draw [very thick] (1) -- (2);
+  \draw [very thick] (1) -- (3);
+  \draw [very thick] (2) -- (3);
+  \draw [very thick] (3) -- (4);
   \draw (4) -- (5);
 \end{tikzpicture}
-\caption{Figure D TODO: add caption}
+\caption{A pair of graphs with a maximum common induced subgraph highlighted}
+\label{fig:cis-example}
 \end{figure}
 
-A maximum common induced subgraph of $G$ and $H$ is a common induced subgraph of $G$
-and $H$ such that no common induced subgraph of the two graphs has a larger
-vertex set.
+A \emph{maximum common induced subgraph (MCIS)} of $G$ and $H$ is a common
+induced subgraph of $G$ and $H$ whose vertex set is as large as possible; the
+common induced subgraph in \Cref{fig:cis-example} is an example of an MCIS.
 
-%% \section{Maximum Common Induced Sub-Hypergraph}
-%% 
-%% We now describe a problem that includes MCIS as a special case: \emph{maximum common
-%% induced sub-hypergraph (MCISH)} \cite{DBLP:series/sci/BunkeDKNS08}. The class of
-%% \emph{hypergraphs} extends the class of graphs by permitting edges containing more
-%% than two vertices. For example, the hypergraph $(\{1,2,3,4,5\}, \{\{1,2,3\}, \{1,4\}\})$
-%% is shown in Figure E; each edge is shown as a shape enclosing two or more
-%% vertices.
-%% 
-%% \begin{figure}[h!]
-%% \centering
-%% \includegraphics[width=0.5\textwidth]{10-introduction/img/figureE}
-%% \caption{Figure E TODO: add caption}
-%% \end{figure}
-%% 
-%% As with graphs, an isomorphism is a bijection between vertex sets that
-%% preserves edges sets, and two hypergraphs are said to be isomorphic if there is
-%% an isomorphism between their vertex sets.
-%% 
-%% \emph{Induced sub-hypergraph} is defined analogously to induced subgraph.  Let $G=(V,E)$
-%% be a hypergraph, and $W$ be a subset of $V$. Then the sub-hypergraph of $G$ induced
-%% by $W$ has $W$ as its vertex set, and its edge set contains each element of $E$ whose
-%% members are all in $W$. As an example, the sub-hypergraph of the hypergraph in
-%% Figure E induced by $\{1,2,3,5\}$ is $(\{1,2,3,5\}, \{\{1,2,3\}\})$.
-%% 
-%% A \emph{common induced sub-hypergraph (CISH)} of hypergraphs $G$ and $H$ is an induced
-%% sub-hypergraph of $G$ which is isomorphic to an induced sub-hypergraph of $H$. A
-%% maximum common induced sub-hypergraph is a CISH with as many vertices as
-%% possible.
+A \emph{labelled graph} (or \emph{network}) is a triple $(G, f_v, f_e)$
+where $G$ is a graph,
+the \emph{vertex label function} $f_v$ is a function with domain $V(G)$,
+and the \emph{edge label function} $f_e$ is a function with domain $E(G)$.
+The maximum common induced subgraph problem has a natural extension to labelled graphs
+where we require the isomorphism to preserve labels on vertices and edges.
 
-\section{Maximum Common Induced Subgraph for Directed Graphs}
-
-The maximum common induces subgraph problem for directed graphs (MCIS-D) is the
-directed-graph analogue of MCIS.  A directed graph is a pair $(V,A)$, where $V$ is
-the vertex set and $A$, a set of ordered pairs of elements of $V$, is the arc set.
-As an example, Figure F shows the directed graph $(\{1,2,3\}, \{(1,2), (2,1),
-(2,3)\})$.
+A \emph{directed graph} is a pair $(V,A)$, where $V$ is the vertex set and $A$,
+a set of ordered pairs of elements of $V$, is the arc set.  The definitions of
+\emph{induced subgraph}, \emph{isomorphism} and \emph{maximum common induced
+subgraph} for directed graphs are analogous to their counterparts for graphs.
+\label{fig:directed-cis-example} shows two directed graphs with a common
+induced subgraph highlighted.
 
 \begin{figure}[h!]
 \centering
-\begin{tikzpicture}[->]
-%\begin{tikzpicture}
-  \node [draw,circle] (1) at (0,0) {1};
-  \node [draw,circle] (2) at (1.5,1.5) {2};
-  \node [draw,circle] (3) at (3,0) {3};
-  \draw[->,bend left=30] (1) edge (2);
-  \draw[->,bend left=30] (2) edge (1);
-  \draw (2) -> (3);
+\begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+  \node [very thick,draw,circle] (1) at (0,1.6) {1};
+  \node [very thick,draw,circle] (2) at (0,0) {2};
+  \node [very thick,draw,circle] (3) at (1.2,.8) {3};
+  \node [very thick,draw,circle] (4) at (2.4,.8) {4};
+  \node [draw,circle] (5) at (1.2,2.4) {5};
+  \draw [->,thick,bend left=20] (1) edge (2);
+  \draw [->,thick,bend left=20] (2) edge (1);
+  \draw [->,thick] (1) edge (3);
+  \draw [->,thick] (2) edge (3);
+  \draw [->,thick] (3) edge (4);
+  \draw [->] (3) edge (5);
 \end{tikzpicture}
-\caption{Figure F TODO: add caption}
+\qquad
+\begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+  \node [very thick,draw,circle] (1) at (0,1.6) {6};
+  \node [very thick,draw,circle] (2) at (0,0) {7};
+  \node [very thick,draw,circle] (3) at (1.2,.8) {8};
+  \node [very thick,draw,circle] (4) at (2.4,.8) {9};
+  \node [draw,circle] (5) at (3.6,.8) {10};
+  \draw [->,thick,bend left=20] (1) edge (2);
+  \draw [->,thick,bend left=20] (2) edge (1);
+  \draw [->,thick] (1) edge (3);
+  \draw [->,thick] (2) edge (3);
+  \draw [->,thick] (3) edge (4);
+  \draw [->] (4) edge (5);
+\end{tikzpicture}
+\caption{A pair of directed graphs with a maximum common induced subgraph highlighted}
+\label{fig:directed-cis-example}
 \end{figure}
 
-For edge $(u,v)$, we say that $u$ is the source vertex and $v$ is target vertex; both
+For arc $(u,v)$, we say that $u$ is the source vertex and $v$ is target vertex; both
 $u$ and $v$ are called endpoints.
 
-Subgraph, isomorphism, and maximum common induced subgraph are defined
-analogously to the undirected version.
+\section{Problems covered by this dissertation}
 
-% \section{Generalised Maximum Common Induced Subgraph}
-% 
-% We now introduce a problem that generalises all three of the problems discussed
-% so far. We introduce the concept of a \emph{generalised graph (g-graph)}. A
-% g-graph $G = (V, E)$ has a vertex set $V$ and edge set $E$. Each edge in $E$ is
-% non-empty tuple of non-empty subsets of $V$. An example of a g-graph with five
-% vertices and three edges is
-% \[
-% (\{1,2,3,4,5\}, \{(\{1,2\},\{4\}), (\{1,2\}), (\{3\},\{4\})\}).
-% \]
-% 
-% If we restrict elements of E to be 1-tuples of 2-element sets, then g-graphs
-% are equivalent to graphs. If we remove the upper bound on set size, g-graphs
-% become equivalent to hypergraphs. If instead we restrict elements of E to be
-% 2-tuples of singleton sets, then g-graphs are equivalent to directed graphs.
-% 
-% G-graphs can model other types of object such as directed hypergraphs \cite{DBLP:journals/dam/GalloLP93} and a generalisation of directed graphs
-% where each edge may be a path of two or more vertices.
-% 
-% Isomorphism and induced subgraph are defined analogously to their graph
-% versions. We call the MCIS problem on g-graphs generalised maximum common
-% induced subgraph (G-MCIS).
+This dissertation presents algorithms for the following three problems.
 
-\section{Maximum Common Edge Subgraph Problems}
+\begin{itemize}
+    \item \textbf{Maximum common induced subgraph.} Find
+a maximum common induced subgraph of two given graphs.
+    \item \textbf{Induced subgraph isomorphism.} Given graphs $G$ and $H$,
+determine whether $G$ is isomorphic to an induced subgraph of $H$;
+if so, return the isomorphism.
+    \item \textbf{Minimum induced universal graph.} Given a family of graphs $\calF$,
+find a graph with as few vertices as possible that contains each member of $\calF$
+as an induced subgraph.
+\end{itemize}
+
+Each of the three problems can be seen to be NP-hard by a simple reduction from \textsc{Clique}.
+Given graph $G$ and natural number $k$, we can determine whether $G$ contains a clique
+of size $k$ by solving either of the first two problems with the complete graph $K_k$ as
+the first graph and $G$ as the second, or by solving the third problem with the family
+$\{K_k, G\}$ as input.
+
+\section{Related Problems}
+
+The \emph{graph isomorphism} problem is a special case of the induced subgraph
+isomorphism problem in which the two input graphs have the same number of
+vertices.  Most state of the art algorithms for graph isomorphism, such as
+Nauty and Traces, solve the problem by computing a canonical representation of
+each graph and comparing these representations \citep{McKay201494}.  The
+canonical representations may then be re-used for comparisons with other
+graphs.  Considering only pairwise comparisons of graphs, a 2001 study found
+that the induced subgraph isomorphism solver VF2 outperformed Nauty on several
+classes of graph \citep{foggia2001performance}.  While we do not consider graph
+isomorphism further in this dissertation, it would be an interesting topic of
+future work to test whether the current state of the art subgraph isomorphism
+solvers outperform the best graph isomorphism solvers on some interesting
+classes of graphs.
+
+Maximum common induced subgraph and induced subgraph isomorphism each have a non-induced
+counterpart. grib
 
 We now consider the \emph{maximum common edge subgraph (MCES)} family of problems,
 beginning with the simple case of undirected graphs. An edge subgraph of $(V, E)$
@@ -315,22 +345,6 @@ an edge subgraph of $G$.
 A common edge subgraph of graphs $G$ and $H$ is an edge subgraph of $G$ that is
 isomorphic to an edge subgraph of $H$. A maximum common edge subgraph of two
 graphs is a common edge subgraph with as many edges as possible.
-
-?? Chemistry application
-
-%We can extend the definition of MCES to g-graphs to give the G-MCES problem.
-%Analogously to its induced counterpart, this has maximum common edge subgraph
-%in directed graphs and maximum common edge sub-hypergraph as special cases.
-
-\section{Variants}
-
-Maximum common subgraph problems may be extended by associating a label
-function with each graph, which maps each vertex and each edge to a value. The
-isomorphism between subgraphs is required to be label-preserving.
-
-?? Loops
-
-\section{Related Problems}
 
 MCIS generalises the induced subgraph isomorphism problem, which is the problem
 of determining whether graph $G$ is isomorphic to an induced subgraph of graph $H$.
@@ -816,5 +830,7 @@ forms the basis of \Cref{c:mcsplit-i-undirected}.
 %==============================================================================
 \section{Thesis Statement}
 \label{c:intro:thesisstatement}
+
+\section{Recycle Bin}
 
 \input{"10-introduction/thesis_statement.tex"}
