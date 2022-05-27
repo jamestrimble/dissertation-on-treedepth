@@ -639,9 +639,88 @@ in the paper only consider pattern graphs with 10 or fewer vertices.
 
 \section{Algorithms for Maximum Common Subgraph} 
 
-\textbf{TODO see \citet{DBLP:journals/jcamd/RaymondW02a} for a helpful lit review}
+\textbf{TODO see \citet{DBLP:journals/jcamd/RaymondW02a} for a helpful lit review.
+Also Duesbury Holliday and Willett review}
 
+Exact algorithms for the maximum common induced subgraph problem may be divided
+into three broad categories:
+algorithms that solve the maximum clique problem for the association graph,
+algorithms based on constraint programming,
+and algorithms that enumerate subgraphs of graph $G$ and use a subgraph
+isomorphism algorithm to search for each subgraph in graph $H$.  We now review
+each of these categories.
+
+\subsection{Clique algorithms}
+
+\citet{LeviG} reformulated the maximum common induced subgraph problem as the problem
+of finding a maximum clique in the association graph of $G$ and $H$.
+
+The RASCAL algorithm \citep{raymond2002rascal} solves MCES by finding a maximum
+clique in the modular product graph of the line graphs.  The algorithm is
+optimised for matching chemical structures, and does not solve the maximum common
+\emph{connected} subgraph problem.  In addition to greedy
+colouring, the algorithm uses a number of other heuristic colourings to derive
+an upper bound depending on the size of the modular product graph.  Unfortunately
+the authors were unable to provide code for RASCAL.
+
+\cite{DBLP:conf/cp/McCreeshNPS16} uses a state of the art maximum clique algorithm
+to solve this problem, and introduces a modified version of the algorithm to
+solve maximum common \emph{connected} induced subgraph.
+
+\subsection{Constraint programming algorithms}
+
+\citet{DBLP:journals/spe/McGregor82}
+introduced a branch and bound algorithm for the maximum common
+\emph{edge} subgraph problem in which a vertex of $G$ is mapped to a vertex
+of $H$ at each node of the search tree.  A matrix of boolean values indicates
+the set of edges in $H$ to which each edge in $G$ may be mapped; this may be
+viewed as a simple domain store. \citet{DBLP:conf/sspr/BunkeFGSV02}
+reports using McGregor's algorithm to solve MCIS, without giving full
+details of the modifications made to the algorithm.
+
+The first formal CP model for MCIS is given by \cite{DBLP:conf/mco/VismaraV08}.
+This uses binary constraints between all pairs of variables to ensure that
+no pair of vertices in $G$ are mapped to the same vertex in $H$.
+
+\citet{DBLP:conf/cp/NdiayeS11} present a CP model that shares the variables
+of the \citeauthor{DBLP:conf/mco/VismaraV08} model, but replaces the binary constraints
+described above with a single global ``soft allDiff''
+constraint \citep{DBLP:conf/cp/PetitRB01}.  This ensures that distinct vertices
+in $G$ are mapped to distinct vertices in $H$, and uses a matching algorithm
+to calculate a stronger upper bound than the one given by
+the \citeauthor{DBLP:conf/mco/VismaraV08} model.
+\citeauthor{DBLP:conf/cp/NdiayeS11} carry out detailed experiments using
+different levels of consistency for the adjacency and soft allDiff constraints.
+The soft allDiff constraint, which used to calculate an upper bound but
+not to filter domains, causes the algorithm to run several times faster
+than the simple difference constraints used by \citeauthor{DBLP:conf/mco/VismaraV08}.
+Comparing forward checking (FC) and maintaining arc consistency (MAC)
+on the adjacency constraints, FC outperforms MAC on unlabelled instances
+while MAC outperforms FC on labelled instances.
+
+\cite{DBLP:conf/cp/McCreeshNPS16} add a connectedness constraint to
+the CP model of \citet{DBLP:conf/cp/NdiayeS11}.  This is found to perform
+better overall than simply branching on vertices adjacent to some already-mapped
+vertex in order to ensure connectedness.
+
+\subsection{Subgraph enumeration algorithms}
+
+Finally, we mention briefly a very different technique that has been used
+in a number of papers to find a maximum common connected subgraph between two or more
+graphs representing molecules.
+\citep{armitage1967automatic}
+\citep{takahashi1987recognition}
 \citep{DBLP:journals/jcheminf/DalkeH13}
+In this type of algorithm, connected
+subgraphs of the first graph are built one node at a time by a tree search.
+A subgraph isomorphism solver is used to test whether each of these subgraphs
+appears in each of the other input graphs.  In some versions of this algorithms,
+the subgraphs of $G$ are tested for isomorphism with previously-generated subgraphs
+in order to break symmetries.
+Unfortunately, we have been unable to find an implementation of this technique
+for MCIS in general graphs to use in our experimental evaluation.
+
+\subsection{Misc stuff to sort out}
 
 \citet{cao2008maximum} is a backtracking algorithm that does not store domains,
 but tests before making each assignment $(v,w)$ whether the set of vertices in $M$
@@ -653,13 +732,9 @@ a matching upper bound.  In each case, it appears likely that the fact that the 
 store domains results in substantial addition work on each call of the upper bound
 function.  (TODO tidy up that last sentence!)
 
-TODO The RASCAL algorithm \citep{raymond2002rascal} solves MCES by finding a maximum
-clique in the modular product graph of the line graphs.  The algorithm is
-optimised for matching chemical structures, and does not solve the maximum common
-\emph{connected} subgraph problem.  In addition to greedy
-colouring, the algorithm uses a number of other heuristic colourings to derive
-an upper bound depending on the size of the modular product graph.  Unfortunately
-the authors were unable to provide code for RASCAL.
+\citet{DBLP:conf/cp/McCreeshNPS16} TODO talk about clique algo, new version
+of clique algo for connected. TODO check: do they introduce a new connected
+constraint? Do I compare against this in McSplit chapter?
 
 \section{New algorithms in this thesis}
 
@@ -692,6 +767,11 @@ All solvers were compiled using GCC version 9.4.0 with the flags
 (which allows the compiler to use any CPU instruction that is available
 on the machine, and is particularly helpful in improving the performance
 of the Glasgow Subgraph Solver).
+
+\section{A Note on Run Time Plots}
+
+TODO Mention jittering, explain cumulative plots. Or do it when first
+one is shown?
 
 \section{Structure of the Dissertation}
 
