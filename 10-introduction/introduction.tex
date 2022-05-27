@@ -44,21 +44,21 @@
   \end{tikzpicture}
 }
 
-Graphs, or networks --- collections of items (vertices), some pairs of which
-are related --- are a concept that can be used for modelling a huge
-range of systems.  We can, for example, view a molecule as a collection
+Graphs --- collections of items (vertices), some pairs of which
+are related --- can be used to model
+systems from a huge variety of domains.  A molecule can be viewed as a collection
 of vertices (the atoms) joined together by bonds
 \citep{sussenguth1965graph}; 
 an image may be summarised using a vertex for each coloured region
-and joining adjacent regions \citep{DBLP:conf/icip/OlatunbosunDE96}.
+with adjacent vertices joined \citep{DBLP:conf/icip/OlatunbosunDE96}.
 We may wish to determine whether all or a large
 part of a given object --- such as a molecule or image --- is contained
 in another given object.  This dissertation presents new algorithms
 for such problems.
 
-This dissertation introduces algorithms for three NP-hard problems that
-take graphs as inputs.  The first of these is the \emph{maximum common induced subgraph}
-family of problems: we seek to find a large subgraph shared by two given graphs.
+The first problem we consider is the \emph{maximum common induced subgraph}
+family of problems: we seek to find a large subgraph that is
+contained in each of two given graphs.
 Depending on the flavour of the problem, these
 graphs may be directed or undirected and may or may not have labels.
 All of these variants of the can be handled by the \McSplit\ family of algorithms.
@@ -73,25 +73,17 @@ as an induced subgraph.  We again use a variant of the \McSplit\ algorithm ---
 version of \McSplit's data structure that allows very fast processing of sparse graphs.
 
 For the final problem considered in this dissertation, we turn from subgraphs
-to supergraphs.  We study the problem of finding, for a given family of graphs
+to supergraphs.  We study the problem of finding, for a given family of graphs,
 an \textit{induced universal graph} --- that is, a graph that contains every
 member of the family as an induced subgraph --- with as few vertices as
 possible.  This problem generalises the \textit{minimum common supergraph}
 problem to an arbitrary number of input graphs.  Although much progress has
-been made on asymptotic results on the size of induced universal graphs, little
+been made on asymptotic results on the size of induced universal graphs, almost no
 work has been done on developing algorithms to solve the problem exactly.  This
 dissertation presents an algorithm for finding minimal induced universal graphs
 using \McSplit-SI as a subroutine, and presents new terms of integer sequences
 generated using the program.  Further, we present a hill-climbing method for
-finding small (but possibly not optimal) induced universal graphs.
-
-%The final problem covered in this dissertation is the treedepth problem: the
-%problem of finding a \textit{treedepth decomposition} of minimum height for a given
-%graph.  TODO say more
-
-%This paper introduces a family of algorithms for finding maximum common
-%substructures in a broad class of objects that includes both graphs and
-%hypergraphs.
+finding small (although possibly not optimal) induced universal graphs.
 
 \section{Maximum Common Induced Subgraph}
 
