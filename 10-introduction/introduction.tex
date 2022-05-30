@@ -1,6 +1,8 @@
 \chapter{Introduction}
 \label{c:intro}
 
+\newcommand{\ChapterRef}[1] {\Cref{#1}: \nameref{#1}}
+
 \newcommand{\FourQueens}[2] {
   \begin{tikzpicture}[scale=0.6, every node/.style={black,scale=0.9}]
     \newcommand*{\xMin}{0}%
@@ -190,6 +192,10 @@ Formally, an isomorphism between graphs $G$ and $H$ is a bijection $f$
 from $V(G)$ to $V(H)$, such that $E(H) = \{\{f(u), f(v)\} \mid \{u, v\} \in E(G)\}$.
 If such an $f$ exists, we say that $G$ and $H$ are isomorphic.
 
+The \emph{line graph} of a graph $G=(V,E)$ is a graph with a vertex for each element
+of $E$, such that two vertices are adjacent if and only if their corresponding edges
+in $G$ share an endpoint.
+
 An \emph{induced subgraph} of $G = (V, E)$ has a subset $W \subseteq V$ as its
 vertex set, and $\{\{u, v\} \in E \mid \{u, v\} \in W\}$ as its edge set; that
 is, the subgraph includes all edges of $G$ whose endpoints both appear in
@@ -242,6 +248,10 @@ induces the common subgraph.  In our example, $M = \{(1,6), (2,7), (3,8), (4,9)\
 A \emph{maximum common induced subgraph (MCIS)} of $G$ and $H$ is a common
 induced subgraph of $G$ and $H$ whose vertex set is as large as possible; the
 common induced subgraph in \Cref{fig:cis-example} is an example of an MCIS.
+
+A \emph{clique} is a set of vertices that are mutually adjacent, and the
+\emph{maximum clique problem} is, given a graph $G$, to find a clique in $G$
+with as many vertices as possible.
 
 A \emph{labelled graph} (or \emph{network}) is a triple $(G, f_v, f_e)$
 where $G$ is a graph,
@@ -316,7 +326,10 @@ $\{K_k, G\}$ as input.
 
 \section{Related Problems}
 
-The \emph{graph isomorphism} problem is a special case of the induced subgraph
+This section briefly introduces three problems that are closely related to
+maximum common induced subgraph and induced subgraph isomorphism.
+
+The \emph{graph isomorphism problem} is a special case of the induced subgraph
 isomorphism problem in which the two input graphs have the same number of
 vertices.  Most state of the art algorithms for graph isomorphism, such as
 Nauty and Traces, solve the problem by computing a canonical representation of
@@ -330,74 +343,51 @@ future work to test whether the current state of the art subgraph isomorphism
 solvers outperform the best graph isomorphism solvers on some interesting
 classes of graphs.
 
-Maximum common induced subgraph and induced subgraph isomorphism each have a non-induced
-counterpart. grib
+Induced subgraph isomorphism and maximum common induced subgraph each have a
+non-induced counterpart. The \emph{subgraph monomorphism problem} is to determine
+whether graph $G$ is isomorphic to a subgraph of graph $H$, without the requirement
+that the subgraph be induced.
+This problem is also known as \emph{subgraph isomorphism} (without
+the ``induced'' qualifier), but we will use the name subgraph monomorphism
+to avoid confusion with induced subgraph isomorphism.
 
-We now consider the \emph{maximum common edge subgraph (MCES)} family of problems,
-beginning with the simple case of undirected graphs. An edge subgraph of $(V, E)$
-is any graph $(W, F)$ such that $W$ is a subset of $V$ and $F$ is a subset of $E$; the
-subgraph may thus contain any subsets of the vertices and edges of the original
-graph, as long as the subgraph’s vertex set contains all of the endpoints of
-edges in its edge set. To give two examples, both graphs in Figure C are edge
-subgraphs of the graph in Figure B. Every induced subgraph of a graph $G$ is also
-an edge subgraph of $G$.
+The \emph{maximum common edge subgraph (MCES)} problem is to find a subgraph of
+graph $G$ with as many edges as possible that is isomorphic to a subgraph of
+graph $H$, again without requiring the subgraphs to be induced.
+There is a close connection between this problem and MCIS: by a
+result due to \citet{whitney1932congruent}, we can find the MCES two
+graphs by searching for an MCIS on their line graphs.  This approach has a
+small complication: the triangle graph $K_3$ and the claw graph $K_{1,3}$
+(\cref{fig:k3-and-claw}) both have $K_3$ as their line graph, and we must
+therefore check during search that a triangle in $G$ is not mapped to a claw
+in $H$ or vice versa.
 
-A common edge subgraph of graphs $G$ and $H$ is an edge subgraph of $G$ that is
-isomorphic to an edge subgraph of $H$. A maximum common edge subgraph of two
-graphs is a common edge subgraph with as many edges as possible.
+\begin{figure}[htb]
+    \centering
+    \input{10-introduction/k3-and-claw}
+    \caption{The graphs $K_3$ and $K_{1,3}$.}
+    \label{fig:k3-and-claw}
+\end{figure}
 
-MCIS generalises the induced subgraph isomorphism problem, which is the problem
-of determining whether graph $G$ is isomorphic to an induced subgraph of graph $H$.
-MCES generalises the non-induced subgraph isomorphism problem, which is to
-determine whether $G$ is isomorphic to an edge subgraph of $H$. Both problems are
-NP-complete; thus, all of the maximum common subgraph problems described so far
-are NP-hard.
+Several algorithms for MCES, such as RASCAL
+\citep{DBLP:journals/cj/RaymondGW02}, use this method, as we will discuss further
+in the next section.  \citet{DBLP:conf/mco/VismaraV08} describe how this technique
+can be used on labelled graphs.
 
-Both of the subgraph isomorphism problems generalise graph isomorphism, which
-is to determine whether two graphs are isomorphic. ?? As we will discuss later,
-our partitioning algorithms have similarities to graph isomorphism algorithms
-such as Conauto.
+The present author's preliminary work on using the \McSplit\ algorithm
+described in this thesis for MCES shows promising results
+\citep{trimble2018three}. This would be a useful direction for future work, but
+it is not pursued further in this dissertation.
 
-The maximum clique problem is to find an induced subgraph of a graph $G$ with as
-many vertices as possible, such that the subgraph has all possible edges; that
-is ??. Maximum clique can be solved (although rather inefficiently in practice)
-using an MCIS algorithm, by finding the MCIS of $G$ and a complete graph with the
-same number of vertices as $G$.
+%The maximum clique problem is to find an induced subgraph of a graph $G$ with as
+%many vertices as possible, such that the subgraph has all possible edges; that
+%is ??. Maximum clique can be solved (although rather inefficiently in practice)
+%using an MCIS algorithm, by finding the MCIS of $G$ and a complete graph with the
+%same number of vertices as $G$.
 
-\section{Existing Algorithms}
+\section{Constraint Programming}
 
-In this subsection, we outline the existing approaches for solving MCIS on
-undirected graphs. Algorithms for other maximum common subgraph problems have
-similarities to these approaches, and will be described in detail in later
-chapters.
 
-It is useful to introduce the concept of a mapping to denote a pair of common
-subgraphs of input graphs $G$ and $H$ and the isomorphism between these subgraphs.
-A mapping $M$ is a set of 2-tuples, where each tuple contains a vertex from the
-first graph followed by a vertex from the second graph. The subgraph of $G$ is
-induced by $\{u \mid (u, v) \in M\}$, and the subgraph of $H$ is induced by $\{v \mid (u, v)
-\in M\}$. The isomorphism between these subgraphs is a function that maps each $u$
-that appears as the first element of a 2-tuple to the second element of that
-tuple.
-
-The association graph of $G$ and $H$ is a graph with $\{(u,v) \mid u \in V(G) \wedge v \in
-V(H)\}$ as its vertex set; it thus has $|V(G)||V(H)|$ vertices. Two vertices $(u,v)$
-and $(u',v')$ in the association graph are adjacent if and only if all of the
-following conditions are met.
-
-\begin{itemize}
-  \item $u \not= u'$
-  \item $v \not= v'$
-  \item $((u,u') \in E(G)) = ((v,v') \in E(H))$
-\end{itemize}
-
-A subset of the vertices of the association graph is a valid mapping if and
-only if it is a clique in the association graph (?? proof?). Thus, we can find
-an MCIS of G and H by running a maximum clique solver on the association graph
-of G and H. Association graph encodings can be used to solve directed MCIS on
-directed graphs and (with modifications) MCES.
-
-\section{Backtracking Search}
 
 TODO: describe search tree, CP, forward checking, levels of consistency.
 
@@ -649,17 +639,91 @@ in the paper only consider pattern graphs with 10 or fewer vertices.
 Also Duesbury Holliday and Willett review}
 
 Exact algorithms for the maximum common induced subgraph problem may be divided
-into three broad categories:
-algorithms that solve the maximum clique problem for the association graph,
-algorithms based on constraint programming,
-and algorithms that enumerate subgraphs of graph $G$ and use a subgraph
-isomorphism algorithm to search for each subgraph in graph $H$.  We now review
-each of these categories.
+into three broad categories: algorithms that solve the maximum clique problem
+on a derived graph called the association graph, algorithms based on
+constraint programming, and algorithms that enumerate subgraphs of graph $G$
+and use a subgraph isomorphism algorithm to search for each subgraph in graph
+$H$.  We now review each of these categories.
 
 \subsection{Clique algorithms}
 
-\citet{LeviG} reformulated the maximum common induced subgraph problem as the problem
-of finding a maximum clique in the association graph of $G$ and $H$.
+The \emph{association graph} (also known as the weak modular product graph)
+of $\graphG$ $\graphH$, which we will call
+$\graphA$, is defined as follow.  The vertex set of $\graphA$ is $V(\graphG)
+\times V(\graphH)$.  Two vertices $(v,w)$ and $(v',w')$ of $\graphA$ are
+adjacent if and only if $v \not= v'$, $w \not= w'$, and either (1) $v$ and $v'$
+are adjacent in $\graphG$ and $w$ and $w'$ are adjacent in $\graphH$ or (2) $v$
+and $v'$ are not adjacent in $\graphG$ and $w$ and $w'$ are not adjacent in
+$\graphH$.
+
+Every common subgraph of $G$ and $H$, which may be viewed as a mapping $M$,
+corresponds to a clique in $A$ with vertex set $M$.  Thus, we can can find
+a maximum common subgraph of $G$ and $H$ by finding a maximum clique in $A$
+\citep{LeviG}.
+
+\Cref{fig:intro-assoc-graph} shows two graphs and their association graph.
+The thick edges in the association graph correspond to a maximum common
+induced subgraph.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][$G$] {
+        \begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+          \node [draw,circle] (1) at (0,0) {1};
+          \node [draw,circle] (2) at (1,0) {2};
+          \node [draw,circle] (3) at (2,0) {3};
+          \node [draw,circle] (4) at (3,0) {4};
+	  \node[] () at (0,-2.5) {};   % just to move the picture up a bit
+          \draw (1) -- (2);
+          \draw (2) -- (3);
+          \draw (3) -- (4);
+        \end{tikzpicture}
+        \label{fig:assoc-g}
+    }
+    \quad\subfigure[][$H$] {
+        \begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.7mm}]
+          \node [draw,circle] (a) at (1,2) {a};
+          \node [draw,circle] (b) at (2,1) {b};
+          \node [draw,circle] (c) at (1,0) {c};
+          \node [draw,circle] (d) at (0,1) {d};
+	  \node[] () at (0,-1.5) {};   % just to move the picture up a bit
+          \draw (a) -- (b);
+          \draw (b) -- (c);
+          \draw (c) -- (d);
+          \draw (d) -- (a);
+        \end{tikzpicture}
+        \label{fig:assoc-h}
+    }
+    \quad\subfigure[][Association graph] {
+        \begin{tikzpicture}[scale=0.6, every node/.style={scale=0.8,inner sep=.5mm}]
+          \node [draw,circle] (1a) at (0,4) {1a};
+          \node [draw,circle] (1b) at (0,3) {1b};
+          \node [draw,circle] (1c) at (0,2) {1c};
+          \node [draw,circle] (1d) at (0,1) {1d};
+          \node [draw,circle] (2a) at (1,5) {2a};
+          \node [draw,circle] (2b) at (2,5) {2b};
+          \node [draw,circle] (2c) at (3,5) {2c};
+          \node [draw,circle] (2d) at (4,5) {2d};
+          \node [draw,circle] (3a) at (5,4) {3a};
+          \node [draw,circle] (3b) at (5,3) {3b};
+          \node [draw,circle] (3c) at (5,2) {3c};
+          \node [draw,circle] (3d) at (5,1) {3d};
+          \node [draw,circle] (4a) at (1,0) {4a};
+          \node [draw,circle] (4b) at (2,0) {4b};
+          \node [draw,circle] (4c) at (3,0) {4c};
+          \node [draw,circle] (4d) at (4,0) {4d};
+	  \input{14-mcsplit-i-undirected/association-graph/small-assoc-graph-edges}
+        \end{tikzpicture}
+        \label{fig:assoc}
+    }
+    \caption{Two graphs and their association graph.  The edges of a maximum
+    clique in the association graph are highlighted. This corresponds to a maximum
+    common induced subgraph: the subgraph of $G$ induced by $\{1,2,3\}$,
+    which is isomorphic to the subgraph of $H$ induced by $\{a,b,c\}$.}
+    \label{fig:intro-assoc-graph}
+\end{figure}
+
+\citet{durand1999efficient}
 
 The RASCAL algorithm \citep{raymond2002rascal} solves MCES by finding a maximum
 clique in the modular product graph of the line graphs.  The algorithm is
@@ -783,17 +847,17 @@ one is shown?
 
 The remainder of this dissertation is structured as follows.
 
-\paragraph*{\Cref{c:mcsplit-i-undirected}} introduces the \McSplit\ algorithm
+\paragraph*{\ChapterRef{c:mcsplit-i-undirected}} introduces the \McSplit\ algorithm
 for the maximum common induced subgraph problem and its variants, and carries out
 an experimental comparison with existing state of the art solvers.
 
-\paragraph*{\Cref{c:swapping-graphs-mcsplit}} asks whether and when
+\paragraph*{\ChapterRef{c:swapping-graphs-mcsplit}} asks whether and when
 it is useful to swap the two graphs given as input to a \McSplit.  We develop
 two simple rules for determining when to swap the graphs, and generalise
 these to the algorithm \McSplit-2S which branches on vertices of both
 input graphs.
 
-\paragraph*{\Cref{c:mcsplit-si}} introduces the \McSplit-SI algorithm for the
+\paragraph*{\ChapterRef{c:mcsplit-si}} introduces the \McSplit-SI algorithm for the
 induced subgraph isomorphism problem.  This is based on \McSplit, but uses
 special data structures designed to work well if the input graphs are sparse.
 We present an extensive set of experiments comparing the algorithm to state of
@@ -801,10 +865,10 @@ the art solvers.  Finally, we modify \McSplit-SI to solve the maximum common
 induced subgraph problem, and show that it outperforms the state of the art
 solver for large, sparse graphs.
 
-\paragraph*{\Cref{c:mcsplit-i-undirected}} introduces exact and heuristics
+\paragraph*{\ChapterRef{c:mcsplit-i-undirected}} introduces exact and heuristics
 for the minimum induced universal graph problem.
 
-\paragraph*{\Cref{c:conclusion}} concludes.
+\paragraph*{\ChapterRef{c:conclusion}} concludes.
 
 \section{Miscellaneous notes}
 
