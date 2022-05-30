@@ -541,7 +541,7 @@ arc consistency throughout search outweighs the benefit; as a compromise,
 McGregor enforces arc consistency only after assigning the first pattern-graph
 vertex, and uses forward checking at deeper levels of the search tree.
 McGregor uses a static variable ordering heuristic in which vertices
-with most constraints to previously-instantiated vertices are selected first.
+with most constraints involving previously-instantiated vertices are selected first.
 
 \paragraph*{R{\'{e}}gin's all-different propagator}
 \citet{DBLP:conf/aaai/Regin94}
@@ -781,15 +781,30 @@ one is shown?
 
 \section{Structure of the Dissertation}
 
-FIXME
+The remainder of this dissertation is structured as follows.
 
-Chapter 2 surveys the literature on algorithms for MCIS, MCES, and related
-problems. Chapter 3 introduces the McSplit algorithm for MCIS on undirected
-graphs. Chapter 4 generalises McSplit to MCIS problems on g-graphs. In Chapter
-5, we turn to MCES, and describe how this can be solved by a variant of McSplit
-and by association graph encodings. In Chapter 6, we introduce a variant of
-McSplit for block and bridge preserving MCIS, a version of the problem with
-applications to chemistry. Chapter 7 concludes.
+\paragraph*{\Cref{c:mcsplit-i-undirected}} introduces the \McSplit\ algorithm
+for the maximum common induced subgraph problem and its variants, and carries out
+an experimental comparison with existing state of the art solvers.
+
+\paragraph*{\Cref{c:swapping-graphs-mcsplit}} asks whether and when
+it is useful to swap the two graphs given as input to a \McSplit.  We develop
+two simple rules for determining when to swap the graphs, and generalise
+these to the algorithm \McSplit-2S which branches on vertices of both
+input graphs.
+
+\paragraph*{\Cref{c:mcsplit-si}} introduces the \McSplit-SI algorithm for the
+induced subgraph isomorphism problem.  This is based on \McSplit, but uses
+special data structures designed to work well if the input graphs are sparse.
+We present an extensive set of experiments comparing the algorithm to state of
+the art solvers.  Finally, we modify \McSplit-SI to solve the maximum common
+induced subgraph problem, and show that it outperforms the state of the art
+solver for large, sparse graphs.
+
+\paragraph*{\Cref{c:mcsplit-i-undirected}} introduces exact and heuristics
+for the minimum induced universal graph problem.
+
+\paragraph*{\Cref{c:conclusion}} concludes.
 
 \section{Miscellaneous notes}
 
@@ -830,7 +845,5 @@ forms the basis of \Cref{c:mcsplit-i-undirected}.
 %==============================================================================
 \section{Thesis Statement}
 \label{c:intro:thesisstatement}
-
-\section{Recycle Bin}
 
 \input{"10-introduction/thesis_statement.tex"}
