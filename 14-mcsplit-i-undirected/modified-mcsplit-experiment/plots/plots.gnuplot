@@ -1,5 +1,7 @@
 # vim: set et ft=gnuplot sw=4 :
 
+load "../../../plot-utils/plot-utils.gnuplot"
+
 set terminal tikz standalone color size 7cm,5cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
 
 set border 3
@@ -18,14 +20,14 @@ set output "plots/decision-problems-last-two-all-others.tex"
 set title
 set xlabel "Last two decision problems"
 set ylabel "All other decision problems"
-plot "< awk 'NR==1 || $6 < 100000' ../results/runtimes.mcsplaindecisioninstances.txt" using ($2+$3):($4-$2-$3) w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "< awk 'NR==1 || $6 < 1000000' ../fatanode-results/runtimes.mcsplaindecisioninstances.txt" using ($2+$3):($4-$2-$3) w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/decision-problems-last-two.tex"
 set title
 set xlabel "Last UNSAT decision problem"
 set ylabel "SAT decision problem"
-plot "< awk 'NR==1 || $6 < 100000' ../results/runtimes.mcsplaindecisioninstances.txt" using 2:3 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "< awk 'NR==1 || $6 < 1000000' ../fatanode-results/runtimes.mcsplaindecisioninstances.txt" using 2:3 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 
@@ -39,13 +41,18 @@ set output "plots/left-vs-right-mcsplain.tex"
 set title
 set xlabel "\\textproc{McSplit}"
 set ylabel "\\textproc{McSplit} with $G$ and $H$ swapped"
-plot "../results/runtimes.mcsplaininstances.txt" using 1:6 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "../fatanode-results/runtimes.mcsplaininstances.txt" using 1:6 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 
 set output "plots/left-vs-right-random2.tex"
 set title
-plot "../results/runtimes.randomplaininstances2.txt" using 6:7 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "../fatanode-results/runtimes.randomplaininstances2.txt" using 6:7 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+    x lc rgb '#888888' notitle
+
+set output "plots/left-vs-right-random3.tex"
+set title
+plot "../fatanode-results/runtimes.randomplaininstances3.txt" using 6:7 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 ######################################################################################################
@@ -58,14 +65,14 @@ set output "plots/left-vs-smart-random2.tex"
 set title
 set xlabel "\\textproc{McSplit}"
 set ylabel "\\textproc{McSplit}-SD"
-plot "../results/runtimes.randomplaininstances2.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "../fatanode-results/runtimes.randomplaininstances2.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/left-vs-smart-random3.tex"
 set title
 set xlabel "\\textproc{McSplit}"
 set ylabel "\\textproc{McSplit}-SO"
-plot "../results/runtimes.randomplaininstances3.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "../fatanode-results/runtimes.randomplaininstances3.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 ######################################################################################################
@@ -76,21 +83,21 @@ set output "plots/mcsplit-vs-mcsplit2-ba.tex"
 set title
 set xlabel "\\textproc{McSplit}"
 set ylabel "\\textproc{McSplit}-2S"
-plot "../results/runtimes.barabasialbertinstances.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "../fatanode-results/runtimes.barabasialbertinstances.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/mcsplit-vs-mcsplit2-ba-gnm.tex"
 set title
 set xlabel "\\textproc{McSplit}"
 set ylabel "\\textproc{McSplit}-2S"
-plot "../results/runtimes.ba-gnpinstances.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "../fatanode-results/runtimes.ba-gnpinstances.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/mcsplit-vs-mcsplit2-gnm.tex"
 set title
 set xlabel "\\textproc{McSplit}"
 set ylabel "\\textproc{McSplit}-2S"
-plot "../results/runtimes.gnminstances.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+plot "../fatanode-results/runtimes.gnminstances.txt" using 6:8 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
     x lc rgb '#888888' notitle
 
 ######################################################################################################
@@ -131,9 +138,9 @@ set ytics autofreq
 set xrange[1:1000000]
 unset yrange
 set key right bottom
-plot "../results/runtimes.randomplaininstances2.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.randomplaininstances2.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../results/runtimes.randomplaininstances2.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
+plot "../fatanode-results/runtimes.randomplaininstances2.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances2.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../fatanode-results/runtimes.randomplaininstances2.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
 
 set size nosquare
 set output "plots/mcsplit-random-smart-order-cumulative.tex"
@@ -147,9 +154,9 @@ set ytics autofreq
 set xrange[1:1000000]
 unset yrange
 set key right bottom
-plot "../results/runtimes.randomplaininstances3.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.randomplaininstances3.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 2, \
-     "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../results/runtimes.randomplaininstances3.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
+plot "../fatanode-results/runtimes.randomplaininstances3.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances3.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 2, \
+     "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../fatanode-results/runtimes.randomplaininstances3.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
 
 ######################################################################################################
 # Cumulative plots, McSplit vs McSplit2 vs McSplit2'
@@ -169,50 +176,50 @@ set xrange[1:1000000]
 unset yrange
 set key right bottom
 set output "plots/mcsplain-mcsplit2-cumulative.tex"
-plot "../results/runtimes.mcsplaininstances.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.mcsplaininstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../results/runtimes.mcsplaininstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.mcsplaininstances.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.mcsplaininstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.mcsplaininstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/random2-mcsplit2-cumulative.tex"
-plot "../results/runtimes.randomplaininstances2.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.randomplaininstances2.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "../results/runtimes.randomplaininstances2.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../results/runtimes.randomplaininstances2.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.randomplaininstances2.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances2.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "../fatanode-results/runtimes.randomplaininstances2.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.randomplaininstances2.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/random3-mcsplit2-cumulative.tex"
-plot "../results/runtimes.randomplaininstances3.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.randomplaininstances3.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
-     "../results/runtimes.randomplaininstances3.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../results/runtimes.randomplaininstances3.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.randomplaininstances3.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances3.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
+     "../fatanode-results/runtimes.randomplaininstances3.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.randomplaininstances3.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/random4-mcsplit2-cumulative.tex"
-plot "../results/runtimes.randomplaininstances4.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.randomplaininstances4.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "../results/runtimes.randomplaininstances4.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
-     "../results/runtimes.randomplaininstances4.txt" u 11:($11>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../results/runtimes.randomplaininstances4.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.randomplaininstances4.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances4.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "../fatanode-results/runtimes.randomplaininstances4.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
+     "../fatanode-results/runtimes.randomplaininstances4.txt" u 11:($11>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.randomplaininstances4.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/mixandmatch-cumulative.tex"
-plot "../results/runtimes.mcsplainmixandmatchinstances.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.mcsplainmixandmatchinstances.txt" u 7:($7>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "../results/runtimes.mcsplainmixandmatchinstances.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
-     "../results/runtimes.mcsplainmixandmatchinstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../results/runtimes.mcsplainmixandmatchinstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 7:($7>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
+     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/ba-cumulative.tex"
-plot "../results/runtimes.barabasialbertinstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.barabasialbertinstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../results/runtimes.barabasialbertinstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.barabasialbertinstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.barabasialbertinstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.barabasialbertinstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/ba-gnm-cumulative.tex"
-plot "../results/runtimes.ba-gnpinstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.ba-gnpinstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../results/runtimes.ba-gnpinstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.ba-gnpinstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.ba-gnpinstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.ba-gnpinstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/gnm-cumulative.tex"
-plot "../results/runtimes.gnminstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../results/runtimes.gnminstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../results/runtimes.gnminstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.gnminstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.gnminstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.gnminstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 ######################################################################################################
 # Plots showing when it's better to swap graphs: varying density
@@ -230,10 +237,10 @@ set xtics 0,.2
 set ytics 0,.2
 set xrange[0:1]
 set yrange[0:1]
-plot "< awk 'NR==1 || ($6 < $7*.5 && ($6<100000 || $7<100000))' ../results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
-     "< awk 'NR==1 || ($6 < $7 && $6 >= $7*.5 && ($6<100000 || $7<100000))' ../results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 7 pointsize .18 lc rgb '#afcbe0' notitle, \
-     "< awk 'NR==1 || ($7 < $6*.5 && ($6<100000 || $7<100000))' ../results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 7 pointsize .18 lc rgb '#e00d0d' notitle, \
-     "< awk 'NR==1 || ($7 < $6 && $7 >= $6*.5 && ($6<100000 || $7<100000))' ../results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 7 pointsize .18 lc rgb '#efacac' notitle, \
+plot "< awk 'NR==1 || ($6 < $7*.5 && ($6<1000000 || $7<1000000))' ../fatanode-results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+     "< awk 'NR==1 || ($6 < $7 && $6 >= $7*.5 && ($6<1000000 || $7<1000000))' ../fatanode-results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 7 pointsize .18 lc rgb '#afcbe0' notitle, \
+     "< awk 'NR==1 || ($7 < $6*.5 && ($6<1000000 || $7<1000000))' ../fatanode-results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 7 pointsize .18 lc rgb '#e00d0d' notitle, \
+     "< awk 'NR==1 || ($7 < $6 && $7 >= $6*.5 && ($6<1000000 || $7<1000000))' ../fatanode-results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 7 pointsize .18 lc rgb '#efacac' notitle, \
     x lc rgb '#888888' notitle, \
     1-x lc rgb '#888888' notitle
 
@@ -247,10 +254,10 @@ set xtics 0,.1
 set ytics 0,.1
 set xrange[0:.5]
 set yrange[0:.5]
-plot "< awk 'NR==1 || ($3 < $4*.5 && ($3<100000 || $4<100000))' runtimes-and-extremeness.randomplaininstances2.txt" using 1:2 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
-     "< awk 'NR==1 || ($3 < $4 && $3 >= $4*.5 && ($3<100000 || $4<100000))' runtimes-and-extremeness.randomplaininstances2.txt" using 1:2 w p pointtype 7 pointsize .18 lc rgb '#afcbe0' notitle, \
-     "< awk 'NR==1 || ($4 < $3*.5 && ($3<100000 || $4<100000))' runtimes-and-extremeness.randomplaininstances2.txt" using 1:2 w p pointtype 7 pointsize .18 lc rgb '#e00d0d' notitle, \
-     "< awk 'NR==1 || ($4 < $3 && $4 >= $3*.5 && ($3<100000 || $4<100000))' runtimes-and-extremeness.randomplaininstances2.txt" using 1:2 w p pointtype 7 pointsize .18 lc rgb '#efacac' notitle, \
+plot "< awk 'NR==1 || ($3 < $4*.5 && ($3<1000000 || $4<1000000))' runtimes-and-extremeness.randomplaininstances2.txt" using 1:2 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+     "< awk 'NR==1 || ($3 < $4 && $3 >= $4*.5 && ($3<1000000 || $4<1000000))' runtimes-and-extremeness.randomplaininstances2.txt" using 1:2 w p pointtype 7 pointsize .18 lc rgb '#afcbe0' notitle, \
+     "< awk 'NR==1 || ($4 < $3*.5 && ($3<1000000 || $4<1000000))' runtimes-and-extremeness.randomplaininstances2.txt" using 1:2 w p pointtype 7 pointsize .18 lc rgb '#e00d0d' notitle, \
+     "< awk 'NR==1 || ($4 < $3 && $4 >= $3*.5 && ($3<1000000 || $4<1000000))' runtimes-and-extremeness.randomplaininstances2.txt" using 1:2 w p pointtype 7 pointsize .18 lc rgb '#efacac' notitle, \
     x lc rgb '#888888' notitle
 
 set output "plots/density-when-swap-b.tex"
@@ -263,8 +270,8 @@ set xtics 0,.2
 set ytics 0,.2
 set xrange[0:1]
 set yrange[0:1]
-plot "< awk 'NR==1 || ($11 < $12 && ($11<100000 || $12<100000))' ../results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 12 pointsize .18 lc rgb '#1f1212b4' notitle, \
-     "< awk 'NR==1 || ($12 < $11 && ($11<100000 || $12<100000))' ../results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 12 pointsize .18 lc rgb '#ff0000' notitle, \
+plot "< awk 'NR==1 || ($11 < $12 && ($11<1000000 || $12<1000000))' ../fatanode-results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 12 pointsize .18 lc rgb '#1f1212b4' notitle, \
+     "< awk 'NR==1 || ($12 < $11 && ($11<1000000 || $12<1000000))' ../fatanode-results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 12 pointsize .18 lc rgb '#ff0000' notitle, \
     x lc rgb '#888888' notitle, \
     1-x lc rgb '#888888' notitle
 
@@ -274,8 +281,8 @@ set xlabel "Density of $G$"
 set ylabel "Density of $H$"
 set format x
 set format y
-plot "< awk 'NR==1 || ($14 < $15 && ($14<100000 || $15<100000))' ../results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 15 pointsize .18 lc rgb '#1f1515b4' notitle, \
-     "< awk 'NR==1 || ($15 < $14 && ($14<100000 || $15<100000))' ../results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 15 pointsize .18 lc rgb '#ff0000' notitle, \
+plot "< awk 'NR==1 || ($14 < $15 && ($14<1000000 || $15<1000000))' ../fatanode-results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 15 pointsize .18 lc rgb '#1f1515b4' notitle, \
+     "< awk 'NR==1 || ($15 < $14 && ($14<1000000 || $15<1000000))' ../fatanode-results/runtimes.randomplaininstances2.txt" using 3:5 w p pointtype 15 pointsize .18 lc rgb '#ff0000' notitle, \
     x lc rgb '#888888' notitle, \
     1-x lc rgb '#888888' notitle
 
@@ -294,10 +301,10 @@ set format x
 set format y
 set xtics 10,5
 set ytics 10,5
-set xrange[10:40]
-set yrange[10:40]
-plot "< awk 'NR==1 || ($6 < $7*.5 && ($6<100000 || $7<100000))' ../results/runtimes.randomplaininstances3.txt" using 2:4 w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
-     "< awk 'NR==1 || ($6 < $7 && $6 >= $7*.5 && ($6<100000 || $7<100000))' ../results/runtimes.randomplaininstances3.txt" using 2:4 w p pointtype 7 pointsize .18 lc rgb '#afcbe0' notitle, \
-     "< awk 'NR==1 || ($7 < $6*.5 && ($6<100000 || $7<100000))' ../results/runtimes.randomplaininstances3.txt" using 2:4 w p pointtype 7 pointsize .18 lc rgb '#e00d0d' notitle, \
-     "< awk 'NR==1 || ($7 < $6 && $7 >= $6*.5 && ($6<100000 || $7<100000))' ../results/runtimes.randomplaininstances3.txt" using 2:4 w p pointtype 7 pointsize .18 lc rgb '#efacac' notitle, \
+set xrange[10:50]
+set yrange[10:50]
+plot "< awk 'NR==1 || ($6 < $7*.5 && ($6<1000000 || $7<1000000))' ../fatanode-results/runtimes.randomplaininstances3.txt" using (slightjitt($2)):(slightjitt($4)) w p pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
+     "< awk 'NR==1 || ($6 < $7 && $6 >= $7*.5 && ($6<1000000 || $7<1000000))' ../fatanode-results/runtimes.randomplaininstances3.txt" using (slightjitt($2)):(slightjitt($4)) w p pointtype 7 pointsize .18 lc rgb '#afcbe0' notitle, \
+     "< awk 'NR==1 || ($7 < $6*.5 && ($6<1000000 || $7<1000000))' ../fatanode-results/runtimes.randomplaininstances3.txt" using (slightjitt($2)):(slightjitt($4)) w p pointtype 7 pointsize .18 lc rgb '#e00d0d' notitle, \
+     "< awk 'NR==1 || ($7 < $6 && $7 >= $6*.5 && ($6<1000000 || $7<1000000))' ../fatanode-results/runtimes.randomplaininstances3.txt" using (slightjitt($2)):(slightjitt($4)) w p pointtype 7 pointsize .18 lc rgb '#efacac' notitle, \
     x lc rgb '#888888' notitle
