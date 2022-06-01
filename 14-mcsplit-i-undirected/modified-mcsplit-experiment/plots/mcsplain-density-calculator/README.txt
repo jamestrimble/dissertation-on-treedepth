@@ -1,1 +1,1 @@
-This only works for unlabelled, undirected graphs!
+This works for directed graphs (with the -i option) or undirected graphs.

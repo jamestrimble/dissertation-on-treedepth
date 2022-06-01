@@ -489,7 +489,9 @@ int main(int argc, char** argv) {
     for (int deg : g0_deg)
         total_deg += deg;
     int num_edges = total_deg / 2;
-    double density = ((double) num_edges) / (g0.n * (g0.n-1) / 2);
+    double density = 
+        arguments.directed ? ((double) num_edges) / (g0.n * (g0.n-1))
+                           : ((double) num_edges) / (g0.n * (g0.n-1) / 2);
     if (arguments.print_n)
         std::cout << g0.n << std::endl;
     std::cout << density << std::endl;
