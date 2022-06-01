@@ -8,6 +8,14 @@ cat ../../plots-based-on-ijcai-paper/experiments/mcsplaininstances.txt | while r
         $(./mcsplain-density-calculator/density-calculator ~/OthersCode/cp2016-max-common-connected-subgraph-paper/datasets/$c)
 done | tee -a densities.mcsplaininstances.txt
 
+echo instance densityA densityB > densities.mcs33vedinstances.txt
+cat ../../plots-based-on-ijcai-paper/experiments/mcs33vedinstances.txt | while read a b c d; do
+    echo \
+        $a \
+        $(./mcsplain-density-calculator/density-calculator -i ~/OthersCode/cp2016-max-common-connected-subgraph-paper/datasets/$b) \
+        $(./mcsplain-density-calculator/density-calculator -i ~/OthersCode/cp2016-max-common-connected-subgraph-paper/datasets/$c)
+done | tee -a densities.mcs33vedinstances.txt
+
 echo instance nA densityA nB densityB > densities.mixandmatchinstances.txt
 cat ../mcsplainmixandmatchinstances.sample.txt | while read a b c d; do
     echo \
