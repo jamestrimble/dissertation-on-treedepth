@@ -138,9 +138,9 @@ set ytics autofreq
 set xrange[1:1000000]
 unset yrange
 set key right bottom
-plot "../fatanode-results/runtimes.randomplaininstances2.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../fatanode-results/runtimes.randomplaininstances2.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../fatanode-results/runtimes.randomplaininstances2.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
+plot "../fatanode-results/runtimes.randomplaininstances2.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances2.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../fatanode-results/runtimes.randomplaininstances2.txt" u 1:($1>=1e6?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
 
 set size nosquare
 set output "plots/mcsplit-random-smart-order-cumulative.tex"
@@ -154,9 +154,9 @@ set ytics autofreq
 set xrange[1:1000000]
 unset yrange
 set key right bottom
-plot "../fatanode-results/runtimes.randomplaininstances3.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../fatanode-results/runtimes.randomplaininstances3.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 2, \
-     "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../fatanode-results/runtimes.randomplaininstances3.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
+plot "../fatanode-results/runtimes.randomplaininstances3.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances3.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 2, \
+     "< awk 'NR==1 {print} NR>1 {print $6<$7 ? $6 : $7}' ../fatanode-results/runtimes.randomplaininstances3.txt" u 1:($1>=1e6?1e-10:1) smooth cumulative w l ti 'VBS' lc 3
 
 ######################################################################################################
 # Cumulative plots, McSplit vs McSplit2 vs McSplit2'
@@ -176,35 +176,35 @@ set xrange[1:1000000]
 unset yrange
 set key right bottom
 set output "plots/mcsplain-mcsplit2-cumulative.tex"
-plot "../fatanode-results/runtimes.mcsplaininstances.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../fatanode-results/runtimes.mcsplaininstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../fatanode-results/runtimes.mcsplaininstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.mcsplaininstances.txt" u 1:($1>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.mcsplaininstances.txt" u 5:($5>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.mcsplaininstances.txt" u 3:($3>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/random2-mcsplit2-cumulative.tex"
-plot "../fatanode-results/runtimes.randomplaininstances2.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../fatanode-results/runtimes.randomplaininstances2.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "../fatanode-results/runtimes.randomplaininstances2.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../fatanode-results/runtimes.randomplaininstances2.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.randomplaininstances2.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances2.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "../fatanode-results/runtimes.randomplaininstances2.txt" u 10:($10>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.randomplaininstances2.txt" u 9:($9>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/random3-mcsplit2-cumulative.tex"
-plot "../fatanode-results/runtimes.randomplaininstances3.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../fatanode-results/runtimes.randomplaininstances3.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
-     "../fatanode-results/runtimes.randomplaininstances3.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../fatanode-results/runtimes.randomplaininstances3.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.randomplaininstances3.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances3.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
+     "../fatanode-results/runtimes.randomplaininstances3.txt" u 10:($10>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.randomplaininstances3.txt" u 9:($9>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/random4-mcsplit2-cumulative.tex"
-plot "../fatanode-results/runtimes.randomplaininstances4.txt" u 6:($6>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../fatanode-results/runtimes.randomplaininstances4.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "../fatanode-results/runtimes.randomplaininstances4.txt" u 9:($9>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
-     "../fatanode-results/runtimes.randomplaininstances4.txt" u 11:($11>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../fatanode-results/runtimes.randomplaininstances4.txt" u 10:($10>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.randomplaininstances4.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.randomplaininstances4.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "../fatanode-results/runtimes.randomplaininstances4.txt" u 9:($9>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
+     "../fatanode-results/runtimes.randomplaininstances4.txt" u 11:($11>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.randomplaininstances4.txt" u 10:($10>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/mixandmatch-cumulative.tex"
-plot "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 1:($1>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
-     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 7:($7>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
-     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 8:($8>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
-     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 5:($5>=1e5?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
-     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 3:($3>=1e5?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
+plot "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 1:($1>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
+     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 7:($7>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SD' lc 2, \
+     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 8:($8>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-SO' lc 5, \
+     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 5:($5>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}-2S' lc 3, \
+     "../fatanode-results/runtimes.mcsplainmixandmatchinstances.txt" u 3:($3>=1e6?1e-10:1) smooth cumulative w l ti "\\textproc{McSplit}-2S'" lc 4
 
 set output "plots/ba-cumulative.tex"
 plot "../fatanode-results/runtimes.barabasialbertinstances.txt" u 6:($6>=1e6?1e-10:1) smooth cumulative w l ti '\textproc{McSplit}' lc 1, \
