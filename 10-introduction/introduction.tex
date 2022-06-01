@@ -1020,10 +1020,56 @@ All solvers were compiled using GCC version 9.4.0 with the flags
 on the machine, and is particularly helpful in improving the performance
 of the Glasgow Subgraph Solver).
 
-\section{A Note on Run Time Plots}
+\section{Conventions for Plots}
 
-TODO Mention jittering, explain cumulative plots. Or do it when first
-one is shown?
+Scatter plots and cumulative plots are used frequently in this dissertation to
+compare the run times of algorithms.  To illustrate how these will be used,
+consider the run times in milliseconds for ten hypothethetical instances,
+with one row per instance, in \Cref{fig:intro-dummy-table}.
+
+\Cref{fig:intro-dummy-scatter} shows a scatter plot of these run times. Log
+scales are used for run times throughout this dissertation. Since run times are
+measured at a 1 millisecond resolution, the points are jittered by adding a
+uniform random number in the range $[-1/2,1/2)$ to each time. This reduces
+over-plotting and thus helps to show the distribution of points, with only a
+negligible effect on the plots' precision. Run times of zero are ploted in the
+range $[1/2,1)$ because zero cannot appear on a log scale.  Timeouts (exceeding
+1000 seconds) appear in the grey band just beyond a run time of 1000 seconds;
+again, we jitter these within the band to minimise over-plotting. The line
+$x=y$, where the two algorithms have the same run time, is show for
+convenience.
+
+\Cref{fig:intro-dummy-cumu} shows a less common type of figure: an
+\emph{empirical cumulative distribution function plot} (henceforth
+\emph{cumulative plot}). For a given run time $t$ (on the horizontal axis),
+this answers the question ``how many of the instances can be solved in less
+than $t$ milliseconds per instance?'' Equivalently, it answers the question
+``if the per-instance time limit were reduced to $t$, how many instances would
+each algorithm solve?''
+We can see, for example, that Algorithm A can solve six
+of the instances within 10 ms (the first six instances in the table),
+while Algorithm B can solve only three instances
+within that time.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Hypothetical run times per instance] {
+        \tiny
+        \includegraphics*[width=0.2\textwidth]{10-introduction/plot-examples/table/table}
+        \label{fig:intro-dummy-table}
+    }
+    \subfigure[][Scatter plot of run times] {
+        \includegraphics*[width=0.39\textwidth]{10-introduction/plot-examples/plots/scatter}
+        \label{fig:intro-dummy-scatter}
+    }
+    \subfigure[][Cumulative plot of run times] {
+        \includegraphics*[width=0.34\textwidth]{10-introduction/plot-examples/plots/cumulative}
+        \label{fig:intro-dummy-cumu}
+    }
+    \caption{Hypothetical run times in ms for two solvers on ten instances: table,
+        scatter plot, and cumulative plot. The time limit is 1000 seconds.}
+    \label{fig:intro-dummy-figs}
+\end{figure}
 
 \section{Structure of the Dissertation}
 
