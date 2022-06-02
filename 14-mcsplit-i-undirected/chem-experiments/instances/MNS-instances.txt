@@ -1,0 +1,12 @@
+S1 COc1cc(cc(OC)c1OC)C(=O)OCCOC(=O)c1cc(OC)c(OC)c(OC)c1 COc1cc(cc(OC)c1OC)C(=O)OCCCOC(=O)c1cc(OC)c(OC)c(OC)c1
+S2 COc1cc(cc(OC)c1OC)C(=O)OCCCC(C)CCC(C)CCOC(=O)c1cc(OC)c(OC)c(OC)c1 COc1cc(cc(OC)c1OC)C(=O)NCCCN1CCCN(CCCNC(=O)c2cc(OC)c(OC)c(OC)c2)CC1
+S3 CNC(=O)C(NC(=O)C(OCC=C)C(O)C(O)C(OCC=C)C(=O)NC(C(C)C)C(=O)NC)C(C)C CNC(=O)C(NC(=O)C(OCC1=CC=CC=C1)C(O)C(O)C(OCC1=CC=CC=C1)C(=O)NC(C(C)C)C(=O)NC)C(C)C
+S4 OC(C(O)C(OCC=C)C(=O)NC1C(O)CC2=C1C=CC=C2)C(OCC=C)C(=O)NC1C(O)CC2=C1C=CC=C2 CNC(=O)C(NC(=O)C(OCC1=CC=CC=C1)C(O)C(O)C(OCC1=CC=CC=C1)C(=O)NC(C(C)C)C(=O)NC)C(C)C
+S5 OC(C[C@@H](CC1=CC=CC=C1)C(=O)NC1[C@H](O)CC2=CC=CC=C12)C[C@@H](CC1=CC=CC=C1)C(=O)N[C@@H]1[C@H](O)CC2=CC=CC=C12 CCC(C)C(NC(=O)[C@@H](CC(O)C[C@@H](CC1=CC=CC=C1)C(=O)NC([C@H](C)CC)C(=O)NCC1=NC2=CC=CC=C2N1)CC1=CC=CC=C1)C(=O)NCC1=NC2=CC=CC=C2N1
+S6 C[n+]1ccc(cc1)-c1c2ccc(n2)c(-c2cc[n+](C)cc2)c2ccc([nH]2)c(-c2ccccc2)c2ccc(n2)c(-c2ccccc2)c2ccc1[nH]2 C[N](C)(C)c1ccc(cc1)-c1c2ccc(n2)c(-c2ccc(cc2)[N](C)(C)C)c2ccc([nH]2)c(-c2ccc(cc2)[N](C)(C)C)c2ccc(n2)c(-c2ccc(cc2)[N](C)(C)C)c2ccc1[nH]2
+N1 CCCC[C@H](CC(O)C[C@@H](CCCC)C(=O)N[C@@H](C(C)C)C(=O)N[C@@H](C(C)C)C(=O)OC)C(=O)N[C@@H](C(C)C)C(=O)N[C@@H](C(C)C)C(=O)OC CC[C@@H](C)C(NC(=O)OC(C)(C)C)[C@H](O)CNC[C@@H](O)C(NC(=O)OC(C)(C)C)[C@@H](C)CC
+N2 CCCCCCCC(=O)OCC(COC)OC(=O)CCCCCCC CCCCC\C=C/C\C=C/C\C=C/C\C=C/CCCC(=O)NCCO
+N3 CC[C@H](C)[C@H](NC(=O)[C@@H](NC(=O)[C@@H](N)CS)C(C)C)C(=O)N[C@@H](CCSC)C(=O)O CC(=CCC\C(=C\CC\C(=C\CC(C\C=C(/C)\CC\C=C(/C)\CCC=C(C)C)(P(=O)(O)O)P(=O)(O)CP(=O)(O)O)\C)\C)C
+M1 CC12OC(=O)C3(O)CC4C5C(CC=C6CC=CC(=O)C56C)C56OC13C(C45O)C1(C)CC2OC(=O)C1CO6 [H][C@@]12CC[C@]34CC(=O)N5C6=CC(OC)=CC=C6[C@]1([H])CCN(CC=C3)C245
+M2 [H][C@@]12C[C@]3(C(=O)C1=C)C(=O)O[C@@]1([H])CC[C@@]4(C)[C@]5([H])O[C@@]6([H])O[C@]([H])(C2)[C@@]3([H])[C@@]1(CO5)[C@@]46[H] CCCCC(C)(O)C1C2CCN3CCC45C6OC7=C4C(CC3C25C=CC16OC)=CC=C7O
+M3 Oc1ccc2cnc3cc4c(ccc5ccccc45)cc3c2c1 Oc1ccc2cc3cc4cc5ccc6cc7cc8cc9cccc%10cc%11cc%12cc%13ccc%14cc%15cc%16cc1c2c1c3c2c4c3c5c6c4c7c5c8c(c9%10)c%11c6c%12c7c%13c%14c8c%15c(c%161)c2c1c3c4c(c56)c7c81
