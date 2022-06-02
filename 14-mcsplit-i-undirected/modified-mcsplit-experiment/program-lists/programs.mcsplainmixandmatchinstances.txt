@@ -3,7 +3,7 @@ mcsplit-h ./james-cpp-modified/mcsp -t {} min_right ../{} ../{}
 mcsplit+f ./james-cpp-modified/mcsp -t {} -f min_max ../{} ../{}
 mcsplit+fmm ./james-cpp-modified/mcsp -t {} -f min_min ../{} ../{}
 mcsplit+bigf ./james-cpp-modified/mcsp -t {} -F min_max ../{} ../{}
-mcsplit+r ./james-cpp-modified/mcsp -t {} -r min_max ../{} ../{}
+mcsplit-swapped ./james-cpp-modified/mcsp -t {} -s min_max ../{} ../{}
 mcsplit+S ./james-cpp-modified/mcsp -t {} -S min_max ../{} ../{}
 mcsplit+O ./james-cpp-modified/mcsp -t {} -O min_max ../{} ../{}
 mcsplitb ./james-cpp-modified/mcsp -t {} -b min_max ../{} ../{}
