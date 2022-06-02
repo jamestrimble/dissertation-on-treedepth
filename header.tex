@@ -1,10 +1,14 @@
-\documentclass[oneside,hidelinks]{glasgowthesis}
+\documentclass[oneside,hidelinks,nogutter,twoside]{glasgowthesis}
 % ^^ draft shows overfilled boxes.
 % ^^ replace "oneside" with "twoside" to set the gutter correctly for
 %    two-sided printing.
 % ^^ add "nogutter" option for digital copy (without binding offsets),
 %    if printed copy is twoside, use [twoside,nogutter] for digital copy.
 
+\usepackage{adjustbox}
+\usepackage{nameref}
+\usepackage{siunitx}
+\usepackage{chessfss}
 \usepackage{natbib}
 \usepackage{array}
 \usepackage{graphics}
@@ -34,12 +38,16 @@
 \usepackage{forest}
 \usepackage{placeins}
 
-\usepackage{subfigure}
+\usepackage[footnotesize,tight]{subfigure}
+%\usepackage{subcaption}
 \usepackage{fancyvrb}
 \usepackage{lscape}
 
+\usepackage{multirow}
+
 \captionsetup{width=0.92\textwidth}
 \captionsetup{font=footnotesize}
+%\captionsetup[sub]{font=scriptsize}
 
 % https://tex.stackexchange.com/a/184829
 \algnewcommand{\LeftComment}[1]{\(\triangleright\) #1}
@@ -268,8 +276,10 @@
 %\newpage
 %\thispagestyle{empty}
 \tableofcontents
-\listoftables
-\listoffigures
+
+%% Lists of tables and figures commented out by JT
+%\listoftables
+%\listoffigures
 
 % -----------------------------------------------------------------------------
 \cleardoublepage
@@ -281,5 +291,5 @@
 \bookmarksetup{numbered}
 
 \nobibliography*
-%\bibliographystyle{apalike}
-\bibliographystyle{alpha}
+\bibliographystyle{apalike}
+%\bibliographystyle{alpha}
