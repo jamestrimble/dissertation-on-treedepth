@@ -739,7 +739,7 @@ propose visiting variables in increasing order of domain size in order to keep t
 
 The counting all-different propagator provides weaker filtering than
 R\'egin's propagator: it never deletes more values from domains than R\'egin's algorithm, and sometimes
-deletes fewer. Nevertheless, McCreesh and Prosser showed that that it runs many times faster than
+deletes fewer. Nevertheless, McCreesh and Prosser showed that it runs many times faster than
 R\'egin's algorithm and its filtering is almost as effective as that of R\'egin's algorithm in practice
 on a large set of benchmark instances.
 
@@ -1200,61 +1200,21 @@ to solve any satisfiable instance.
 \section{Experimental evaluation}
 
 In this section, we compare the speed of \McSplit-SI with three state-of-the-art algorithms
-on three sets of benchmark instances.  The first set of instances is a large,
-existing set of unlabelled graph pairs where we solve the decision problem.
-The second set of instances is a new set of decision-problem
-instances recently proposed by Donald Knuth.
-The final set of instances is based on another existing benchmark set;
+on three sets of benchmark instances.  In \Cref{subsec:si-decision-experiment},
+we use an existing large, heterogeneous set of pairs of unlabelled
+graphs.
+In \Cref{subsec:si-knights-experiment},
+we consider a new set of decision-problem
+instances recently proposed by Donald Knuth based on a generalisation of the knight's
+tour problem.
+Finally, in \Cref{subsec:si-enumeration-experiment}, we use pairs of random directed
+graphs based on another existing benchmark set;
 we solve the problem of counting all induced subgraph isomorphisms from the pattern to the target.
-In this set of instances, all graphs are directed and some have labelled
-vertices.
 
 \subsection{Other solvers}
 
 Our experiments compare \McSplit-SI with three state-of-the-art subgraph isomorphism solvers:
 VF3, RI, and Glasgow.  
-
-\paragraph*{Glasgow Subgraph Solver}
-The Glasgow Subgraph Solver \cite{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020}
-(henceforth Glasgow)
-was the fastest solver for hard induced subgraph isomorphism instances in a recent
-experimental evaluation by Solnon \cite{DBLP:conf/gbrpr/Solnon19}.  The algorithm
-uses a constraint programming approach, in which the domain of each vertex is represented
-explicitly in memory.  Bitsets are used to represent domains and rows of each adjacency
-matrix, allowing very fast updates to domains, particularly on dense graphs
-\cite{ullmann1976algorithm}.  The Glasgow algorithm introduces the concept of
-\emph{supplemental graphs}: graphs derived from the pattern and target graphs that
-can also be used to filter domains.  This technique often results in a large
-improvement to the solver's run time.  Unfortunately we cannot use the same technique
-in \McSplit-SI because it breaks the invariant, required by \McSplit-SI's data structure,
-that any two domains are either equal or disjoint.
-We use the 14 March 2022 version of the Glasgow solver, published
-online.\footnote{\url{https://github.com/ciaranm/glasgow-subgraph-solver}}
-In addition, we report results of the Glasgow solver with supplemental graphs
-switched off.
-
-\paragraph*{VF3 and RI}
-Like Glasgow, the VF3 \cite{DBLP:journals/pami/CarlettiFSV18} and RI
-\cite{DBLP:journals/bmcbi/BonniciGPSF13,DBLP:journals/tcbb/BonniciG17}
-solvers explore a search tree, adding one pair of vertices to the mapping at each
-search node.  However, the data structures maintained by these algorithms are
-much more lightweight than those of Glasgow.  VF3 and RI do not maintain
-a domain for each vertex in the pattern graph; they simply store a partition
-of the vertex set of each graph into three sets: ($A$) vertices that have been
-mapped already, ($B$) unmapped vertices that are adjacent to at least one mapped vertex, and
-($C$) all other unmapped vertices.
-If the $B$ (resp. $C$) set of the target graph is smaller than the $B$ (resp. $C$)
-set of the pattern graph, the algorithm can backtrack.
-This data structure can be updated with the same
-time complexity as the partitioning step of \McSplit-SI (and with a slightly
-smaller constant factor given the simplicity of the data structure).  
-However, its ability to prune the search tree is worse than that of \McSplit-SI
-since the $B$ sets are a union of the label classes in \McSplit-SI, and it
-leaves unavailable the smallest-domain-first heuristic used by \McSplit-SI.
-
-(TODO mention RI-DS)
-
-(TODO write about differences between VF3 and RI)
 
 In terms of effort per search node, \McSplit-SI may be viewed intuitively as sitting
 between Glasgow on one hand VF3 and RI on the other.
@@ -1296,11 +1256,16 @@ class.
 \label{tab:mcsplit-si variants}
 \end{table}
 
-\subsection{Decision instances}
+\subsection{Decision instances}\label{subsec:si-decision-experiment}
 
-\subsection{Families of instances}
+Our first set of benchmark instances is
+a collection of $14,621$ pairs of undirected, unlabelled graphs.
+This collection was used by \citet{DBLP:conf/cpaior/ArchibaldDHMP019},
+extending the work of \citet{DBLP:conf/lion/KotthoffMS16};
+it assembles instances from several smaller benchmarks.
 
-TODO introduce this subsection
+\paragraph*{Families of instances} The benchmark set contains graphs
+in the following families.
 
 \begin{itemize}
     \item
@@ -1309,7 +1274,7 @@ TODO introduce this subsection
         $|V(G)| = 0.9 \times |V(H)|$. Source: \citet{DBLP:journals/constraints/ZampelliDS10}
     \item
         \textbf{LV:} Pairs of graphs derived from the Stanford GraphBase \citep{DBLP:books/daglib/0071477}.
-     	TODO NOTE TO SELF: have a look at Cortadella and Valiente 1999 A relational view of SI
+        Source: \cite{DBLP:journals/mscs/LarrosaV02}.
     \item \textbf{BVG:} Regular and irregular bounded valence target graphs, randomly generated.
         In the regular instances, the vertices of the target graph have equal degree of 3, 6, or 9
         depending on the instance.  The irregular instances have variable degree but a fixed total
@@ -1317,17 +1282,22 @@ TODO introduce this subsection
         This and the following two families are from the database
         of instances described in \citet{DBLP:journals/prl/SantoFSV03}.  For each instance in these
         three families, the pattern graphs were generated by taking a random connected
-        induced subgraph of the target graph; all instances in these families are therefore satisfiable.
+        induced subgraph of the target graph. All instances in these families are therefore satisfiable.
     \item \textbf{M4D:} Regular and irregular 4-dimensional meshes.  The irregular instances have
         extra edges added to the mesh graph.
     \item \textbf{Rand:} Erd\H{o}s-Rényi $G(n,p)$ random graphs.
     \item \textbf{Phase:} Pairs of Erd\H{o}s-Rényi $G(n,p)$ random graphs
-        with parameters chosen near the satisfiable/unsatifiable phase transition.
+        with parameters chosen near the satisfiable/unsatifiable phase transition in order
+        to make the instances very challenging to solve.
         \citep{DBLP:journals/jair/McCreeshPST18}
     \item \textbf{PR}, \textbf{Meshes} and \textbf{Images:} Instances derived from a pattern recognition problem, where
     	the graphs are generated from the adjacencies of regions of an image (PR, Images)
 	or 3D object model (Meshes). \citep{DBLP:journals/pr/SolnonDHJ15,DBLP:journals/cviu/DamiandSHJS11}
 \end{itemize}
+
+\Cref{tab:instance-family-summary} shows a summary of the instances in each family.
+Most of the graphs are sparse; the LV and Phase families are unusual in that they contain
+some very dense target graphs.
 
 \begin{table}[htb]
 \centering
@@ -1361,71 +1331,19 @@ TODO introduce this subsection
 %%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=12?NaN:clamp(xcol)):(clamp(ycol)) ls 7 pt 8 ps 0.7 ti 'Phase', \
 %%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=13?NaN:clamp(xcol)):(clamp(ycol)) ls 13 pt 14 ps 0.7 ti 'Meshes', \
 %%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=14?NaN:clamp(xcol)):(clamp(ycol)) ls 8 pt 12 ps 0.7 ti 'Images', \
-\subsection{Results}
+\paragraph*{Results}
 
-When is it better to use \McSplit-SI than \McSplit-SI-AM?
-\Cref{figure:density-runtime-ratio-am} has a point per instance, with target graph density on the x axis and the ratio of the two solvers' run times 
-on the y axis; a ratio below 1 indicates that \McSplit-SI is the faster solver.  Trivial instances and instances where at least one
-solver timed out are excluded.  There is a clear positive relationship between density and ratio of run times.  For most instances of
-density below $0.002$, \McSplit-SI is more than $10$ times faster than \McSplit-SI-AM.  However,
-\McSplit-SI-AM soon begins to catch up as target graph density increases, and becomes the faster solver at a target graph density of around
-$0.1$.\footnote{This analysis was carried out using target graph density because we would expect the target graph to have
-a larger effect on run times than the (smaller) pattern graph.  We also re-created the plot with the x axis showing the proportion
-of all possible edges across pattern \emph{and} target graphs: $(m_G + m_H) / (n_G(n_G-1) + n_H(n_H-1))$,
-where $m_G$ and $n_G$ denote the edge and vertex counts of $G$.  The resulting
-plot was almost identical to \Cref{figure:density-runtime-ratio-am}.}
-
-\Cref{figure:density-runtime-ratio-glasgow} is a similar plot comparing the run time of \McSplit-SI to that of Glasgow.
-(Note the larger range of values of the y axis.)  For very sparse target graphs with density below around $0.002$,
-\McSplit-SI consistently runs faster than Glasgow---often by more than an order of magnitude.  For most of the
-instances with denser target graphs,
-\McSplit-SI is again the faster algorithm, and this holds true even for very dense graphs which are not well suited
-to \McSplit-SI's data structures.  However, there is a long tail of instances
-on which a combination of Glasgow's restarts and stronger filtering methods results in
-an orders-of-magnitude speedup over \McSplit-SI.
-
-\begin{figure}[htb]
-    \centering
-    \subfigure[][\McSplit-SI-AM] {
-        \includegraphics*[width=0.5\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/density-runtime-ratio}
-        \label{figure:density-runtime-ratio-am}
-    }\subfigure[][Glasgow] {
-        \includegraphics*[width=0.5\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/density-runtime-ratio-glasgow}
-        \label{figure:density-runtime-ratio-glasgow}
-    }
-    \caption{On the horizontal axis, the target graph density; on the vertical axis, the ratio of \McSplit-SI run time to
-            the run time of the algorithm named in the subfigure caption.
-            Instances where either solver took less than 1 ms or exceeded the time limit are excluded.}
-    \label{figure:density-runtime-ratio}
-\end{figure}
-
-\begin{table}[htb]
-\centering
-\footnotesize
-    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/solved-counts}
-\caption{The number of instances in each family that were solved by each solver
-    within the 1000 second time limit.
-    The ``Count'' column shows the total number of instances per family.}
-\label{tab:TODO}
-\end{table}
-
-\begin{table}[htb]
-\centering
-\footnotesize
-    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/presolve-crosstab}
-\caption{TODO}
-\label{tab:TODO}
-\end{table}
-
-\begin{table}[htb]
-\centering
-\footnotesize
-    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/winner-counts}
-\caption{For each family of instances, the number of instances for which each solver's
-    run time equalled the best run time among all solvers shown.  The second
-    column shows the total number of instances per family.}
-\label{tab:TODO}
-\end{table}
+\Cref{figure:unlabelled-vf-instance-runtimes} shows cumulative plots of instances solved by \McSplit-SI
+and the other algorithms.  To avoid a tangle of overlapping curves, each solver's curve is shown as a dark
+blue line on its own plot, with the curve for \McSplit-SI shown in light blue for comparison on each
+plot.  The solvers can be split into three broad categories.  Constraint programming solvers tend
+to run slowly on the easiest instances but perform well for hard instances.  The two versions of Glasgow
+are in this category; \McSplit-SI-AM has similar results.  Pattern recognition solvers---RI and VF3
+in particular---perform well on easy instances but solve fewer of the hard instances than the constraint
+programming solvers;
+\citet{DBLP:conf/gbrpr/Solnon19} makes a similar observation for these two solver categories.
+Finally, \McSplit-SI and \McSplit-SI-LL perform well on easy instances---indeed, outperforming
+the pattern recognition solvers---while solving almost as many of the hard instances as Glasgow.
 
 \begin{figure}[htb]
     \centering
@@ -1462,6 +1380,12 @@ an orders-of-magnitude speedup over \McSplit-SI.
     \label{figure:unlabelled-vf-instance-runtimes}
 \end{figure}
 
+\Cref{figure:si-decision-scatter} shows a scatter plot of run times for each solver, with the run time of
+\McSplit-SI on the horizontal axis in each plot.  \McSplit-SI compares favourably
+to each of the non-\McSplit\ solvers in the first five plots, although each of these has some instances that it can solve
+in less than a second while \McSplit-SI exceeds the time limit; this is likely to be due to a combination
+of different variable and value ordering heuristics and, in the case of Glasgow, stronger filtering.
+
 \begin{figure}[htb]
     \centering
     \subfigure[][Glasgow] {
@@ -1495,52 +1419,17 @@ an orders-of-magnitude speedup over \McSplit-SI.
     \caption{Scatter plots of run times in ms for decision instances.
             The horizontal and vertical axes show the run times of \McSplit-SI and the
             solver named in the subfigure caption, respectively.}
-    \label{figure:TODO}
-\end{figure}
-
-\begin{figure}[htb]
-    \centering
-    \subfigure[][Glasgow] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-glasgow}
-        \label{figure:TODO}
-    }
-    \subfigure[][Glasgow, no supp.] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-glasgow-nosupp}
-        \label{figure:TODO}
-    }
-    \subfigure[][RI] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-ri}
-        \label{figure:TODO}
-    }
-    \subfigure[][RI-DS] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-ri-ds}
-        \label{figure:TODO}
-    }
-    \subfigure[][VF3] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-vf3}
-        \label{figure:TODO}
-    }
-    \subfigure[][\McSplit-SI-LL] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-si-ll}
-        \label{figure:TODO}
-    }
-    \subfigure[][\McSplit-SI-AM] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-si-am}
-        \label{figure:TODO}
-    }
-    \caption{Scatter plots of run times in ms for decision instances.
-            The horizontal axis shows the the run time of \McSplit-SI-static
-            with a 100 ms \McSplit-SI presolve; the vertical axis shows
-            the run time of the solver named in the subfigure caption.}
-    \label{figure:TODO}
+    \label{figure:si-decision-scatter}
 \end{figure}
 
 TODO: mention that D1 variant isn't very good.
 TODO: mention that D2 variant has similar results to Glasgow on phase instances.
 
+\FloatBarrier
+
 To give a finer-grained look at the performance of the two best solvers overall---\McSplit-SI and
 Glasgow---\Cref{figure:mcsplitsi-scatter-by-family} shows those solvers' run times for each
-instance, with a separate sub-figure for each instance family.  On the PR, Phase, Meshes,
+instance, with a separate sub-figure for each family of instances.  On the PR, Phase, Meshes,
 and Images families, \McSplit-SI is the clear winner.   On each of
 the remaining five families, \McSplit-SI is the faster solver on most instances, but Glasgow
 is much faster than \McSplit-SI on a small proportion of instances.
@@ -1589,72 +1478,163 @@ is much faster than \McSplit-SI on a small proportion of instances.
     \label{figure:mcsplitsi-scatter-by-family}
 \end{figure}
 
-On an instance-by-instance basis, does the best \McSplit-SI variant typically run faster than
-the best of the other solvers? To answer this question, consider two virtual solvers:
-VBM (virtual best \McSplit-SI) which takes the fastest run time of \McSplit-SI, \McSplit-SI-AM,
-and \McSplit-SI-static, and VBO (virtual best other solver), which takes the fastest run time
+On an instance-by-instance basis, does \McSplit-SI typically run faster than
+the best of the other solvers? To answer this question, we calculate the run
+time of the virtual best other solver (VBOS) for each instance
+by taking the lowest run time
 of the five non-\McSplit\ solvers: Glasgow, Glasgow without supplemental graphs, RI, RI-DS, and VF3.
-Each of these virtual solvers is equivalent to running the constitutent solvers in parallel
-and stopping when the first solver terminates; alternatively, we can view a virtual solver
-as an idealised portfolio solver with an oracle that can
-to select the best constituent solver for a given instance.
+This VBOS is essentially equivalent to running the constitutent solvers in parallel
+and stopping when the first solver terminates; we can also view it
+as an idealised portfolio solver with an oracle that selects
+the best non-\McSplit\ solver for a given instance.
 
-\Cref{figure:mcsplitsi-vbs-scatter-by-family} shows the run times of VBM (horizontal axis)
-and VBO (vertical axis) for each instance.  On all families except Scalefree, the number
-of instances where VBM is faster than VBO is greater than the number of instances where
+\Cref{figure:mcsplitsi-vbs-scatter-by-family} shows the run times of \McSplit-SI
+and VBOS (vertical axis) for each instance.  On six families
+of instances (BVG, Rand, LV, Phase, Images, Meshes), the number
+of instances where \McSplit-SI is faster than VBOS is greater than the number of instances where
 the reverse is true. 
-The overall patterns in this picture are similar to those in
-\Cref{figure:mcsplitsi-scatter-by-family}, which compared only \McSplit-SI and Glasgow.
-There are two notable differences.  First, RI and VF3 outperform Glasgow on some of the easier
-families such as Images, moving points closer to the $x=y$ line in
-\Cref{figure:mcsplitsi-vbs-scatter-by-family} than in
-\Cref{figure:mcsplitsi-scatter-by-family}.  Second, \McSplit-SI-static performs well
-on many of the instances where Glasgow is much faster than \McSplit-SI; as a result,
-there are few instances where VBO is much faster than VBM.
+On the other hand, Glasgow certainly does not dominate the other solvers;
+indeed, there are certainly families such as Scalefree
+where \McSplit-SI appears to be worse overall than VBOS.
 
 \begin{figure}[htb]
     \centering
     \subfigure[][Scalefree] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Scalefree-vbmcsplit-vbos.pdf}
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Scalefree-vbos.pdf}
         \label{figure:TODO}
     }
     \subfigure[][LV] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-LV-vbmcsplit-vbos.pdf}
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-LV-vbos.pdf}
         \label{figure:TODO}
     }
     \subfigure[][BVG] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-BVG-vbmcsplit-vbos.pdf}
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-BVG-vbos.pdf}
         \label{figure:TODO}
     }
 
     \subfigure[][M4D] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-M4D-vbmcsplit-vbos.pdf}
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-M4D-vbos.pdf}
         \label{figure:TODO}
     }
     \subfigure[][Rand] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Rand-vbmcsplit-vbos.pdf}
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Rand-vbos.pdf}
         \label{figure:TODO}
     }
     \subfigure[][PR] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-PR-vbmcsplit-vbos.pdf}
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-PR-vbos.pdf}
         \label{figure:TODO}
     }
 
     \subfigure[][Phase] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Phase-vbmcsplit-vbos.pdf}
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Phase-vbos.pdf}
         \label{figure:TODO}
     }
     \subfigure[][Meshes] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Meshes-vbmcsplit-vbos.pdf}
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Meshes-vbos.pdf}
         \label{figure:TODO}
     }
     \subfigure[][Images] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Images-vbmcsplit-vbos.pdf}
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/by-family/scatter-Images-vbos.pdf}
         \label{figure:TODO}
     }
-    \caption{Run times in ms of virtual best \McSplit-SI variant (horizontal axis) and virtual best other solver (vertical axis), by family.}
+    \caption{Run times in ms of \McSplit-SI (horizontal axis) and the virtual best other solver (vertical axis), by family.}
     \label{figure:mcsplitsi-vbs-scatter-by-family}
 \end{figure}
+
+\FloatBarrier
+
+\paragraph*{The effect of target graph density}
+When is it better to use \McSplit-SI than \McSplit-SI-AM?
+\Cref{figure:density-runtime-ratio-am} has a point per instance, with target graph density on the x axis and the ratio of the two solvers' run times 
+on the y axis; a ratio below 1 indicates that \McSplit-SI is the faster solver.  Trivial instances and instances where at least one
+solver timed out are excluded.  There is a clear positive relationship between density and ratio of run times.  For most instances of
+density below $0.002$, \McSplit-SI is more than $10$ times faster than \McSplit-SI-AM.  However,
+\McSplit-SI-AM soon begins to catch up as target graph density increases, and becomes the faster solver at a target graph density of around
+$0.1$.\footnote{This analysis was carried out using target graph density because we would expect the target graph to have
+a larger effect on run times than the (smaller) pattern graph.  We also re-created the plot with the x axis showing the proportion
+of all possible edges across pattern \emph{and} target graphs: $(m_G + m_H) / (n_G(n_G-1) + n_H(n_H-1))$,
+where $m_G$ and $n_G$ denote the edge and vertex counts of $G$.  The resulting
+plot was almost identical to \Cref{figure:density-runtime-ratio-am}.}
+
+\Cref{figure:density-runtime-ratio-glasgow} is a similar plot comparing the run time of \McSplit-SI to that of Glasgow.
+(Note the larger range of values of the y axis.)  For very sparse target graphs with density below around $0.002$,
+\McSplit-SI consistently runs faster than Glasgow---often by more than an order of magnitude.  For most of the
+instances with denser target graphs,
+\McSplit-SI is again the faster algorithm, and this holds true even for very dense graphs which are not well suited
+to \McSplit-SI's data structures.  However, there is a long tail of instances
+for which a combination of Glasgow's restarts and stronger filtering methods results in
+an orders-of-magnitude speedup over \McSplit-SI.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][\McSplit-SI-AM] {
+        \includegraphics*[width=0.5\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/density-runtime-ratio}
+        \label{figure:density-runtime-ratio-am}
+    }\subfigure[][Glasgow] {
+        \includegraphics*[width=0.5\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/density-runtime-ratio-glasgow}
+        \label{figure:density-runtime-ratio-glasgow}
+    }
+    \caption{On the horizontal axis, the target graph density; on the vertical axis, the ratio of \McSplit-SI run time to
+            the run time of the algorithm named in the subfigure caption.
+            Instances where either solver took less than 1 ms or exceeded the time limit are excluded.}
+    \label{figure:density-runtime-ratio}
+\end{figure}
+
+\FloatBarrier
+
+\paragraph*{Presolve} \cite{DBLP:conf/gbrpr/Solnon19} considers a solver that
+runs VF3 for 100 ms, then switches to Glasgow if a solution is not found. This
+outperforms Glasgow on easy instances while retaining almost all of the benefit
+of Glasgow on hard instances.  Are there pairs of solvers in our experiment
+that work particularly well using such a 100 ms presolve?
+\Cref{tab:si-decision-presolve-counts} shows the number of instances solved
+within 1000 seconds by each pair of solvers, excluding \McSplit-SI-AM and RI-DS
+to save space.  Seven pairs of solvers---each of which used a version of \McSplit-SI
+as the presolver, the main solver, or both---solved more instances than Glasgow,
+which was the single
+best individal solver by this measure with $14,524$ instances solved.
+The best two solver pairs
+each solved $14,546$ instances.  These use \McSplit-SI-static as the main
+solver and either \McSplit-SI or Glasgow without supplemental graphs as the
+presolver.
+
+\begin{table}[htb]
+\centering
+\footnotesize
+    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/presolve-crosstab}
+\caption{Number of instances solved within 1000 seconds using a 100 ms presolve.  Each number
+        refers to a solver that runs the solver named in the row for 100 ms, then switches to the
+        solver named in the column.  Underlined values are greater than the number of instances
+        solved by Glasgow without presolve ($14,524$).}
+\label{tab:si-decision-presolve-counts}
+\end{table}
+
+\paragraph*{Number of instances solved}
+TODO talk about how \Cref{tab:si-decision-solved-counts} shows the number of instances
+solved.
+
+\begin{table}[htb]
+\centering
+\footnotesize
+    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/solved-counts}
+\caption{The number of instances in each family that were solved by each solver
+    within the 1000 second time limit.
+    The ``Count'' column shows the total number of instances per family.}
+\label{tab:si-decision-solved-counts}
+\end{table}
+
+\paragraph*{Number of for which each solver was the fastest}
+TODO talk about \Cref{tab:si-decision-solved-counts}
+
+\begin{table}[htb]
+\centering
+\footnotesize
+    \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/winner-counts}
+\caption{For each family of instances, the number of instances for which each solver's
+    run time equalled the best run time among all solvers shown.  The second
+    column shows the total number of instances per family.}
+\label{tab:si-decision-winner-counts}
+\end{table}
 
 %% \begin{figure}[h!]
 %%     \centering
@@ -1728,7 +1708,7 @@ there are few instances where VBO is much faster than VBM.
 
 \FloatBarrier
 
-\subsection{Knight's grid instances}
+\subsection{Knight's grid instances}\label{subsec:si-knights-experiment}
 
 Our second set of decision-problem instances were proposed by Knuth in a recent pre-fascicle
 of The Art of Computer Programming \cite{knuth2022art}.  Each pattern graph is a rectangular grid
@@ -1865,22 +1845,23 @@ here in order to decrease their run times on these instances \citep{zampelli2007
 
 \FloatBarrier
 
-\subsection{Enumeration instances}
+\subsection{Enumeration instances}\label{subsec:si-enumeration-experiment}
 
 Our final set of benchmark instances is based on the MIVIA LDGraphs dataset
-\cite{DBLP:journals/pami/CarlettiFSV18}.  In each LDGraphs instance, the pattern and
-target graphs are random directed graphs with vertex labels but without edge labels.
+\citep{DBLP:journals/pami/CarlettiFSV18}.  In each LDGraphs instance, the pattern and
+target graphs are random directed graphs without edge labels.
+Some of the instances have vertex labels.
 Although the results of benchmarking graph algorithms on such instances cannot
-always be extrapolated to real-world instances \cite{DBLP:conf/cp/McCreeshPST17},
+always be extrapolated to real-world instances \citep{DBLP:conf/cp/McCreeshPST17},
 we include these instances because they are the an established benchmark set,
-and in particular they are the main set of instances used to demonstrate the
-performance of VF3.
+and in particular they are the main set of instances used by \cite{DBLP:journals/pami/CarlettiFSV18}
+to demonstrate the performance of VF3.
 
 Rather than using the instance files provided by the authors of the MIVIA LDGraphs
 dataset, we chose to generate our own random graphs from the same model and with the
 same parameters.  We made this choice for two reasons: first, because of the large size
-of the LDGraphs files (90 GBytes compressed), and second, so that we could add sparser
-instances to the set of instances.
+of the LDGraphs files (90 GBytes compressed), and second, so that we could augment
+the set of instances with sparser pairs of graphs.
 
 In each instance, both the pattern and target graph are generated using a directed-graph
 version of the Erd\H{o}s-Rényi $G(n,p)$ model.  In this model, a graph on $n$ vertices
@@ -1898,7 +1879,8 @@ family from our experiment.)
 For each value of $p$, we use the values
 of $n$ for the target graph that were used by Carletti et al.; these are shown in \Cref{tab:carletti-n}.
 In each instance, a randomly-selected subset of $20\%$ of the target vertices is selected,
-and the subgraph induced by this subset is used as the pattern graph.
+and the subgraph induced by this subset is used as the pattern graph.  Thus, each instance
+is satisfiable (and a typical instance has exactly one solution).
 
 We do not include the LAD solver in our experiments because
 the experimental results of \cite{DBLP:journals/pami/CarlettiFSV18} show that LAD
@@ -1930,7 +1912,7 @@ this way.
 
 \FloatBarrier
 
-\subsection{Results for unlabelled instances}
+\paragraph*{Results for unlabelled instances}
 
 \Cref{figure:unlabelled-vf-instance-runtimes} shows run times for the unlabelled instances.
 Since the instances have a natural ordering by the parameter $n$, we follow the example
@@ -1996,7 +1978,7 @@ benefit.
 
 \FloatBarrier
 
-\subsection{Results for vertex-labelled instances}
+\paragraph*{Results for vertex-labelled instances}
 
 \Cref{figure:unlabelled-vf-instance-runtimes} shows run times for instances with labelled vertices.
 As was the case for the unlabelled instances, \McSplit-SI is the fastest solver for sparse instances and \McSplit-SI-AM
@@ -2075,3 +2057,43 @@ advance to provide no domain filtering.
 Future work could use the data structures of McSplit-SI in the McSplit algorithm for maximum common induced subgraph.
 TODO future work could include portfolio with algorithm selection by target graph density.
 TODO maybe save future work for final chapter
+
+\section{Recycle Bin}
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Glasgow] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-glasgow}
+        \label{figure:TODO}
+    }
+    \subfigure[][Glasgow, no supp.] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-glasgow-nosupp}
+        \label{figure:TODO}
+    }
+    \subfigure[][RI] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-ri}
+        \label{figure:TODO}
+    }
+    \subfigure[][RI-DS] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-ri-ds}
+        \label{figure:TODO}
+    }
+    \subfigure[][VF3] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-vf3}
+        \label{figure:TODO}
+    }
+    \subfigure[][\McSplit-SI-LL] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-si-ll}
+        \label{figure:TODO}
+    }
+    \subfigure[][\McSplit-SI-AM] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-si-am}
+        \label{figure:TODO}
+    }
+    \caption{Scatter plots of run times in ms for decision instances.
+            The horizontal axis shows the the run time of \McSplit-SI-static
+            with a 100 ms \McSplit-SI presolve; the vertical axis shows
+            the run time of the solver named in the subfigure caption.}
+    \label{figure:TODO}
+\end{figure}
+
