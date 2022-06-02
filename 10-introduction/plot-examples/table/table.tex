@@ -1,0 +1,27 @@
+\documentclass[varwidth=true, border=3pt, convert={size=640x}]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\pagestyle{empty}
+\usepackage{times,microtype,booktabs}
+\begin{document}
+\begin{table}
+\begin{tabular}{rr}
+ \toprule
+    Solver A & Solver B \\ [0.5ex]
+ \midrule
+0 & 0 \\
+1 & 1000 \\
+5 & 10 \\
+5 & 10 \\
+10 & 30 \\
+10 & 150 \\
+100 & 100 \\
+5000 & 20 \\
+10000 & timeout \\
+timeout & timeout \\
+ \bottomrule
+\end{tabular}
+ \vspace{1cm}
+\end{table}
+\end{document}
