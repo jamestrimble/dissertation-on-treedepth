@@ -8,18 +8,19 @@ final:
 
 ch01:
 	latexmk -pdf ch-introduction.tex
+	#pdflatex ch-introduction.tex
 
 ch14:
 	latexmk -pdf ch-mcsplit.tex
 	#pdflatex ch-mcsplit.tex # for speed?
 
 ch14a:
-	latexmk -pdf ch-swapping.tex
-	#pdflatex ch-swapping.tex # for speed?
+	#latexmk -pdf ch-swapping.tex
+	pdflatex ch-swapping.tex # for speed?
 
 ch14b:
-	#latexmk -pdf ch-si.tex
-	pdflatex ch-si.tex # for speed?
+	latexmk -pdf ch-si.tex
+	#pdflatex ch-si.tex # for speed?
 
 ch15:
 	latexmk -pdf ch-universalgraphs.tex
@@ -38,5 +39,7 @@ chAA:
 	latexmk -pdf ch-appendices.tex
 
 # Clean -----------------------------------------------------------------------
-##clean:
+clean:
+	rm *.blg *.bbl *.cb2 *.cb *.aux *.toc *.lot *.lof *.fls *.log
+
 ##	git clean -f -X
