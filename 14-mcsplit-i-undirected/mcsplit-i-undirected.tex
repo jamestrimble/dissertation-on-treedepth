@@ -604,27 +604,33 @@ graphs $G$ and $H$ by degree before search.  This prompts the question: is it
 better to sort each graph in ascending or descending order of degree?  The answer depends on the structure of the two graphs.  To shed some light on this question, we present results of an comparing increasing degree and decreasing degree orders for both graphs on random $G(n,p)$ graphs, where the density parameter $p$
 is varied from 0 to 1.
 
-\begin{figure}[h!]
+\begin{figure}[htb]
     \centering
-    \subfigure[][Undirected graphs] {
-        \includegraphics*[width=.9\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10.pdf}
+    \subfigure[][Unlabelled, undirected] {
+        \centering
+        \includegraphics*[width=0.92\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10.pdf}
+        \label{figure:mcis-heatmap}
     }
-    \subfigure[][Directed graphs] {
-        \includegraphics*[width=.9\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10directed.pdf}
+    \subfigure[][Unlabelled, directed] {
+        \centering
+        \includegraphics*[width=0.92\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10directed.pdf}
+        \label{figure:sip-heatmap-12}
     }
-    \caption{Densities for which each pair of orderings requires the fewest search nodes to solve 64 instances. TODO: write more} \label{figure:winners10}
+    \subfigure[][Edge labelled, undirected] {
+        \centering
+        \includegraphics*[width=0.92\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10edgelabelled.pdf}
+        \label{figure:sip-heatmap-16}
+    }
+    \subfigure[][Colour key (search effort divided by search effort of best strategy)] {
+        \centering
+        \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/deg_sorting_experiment_fine_grained/img/key.pdf}
+        \label{figure:mcis-heatmap-key}
+    }
+    \caption{Heatmaps of \McSplit\ search effort compared to the best strategy, varying pattern density
+    (horizontal axis) and target density (vertical axis)}\label{figure:mcis-heatmaps}
 \end{figure}
 
-\begin{figure}[h!]
-    \centering
-    \subfigure[][Undirected graphs] {
-        \includegraphics*[width=0.72\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/bars10.pdf}
-    }
-    \subfigure[][Directed graphs] {
-        \includegraphics*[width=0.72\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/bars10directed.pdf}
-    }
-    \caption{TODO} \label{figure:bars10}
-\end{figure}
+\FloatBarrier
 
 \subsection{Extensions}\label{sec:extensions}
 
