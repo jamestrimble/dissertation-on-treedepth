@@ -14,3 +14,4 @@ ch-*.pdf
 *.fdb_latexmk
 *.fls
 .*.swp
+.DS_Store
