@@ -2032,7 +2032,7 @@
 We have so far seen dense and sparse variants of \McSplit\ for induced subgraph isomorphism, and
 a dense variant for maximum common induced subgraph.  The algorithm that is missing from this
 list---a sparse variant for MCIS---can be straightforwardly created by modifying \McSplit-SI. 
-We will call this new algorithm \McSplit-sparse.
+We call this new algorithm \McSplit-sparse.
 
 An implementation of \McSplit-sparse
 requires only a few small changes to the code of \McSplit-SI. We
@@ -2040,10 +2040,11 @@ therefore give a brief account of the required changes rather than a full
 description of the algorithm.  The \McSplit-sparse algorithm uses the same
 sequence-of-decision-problems strategy as \McSplitDown. Thus the call to
 \FuncSty{Search} on \lineref{McSplitSIFirstExpandCall} of \Cref{McSplitSIAlg}
-is replaced by a sequence of calls, one for each goal order of the common
+is replaced by a sequence of calls, one for each target
+vertex count of the common
 subgraph.  The \FuncSty{Search} function takes an extra parameter: the current
 upper bound. The \FuncSty{Filter} function updates this bound each time a label
-class is partitioned, and returns early if the bound falls below the goal.
+class is partitioned, and returns early if the bound falls below the target.
 
 \subsection{Experimental evaluation of \McSplit-sparse}
 
@@ -2056,18 +2057,49 @@ than a second by \McSplit-SI are very difficult for all of the maximum
 common subgraph solvers.
 
 To summarise the results of \cite{DBLP:conf/cpaior/ArchibaldDHMP019}
-for these instances, 
+for these instances, \McSplitDown\ (that is, the earlier, dense version
+of the algorithm) is slightly faster overall than
+$k\downarrow$, but a version of $k\downarrow$ using \emph{solution-biased
+search} (which we will call $k\downarrow$+SBS) is faster than
+\McSplitDown.  Solution-biased search uses a randomised value-ordering
+heuristic, and periodically restarts search to quickly
+explore many parts of the search tree.  New constraints are added
+on each restart to ensure that parts of the search tree are not
+revisited.
 
-TODO say that Ciaran has shown that kdown outperforms McSplit.
-
-\Cref{figure:mcsplit-sparse-scatter-by-family}
+\McSplit-sparse, like \McSplit-SI, is a new algorithm that
+has not appeared in published work.
+To compare \McSplit-sparse with $k\downarrow$ and $k\downarrow$+SBS,
+we used the three algorithms to solve the maximum
+common subgraph problem for each of the 14,621 instances.
+The cumulative plot in \Cref{figure:mcsplit-sparse-cumulative} 
+shows that \McSplit-sparse is the clear overall winner: it solves
+278 more instances than the next best algorithm within the 1000 second
+time limit, and solves more instances than either variant of $k\downarrow$
+for any per-instance time limit below 1000 seconds.
 
 \begin{figure}[htb]
     \centering
-    \caption{TODO}
     \includegraphics*[width=0.92\textwidth]{14b-mcsplit-induced-si/sip-instances-mcis-experiment/experiment/plots/cumulative.pdf}
+    \caption{TODO}
     \label{figure:mcsplit-sparse-cumulative}
 \end{figure}
+
+TODO: CHECK WHY A McSplit timeout point seems to be missing on M4D plot!!!
+
+\Cref{figure:mcsplit-sparse-scatter-by-family} shows scatter plots
+of run times by family, comparing the best two algorithms.  Points
+above the diagonal line represent instances for which \McSplit-sparse
+is faster than $k\downarrow$+SBS. 
+\McSplit-sparse is the clear winner on the Images family,
+solving 242 more Images instances
+within the 1000 second time limit than $k\downarrow$+restarts.
+\McSplit-sparse also performs very well on the LV instances,
+solving 92 more instances than $k\downarrow$+restarts.
+On the other hand
+hand, $k\downarrow$+restarts solves more instances than \McSplit-sparse in the
+BVG, M4D, Meshes and Rand families: a total of 56 more instances across these
+four families.
 
 \begin{figure}[htb]
     \centering
@@ -2113,16 +2145,33 @@ TODO say that Ciaran has shown that kdown outperforms McSplit.
     \label{figure:mcsplit-sparse-scatter-by-family}
 \end{figure}
 
-\McSplit-sparse solves 242 more Images instances and 92 more LV instances
-within the 1000 second time limit than $k\downarrow$+restarts. On the other
-hand, $k\downarrow$+restarts solves more instances than \McSplit-sparse in the
-BVG, M4D, Meshes and Rand families: a total of 56 more instances across these
-four families.
+The families where \McSplit-sparse performs particularly well---Images and LV---are
+the largest two families, together accounting for 69\% of instances in the benchmark.
+Is \McSplit-sparse's overall success just an artifact of the benchmark's
+lopsidedness?  As a starting point to answer this question,
+\Cref{figure:mcsplit-sparse-cumulative-rescaled} 
+repeats the cumulative curve of
+\Cref{figure:mcsplit-sparse-cumulative}, but scales the results as if each family
+contained 100 instances.  Thus each
+of the 100 Scalefree instances that is solved contributes, as usual, 1 unit to the
+$y$ value of a curve, whereas each of the 6278 Images instances that is solved
+contributes only $100/6278$ units.
+\McSplit-sparse remains the overall winner in this rescaled cumulative plot,
+but there is only a tiny difference between the rescaled number of instances
+solved by the two leading solvers within the 1000 second time limit.
+We could easily construct alternative scalings, such as one that emphasises
+the Meshes family, that favour $k\downarrow$+SBS overall.
+While it is clear that \McSplit-sparse outperforms the state of the art
+for many instances---and several families of instances---this rescaling
+exercise serves as a cautionary reminder that the apparent winner
+on a cumulative plot or as given by the number of instances solved within
+a time limit is highly dependent on the composition of the set of
+benchmark instances used.
 
 \begin{figure}[htb]
     \centering
-    \caption{TODO (rescaled)}
     \includegraphics*[width=0.92\textwidth]{14b-mcsplit-induced-si/sip-instances-mcis-experiment/experiment/plots/cumulative-rescaled.pdf}
+    \caption{TODO (rescaled)}
     \label{figure:mcsplit-sparse-cumulative-rescaled}
 \end{figure}
 
