@@ -29,6 +29,7 @@ plot "fatanode-results/runtimes.txt" u 2:($2>=1e6?1e-10:1) smooth cumulative w l
      "fatanode-results/runtimes.txt" u 4:($4>=1e6?1e-10:1) smooth cumulative w l ti 'kDown2019' lc 3, \
      "fatanode-results/runtimes.txt" u 5:($5>=1e6?1e-10:1) smooth cumulative w l ti 'kDown2019-restarts' lc 4
 
+set ylabel 'Number of instances solved, \textbf{rescaled}'
 set output "plots/cumulative-rescaled.tex"
 plot "fatanode-results/runtimes-with-family-scaling.txt" u 2:($2>=1e6?1e-10:$6) smooth cumulative w l ti '\textproc{McSplit}-sparse' lc 1, \
      "fatanode-results/runtimes-with-family-scaling.txt" u 3:($3>=1e6?1e-10:$6) smooth cumulative w l ti 'kDown2017' lc 2, \
