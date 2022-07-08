@@ -110,7 +110,6 @@ The arrays $\AlgVar{Gptrs}$ and $\AlgVar{Hptrs}$ allows us to perform constant-t
 manipulations to label classes given only a vertex; it is these arrays that enable
 \McSplit-SI to carry out the partitioning step without iterating over the vertices in each label class.
 
-TODO move this sentence:
 Initially, the doubly-linked list of label classes contains a single element representing
 all vertices of graphs $G$ and $H$.
 
@@ -679,7 +678,7 @@ to preferring pattern vertices that are involved in as few constraints as possib
 A clear message from these figures is that the optimal choice of variable and
 value ordering heuristic depends on the characteristics of an instance in a
 complex way.
-In the experimental evaluation in (TODO say which section), I consider two 
+In the experimental evaluation in \Cref{sec:si-experiments}, I consider two 
 strategies which broadly extrapolate from the results in
 \Cref{figure:sip-heatmap-8} and
 \Cref{figure:sip-heatmap-16}.  The first strategy is to use ``G increasing, H increasing''
@@ -693,29 +692,54 @@ in parallel.
 
 \subsection{Static variable ordering heuristics}
 
-So far in this section, we have considered only \emph{dynamic} variable ordering heuristics,
-in which the choice of $v$ is made during search and takes into account the current
-sizes of label classes.  The RI solver, which does not use the concept of domains,
-takes a simpler approach \cite{DBLP:journals/tcbb/BonniciG17}; a static variable order
-is used, which is determined before search.  One advantage of this is speed per recursive
-call --- no effort beyond a constant-time lookup is required to choose the next variable.
-The RI order is generated one element at a time, maintaining three sets.  The first, $X_1$,
-contains pattern-graph vertices already in the order. The second, $X_2$, contains vertices
-not in $X_1$ but adjacent to at least one element of $X_1$.  The third set, $X_3$, contains
-all remaining pattern vertices.  At each step, the next element of the order is chosen
-by selecting a vertex with as many neighbours in $X_1$ as possible, tie-breaking by
-the number of neighbours in $X_2$, then finally tie-breaking by the number of neighbours
-in $X_3$.
+So far in this section, we have considered only \emph{dynamic} variable
+ordering heuristics, in which the choice of $v$ is made during search and
+depends primarily on the current sizes of label classes.  The RI solver does
+not use the concept of domains, and therefore by necessity takes a simpler
+approach: it uses a static variable order, which is determined before search
+\citep{DBLP:journals/tcbb/BonniciG17}.  We will use this as an alternative
+variable ordering strategy for \McSplit-SI and, as we will see in
+\Cref{sec:si-experiments}, it is often a very successful strategy in practice.
+Therefore this subsection will describe the RI strategy in detail.
 
-TODO say that RI maybe approximates dom+deg. Say that I've implemented RI heur (just
-for undirected), but for dense graphs I do the heuristic on the complements.
+RI generates its variable order by adding one vertex of graph $G$ at a time,
+maintaining three sets.  Set $X_1$ contains pattern-graph vertices already in
+the order. Set $X_2$ contains vertices not in $X_1$ but adjacent to at least
+one element of $X_1$.  Finally, $X_3$, contains all remaining pattern vertices.
+At each step, the next element of the order is chosen by selecting a vertex
+with as many neighbours in $X_1$ as possible, tie-breaking by the number of
+neighbours in $X_2$, then finally tie-breaking by the number of neighbours in
+$X_3$.
+
+In the common case where graphs $G$ and $H$ are sparse, this variable
+ordering strategy can be viewed intuitively as approximating the smallest
+domain strategy of \McSplit-SI with tie breaking by degree.  To see this, note
+that the vertices prioritised by RI---those adjacent to many assigned
+vertices---will tend to have many values removed from their domains as a result
+of those adjacencies.  The tie breaking (approximately) by degree follows from
+the fact that RI prioritises vertices with many neighbours in each set $X_i$.
+
+Yet clearly there is more to the RI heuristic that simply tie breaking by
+degree, since the heuristic distinguishes between vertices that are neighbours
+of some assigned vertex ($X_2$) and vertices that are not ($X_3$). This
+distinction may explain the success of the RI heuristic in our experimental
+evaluation (\Cref{sec:si-experiments}).  It would be interesting future work to
+explore whether the same distinction could be used to improved dynamic variable
+ordering heuristics.
+
+I have implemented the RI variable ordering heuristic in a variant of \McSplit-SI
+which I will refer to as \McSplit-SI-static.  I have modified the RI heuristic
+in one respect: if graph $H$ has density greater than \nicefrac{1}{2}, the order
+is computed on the complement of $G$ rather than on $G$ itself.
 
 \section{Generalised arc consistency on the all-different constraint}
 
 The constraint programming model for induced subgraph isomorphism contains an all-different
 constraint over all the variables; this constraint ensures that each of the pattern-graph vertices
 is mapped to a distinct vertex in the target graph.  The strongest level of consistency that can
-be achieved for this constraint is \emph{generalised arc consistency (GAC)} (TODO define GAC).
+be achieved for this constraint is \emph{generalised arc consistency (GAC)}, in which value
+$x$ may only be in the domain of variable $X$ if there is some assignment to all
+the variables involved in the constraint such that $X$ takes the value $x$.
 The classic algorithm for achieving GAC on an all-different constraint is R\'egin's
 \cite{DBLP:conf/aaai/Regin94}, which operates
 on a (perhaps implicit) bipartite graph with variables on the left and values on the right, and 
@@ -1121,7 +1145,8 @@ using the data structures of \McSplit-SI.
 \begin{figure}[htb]
     \centering
     \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1-ll-version}
-    \caption{TODO}
+    \caption{The data structures of \McSplit-SI-LL. Each of the two sets of vertices in a label
+        class is represented as a doubly-linked list.}
     \label{figure:si-data-structures-ll-version}
 \end{figure}
 
@@ -1198,6 +1223,7 @@ to solve any satisfiable instance.
 \end{proof}
 
 \section{Experimental evaluation}
+\label{sec:si-experiments}
 
 In this section, we compare the speed of \McSplit-SI with three state-of-the-art algorithms
 on three sets of benchmark instances.  In \Cref{subsec:si-decision-experiment},
@@ -1248,7 +1274,7 @@ class.
         representation of graphs) to the induced subgraph isomorphism problem.  This does not use \McSplit-SI's
         partitioning algorithm optimised for sparse graphs. \\
     \rule{0pt}{2.3ex}\McSplit-SI-s & \McSplit-SI with the dynamic variable-ordering heuristic replaced by
-        the static heuristic of RI, described in TODO cite \\
+        the static heuristic of RI \citep{DBLP:journals/tcbb/BonniciG17} \\
     \rule{0pt}{2.3ex}\McSplit-SI-pre & TODO, refer forward. \\
 \bottomrule
 \end{tabular}
@@ -1624,7 +1650,7 @@ solved.
 \end{table}
 
 \paragraph*{Number of for which each solver was the fastest}
-TODO talk about \Cref{tab:si-decision-solved-counts}
+TODO talk about \Cref{tab:si-decision-winner-counts}
 
 \begin{table}[htb]
 \centering
