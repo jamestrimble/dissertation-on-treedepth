@@ -2,7 +2,7 @@
 
 mkdir -p results
 
-rm -f results/*
+#rm -f results/*
 
 show_time_or_timeout() {
     FILENAME=$1
