@@ -1914,7 +1914,7 @@ g5-g32 0 0 0 0 0 0 0 0 0 0 0
 g5-g33 0 0 0 0 0 0 0 0 0 0 0
 g5-g37 0 0 0 0 0 0 0 0 0 0 0
 g5-g38 0 0 0 0 0 0 0 0 0 0 X
-g5-g40 0 0 0 0 0 0 0 0 0 0 0
+g5-g40 0 0 0 0 0 0 0 0 X 0 0
 g5-g41 1 1 1 1 1 1 1 1 1 1 1
 g5-g42 0 0 0 0 0 0 0 0 0 0 0
 g5-g43 0 0 0 0 0 0 0 0 0 0 X
@@ -2922,7 +2922,7 @@ g24-g63 1 1 X 1 1 1 1 1 1 1 X
 g24-g64 X X X X X X X X X X X
 g24-g65 X X X X 0 X 0 X 0 0 X
 g24-g67 0 0 0 0 0 0 0 0 0 0 X
-g24-g68 X 0 X 0 X X X X X X X
+g24-g68 0 0 X 0 X 0 X X X X X
 g24-g69 0 0 0 0 0 0 0 0 0 0 X
 g24-g70 0 0 0 0 0 0 0 0 0 0 X
 g24-g71 0 0 0 0 0 0 0 0 0 0 X
@@ -2944,7 +2944,7 @@ g24-g89 0 0 0 0 0 0 0 0 0 0 X
 g24-g90 0 0 0 0 0 0 0 0 0 0 X
 g24-g91 X X X X 0 X 0 0 0 0 X
 g24-g92 X X X X 0 X 0 0 0 0 X
-g24-g94 X X X X 0 X 0 0 0 0 X
+g24-g94 0 X X X 0 X 0 0 0 0 X
 g24-g95 0 0 0 0 0 0 0 0 0 0 X
 g24-g96 0 0 0 0 0 0 X X 0 0 X
 g24-g97 0 0 0 0 0 0 0 X 0 0 X
@@ -5059,7 +5059,7 @@ g47-g66-normed 0 0 0 0 0 0 0 0 0 0 0
 g47-g73-normed 0 0 0 0 0 0 0 0 0 0 X
 g47-g82-normed 0 0 0 0 0 0 0 0 0 0 0
 g47-g86-normed 0 0 0 0 0 0 0 0 0 0 0
-g47-g93-normed 0 0 0 0 0 0 0 0 X 0 0
+g47-g93-normed 0 0 0 0 0 X 0 0 X 0 0
 g48-g58-normed 0 0 0 0 0 0 0 0 0 0 X
 g48-g59-normed 0 0 0 0 0 0 0 0 0 0 X
 g48-g60-normed 0 0 0 0 0 0 0 0 0 0 X
@@ -6334,7 +6334,7 @@ all-meshes-CVIU11-pattern3-target1 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target10 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target100 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target102 0 0 0 0 0 0 0 0 X X 0
-all-meshes-CVIU11-pattern3-target103 0 0 0 0 0 0 0 0 0 0 0
+all-meshes-CVIU11-pattern3-target103 0 0 0 0 0 X 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target104 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target106 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target107 0 0 0 0 0 0 0 0 X X 0
@@ -6433,7 +6433,7 @@ all-meshes-CVIU11-pattern3-target192 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target193 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target194 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target195 0 0 0 0 0 0 0 0 0 0 0
-all-meshes-CVIU11-pattern3-target196 0 0 0 0 0 0 0 0 0 0 0
+all-meshes-CVIU11-pattern3-target196 0 0 0 0 0 X 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target197 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target198 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target199 0 0 0 0 0 0 0 0 X 0 0
@@ -6450,7 +6450,7 @@ all-meshes-CVIU11-pattern3-target207 0 0 0 0 0 0 0 0 X 0 0
 all-meshes-CVIU11-pattern3-target208 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target209 0 0 0 0 0 0 0 0 X 0 X
 all-meshes-CVIU11-pattern3-target21 0 0 0 0 0 0 0 0 0 0 0
-all-meshes-CVIU11-pattern3-target210 0 0 0 0 0 0 0 0 0 0 0
+all-meshes-CVIU11-pattern3-target210 0 0 0 0 0 X 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target211 0 0 0 0 0 0 0 0 X 0 0
 all-meshes-CVIU11-pattern3-target212 0 0 0 0 0 0 0 0 X 0 0
 all-meshes-CVIU11-pattern3-target213 0 0 0 0 0 0 0 0 X 0 0
@@ -6483,7 +6483,7 @@ all-meshes-CVIU11-pattern3-target238 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target24 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target240 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target241 0 0 0 0 0 0 0 0 X X 0
-all-meshes-CVIU11-pattern3-target242 0 0 0 0 X 0 0 0 X X X
+all-meshes-CVIU11-pattern3-target242 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target243 0 0 0 0 0 0 0 0 X X 0
 all-meshes-CVIU11-pattern3-target244 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target245 0 0 0 0 0 0 0 0 0 0 0
@@ -6516,7 +6516,7 @@ all-meshes-CVIU11-pattern3-target27 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target270 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target271 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target272 0 0 0 0 0 0 0 0 X X 0
-all-meshes-CVIU11-pattern3-target273 0 0 0 0 0 0 0 0 0 0 0
+all-meshes-CVIU11-pattern3-target273 0 0 0 0 0 X 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target275 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target278 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target279 0 0 0 0 0 0 0 0 0 0 0
@@ -6589,7 +6589,7 @@ all-meshes-CVIU11-pattern3-target34 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target340 0 0 0 0 0 0 0 0 X 0 0
 all-meshes-CVIU11-pattern3-target341 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target342 0 0 0 0 X 0 0 0 X X X
-all-meshes-CVIU11-pattern3-target343 0 0 0 0 0 0 0 0 X X X
+all-meshes-CVIU11-pattern3-target343 0 0 0 0 0 0 0 0 X X 0
 all-meshes-CVIU11-pattern3-target344 0 0 0 0 0 0 0 0 X X 0
 all-meshes-CVIU11-pattern3-target345 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target346 0 0 0 0 0 0 0 0 X X 0
@@ -6629,7 +6629,7 @@ all-meshes-CVIU11-pattern3-target383 0 0 0 0 0 0 0 0 X 0 0
 all-meshes-CVIU11-pattern3-target384 0 0 0 0 0 0 0 0 X X 0
 all-meshes-CVIU11-pattern3-target385 0 0 0 0 X 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target386 0 0 0 0 0 0 0 0 0 0 0
-all-meshes-CVIU11-pattern3-target387 0 0 0 0 0 0 0 0 0 0 0
+all-meshes-CVIU11-pattern3-target387 0 0 0 0 0 X 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target388 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target389 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target39 0 0 0 0 0 0 0 0 0 0 0
@@ -6694,7 +6694,7 @@ all-meshes-CVIU11-pattern3-target442 0 0 0 0 0 0 0 0 X 0 0
 all-meshes-CVIU11-pattern3-target443 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target444 0 0 0 0 X 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target446 0 0 0 0 X 0 0 0 X X 0
-all-meshes-CVIU11-pattern3-target447 0 0 0 0 0 0 0 0 0 0 0
+all-meshes-CVIU11-pattern3-target447 0 0 0 0 0 X 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target448 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target449 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target45 0 0 0 0 0 0 0 0 X X X
@@ -6758,14 +6758,14 @@ all-meshes-CVIU11-pattern3-target501 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target502 0 0 0 0 0 0 0 0 X X X
 all-meshes-CVIU11-pattern3-target503 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target504 0 0 0 0 0 0 0 0 0 0 0
-all-meshes-CVIU11-pattern3-target505 0 0 0 0 0 0 0 0 0 0 0
+all-meshes-CVIU11-pattern3-target505 0 0 0 0 0 X 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target506 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target507 0 0 0 0 0 0 0 0 X X 0
 all-meshes-CVIU11-pattern3-target508 0 0 0 0 0 0 0 0 X 0 0
 all-meshes-CVIU11-pattern3-target509 0 0 0 0 0 0 0 0 X X 0
 all-meshes-CVIU11-pattern3-target51 0 0 0 0 0 0 0 0 X 0 X
 all-meshes-CVIU11-pattern3-target510 0 0 0 0 0 0 0 0 0 0 0
-all-meshes-CVIU11-pattern3-target511 0 0 0 0 0 0 0 0 0 0 0
+all-meshes-CVIU11-pattern3-target511 0 0 0 0 0 X 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target512 0 0 0 0 0 0 0 0 X X 0
 all-meshes-CVIU11-pattern3-target513 0 0 0 0 0 0 0 0 0 0 0
 all-meshes-CVIU11-pattern3-target514 0 0 0 0 0 0 0 0 0 0 0
