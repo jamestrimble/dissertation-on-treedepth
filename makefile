@@ -7,8 +7,11 @@ final:
 	latexmk -pdf dissertation.tex
 
 ch01:
-	latexmk -pdf ch-introduction.tex
-	#pdflatex ch-introduction.tex
+	#latexmk -pdf ch-introduction.tex
+	pdflatex ch-introduction.tex
+
+ch11:
+	latexmk -pdf ch-background.tex
 
 ch14:
 	latexmk -pdf ch-mcsplit.tex
