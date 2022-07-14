@@ -265,6 +265,29 @@ $u$ and $v$ are called endpoints.
 
 \section{Computational Complexity}
 
+This section gives only a very brief, informal description of
+\emph{\NP-hardness} and related concepts. A more complete introduction can be
+found in \citet{DBLP:books/fm/GareyJ79}.
+
+Consider the \textsc{Clique} problem: given a graph $G$ and a natural number $k$,
+does $G$ contain a $k$-vertex clique?  If the answer is ``yes'', we can give a proof
+of this fact by listing the $k$ vertices in this clique.  A sceptic may verify
+in $k(k-1)/2$ steps that the $k$ vertices are indeed pairwise adjacent.  Any
+problem---like \textsc{clique}---such that there is a proof of ``yes'' instances
+that can be verified in polynomial time is said to be in the complexity class \NP.
+
+Although we can verify a ``yes'' instance of \textsc{Clique} in polynomial
+time, there is no known way to solve the problem in polynomial time.
+Indeed \textsc{Clique} is, in an important sense, one of the hardest problems in \NP\
+\citep{DBLP:conf/coco/Karp72}: every instance of a problem in \NP\ can be
+transformed, or \emph{reduced}, to a \textsc{Clique} instance in polynomial
+time, such that the original instance and the reduced instance give the same
+answer.  Any problem with this property is called \emph{\NP-complete}.
+
+A problem $H$ is \emph{\NP-hard} if it is at least as hard as any problem in \NP;
+that is, if any problem in \NP\ can be solved in polynomial time under the assumption
+that we have an oracle that can solve $H$ in constant time.
+
 \section{Problems covered by this dissertation}
 
 This dissertation presents algorithms for the following three problems.
@@ -272,7 +295,8 @@ This dissertation presents algorithms for the following three problems.
 \begin{itemize}
     \item \textbf{Maximum common induced subgraph.} Find
 a maximum common induced subgraph of two given graphs.
-    \item \textbf{Induced subgraph isomorphism.} Given graphs $G$ and $H$,
+    \item \textbf{Induced subgraph isomorphism.} Given graphs $G$ (the ``pattern graph'')
+    and $H$ (the ``target graph''),
 determine whether $G$ is isomorphic to an induced subgraph of $H$;
 if so, return the isomorphism.
     \item \textbf{Minimum induced universal graph.} Given a family of graphs $\calF$,
@@ -280,14 +304,13 @@ find a graph with as few vertices as possible that contains each member of $\cal
 as an induced subgraph.
 \end{itemize}
 
-The \textsc{Clique} problem (to determine whether a given graph graph contains
-a $k$-vertex clique) is \NP-hard \citep{DBLP:conf/coco/Karp72}, and each
-of our three problems can be seen to be \NP-hard by a simple reduction from
+Each
+of these three problems can be seen to be \NP-hard by a simple reduction from
 \textsc{Clique}.
 Given graph $G$ and natural number $k$, we can determine whether $G$ contains a clique
 of size $k$ by solving either of the first two problems with the complete graph $K_k$ as
 the first graph and $G$ as the second, or by solving the third problem with the family
-$\{K_k, G\}$ as input.
+$\{K_k, G\}$ as the input.
 
 \section{Related Problems}
 
@@ -296,7 +319,9 @@ maximum common induced subgraph and induced subgraph isomorphism.
 
 The \emph{graph isomorphism problem} is a special case of the induced subgraph
 isomorphism problem in which the two input graphs have the same number of
-vertices.  Most state of the art algorithms for graph isomorphism, such as
+vertices.  It is unknown whether the problem is \NP-complete, and it is also
+unknown whether it can be solved in polynomial time.
+Most state of the art algorithms for graph isomorphism, such as
 Nauty and Traces, solve the problem by computing a canonical representation of
 each graph and comparing these representations \citep{McKay201494}.  The
 canonical representations may then be re-used for comparisons with other
@@ -335,7 +360,7 @@ in $H$ or vice versa.
 \end{figure}
 
 Several algorithms for MCES, such as RASCAL
-\citep{DBLP:journals/cj/RaymondGW02}, use this method, as we will discuss further
+\citep{DBLP:journals/cj/RaymondGW02}, use this line graph method, as we will discuss further
 in the next section.  \citet{DBLP:conf/mco/VismaraV08} describe how this technique
 can be used on labelled graphs.
 
@@ -344,6 +369,12 @@ described in this thesis for MCES shows promising results
 \citep{trimble2018three}. This would be a useful direction for future work, but
 it is not pursued further in this dissertation.
 
+A generalisation that can be applied to any maximum common subgraph
+variant is to find the maximum common subgraph of an arbitrary set of graphs,
+rather than only of a pair of graph.  The MCES version of this problem has
+been studied in the context of sets of molecules
+\citep{DBLP:journals/jcheminf/DalkeH13}.
+
 %The maximum clique problem is to find an induced subgraph of a graph $G$ with as
 %many vertices as possible, such that the subgraph has all possible edges; that
 %is ??. Maximum clique can be solved (although rather inefficiently in practice)
@@ -351,6 +382,13 @@ it is not pursued further in this dissertation.
 %same number of vertices as $G$.
 
 \section{Constraint Programming}
+
+We now turn from problems to solution methods.
+As discussed previously, each problem studied in this dissertation
+is \NP-hard.  This section reviews a very general framework for modelling
+and solving \NP-hard problems which is the basis of many existing solvers
+for maximum common subgraph and subgraph isomorphism, and which has close connections
+to the \McSplit\ algorithms that we will introduce.
 
 A \emph{constraint satisfaction problem (CSP)} is a problem of finding a value
 for each of a finite set of variables, subject to a set of constraints.
