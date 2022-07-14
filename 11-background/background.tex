@@ -44,13 +44,16 @@
   \end{tikzpicture}
 }
 
+This chapter formally introduces concepts from graph theory and the problems tackled by this
+thesis, and reviews related algorithms.
+
 \section{Preliminaries}
 
 A graph $G$ is a pair $(V, E)$ whose \emph{vertex set} $V = V(G)$
 is an arbitrary finite set and whose \emph{edge set} $E = E(G)$
 comprises two-elements subset of $V$. The elements of each edge
 $e \in E$ are called its \emph{endpoints}, and two vertices that
-are the endpoints of some edge are said to be \emph{adjacent}.
+are the endpoints of an edge are said to be \emph{adjacent}.
 
 For example, \Cref{fig:g1} shows the graph $G_1 = (V,E)$, where
 \[
@@ -260,6 +263,8 @@ induced subgraph highlighted.
 For arc $(u,v)$, we say that $u$ is the source vertex and $v$ is target vertex; both
 $u$ and $v$ are called endpoints.
 
+\section{Computational Complexity}
+
 \section{Problems covered by this dissertation}
 
 This dissertation presents algorithms for the following three problems.
@@ -275,7 +280,10 @@ find a graph with as few vertices as possible that contains each member of $\cal
 as an induced subgraph.
 \end{itemize}
 
-Each of the three problems can be seen to be NP-hard by a simple reduction from \textsc{Clique}.
+The \textsc{Clique} problem (to determine whether a given graph graph contains
+a $k$-vertex clique) is \NP-hard \citep{DBLP:conf/coco/Karp72}, and each
+of our three problems can be seen to be \NP-hard by a simple reduction from
+\textsc{Clique}.
 Given graph $G$ and natural number $k$, we can determine whether $G$ contains a clique
 of size $k$ by solving either of the first two problems with the complete graph $K_k$ as
 the first graph and $G$ as the second, or by solving the third problem with the family
