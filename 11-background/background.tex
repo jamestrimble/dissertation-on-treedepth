@@ -44,10 +44,20 @@
   \end{tikzpicture}
 }
 
-This chapter formally introduces concepts from graph theory and the problems tackled by this
-thesis, and reviews related algorithms.
+Before we move to this dissertation's new contributions, this chapter presents
+necessary background material.  Sections \ref{sec:graph-terminology} and
+\ref{sec:complexity} introduce topics from graph theory and complexity theory.
+\Cref{sec:problems} formally introduces the problems tacked by this
+dissertation, and \Cref{sec:related-problems} discusses closely related
+problems.  \Cref{sec:cp} is a brief introduction to constraint programming, a
+field of research that led to many existing algorithms for subgraph isomorphism
+and maximum common subgraph, and has important connections to the new
+algorithms described in this dissertation.  Sections \ref{sec:si-algorithms}
+and \ref{sec:mcs-algorithms} review existing algorithms for subgraph
+isomorphism and maximum common subgraph.  \Cref{sec:experimental-details} gives
+details on how experiments were performed and how the results are displayed.
 
-\section{Preliminaries}
+\section{Graph theory terminology}\label{sec:graph-terminology}
 
 A graph $G$ is a pair $(V, E)$ whose \emph{vertex set} $V = V(G)$
 is an arbitrary finite set and whose \emph{edge set} $E = E(G)$
@@ -145,15 +155,16 @@ We omit the subscript $G$ where there is no ambiguity.
 In \Cref{fig:g1}, for example, we have $\N(3) = \{1,2,4\}$ and
 $\invN(3) = \{5,6\}$.
 
-We say that graphs $G$ and $H$ are \emph{isomorphic} if we can relabel
-the vertices of $G$ to produce graph $H$. For example, graphs $G_1$
-and $G_2$ in \Cref{fig:intro-examples} are isomorphic.
-Formally, an isomorphism between graphs $G$ and $H$ is a bijection $f$
-from $V(G)$ to $V(H)$, such that $E(H) = \{\{f(u), f(v)\} \mid \{u, v\} \in E(G)\}$.
-If such an $f$ exists, we say that $G$ and $H$ are isomorphic.
+We say that graphs $G$ and $H$ are \emph{isomorphic} if they have the same
+number of vertices and we can relabel the vertices of $G$ to produce graph $H$.
+For example, graphs $G_1$ and $G_2$ in \Cref{fig:intro-examples} are
+isomorphic.  Formally, an \emph{isomorphism} between graphs $G$ and $H$ is a
+bijection $f:V(G)\rightarrow V(H)$, such that $E(H) = \{\{f(u), f(v)\} \mid \{u,
+v\} \in E(G)\}$.  If such an $f$ exists, we say that $G$ and $H$ are
+isomorphic.
 
-The \emph{line graph} of a graph $G=(V,E)$ is a graph with a vertex for each element
-of $E$, such that two vertices are adjacent if and only if their corresponding edges
+The \emph{line graph} of a graph $G$ is a graph with a vertex for each element
+of $E(G)$, such that two vertices are adjacent if and only if their corresponding edges
 in $G$ share an endpoint.
 
 An \emph{induced subgraph} of $G = (V, E)$ has a subset $W \subseteq V$ as its
@@ -217,14 +228,12 @@ A \emph{labelled graph} (or \emph{network}) is a triple $(G, f_v, f_e)$
 where $G$ is a graph,
 the \emph{vertex label function} $f_v$ is a function with domain $V(G)$,
 and the \emph{edge label function} $f_e$ is a function with domain $E(G)$.
-The maximum common induced subgraph problem has a natural extension to labelled graphs
-where we require the isomorphism to preserve labels on vertices and edges.
 
 A \emph{directed graph} is a pair $(V,A)$, where $V$ is the vertex set and $A$,
 a set of ordered pairs of elements of $V$, is the arc set.  The definitions of
 \emph{induced subgraph}, \emph{isomorphism} and \emph{maximum common induced
 subgraph} for directed graphs are analogous to their counterparts for graphs.
-\label{fig:directed-cis-example} shows two directed graphs with a common
+\Cref{fig:directed-cis-example} shows two directed graphs with a common
 induced subgraph highlighted.
 
 \begin{figure}[h!]
@@ -263,16 +272,18 @@ induced subgraph highlighted.
 For arc $(u,v)$, we say that $u$ is the source vertex and $v$ is target vertex; both
 $u$ and $v$ are called endpoints.
 
-\section{Computational Complexity}
+\section{Computational Complexity}\label{sec:complexity}
 
-This section gives only a very brief, informal description of
+This section gives a very brief, informal description of
 \emph{\NP-hardness} and related concepts. A more complete introduction can be
-found in \citet{DBLP:books/fm/GareyJ79}.
+found in the classic monograph of \citet{DBLP:books/fm/GareyJ79},
+while \citet{moore2011nature} give a broader, and very entertaining,
+treatment.
 
 Consider the \textsc{Clique} problem: given a graph $G$ and a natural number $k$,
 does $G$ contain a $k$-vertex clique?  If the answer is ``yes'', we can give a proof
 of this fact by listing the $k$ vertices in this clique.  A sceptic may verify
-in $k(k-1)/2$ steps that the $k$ vertices are indeed pairwise adjacent.  Any
+in $k(k-1)/2$ steps that the $k$ vertices are indeed pairwise adjacent.  Any decision
 problem---like \textsc{clique}---such that there is a proof of ``yes'' instances
 that can be verified in polynomial time is said to be in the complexity class \NP.
 
@@ -286,9 +297,10 @@ answer.  Any problem with this property is called \emph{\NP-complete}.
 
 A problem $H$ is \emph{\NP-hard} if it is at least as hard as any problem in \NP;
 that is, if any problem in \NP\ can be solved in polynomial time under the assumption
-that we have an oracle that can solve $H$ in constant time.
+that we have an oracle that can solve $H$ in constant time.  We will see in the next
+section that all three problems considered in this dissertation are \NP-hard.
 
-\section{Problems covered by this dissertation}
+\section{Problems covered by this dissertation}\label{sec:problems}
 
 This dissertation presents algorithms for the following three problems.
 
@@ -309,48 +321,60 @@ of these three problems can be seen to be \NP-hard by a simple reduction from
 \textsc{Clique}.
 Given graph $G$ and natural number $k$, we can determine whether $G$ contains a clique
 of size $k$ by solving either of the first two problems with the complete graph $K_k$ as
-the first graph and $G$ as the second, or by solving the third problem with the family
+the first graph and $G$ as the second graph, or by solving the third problem with the family
 $\{K_k, G\}$ as the input.
 
-\section{Related Problems}
+Each problem has a natural extension to labelled graphs
+where we require the isomorphism to preserve labels on vertices and edges.
+Likewise, each problem has a variant for labelled graphs.
+For the first two problems, this dissertation presents algorithms for both
+labelled graphs and directed graphs; for the third problem we only consider
+unlabelled graphs.
+
+\section{Related Problems}\label{sec:related-problems}
 
 This section briefly introduces three problems that are closely related to
 maximum common induced subgraph and induced subgraph isomorphism.
 
-The \emph{graph isomorphism problem} is a special case of the induced subgraph
-isomorphism problem in which the two input graphs have the same number of
+The \emph{graph isomorphism problem} is to dermine whether two given graphs are
+isomorphic. It can be viewed as a version the induced subgraph isomorphism
+problem that returns ``no'' if the input graphs do not have the same number of
 vertices.  It is unknown whether the problem is \NP-complete, and it is also
-unknown whether it can be solved in polynomial time.
-Most state of the art algorithms for graph isomorphism, such as
-Nauty and Traces, solve the problem by computing a canonical representation of
-each graph and comparing these representations \citep{McKay201494}.  The
-canonical representations may then be re-used for comparisons with other
-graphs.  Considering only pairwise comparisons of graphs, a 2001 study found
-that the induced subgraph isomorphism solver VF2 outperformed Nauty on several
-classes of graph \citep{foggia2001performance}.  While we do not consider graph
+unknown whether it can be solved in polynomial time, although a
+quasipolynomial-time algorithm has been proposed
+\citep{DBLP:conf/stoc/Babai16}.  Most state of the art algorithms for graph
+isomorphism, such as Nauty and Traces, solve the problem by computing a
+canonical representation of each graph and comparing these representations
+\citep{McKay201494}.  This method has the advantage that the canonical
+representations may then be re-used for comparisons with other graphs.
+Considering only pairwise comparisons of graphs, a 2001 study found that the
+induced subgraph isomorphism solver VF2 outperformed Nauty on several classes
+of graph \citep{foggia2001performance}.  While we do not consider graph
 isomorphism further in this dissertation, it would be an interesting topic of
 future work to test whether the current state of the art subgraph isomorphism
 solvers outperform the best graph isomorphism solvers on some interesting
 classes of graphs.
 
 Induced subgraph isomorphism and maximum common induced subgraph each have a
-non-induced counterpart. The \emph{subgraph monomorphism problem} is to determine
-whether graph $G$ is isomorphic to a subgraph of graph $H$, without the requirement
-that the subgraph be induced.
-This problem is also known as \emph{subgraph isomorphism} (without
-the ``induced'' qualifier), but we will use the name subgraph monomorphism
-to avoid confusion with induced subgraph isomorphism.
+non-induced counterpart. The \emph{subgraph monomorphism problem} is to
+determine whether graph $G$ is isomorphic to a subgraph of graph $H$, without
+the requirement that the subgraph be induced.  Some papers use the name
+\emph{subgraph isomorphism} to refer to subgraph monomorphism
+\citep{DBLP:conf/cp/McCreeshP15}, while others use it to refer to to induced
+subgraph isomorphism \citep{DBLP:journals/pami/CarlettiFSV18}.  To avoid
+confusion, the ambiguous term ``subgraph isomorphism'' (without the ``induced''
+qualifier) will not be used in the sequel.
 
 The \emph{maximum common edge subgraph (MCES)} problem is to find a subgraph of
-graph $G$ with as many edges as possible that is isomorphic to a subgraph of
-graph $H$, again without requiring the subgraphs to be induced.
-There is a close connection between this problem and MCIS: by a
-result due to \citet{whitney1932congruent}, we can find the MCES two
-graphs by searching for an MCIS on their line graphs.  This approach has a
-small complication: the triangle graph $K_3$ and the claw graph $K_{1,3}$
-(\cref{fig:k3-and-claw}) both have $K_3$ as their line graph, and we must
-therefore check during search that a triangle in $G$ is not mapped to a claw
-in $H$ or vice versa.
+graph $G$ with as many edges (rather than vertices) as possible that is
+isomorphic to a subgraph of graph $H$, again without requiring that the
+subgraphs be induced.  There is a non-trivial but close connection between this
+problem and MCIS: by a result due to \citet{whitney1932congruent}, we can find
+the MCES two graphs by searching for an MCIS on their line graphs.  This
+approach has a small complication: the triangle graph $K_3$ and the claw graph
+$K_{1,3}$ (\cref{fig:k3-and-claw}) both have $K_3$ as their line graph, and we
+must therefore check during search that no strongly-connected component of $G$
+that is a triangle (resp.\ claw) is mapped to a claw (resp.\ triangle) in $H$.
 
 \begin{figure}[htb]
     \centering
@@ -381,22 +405,24 @@ been studied in the context of sets of molecules
 %using an MCIS algorithm, by finding the MCIS of $G$ and a complete graph with the
 %same number of vertices as $G$.
 
-\section{Constraint Programming}
+\section{Constraint Programming}\label{sec:cp}
 
-We now turn from problems to solution methods.
-As discussed previously, each problem studied in this dissertation
-is \NP-hard.  This section reviews a very general framework for modelling
-and solving \NP-hard problems which is the basis of many existing solvers
-for maximum common subgraph and subgraph isomorphism, and which has close connections
-to the \McSplit\ algorithms that we will introduce.
+We now turn from problems to solution methods.  As discussed previously, each
+problem studied in this dissertation is \NP-hard.  This section reviews
+\emph{constraint programming}, a very general framework for modelling and
+solving \NP-hard problems which is the basis of many existing solvers for
+maximum common subgraph and subgraph isomorphism, and which has close
+connections to the \McSplit\ algorithms that we will introduce.
 
 A \emph{constraint satisfaction problem (CSP)} is a problem of finding a value
 for each of a finite set of variables, subject to a set of constraints.
 This framework is extremely broad, and has applications in fields
 including logistics, scheduling, bioinformatics, and discrete mathematics.
-The field of \emph{constraint programming} is concerned with modelling
-and solving constraint satisfaction problems. Many algorithms in the literature
-for MCIS and induced subgraph isomorphism model these problems as CSPs.
+The field of constraint programming is concerned with modelling
+and solving CSPs and related problems.
+
+Many algorithms
+for MCIS and induced subgraph isomorphism model the problems as CSPs.
 Moreover, the \McSplit\ family of algorithms introduced in this dissertation
 are closely related to a constraint programming approach.
 This section gives a brief introduction to constraint programming;
@@ -422,12 +448,12 @@ Complete algorithms---which are the focus of our dissertation---may further
 be subdivided into backtracking search algorithms and dynamic programming
 algorithms. All of the constraint programming approaches to MCIS and induced
 subgraph isomorphism use some form of backtracking search, and therefore that will
-be the focus of this chapter.
+be the focus of this section.
 
-To illustrate the process of solving a CSP, we use a canonical introductory
-problem, $n$-queens. For our example, we will consider the case $n=4$. The problem
-is to place four queens on a $4 \times 4$ chessboard such that no two queens
-are in the same row, column, or diagonal.
+To illustrate the process of solving a CSP by backtracking, we use a canonical
+introductory problem, $n$-queens. For our example, we will consider the case
+$n=4$. The problem is to place four queens on a $4 \times 4$ chessboard such
+that no two queens are in the same row, column, or diagonal.
 
 The first step is to model the problem as a CSP. Many models have been proposed
 for the $n$-queens problem \citep{DBLP:reference/fai/Smith06}; we will use a
@@ -437,24 +463,29 @@ the four columns.  There are two types of constraint. First, there is a single
 values (and thus the queens are in different columns). Second, there is a
 constraint for each of the ten diagonals that have more than one square
 ensuring that at most one queen is placed on that diagonal.
+(The one-queen-per-row requirement is met without further constraints,
+since each variable must take exactly one value.)
 
-\Cref{fig:FourQueens} shows a search tree for this problem. At node A,
-no assignments of values to variables have been made. At node B, a first
+\Cref{fig:FourQueens} shows a search tree for this problem.
+This search tree is traversed in depth-first order, and is not explicitly
+stored.
+At node \treenode{A},
+no assignments of values to variables have been made. At node \treenode{B}, a first
 tentative assignment has been made: $x_1=a$. A key part of most backtracking CP
 solvers is the interleaving of search (trying possible values for a variable
 in turn) with \emph{constraint propagation} (deleting values that can be
 determined not to appear in any solution that extends the current set of
 assignments). For our example, we will use the simplest form of propagation:
-emph{forward checking}. This removes from the domains of the unassigned variables
+\emph{forward checking}. This removes from the domains of the unassigned variables
 every value that conflicts with some existing assignment. The $\times$ symbol
 in a square in the figure indicates that a value has been removed from a domain.
 
-At node C, the assignment $x_2=c$ has been made. After forward checking, no
+At node \treenode{C}, the assignment $x_2=c$ has been made. After forward checking, no
 values are left in $D_3$; thus there is no solution with $x_1=a$ and $x_2=c$.
 The algorithm backtracks and tries $x_2=d$
-(node D). This process of search, forward checking, and backtracking when
-a domain becomes empty is continued (nodes E to I) until reaching the solution
-shown in node I.
+(node \treenode{D}). This process of search, forward checking, and backtracking when
+a domain becomes empty is continued (nodes \treenode{E} to \treenode{I}) until reaching the solution
+shown in node \treenode{I}.
 
 \newsavebox{\FourQueensBoxA}
 \newsavebox{\FourQueensBoxB}
@@ -504,10 +535,30 @@ maintain \emph{arc consistency}, guaranteeing that no value will remain in a dom
 if there is some constraint involving two variables that cannot be satisfied if that
 value is taken. \emph{Generalised arc consistency} extends this to constraints
 involving arbitrarily many variables.
-The canonical example is R{\'{e}}gin's filtering algorithm for the allDifferent constraint
-\citep{DBLP:conf/aaai/Regin94}.
+The canonical example is R{\'{e}}gin's polynomial-time filtering algorithm for the
+allDifferent constraint, which uses a matching algorithm \citep{DBLP:conf/aaai/Regin94}.
 
-TODO talk about other key CP things: LDS, restarts, learning, ...
+The forward-checking search described above can be modified in numerous ways, many
+of which are significant research topics in their own right. To give four examples:
+
+\begin{itemize}
+    \item We could break symmetries (informally, to ignore parts of the search tree
+        that are equivalent to ones already visited) \citep{DBLP:reference/fai/GentPP06}.
+	In the 4-queens example,
+        we can disregard $x_1=c$ and $x_1=d$, since any solution with these assignments
+        is the same as a solution with $x_1=b$ and $x_1=d$ after reflecting the chessboard
+        horizontally.
+    \item We could traverse the search tree in an order other than depth-first search
+    	in order to quickly explore diverse regions of the search space.  An early
+	example is limited discrepancy search, \citep{DBLP:conf/ijcai/HarveyG95}
+    \item We could learn new constraints during search that do not affect the solution,
+    	and use these to prune the search tree \citep{DBLP:conf/aaai/KatsirelosB05}.
+    \item We could use a \emph{variable ordering heuristic} to choose which variable
+    	to branch on at each search node, and \emph{value ordering heuristic} to choose
+	the order in which the child nodes of a search node are visited.
+	For example, a very common variable ordering heuristic is to choose the variable
+	with fewest remaining values \citep{golomb1965backtrack}.
+\end{itemize}
 
 \newsavebox{\MCSDomainsBoxA}
 \newsavebox{\MCSDomainsBoxB}
@@ -542,15 +593,15 @@ using graphs $G$ and $H$ in \Cref{fig:intro-G-H}.  Again, we show
 each domain as a row, with the symbol $\times$ indicating that a value
 has been removed. The letter $M$ indicates an assignment.
 
-At node B of the search tree, variable $x_1$ has been assigned the value $a$,
-corresponding to vertex 1 of $G$ being mapped to vertex $a$ of $H$. The
+At node \treenode{B} of the search tree, variable $x_1$ has been assigned the value $a$,
+corresponding to vertex 1 of graph $G$ being mapped to vertex $a$ of graph $H$. The
 allDifferent propagator removes $a$ from the remaining four domains.
 Values $b$ to $e$ are divided between those four domains---variables
 $x_4$ and $x_5$ keep the vertices adjacent to $a$ in graph $H$ because vertices 4 and
 5 are adjacent to vertex 1 in graph $G$.  At this and all of the other search
 nodes, any two variables have either identical domains or disjoint domains;
-we will exploit this property to develop what is essentially a compressed
-domain store in the \McSplit algorithm.
+in the next chapter this property will be exploited to develop what is essentially a compressed
+domain store in the \McSplit\ algorithm.
 
 \begin{figure}[h!]
 \centering
@@ -593,14 +644,14 @@ domain store in the \McSplit algorithm.
 \label{fig:SipDomains}
 \end{figure}
 
-\section{Constraint Optimisation Problems}
+\subsection{Constraint Optimisation Problems}
 
-The previous section described constraint \emph{satisfaction} problems, which
-are a class of decision problem. We now turn to \emph{constraint optimisation
+The previous subsection described constraint satisfaction problems, which are a
+class of decision problem. We now turn to \emph{constraint optimisation
 problems (COP)}, in which we must optimise some objective function.  The term
 ``constraint optimisation problem'' has multiple definitions in the literature;
-We will define a COP simply as a CSP in which the goal is to minimise or
-maximise a specific variable.
+we will define a COP simply as a modified CSP in which the goal is to minimise
+or maximise a specific variable rather than determine satisfiability.
 
 Branch and bound \citep{land2010automatic} is a general technique for solving
 optimisation problems by backtracking search. We will describe branch and bound
@@ -611,48 +662,46 @@ the incumbent’s value is updated to $S$. At each search node we calculate an
 upper bound on the best objective value that can be obtained by extending the
 current partial solution. If this upper bound is not greater than the
 incumbent’s objective value, we know that exploring the subtree below the
-current search node would be fruitless, and we therefore backtrack.
+current search node cannot possibly increase the incumbent, and it is therefore
+safe to backtrack.
 
 An alternative to branch and bound is to solve the maximisation problem by a
-sequence of decision problems. Beginning at a known upper bound $B$ for the
-optimal objective value, we use search to answer the question “does a solution
-with objective value B exist?” If the answer is “yes”, the algorithm
-terminates. Otherwise, a solution with objective value $B-1$ is sought, then $B-2$,
-and so on until a solution is found.
+sequence of decision problems.  The simplest way to do this, assuming that the
+variable to be optimised is an integer variable, is to start with an optimistic
+target and decrement this each time our search fails.  Beginning at a known
+upper bound $B$ for the optimal objective value, we use search to answer the
+question “does a solution with objective value B exist?” If the answer is
+“yes”, the algorithm terminates. Otherwise, a solution with objective value
+$B-1$ is sought, then $B-2$, and so on until a solution is found.
 
-A third alternative for solving optimisation problems, which again involves a
-sequence of decision problems, is binary search on the objective value.
+In the next chapter, we compare these two techniques empirically for
+the \McSplit\ algorithm.
 
-\section{Algorithms for Subgraph Isomorphism} 
+\section{Algorithms for Induced Subgraph Isomorphism}\label{sec:si-algorithms}
 
-TODO introduce this section.
+This section reviews the two main lineages of practical algorithms
+for induced subgraph isomorphism.  \Cref{subsec:cp-sip} reviews algorithms
+based on constraint programming.  Many CP algorithms for induced subgraph
+isomorphism are based on algorithms for subgraph monomorphism, and this
+subsection therefore touches on the latter problem.  \Cref{subsec:pr-sip}
+reviews algorithms from the pattern recognition community. These are in general
+simple backtracking algorithms without the domain store used by constraint
+programming algorithms.  Finally, \Cref{subsec:other-approaches-sip}, reviews
+other approaches.
 
-\subsection{Algorithms based on constraint programming}
+\subsection{Algorithms based on constraint programming}\label{subsec:cp-sip}
 
-\citet{sussenguth1965graph}'s backtracking algorithm for induced subgraph
-isomorphism pre-dates the field of constraint programming but shares the
-principles of interleaving search and propagation.  The algorithm to generates
-pairs $\langle S_G, S_H \rangle$ such that $S_G \subseteq V(G)$, $S_H \subseteq
-V(H)$, and each vertex in $S_G$ may only be mapped to some member of $S_H$.
-For example, pattern-graph vertices of degree 3 may only be mapped to
-target-graph vertices of degree at least 3.  Other properties used include to
-generate pairs of sets include vertex labels and the size of the smallest cycle
-containing a vertex.  Further reasoning is performed based on adjacency to
-members of these sets $S_G$ and $S_H$.  (To preview the family of algorithms
-presented in this dissertation, the \McSplit\ algorithm shares with
-Sussenguth's algorithm the approach of storing pairs of sets $\langle S_G, S_H
-\rangle$ respresenting vertices that may be mapped to one another. However,
-\McSplit\ uses a very different data structure to store these sets, taking
-advantage of the fact that the sets used by \McSplit\ are guaranteed to be
-disjoint.)
-
-The algorithm of \citet{ullmann1976algorithm} uses essentially constraint
-programming model described in \Cref{subsec:cp-model-isip}, with the non-neighbour
-constraints removed because the paper only solves subgraph monomorphism.
-(We could trivially add these constraints to Ullmann's algorithm to solve 
-the induced problem.)
-The algorithm uses forward-checking for the allDifferent constraint and
-maintains arc consistency on the adjacency constraints.
+The algorithm of \citet{ullmann1976algorithm} solves only the subgraph
+monomorphism problem.  The constraint programming model it uses is essentially
+the one described in \Cref{subsec:cp-model-isip}, with the non-neighbour
+constraints removed.  (We could trivially add these constraints to Ullmann's
+algorithm to solve the induced problem.) The algorithm uses forward checking
+for the allDifferent constraint and maintains arc consistency on the adjacency
+constraints.
+Bitsets---boolean arrays
+packed into arrays of larger words---are used to represent domains and rows of each
+adjacency matrix, allowing very fast updates to domains, particularly on dense
+graphs.
 
 \citet{DBLP:journals/isci/McGregor79} introduces a modified version of
 Ullmann's algorithm.  McGregor finds experimentally that the cost of
@@ -664,26 +713,26 @@ tree.
 % with most constraints involving previously-instantiated vertices are selected
 % first.
 
-As \citet{mccreesh2017solving} notes, the subsequent trend has been largely
-in the direction of more sophisticated filtering at each search node.
-The RESYN system \citep{vism92,regin1995developpement} uses a filtering algorithm
-that achieves generalised arc consistency on the allDifferent constraint.
+The subsequent trend has been largely in the direction of more sophisticated
+filtering at each search node.  This trend begins with the RESYN system
+\citep{vism92,regin1995developpement}, whose filtering algorithm achieves
+generalised arc consistency on the allDifferent constraint.
 
-The ILF(k) algorithm \citep{DBLP:journals/constraints/ZampelliDS10} introduces a
-filtering algorithm based on assigning during search a label to each vertex of
-the pattern graph and the target graph, with a partial ordering $\preccurlyeq$
-over the labels such that $v \in \V(G)$ may be assigned to $w \in V(H)$ if and
-only if $\mathit{label}(v) \preccurlyeq \mathit{label}(w)$.  Labels are
-iteratively extended to include information about the labels of neighbouring
-vertices.  Although this algorithm is described and implemented only for the
-non-induced version of subgraph isomorphism, it appears that it could be
-extended to solve the induced variant.  (Like ILF(k), the \McSplit\ family of
-algorithms described in this dissertation may be viewed as assigning a label to
-each vertex and requiring that only vertices with compatible labels be assigned
-to one another. Unlike ILF(k), however, \McSplit\ requires labels to equal.
-While this severly restricts the information that the \McSplit\ labels may
-contain, it results in very fast and simple constraint propagation in the
-McSplit algorithm.)
+% The ILF(k) algorithm \citep{DBLP:journals/constraints/ZampelliDS10} introduces a
+% filtering algorithm based on assigning during search a label to each vertex of
+% the pattern graph and the target graph, with a partial ordering
+% over the labels such that $v \in \V(G)$ may be assigned to $w \in V(H)$ if and
+% only if $\mathit{label}(v) \preccurlyeq \mathit{label}(w)$.  Labels are
+% iteratively extended to include information about the labels of neighbouring
+% vertices.  Although this algorithm is described and implemented only for
+% subgraph monomorphism, it appears that it could be
+% extended to solve induced subgraph isomorphism.  (Like ILF(k), the \McSplit\ family of
+% algorithms described in this dissertation may be viewed as assigning a label to
+% each vertex and requiring that only vertices with compatible labels be assigned
+% to one another. Unlike ILF(k), however, \McSplit\ requires labels to be equal.
+% While this restricts the information that the \McSplit\ labels may
+% contain, it results in very fast and simple constraint propagation in the
+% \McSplit\ algorithm.)
 
 \citet{DBLP:journals/ai/Solnon10} proposes an algorithm for LAD (local all
 different) filtering, which propagates the following constraint: if $v \in
@@ -702,25 +751,26 @@ target vertices connected by fewer than $p$ paths of length $k$.  PathLAD
 \citep{DBLP:conf/lion/KotthoffMS16} incorporates a subset of the SND filtering
 into the LAD algorithm.
 
-\emph{TODO rewrite this para, move some stuff to SIP chapter, say that Glasgow
-is ``fast and stupid''}
-The Glasgow Subgraph Solver \cite{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020}
-(henceforth Glasgow)
-was the fastest solver for hard induced subgraph isomorphism instances in a recent
-experimental evaluation by Solnon \cite{DBLP:conf/gbrpr/Solnon19}.  The algorithm
-uses a constraint programming approach, in which the domain of each vertex is represented
-explicitly in memory.  Bitsets are used to represent domains and rows of each adjacency
-matrix, allowing very fast updates to domains, particularly on dense graphs
-\cite{ullmann1976algorithm}.  The Glasgow algorithm introduces the concept of
-\emph{supplemental graphs}: graphs derived from the pattern and target graphs that
-can also be used to filter domains.  This technique often results in a large
-improvement to the solver's run time.  Unfortunately we cannot use the same technique
-in \McSplit-SI because it breaks the invariant, required by \McSplit-SI's data structure,
-that any two domains are either equal or disjoint.
-We use the 14 March 2022 version of the Glasgow solver, published
-online.\footnote{\url{https://github.com/ciaranm/glasgow-subgraph-solver}}
-In addition, we report results of the Glasgow solver with supplemental graphs
-switched off.
+The Glasgow Subgraph Solver
+\citep{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020} (henceforth Glasgow)
+reverses this trend towards stronger inference at each search node.  The
+algorithm aims to achieve most of the domain filtering of LAD and SND with much
+less effort per search node.
+The Glasgow algorithm introduces the
+\emph{supplemental graphs}---graphs that encode the number of paths
+of a given length between pairs of vertices---which provide additional filtering
+very cheaply.
+%Unfortunately we cannot use the same technique in \McSplit-SI because
+%it breaks the invariant, required by \McSplit-SI's data structure, that any two
+%domains are either equal or disjoint.
+Rather than achieving generalised arc consistency on the allDifferent
+constraint, Glasgow uses a new ``counting'' allDifferent propagator which runs
+very fast without giving any consistency guarantee.
+Like Ullmann's algorithm, Glasgow uses bitsets to represent domains and rows
+of adjacency matrices.
+Glasgow was the fastest solver for hard induced
+subgraph isomorphism instances in a recent experimental evaluation by
+\citet{DBLP:conf/gbrpr/Solnon19}.
 
 \paragraph*{Symmetry breaking}
 \citet{zampelli2007symmetry} show that the variable and value symmetries
@@ -729,30 +779,29 @@ the automorphism groups of the pattern and target graph graphs.
 Moreover, the authors show how to break local symmetries that emerge
 during search.
 This work was extended in Zampelli's PhD thesis \citep{DBLP:phd/basesearch/Zampelli08}.
-A solver with symmetry breaking was shown to be able to solve many more instances
+A solver with symmetry breaking was shown to be able to solve more instances
 than the same solver without symmetry breaking. 
 Techniques based on those of \citeauthor{zampelli2007symmetry} 
 could be applied to any subgraph isomorphism solver based on constraint programming,
-and the use of such techniques is understudied; neither McSplit-SI nor any of
+and the use of such techniques is understudied; neither \McSplit-SI nor any of
 the state-of-the-art algorithms to which we compare it in our experiments
 uses symmetry breaking.  This appears to be a fruitful area for future
 work.
 
-\subsection{Pattern recognition algorithms}
+\subsection{Pattern recognition algorithms}\label{subsec:pr-sip}
 
-Algorithms for subgraph isomorphism from the pattern recognition (PR) community
-take a different approach from solvers based on constraint programming.  PR
-solvers take a lightweight approach---they do not store domains and perform
+Algorithms for induced subgraph isomorphism from the pattern recognition (PR) community
+take a lightweight approach---they do not store domains and perform
 minimal work at each search node, resulting in algorithms with very low memory
 requirements that can visit many search nodes per second, but often have to
 visit many more search nodes in total than CP algorithms.
 
-Like Glasgow, the VF3 \cite{DBLP:journals/pami/CarlettiFSV18} and RI
-\cite{DBLP:journals/bmcbi/BonniciGPSF13,DBLP:journals/tcbb/BonniciG17}
+Like Glasgow, the VF3 \citep{DBLP:journals/pami/CarlettiFSV18} and RI
+\citep{DBLP:journals/bmcbi/BonniciGPSF13,DBLP:journals/tcbb/BonniciG17}
 solvers explore a search tree, adding one pair of vertices to the mapping at each
 search node.  However, the data structures maintained by these algorithms are
-much more lightweight than those of Glasgow.  VF3 and RI do not maintain
-a domain for each vertex in the pattern graph; they simply store a partition
+much more lightweight than those of Glasgow.  VF3 does not maintain
+a domain for each vertex in the pattern graph; it simply store a partition
 of the vertex set of each graph into three sets: ($A$) vertices that have been
 mapped already, ($B$) unmapped vertices that are adjacent to at least one mapped vertex, and
 ($C$) all other unmapped vertices.
@@ -764,12 +813,35 @@ smaller constant factor given the simplicity of the data structure).
 However, its ability to prune the search tree is worse than that of \McSplit-SI
 since the $B$ sets are a union of the label classes in \McSplit-SI, and it
 leaves unavailable the smallest-domain-first heuristic used by \McSplit-SI.
+RI is simpler still; it does not distinguish between sets $B$ and $C$.
 
 (TODO mention RI-DS)
 
-(TODO write about differences between VF3 and RI)
+\subsection{Other approaches}\label{subsec:other-approaches-sip}
 
-\subsection{Other approaches}
+\citet{sussenguth1965graph}'s backtracking algorithm for induced subgraph
+isomorphism pre-dates the field of constraint programming but shares the
+principle of interleaving search and propagation.  The algorithm uses
+a list of rules to generate
+pairs $\langle S_G, S_H \rangle$ such that $S_G \subseteq V(G)$, $S_H \subseteq
+V(H)$, and each vertex in $S_G$ may only be mapped to vertices in $S_H$.
+For example, pattern-graph vertices of degree 3 may only be mapped to
+target-graph vertices of degree at least 3.
+%Other properties used to
+%generate pairs of sets include vertex labels and the size of the smallest cycle
+%containing a vertex.
+Further pairs of sets are generated based on adjacency to
+members of these sets $S_G$ and $S_H$.
+The search tree of Sussenguth's algorithm is incomparable to that of
+other CP algorithms, and unfortunately an implementation of Sussenguth's
+algorithm is not readily available.
+(To preview the family of algorithms
+presented in this dissertation, the \McSplit\ algorithm shares with
+Sussenguth's algorithm the approach of storing pairs of sets $\langle S_G, S_H
+\rangle$ respresenting vertices that may be mapped to one another. However,
+\McSplit\ uses a very different data structure to store these sets, taking
+advantage of the fact that the sets used by \McSplit\ are guaranteed to be
+disjoint.)
 
 \citet{DBLP:conf/RelMiCS/CortadellaV00} represent an instance of the subgraph
 isomorphism problem as a binary decision diagram (BDD), and solve this BDD
@@ -778,28 +850,29 @@ is that for large
 pattern graphs, the size of the BDDs quickly becomes unmanageable; the experiments
 in the paper only consider pattern graphs with 10 or fewer vertices.
 
-\paragraph*{Filter/verify} Some graph database systems use an indexing technique
-to compute some information about each target graph in a database, in the hope that
-this can be used to quickly prove unsatisfiability for some pattern graphs.
-We do not consider this technique further because it not intended for the one-shot
-problem of testing a given graph contains another graph as in induced subgraph.
-Moreover, it is unclear whether the filter/verify technique provides any benefit
-when used with state of the art subgraph isomorphism solvers; see
-\citet{DBLP:journals/jair/McCreeshPST18} for a (sceptical) review.
+\paragraph*{Filter/verify} Some graph database systems use an indexing
+technique to compute information about each target graph in a database, in the
+hope that this can be used to quickly prove unsatisfiability for some pattern
+graphs.  We do not consider this technique further because it not intended for
+the one-shot problem of testing whether a given graph contains another graph as
+in induced subgraph.  Moreover, it is unclear whether the filter/verify
+technique provides any additional benefit over state of the art subgraph
+isomorphism solvers; see \citet{DBLP:journals/jair/McCreeshPST18} for a
+sceptical review.
 
-\paragraph*{SubGlw}
-The SubGlw solver \citep{DBLP:journals/access/AnsariJA21},
-which solves an incomplete enumeration problem: the problem of
-generating up to $k$ subgraph embeddings within a given time limit, for a given
-parameter $k$. To do this efficiently, the solver chooses a promising
-subgraph $S$ of the target graph, and runs the Glasgow Subgraph Solver in enumeration
-mode with pattern graph $G$ and target graph $S$. This avoids the overhead of
-building up the Glasgow solver's supplemental graph data structures for a large
-graph.  Since SubGlw is a small wrapper around an existing solver, and because
-it solves an incomplete enumeration problem that is not considered further
-in this thesis, we do not include it in our experimental evaluation.
+% \paragraph*{SubGlw}
+% The SubGlw solver \citep{DBLP:journals/access/AnsariJA21},
+% which solves an incomplete enumeration problem: the problem of
+% generating up to $k$ subgraph embeddings within a given time limit, for a given
+% parameter $k$. To do this efficiently, the solver chooses a promising
+% subgraph $S$ of the target graph, and runs the Glasgow Subgraph Solver in enumeration
+% mode with pattern graph $G$ and target graph $S$. This avoids the overhead of
+% building up the Glasgow solver's supplemental graph data structures for a large
+% graph.  Since SubGlw is a small wrapper around an existing solver, and because
+% it solves an incomplete enumeration problem that is not considered further
+% in this thesis, we do not include it in our experimental evaluation.
 
-\section{Algorithms for Maximum Common Subgraph} 
+\section{Algorithms for Maximum Common Subgraph}\label{sec:mcs-algorithms}
 
 \textbf{TODO see \citet{DBLP:journals/jcamd/RaymondW02a} for a helpful lit review.
 Also Duesbury Holliday and Willett review}
@@ -814,7 +887,7 @@ $H$.  We now review each of these categories.
 \subsection{Clique algorithms}
 
 The \emph{association graph} (also known as the weak modular product graph)
-of $\graphG$ $\graphH$, which we will call
+of graphs $\graphG$ and $\graphH$, which we will call
 $\graphA$, is defined as follow.  The vertex set of $\graphA$ is $V(\graphG)
 \times V(\graphH)$.  Two vertices $(v,w)$ and $(v',w')$ of $\graphA$ are
 adjacent if and only if $v \not= v'$, $w \not= w'$, and either (1) $v$ and $v'$
@@ -991,27 +1064,29 @@ function.  (TODO tidy up that last sentence!)
 of clique algo for connected. TODO check: do they introduce a new connected
 constraint? Do I compare against this in McSplit chapter?
 
-\section{New algorithms in this thesis}
+%% \section{New algorithms in this thesis}
+%% 
+%% The McSplit family of algorithms has branch-and-bound variants and variants
+%% that use a sequence of decision problems; it also has variants for induced and
+%% edge subgraph problems. The summary in this section discusses only the induced
+%% variants.
+%% 
+%% McSplit performs tree search in the style of a forward-checking constraint
+%% programming algorithm. Rather than maintaining an explicit domain for each
+%% vertex in the first graph, vertices are re-labelled at each search node in such
+%% a way that the current mapping may only be extended by mapping a vertex in
+%% first graph to a vertex in the second graph with the same label. Labels may be
+%% viewed as equivalence classes of vertices, and at each search node these
+%% classes are refined (partitioned) into smaller classes. We store the vertices
+%% of each graph as a list (without copying at each search node), and can perform
+%% this partitioning efficiently be re-arranging the vertices in each list. This
+%% data structure makes it possible to calculate an upper bound very cheaply at
+%% each search node, and permits the cheap computation of good variable-ordering
+%% heuristics.
 
-The McSplit family of algorithms has branch-and-bound variants and variants
-that use a sequence of decision problems; it also has variants for induced and
-edge subgraph problems. The summary in this section discusses only the induced
-variants.
+\section{Experimental details}\label{sec:experimental-details}
 
-McSplit performs tree search in the style of a forward-checking constraint
-programming algorithm. Rather than maintaining an explicit domain for each
-vertex in the first graph, vertices are re-labelled at each search node in such
-a way that the current mapping may only be extended by mapping a vertex in
-first graph to a vertex in the second graph with the same label. Labels may be
-viewed as equivalence classes of vertices, and at each search node these
-classes are refined (partitioned) into smaller classes. We store the vertices
-of each graph as a list (without copying at each search node), and can perform
-this partitioning efficiently be re-arranging the vertices in each list. This
-data structure makes it possible to calculate an upper bound very cheaply at
-each search node, and permits the cheap computation of good variable-ordering
-heuristics.
-
-\section{Experimental setup}
+\subsection{Experimental setup}
 
 The experiment in chapters ... were run on ...
 
@@ -1023,7 +1098,7 @@ All solvers were compiled using GCC version 9.4.0 with the flags
 on the machine, and is particularly helpful in improving the performance
 of the Glasgow Subgraph Solver).
 
-\section{Conventions for Plots}
+\subsection{Conventions for Plots}
 
 Scatter plots and cumulative plots are used frequently in this dissertation to
 compare the run times of algorithms.  To illustrate how these will be used,
