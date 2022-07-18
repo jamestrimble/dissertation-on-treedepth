@@ -64,6 +64,8 @@
 % Circled text: https://tex.stackexchange.com/a/8473/61367
 \newcommand*\algstep[1]{\tikz[baseline=(char.base)]{
         \node[shape=circle,text=white,font=\sffamily,fill=uofgslate,inner sep=1.7pt] (char) {\footnotesize #1};}}
+\newcommand*\treenode[1]{\tikz[baseline=(char.base)]{
+        \node[shape=circle,draw,inner sep=1.7pt] (char) {\footnotesize #1};}}
 
 \tikzset{edge/.style={line width=1.5pt, color=uofgsandstone}}
 \tikzset{ledge/.style={line width=1pt, color=uofgsandstone!50!white}}
