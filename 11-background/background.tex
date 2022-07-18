@@ -148,7 +148,9 @@ dissertation that graphs have no loops, except in clearly marked sections where
 we discuss extensions of algorithms to graphs with loops.
 
 The set of vertices adjacent to vertex $v \in V(G)$
-is called the \emph{neighbourhood} of $v$, denoted $\N_G(v)$. We denote
+is called the \emph{neighbourhood} of $v$, denoted $\N_G(v)$.
+The \emph{degree} of a vertex is size of its neighbourhood.
+We denote
 by $\invN_G(v)$ the \emph{inverse neighbourhood} of $v$: the set
 of the vertices other than $v$ itself that are not adjacent to $v$.
 We omit the subscript $G$ where there is no ambiguity.
@@ -962,19 +964,26 @@ induced subgraph.
     \label{fig:intro-assoc-graph}
 \end{figure}
 
-\citet{durand1999efficient}
+A number of early algorithms for finding a maximum common subgraph use a \emph{maximal}
+common subgraph algorithm \citep{DBLP:journals/cacm/BronK73} for the maximisation problem
+\citep{durand1999efficient,DBLP:conf/mco/VismaraV08}.
 
-The RASCAL algorithm \citep{raymond2002rascal} solves MCES by finding a maximum
-clique in the modular product graph of the line graphs.  The algorithm is
-optimised for matching chemical structures, and does not solve the maximum common
-\emph{connected} subgraph problem.  In addition to greedy
-colouring, the algorithm uses a number of other heuristic colourings to derive
-an upper bound depending on the size of the modular product graph.  Unfortunately
-the authors were unable to provide code for RASCAL.
+\citet{DBLP:conf/sspr/BunkeFGSV02} use the maximum clique algorithm of
+\citet{DBLP:journals/siamcomp/BalasY86} to find a maximum common subgraph.
+This algorithm greedily colours vertices during search to obtain a good upper
+bound.  The RASCAL algorithm \citep{raymond2002rascal}---which solves MCES by
+finding a maximum clique in the modular product graph of line graphs---tries
+several other heuristic colouring methods in addition to greedy colouring, and
+uses the one that gives the tightest upper bound.  Unfortunately the authors
+were unable to provide code for RASCAL.
 
-\cite{DBLP:conf/cp/McCreeshNPS16} uses a state of the art maximum clique algorithm
-to solve this problem, and introduces a modified version of the algorithm to
-solve maximum common \emph{connected} induced subgraph.
+\cite{DBLP:conf/cp/McCreeshNPS16} use a state of the art maximum clique
+algorithm to solve this maximum common induced subgraph.  In addition to greedy
+colouring, this algorithm uses a static vertex order based on degree, and has
+very fast operations on sets thanks to the use of bitsets and the separate
+compilation of code for different bitset sizes.  The paper also introduces a
+modified version of the algorithm to solve the maximum common \emph{connected}
+induced subgraph problem.
 
 \subsection{Constraint programming algorithms}
 
@@ -1026,21 +1035,19 @@ Comparing forward checking (FC) and maintaining arc consistency (MAC)
 on the adjacency constraints, FC outperforms MAC on unlabelled instances
 while MAC outperforms FC on labelled instances.
 
-\cite{DBLP:conf/cp/McCreeshNPS16} add a connectedness constraint to
-the CP model of \citet{DBLP:conf/cp/NdiayeS11}.  This is found to perform
-better overall than simply branching on vertices adjacent to some already-mapped
-vertex in order to ensure connectedness.
+\cite{DBLP:conf/cp/McCreeshNPS16} add a connectedness constraint to the CP
+model of \citet{DBLP:conf/cp/NdiayeS11}.  This is found to perform better
+overall than ensuring connectedness simply by branching on vertices adjacent to
+some already-mapped vertex.
 
 \subsection{Subgraph enumeration algorithms}
 
 Finally, we mention briefly a very different technique that has been used
 in a number of papers to find a maximum common connected subgraph between two or more
-graphs representing molecules.
-\citep{armitage1967automatic}
-\citep{takahashi1987recognition}
-\citep{DBLP:journals/jcheminf/DalkeH13}
+graphs representing molecules
+\citep{armitage1967automatic,takahashi1987recognition,DBLP:journals/jcheminf/DalkeH13}.
 In this type of algorithm, connected
-subgraphs of the first graph are built one node at a time by a tree search.
+subgraphs of the first graph are enumerated by backtracking search.
 A subgraph isomorphism solver is used to test whether each of these subgraphs
 appears in each of the other input graphs.  In some versions of this algorithms,
 the subgraphs of $G$ are tested for isomorphism with previously-generated subgraphs
