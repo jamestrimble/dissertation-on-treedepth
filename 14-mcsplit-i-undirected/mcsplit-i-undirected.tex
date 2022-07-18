@@ -246,30 +246,29 @@ with red labels, which represent a decision not to map a vertex of $G$.
 \end{figure}
 
 
-\paragraph{Label classes} We require only $\BigO{n_G+n_H}$ space per level of the
-search tree to store labelling information.  This is done by storing a
+\paragraph{Label classes} We require only $\BigO{n_G+n_H}$ space per level of
+the search tree to store labelling information.  This is done by storing a
 \emph{label class} as a pair $\langle \setG,\setH \rangle$ for each label $l$
 that is used, where $\setG$ is the set of vertices in $\V(\graphG)$ labelled
 $l$, and $\setH$ is the set of vertices in $\V(\graphH)$ labelled $l$. Since
-there are $n_G + n_H$ vertices in the two graphs, at most $n_G + n_H$ label classes can
-exist at once, and there are at most $n_G + n_H$ vertices in the union of all of
-the $\setG$ and $\setH$ sets. Furthermore, we do not actually need to store the
-bits making up a label---we care only that like-labelled vertices are kept
-together, so there is no need to store labels explicitly. Nor do we need to
-store any label class which is present only in one graph but not the other (or
-which is not present at all).
+there are $n_G + n_H$ vertices in the two graphs, at most $n_G + n_H$ label
+classes can exist at once, and there are at most $n_G + n_H$ vertices in the
+union of all of the $\setG$ and $\setH$ sets. Furthermore, we do not actually
+need to store the bits making up a label, since we care only that like-labelled
+vertices are kept together. Nor do we need to store any label class which is
+present only in one graph but not the other (or which is not present at all).
 
 Together, these facts allow us to store all the
 necessary information in three arrays.  The first 
 stores a permutation of $\V(\graphG)$ in which like-labelled vertices appear
 consecutively.  The second array, similarly, stores a permutation
 of $\V(\graphH)$ with like-labelled vertices together.  We call these
-the \emph{G-array} and \emph{H-array} respectively. The third array,
+the \emph{$G$-array} and \emph{$H$-array} respectively. The third array,
 which we call the \emph{LC-array},
 contains a record for each label class $\langle \setG,\setH \rangle$.  Each
 record contains start and end pointers to the portion of the
-G-array that contains $\setG$, and start and end pointers to the portion
-of the H-array that contains $\setH$.
+$G$-array that contains $\setG$, and start and end pointers to the portion
+of the $H$-array that contains $\setH$.
 This representation has
 similarities to data structures used in partition backtracking for graph isomorphism
 \citep{DBLP:journals/jsc/McKayP14,DBLP:conf/wea/Lopez-PresaA09}.
@@ -282,7 +281,7 @@ The first subfigure shows the initial label classes when no vertex assignments h
 been made; the second and third subfigures correspond to the first two steps in \Cref{figure:mcsplit-examples}.
 Each subfigure shows graphs $\graphG$ and $\graphH$ with vertices colour-coded according
 to their label class.  The three arrays of our data structure are shown on the right of each subfigure,
-with the LC-array below the G-array and H-array.  The grey numbers below the G-array and H-array
+with the LC-array below the $G$-array and $H$-array.  The grey numbers below the $G$-array and $H$-array
 are the array indices; these are not stored explicitly.
 
 \begin{figure}[htb]
@@ -438,18 +437,19 @@ do not belong to any label class.}
 
 When the algorithm begins, all vertices in the two graphs are in a single label class, as
 shown in \Cref{subfig:data-structure-a}.  The LC-array has a single element, $1,5,1,6$; this indicates
-that the label class contains the vertices in positions 1 to 5 of the G-array and positions 1 to 6
-of the H-array.
+that the label class contains the vertices in positions 1 to 5 of the $G$-array and positions 1 to 6
+of the $H$-array.
 
 The label classes after mapping vertex 1 to vertex $a$ are shown in \Cref{subfig:data-structure-b}.
 The grey label class shows vertices that are not adjacent to vertex 1 or vertex $a$; the purple
 label class shows adjacent vertices.  The LC-array contains an element for each of these label
-classes, with pointers into the G-array and H-array.
+classes, with pointers into the $G$-array and $H$-array.
 
 The situation after the additional mapping of 2 to $d$ is shown in \Cref{subfig:data-structure-c}.
 There are now three label classes, and three corresponding members of the LC-array.
 
-We will describe how the data structure is updated after presenting the McSplit algorithm in detail.
+We will describe the low-level details of how the data structure is updated
+after presenting the \McSplit\ algorithm in detail.
 
 \begin{algorithm}[htb]
 \DontPrintSemicolon
@@ -539,12 +539,12 @@ We now return to the data structure illustrated in \Cref{fig:data-structure}, an
 our implementation of \linerangeref{InnerLoop}{InnerLoopEnd} of the algorithm.
 We use a simple $\BigO{n_G+n_H}$-time procedure to create $\AlgVar{future'}$.
 First, $v$ is removed from its label class by swapping it with the rightmost
-element of its label class in the G-array and decrementing the corresponding
+element of its label class in the $G$-array and decrementing the corresponding
 pointer in the LC-array. Vertex $w$ is removed in a similar manner.
 Next, the following procedure, corresponding to lines \linerangeref{NewPWithEdge}{InnerLoopEnd}
 is carried out for each label class $\langle \setG,\setH \rangle$.  The sub-array
-of the G-array corresponding to $\setG$ is partitioned such that all vertices adjacent to $v$ are moved to
-the rightmost part of the sub-array. Similarly, the sub-array of the H-array corresponding to $\setH$
+of the $G$-array corresponding to $\setG$ is partitioned such that all vertices adjacent to $v$ are moved to
+the rightmost part of the sub-array. Similarly, the sub-array of the $H$-array corresponding to $\setH$
 is partitioned in order to move all vertices adjacent to $w$ to the right.
 If, after this partitioning procedure, the right-hand portion of both of these subarrays
 has nonzero length, we create a new LC-array element pointing to these right-hand portions;
@@ -553,36 +553,48 @@ If, the left-hand portion of both of these subarrays
 has nonzero length, we create a new LC-array element pointing to these left-hand portions;
 this step corresponds to \linerangeref{IfNonEmpty2}{InnerLoopEnd}.
 
-Note that the partitioning step re-orders vertices within a label class in the G-array and
-the H-array, but keeps the vertices of each label class together. Therefore, it never necessary
-to copy either of these arrays or store any bookkeeping information that might be used to
-restore them to a previous state.
+Although this partitioning step re-orders vertices within a label class in in
+order to create new label classes, a convenient property is that the vertices
+of the pre-partition label class remain contiguous. Therefore there is no need
+to copy the $G$-array or $H$-array, or to store bookkeeping information
+other than the LC-arrays to restore label classes when backtracking.
 
-\paragraph{Related work}
+\subsection{A related algorithm}
 
 The graph isomorphism algorithm of \citet{DBLP:journals/jacm/SchmidtD76},
-henceforth SD, is a backtracking
-algorithm that uses a method of partitioning similar to that of \McSplit. Whereas \McSplit\ stores
-the vertices of a label class contiguously, SD stores an array containing one integer for
-each vertex of $G$, and a similar array for $H$; the array element corresponding to each vertex $v$
-stores an identifier for $v$'s label class.  Because SD solves the graph isomorphism
-problem, it is unnecessary to calculate an upper bound; the algorithm can backtrack as soon
-as the number of vertices of $G$ in a label class differs from the number of vertices of $H$
-in that class.  SD takes advantage of the distance matrix (a matrix of shortest path lengths)
-for each graph to give a good initial partition and to refine the partition more at each search
-node than \McSplit's method based on adjacency matrices. Unfortunately,
-the distance matrix cannot be straightforwardly used for the maximum common subgraph problem.
-However, it would be possible to adapt \McSplit\ to use SD's array-based representation of
-label classes, and the comparison of the two methods would be an interesting avenue for future
-work.
+henceforth SD, is a backtracking algorithm that uses a method of partitioning
+similar to that of \McSplit. Whereas \McSplit\ stores the vertices of a label
+class contiguously, SD stores an array containing one integer for each vertex
+of $G$, and a similar array for $H$; the array element corresponding to each
+vertex $v$ stores an identifier for $v$'s label class.  This simple data
+structure corresponds almost directly to the tables of labels used in
+\Cref{figure:mcsplit-examples} to explain \McSplit, although SD uses an
+additional normalisation step at each search node to ensure that each label can
+fit in a machine word.  Like \McSplit, SD has an $O(n_G + n_H)$ partitioning
+step. Thus the data structures of SD could plausibly be used in \McSplit\ with
+little change in speed, and this would be an interesting avenue for future
+work.  However, the present author cannot see a way to adapt the SD data
+structures to handle sparse graphs efficiently as we do with \McSplit\ in
+\Cref{c:mcsplit-si}.
+
+Because SD solves the
+graph isomorphism problem, it is unnecessary to calculate an upper bound; the
+algorithm can backtrack as soon as the number of vertices of $G$ in a label
+class differs from the number of vertices of $H$ in that class.  A further
+difference from \McSplit\ is that SD uses
+the distance matrix (a matrix of shortest path lengths) for each
+graph to give a good initial partition and to refine the partition more at each
+search node than \McSplit's method based on adjacency matrices. Unfortunately,
+the distance matrix cannot be straightforwardly used for the maximum common
+subgraph problem.
 
 \subsection{Extensions for problem variants}\label{sec:extensions}
 
 Maximum common subgraph problems come in many variants. Often
-vertices or edges have labels (for example, denoting the kind of atom or bond they represent in
-a molecule \cite{Ehrlich:2011}), and the induced subgraphs of the two input graphs are
+vertices or edges have labels---for example, denoting the kind of atom or bond they represent in
+a molecule \citep{Ehrlich:2011}---and the induced subgraphs of the two input graphs are
 required to have identical labels.  Directed edges are used in an application to systems
-of biochemical reactions \cite{DAM2014}.
+of biochemical reactions \citep{DAM2014}.
 We now outline how to adapt \cref{McSplitAlg} to handle these cases.
 
 \paragraph{Vertex labels and loops} Suppose the vertices in the input graphs have labels
@@ -663,6 +675,7 @@ of \emph{directed} graphs with edge labels is similar to its undirected
 counterpart, except that each element $A_\graphG[u][v]$ or $A_\graphH[u][v]$ is a
 pair $(l_1, l_2)$, where $l_1$ is the label on the edge $u \rightarrow v$ (or 0
 if no edge exists) and $l_2$ is the label on the reverse edge.
+Our implementation packs each pair of labels into a single machine word for efficiency.
 
 \paragraph{Maximum common \emph{connected} subgraph} In chemistry applications,
 it is sometimes desirable to require that the common subgraph be connected
@@ -673,6 +686,16 @@ element in its bit-string label, following the scheme described by
 and without increasing time complexity at each search node, by storing an extra
 bit with each label class.  This bit takes the value $1$ if and only if the
 vertices in the class are adjacent to at least one vertex in $M$.
+
+We could, in addition, follow \citet{DBLP:conf/cp/NdiayeS11} by using a
+\emph{connectedness constraint} to further filter domains during search.
+In \McSplit\ this would work as follows: at
+each search node with at least one mapped vertex, perform a depth-first
+traversal of each graph visiting only those vertices that are mapped or that
+remain in some label class, then remove unreached vertices from their label classes.
+This would be straightforward to implement and would work well with \McSplit's
+data structures, but the current \McSplit\ implementation does not yet include this
+constraint.
 
 \paragraph{\McSplitDown} The final version that we introduce in this section
 does not solve a variant of the problem, but uses a different strategy
