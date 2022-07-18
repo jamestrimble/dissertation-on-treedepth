@@ -874,17 +874,20 @@ sceptical review.
 % it solves an incomplete enumeration problem that is not considered further
 % in this thesis, we do not include it in our experimental evaluation.
 
-\section{Algorithms for Maximum Common Subgraph}\label{sec:mcs-algorithms}
+\section{Algorithms for Maximum Common Induced Subgraph}\label{sec:mcs-algorithms}
 
 \textbf{TODO see \citet{DBLP:journals/jcamd/RaymondW02a} for a helpful lit review.
 Also Duesbury Holliday and Willett review}
 
 Exact algorithms for the maximum common induced subgraph problem may be divided
 into three broad categories: algorithms that solve the maximum clique problem
-on a derived graph called the association graph, algorithms based on
-constraint programming, and algorithms that enumerate subgraphs of graph $G$
-and use a subgraph isomorphism algorithm to search for each subgraph in graph
-$H$.  We now review each of these categories.
+on a derived graph called the association graph, algorithms based on constraint
+programming, and algorithms that enumerate subgraphs of graph $G$ and use a
+subgraph isomorphism algorithm to search for each subgraph in graph
+$H$.\footnote{The maximum common \emph{edge} subgraph has additionally been
+solved using linear programming
+\citep{marenco1999algoritmo,DBLP:journals/dam/BahienseMPS12}.} We now review
+each of these categories.
 
 \subsection{Clique algorithms}
 
@@ -1039,6 +1042,13 @@ while MAC outperforms FC on labelled instances.
 model of \citet{DBLP:conf/cp/NdiayeS11}.  This is found to perform better
 overall than ensuring connectedness simply by branching on vertices adjacent to
 some already-mapped vertex.
+
+Finally, the $k\downarrow$ algorithm of \citep{UpcomingAAAIPaper}
+solves the optimisation problem as a sequence of decision problems, with
+each of these subproblems solved by a modified Glasgow algorithm
+\citep{DBLP:conf/cp/McCreeshP15}.  It remains possible to filter
+domains using supplemental graphs, albeit with weaker propagation
+than for induced subgraph isomorphism.
 
 \subsection{Subgraph enumeration algorithms}
 
