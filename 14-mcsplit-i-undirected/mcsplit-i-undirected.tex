@@ -1270,45 +1270,79 @@ heuristic) has only a minor effect.
 \section{Experimental Evaluation 2: finding a maximum common subgraph}
 \label{sec:mcsplit-experiments}
 
-Experiments were performed on machines with dual Intel Xeon E5-2640 v2 CPUs and
-64GBytes RAM. Our algorithm was
-implemented\footnote{Source code, instances, experimental scripts and raw
+This section presents our main performance comparison of \McSplit\ against
+existing state of the art MCIS algorithms.
+A cluster of machines with dual Intel Xeon E5-2640 v2 CPUs and
+64GBytes RAM was used for the evaluation; all code was compiled
+using GCC 5.3.0.\footnote{Source code, instances, experimental scripts and raw
 results are available at
 https://github.com/jamestrimble/ijcai2017-partitioning-common-subgraph}
-in C++ and compiled using g++ 5.3.0. We compare against the
-following implementations.
+The experiments described in this section were first published in
+\citet{DBLP:conf/ijcai/McCreeshPT17}.  Although I designed and implemented
+\McSplit\ and was the main author of this paper, the experiments in this
+section were performed by Ciaran McCreesh.
+
+We compare against the following implementations.
 
 \begin{itemize}
 \item The best constraint
 programming implementations of \citet{DBLP:conf/cp/NdiayeS11} and
-\citet{DBLP:conf/cp/McCreeshNPS16} (CP-FC in the unlabelled cases, and CP-MAC
-in the labelled cases, using both branching and filtering for connected
-subgraphs),
+\citet{DBLP:conf/cp/McCreeshNPS16}:
+FC+Bound for unlabelled graphs,
+and MAC+Bound for labelled graphs.  We refer to these as CP-FC and
+CP-MAC respectively.  On the adjacency constraints, CP-FC uses forward checking
+while CP-MAC maintains arc consistency.
+Both algorithms use the soft allDifferent constraint to calculate
+an upper bound but not to remove values from domains.
+Both branching and filtering are used for the connected variant of
+the problem.
 \item The clique encodings and solver of \citet{DBLP:conf/cp/McCreeshNPS16}.
-(TODO: check I'm saying giving the details in the right place.) This uses
-Prosser's MCSa1 algorithm \citep{DBLP:journals/algorithms/Prosser12}, which is
+This uses Prosser's MCSa1 algorithm \citep{DBLP:journals/algorithms/Prosser12}, which is
 based on an algorithm by \citet{DBLP:journals/ieicet/TomitaSHW13} and uses a
 bitset representation to enable very fast operations on sets
-\citep{DBLP:journals/cor/SegundoRJ11}. (I also tried using another state of the
+\citep{DBLP:journals/cor/SegundoRJ11}.\footnote{
+I also tried using another state of the
 art maximum clique solver, IncMC2 \citep{DBLP:journals/informs/LiFJX18}, which
-uses a technique from MaxSat solvers to tighten the upper bound during search.
-This performed worse overall than MCSa1, and I therefore do not report its
-results.)
+uses a technique from MaxSat solvers to achieve an upper bound that is tighter
+than the bound given by greedy colouring.
+This performed worse than MCSa1, and I therefore do not report its
+results.}
 \item The
 $k{\downarrow}$ algorithm of \citet{UpcomingAAAIPaper} (which only supports
 unlabelled, undirected, unconnected instances).
 \end{itemize}
 
-Each of these comparator
-programs is an optimised, dedicated implementation and does not use a
-general-purpose constraint programming toolkit.  We used the original authors'
+Each comparator
+program is an optimised, dedicated implementation and does not use a
+general-purpose CP toolkit.  We used the original authors'
 code in each case.
 
-\begin{figure}[htb]
+
+
+
+
+
+
+\paragraph{Unlabelled, undirected}
+\cref{figure:plain-cumulative} shows a plot of cumulative 
+number of instances solved against runtime for unlabelled, undirected
+instances.  We may compare
+the speed of two algorithms using the horizontal distance between their curves.
+For example, we could solve 2,000 of the 4,110 unlabelled undirected instances
+using the \McSplit\ algorithm if a time limit of 0.5 seconds per instance were
+imposed.  CP-FC would require a time limit of over 24
+seconds per instance to solve the same number of instances.  For any given
+number of instances, \McSplit\ is more than an order of magnitude
+faster than its nearest competitor.  Moreover, \McSplit\ is the fastest algorithm
+on 87\% of the 3,506 instances that
+could be solved by at least one of the four algorithms in less than than
+1,000 seconds---TODO FIXME \kDown\ is not included in this!.
+
+\begin{figure}[htb!]
     \centering
     \subfigure[][Cumulative number of instances solved] {
         \centering
-        \includegraphics*[width=0.75\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/paper/gen-graph-plain-cumulative.pdf}
+        \includegraphics*[width=0.68\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/paper/gen-graph-plain-cumulative.pdf}
         \label{figure:plain-cumulative}
     }
     \par\bigskip
@@ -1316,7 +1350,7 @@ code in each case.
             Orange points are instances whose maximum common subgraph has fewer than 70\% as
             many vertices as each of the input graphs.] {
         \centering
-        \includegraphics*[width=0.6\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplit-vs-mcsplitdown}
+        \includegraphics*[width=0.55\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplit-vs-mcsplitdown}
         \label{figure:plain-scatter}
     }
     \caption{Runtimes for maximum
@@ -1324,11 +1358,60 @@ code in each case.
     to be connected): unlabelled, undirected instances.}\label{figure:mcs-cumulative-plain-not-connected}
 \end{figure}
 
-\begin{figure}[htb]
+\McSplitDown\ slightly outperforms \McSplit\ overall, as the cumulative curves
+show. But the similarity of these curves masks an asymmetric relationship
+between the two algorithms' run time on an instance-by-instance basis, which is
+shown in \Cref{figure:plain-scatter}.  On most instances, \McSplit\ is in fact
+slightly \emph{faster} (but never much faster\footnote{An additional unpublished
+experiment by the author shows
+that most of the run time of \McSplitDown\ is spent on the last two decision
+problems. This explains why the run time of \McSplitDown\ is seldom more than
+twice that of \McSplit.}) than \McSplitDown.  Among the relatively
+small number of instances where \McSplitDown\ is the faster of the two
+algorithms, however, it is often dramatically faster.  As we might expect, the
+instances that favour \McSplitDown\ tend to be ones where the solution is
+almost as large as input graphs and thus few decision problems need to be
+solved; these are the blue points on the scatter plot.
+
+Why is \McSplit\ much slower than \McSplitDown\ on many instances?  Presumably
+the reason is that before the incumbent has reached the optimal value,
+the search may become ``trapped'' in areas of the search space with no good solutions,
+and the algorithm is not able to prune the search tree effectively
+on \lineref{PruneSearch} of \Cref{McSplitAlg} because of the
+small size of the incumbent.
+
+Although the \kDown\ algorithm was slightly faster than CP-FC, it was slower
+than \McSplitDown\ on all of the instances that were solved within the time
+limit by \kDown, and more than an order of magnitude slower than \McSplitDown\
+on most instances.
+
+
+
+
+
+
+
+
+\paragraph{Vertex and edge labels, directed} Cumulative runtimes for labelled,
+directed instances are shown in \cref{figure:33ved-cumulative}. Again, \McSplit\ is over
+an order of magnitude faster than the best existing CP algorithm, which is
+CP-MAC in this case. Yet the overall, clear winner
+(except in the very easy region of instances that can be solved in well under 100 ms)
+is the clique encoding.  This is consistent with
+\citet{DBLP:conf/cp/McCreeshNPS16}, who found that the clique encoding was by far
+the strongest solver of those tested for these instances.
+
+Comparing only \McSplit\ with \McSplitDown\ on these instances, the branch and bound
+algorithm is by a narrow margin the overall winner.  The instance-by-instance
+comparison of the two algorithms in \Cref{figure:33ved-scatter} shows a similar patten
+to the undirected, unlabelled instances, albeit without instances where \McSplitDown\
+is dramatically faster than \McSplit.
+
+\begin{figure}[h!]
     \centering
     \subfigure[][Cumulative number of instances solved] {
         \centering
-        \includegraphics*[width=0.75\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/paper/gen-graph-33ved-cumulative.pdf}
+        \includegraphics*[width=0.68\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/paper/gen-graph-33ved-cumulative.pdf}
         \label{figure:33ved-cumulative}
     }
     \par\bigskip
@@ -1336,7 +1419,7 @@ code in each case.
             Orange points are instances whose maximum common subgraph has fewer than 50\% as
             many vertices as each of the input graphs.] {
         \centering
-        \includegraphics*[width=0.6\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplit-vs-mcsplitdown}
+        \includegraphics*[width=0.55\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplit-vs-mcsplitdown}
         \label{figure:33ved-scatter}
     }
     \caption{Runtimes for maximum
@@ -1344,186 +1427,75 @@ code in each case.
     to be connected): vertex and edge labelled, directed instances.}\label{figure:mcs-cumulative-labelled-not-connected}
 \end{figure}
 
-\paragraph{Unlabelled, undirected}
-\cref{figure:plain-cumulative} shows a plot of cumulative 
-number of instances solved against runtime.  We may compare
-the speed of two algorithms using the horizontal distance between their curves.
-For example, we could solve 2,000 of the 4,110 unlabelled undirected instances
-using the \McSplit\ algorithm if a time limit of 0.5 seconds per instance were
-imposed.  Its nearest competitor, CP-FC, would require a time limit of over 24
-seconds per instance to solve the same number of instances.  For any given
-number of instances, \McSplit\ is comfortably more than an order of magnitude
-faster than its nearest competitor.  Moreover, \McSplit\ is the fastest algorithm
-on 87\% of the 3,506 instances that
-could be solved by at least one of the four algorithms in less than than
-1,000 seconds.
 
-TODO: write about \McSplitDown. Probably move this to its own section
-after main experimental plots
 
-TODO: re-run experiments using \McSplitDown\ and don't use \McSplit-D.
-Why does \McSplitDown\ seldom take more than twice as long as \McSplit,
-and why is it often much faster?  To answer this question, we implemented
-a slightly simplified version of \McSplitDown\ that (like \McSplitDown)
-solves the maximum
-common subgraph problem by a sequence of decision problems, and
-(unlike \McSplitDown) does not share an incumbent between calls to the decision-problem solver.
-We call this variant \McSplit-D.  We ran this on a subset of
-the plain MCS instances with a time limit of 100 seconds, and measured the
-time taken for each decision-problem solution.
 
-Clearly, all of the decision problems are unsatisfiable except the final one,
-in which the target graph order equals the order of a maximum common subgraph.
-\Cref{figure:decision-scatter-last-two-all-others} plots the time required
-to solve the last two subproblems --- one unsatisfiable, one satisfiable ---
-against the time taken to solve all other
-subproblems.  (TODO: say if any instances had no unsat decision problems.)
-Without exception, more than half of the total time to solve
-each instance was spent on the last two decision problems.
 
-\begin{figure}[htb]
-    \centering
-    \subfigure[][Last two decision problems vs all other decision problems] {
-        \centering
-        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/decision-problems-last-two-all-others}
-        \label{figure:decision-scatter-last-two-all-others}
-    }
-    \subfigure[][Last two decision problems] {
-        \centering
-        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/decision-problems-last-two}
-        \label{figure:decision-scatter-last-two}
-    }
-    \caption{Run times in ms of decision subproblems using the solver \McSplit-D, which solves
-        the maximum common subgraph problem by solving a sequence of decision problems.  Instances
-        that were not solved to optimality within the time limit are not shown.}\label{figure:decision-problem-time-scatters}
-\end{figure}
 
-It can be proven that each of these two final decision problems has a search tree that is no larger
-than the search tree of the branch-and-bound \McSplit.  For the final (satisfiable)
-instance, the search tree explored by \McSplit-D is equivalent
-to the search tree that would be explored by \McSplit\ if we initially set the incumbent
-to be one vertex smaller than the optimal solution, then stopped searching upon finding
-an optimal solution.  For the penultimate (unsatisfiable) instance, the search
-tree explored by \McSplit-D is equivalent to the search tree that would be explored by
-\McSplit\ if we initially set the incumbent equal to an optimal solution.
 
-To summarise our discussion so far: each of the final two decision problems solved by \McSplit-D can
-be shown to require a search tree no larger than the full \McSplit\ search tree; furthermore,
-we have seen empirically that these two decision problems together take the majority of
-the run time of \McSplit-D.  These facts together explain why \McSplit\ is never much faster
-than \McSplit-D.
 
-Although it does not affect the foregoing argument,
-\Cref{figure:decision-scatter-last-two} compares, for completeness, the
-run times of the last two decision problems for each instance.  In most cases, the final
-unsatisfiable instance takes longer to solve than the satisfiable instance.
 
-Why is \McSplit\ much slower than \McSplitDown\ on many instances?  Presumably,
-the reason is that before the incumbent has reached the optimal value,
-the search may become ``trapped'' in areas of the search space with no good solutions,
-and the algorithm is not able to prune the search tree effectively
-on \lineref{PruneSearch} of \Cref{McSplitAlg} because of the
-small size of the incumbent.
+\paragraph{Unlabelled, undirected, connected}
+We now turn to two classes of instance where we require the induced
+subgraph to be connected.
+Results for the first---unlabelled and undirected---class are shown
+in \cref{figure:plain-connected-cumulative}.  These results are very similar to
+the corresponding experiment in \cref{figure:plain-cumulative} in which the
+subgraph is not required to be connected: \McSplitDown\ is the overall winner,
+and both \McSplit\ variants are more than an order of magnitude faster than
+the best other algorithm..
 
-We do not show run times for \kDown in \cref{figure:plain-cumulative},
-as it was slower than \McSplitDown on all of the instances that were solved
-within the time limit by \kDown, and more than an order of magnitude slower
-than \McSplitDown on most instances.
-
-\paragraph{Vertex and edge labels, directed} Cumulative runtimes for this
-class of instances are in \cref{figure:33ved-cumulative}. Again, \McSplit\ is over
-an order of magnitude faster than the best existing CP algorithm, which is
-CP-MAC in this case. Matching the conclusions of
-\citet{DBLP:conf/cp/McCreeshNPS16}, we see that the clique encoding outperforms
-the other algorithms---including \McSplit---on these labelled instances, except
-in the very easy region of instances that can be solved in well under 100 ms.
-
-TODO: write about \McSplitDown.
-
-\begin{figure}[htb]
+\begin{figure}[h!]
     \centering
     \subfigure[][Unlabelled, undirected, connected] {
         \centering
-        \includegraphics*[width=0.75\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/paper/gen-graph-plain-connected-cumulative.pdf}
+        \includegraphics*[width=0.68\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/paper/gen-graph-plain-connected-cumulative.pdf}
         \label{figure:plain-connected-cumulative}
     }
     \par\bigskip
     \subfigure[][Vertex and edge labelled, undirected, connected] {
         \centering
-        \includegraphics*[width=0.75\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/paper/gen-graph-33ve-connected-cumulative.pdf}
+        \includegraphics*[width=0.68\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/paper/gen-graph-33ve-connected-cumulative.pdf}
         \label{figure:33ve-connected-cumulative}
     }
     \caption{Cumulative numbers of instances solved over time for maximum
     common \emph{connected} subgraph problems.}\label{figure:mcs-cumulative-connected}
 \end{figure}
 
-\paragraph{Unlabelled, undirected, connected} This class of instances is shown
-in \cref{figure:plain-connected-cumulative}.  These results are very similar to
-the corresponding experiment in \cref{figure:plain-cumulative} in which the
-subgraph is not required to be connected: \McSplit\ is the clear winner by more
-than an order of magnitude.
 
-TODO: write about \McSplitDown.
+
+
+
 
 \paragraph{Vertex and edge labels, undirected, connected} For the labelled,
-connected case, clique slightly outperforms \McSplit\ on harder instances
-(\cref{figure:33ve-connected-cumulative}). However, the gap between the two algorithms
-is very narrow, and is probably down to minor implementation details; indeed, the
-cumulative curve for \McSplit\ briefly rises above the curve for clique at a
-runtime just below 100 seconds. Additionally, \McSplit\ is the clear winner for
-easier instances, where the clique encoding is relatively expensive to
-construct but trivial to solve.
+connected case, the clique encoding slightly outperforms both \McSplit\
+variants on harder instances (\cref{figure:33ve-connected-cumulative}).
+However, the gap between the two algorithms is very narrow, and could be
+down to minor implementation details; indeed, the cumulative curve for
+\McSplit\ briefly rises above the curve for clique at a runtime just below 100
+seconds. Additionally, \McSplit\ is the clear winner for easier instances,
+where the clique encoding is relatively expensive to construct but trivial to
+solve.
 
-TODO: write about \McSplitDown.
 
-Because \kDown\ is based on a subgraph isomorphism algorithm and can perform strong
-domain filtering when searching for a common subgraph that contains most or
-all of graph $G$, we might expect \kDown\ to outperform \McSplitDown\ if the maximum
-common subgraph is large, but to be slower than \McSplitDown\ otherwise.
-To investigate this, we plot on the vertical axis of \Cref{figure:sip-runtime-ratios} the ratio of the two
-algorithms' run times.  Values higher than 1 indicate that \kDown\ was slower than
-\McSplitDown.  On the horizontal axis, we have the difference between the number of
-vertices in the smaller input graph and the number of vertices in a maximum
-common subgraph; a value of 0 indicates that $G$ is contained in $H$ as an induced subgraph.
 
-Overall, \McSplitDown\ is the faster algorithm for most instances, often by more than
-an order of magnitude.  Looking specifically at the instances in which the maximum common
-subgraph is isomorphic to $G$ --- points in the figure with an x-value of 0 ---
-there are a number of instances on which \kDown\ is orders of magnitude faster than \McSplitDown.  However,
-\McSplitDown\ is faster than \kDown\ for most of these instances.
 
-For instances in which the maximum common subgraph is strictly smaller than $G$,
-\McSplitDown\ is usually the faster of the two algorithms.  This is true even for instances
-where the maximum common subgraph contains all but one of the vertices in $G$.
-Interestingly, \kDown\ appears to perform well for instances in which the maximum
-common subgraph is much smaller than $G$.  This may perhaps be due to small
-sample size.
 
-State-of-the-art subgraph isomorphism solvers have developed rapidly, even since the
-development of the \kDown\ solver \cite{DBLP:conf/gg/McCreeshP020}.  It is likely that
-a version of \kDown\ based on a more recent version of the Glasgow subgraph solver
-would outperform the version of \kDown\ used here.
 
-\begin{figure}[htb]
-    \centering
-    \includegraphics*[width=0.75\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/sip-runtime-ratio-vs-solution-size}
-    \caption{The vertical axis measures the ratio of run times (\kDown\ time divided by \McSplitDown time)
-        The horizontal axis measures the difference between the order of the solution and the order of $G$.
-        Trivial instances that could be solved by either algorithm in less
-        than 1 ms or by both algorithms in less than 100 ms are excluded.  Red points show instances
-        on which at least one algorithm timed out. Timeouts are counted as 1000
-        seconds.}\label{figure:sip-runtime-ratios}
-\end{figure}
-
-\paragraph{Summary.} Overall, we find that \McSplit\ improves on the
-previous state of the art by more than an order of magnitude for small,
-unlabelled graphs.  On a benchmark suite of larger instances, the
-\McSplit{$\downarrow$} variant of the algorithm comfortably outperforms the
-state of the art.  On labelled instances, the clique encoding remains the
+\paragraph{Summary} Overall, we find that \McSplit\ improves on the
+previous state of the art by more than an order of magnitude for
+unlabelled graphs.  On labelled instances, the clique encoding remains the
 strongest solver, except on the most trivial instances---particularly where
 there is no requirement for the common subgraph to be connected.
 
-\subsection{On which Instances Should we Choose \McSplit{$\downarrow$}?}\label{sec:which-mcsplit-down}
+
+
+
+
+
+
+\subsection{On which Instances Should we Choose \McSplit{$\downarrow$}
+    over \McSplit?}\label{sec:which-mcsplit-down}
 
 On which instances is it better to use \McSplit{$\downarrow$} than \McSplit?
 We have already seen from the colour coding in Figures
@@ -2257,3 +2229,62 @@ subgraph isomorphism \citep{DBLP:conf/asunam/RedmondC13}.
 % %%%the plain \McSplit\ algorithm for these instances; the \McSplit{$\downarrow$} results
 % %%%are not shown for these instances.)
 % 
+
+% MAIN EXPERIMENTS
+% TODO: re-run experiments using \McSplitDown\ and don't use \McSplit-D.
+% Why does \McSplitDown\ seldom take more than twice as long as \McSplit,
+% and why is it often much faster?  To answer this question, we implemented
+% a slightly simplified version of \McSplitDown\ that (like \McSplitDown)
+% solves the maximum
+% common subgraph problem by a sequence of decision problems, and
+% (unlike \McSplitDown) does not share an incumbent between calls to the decision-problem solver.
+% We call this variant \McSplit-D.  We ran this on a subset of
+% the plain MCS instances with a time limit of 100 seconds, and measured the
+% time taken for each decision-problem solution.
+% 
+% Clearly, all of the decision problems are unsatisfiable except the final one,
+% in which the target graph order equals the order of a maximum common subgraph.
+% \Cref{figure:decision-scatter-last-two-all-others} plots the time required
+% to solve the last two subproblems --- one unsatisfiable, one satisfiable ---
+% against the time taken to solve all other
+% subproblems.  (TODO: say if any instances had no unsat decision problems.)
+% Without exception, more than half of the total time to solve
+% each instance was spent on the last two decision problems.
+% 
+% It can be proven that each of these two final decision problems has a search tree that is no larger
+% than the search tree of the branch-and-bound \McSplit.  For the final (satisfiable)
+% instance, the search tree explored by \McSplit-D is equivalent
+% to the search tree that would be explored by \McSplit\ if we initially set the incumbent
+% to be one vertex smaller than the optimal solution, then stopped searching upon finding
+% an optimal solution.  For the penultimate (unsatisfiable) instance, the search
+% tree explored by \McSplit-D is equivalent to the search tree that would be explored by
+% \McSplit\ if we initially set the incumbent equal to an optimal solution.
+% 
+% To summarise our discussion so far: each of the final two decision problems solved by \McSplit-D can
+% be shown to require a search tree no larger than the full \McSplit\ search tree; furthermore,
+% we have seen empirically that these two decision problems together take the majority of
+% the run time of \McSplit-D.  These facts together explain why \McSplit\ is never much faster
+% than \McSplit-D.
+%
+%Although it does not affect the foregoing argument,
+%\Cref{figure:decision-scatter-last-two} compares, for completeness, the
+%run times of the last two decision problems for each instance.  In most cases, the final
+%unsatisfiable instance takes longer to solve than the satisfiable instance.
+%
+%\begin{figure}[h!]
+%    \centering
+%    \subfigure[][Last two decision problems vs all other decision problems] {
+%        \centering
+%        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/decision-problems-last-two-all-others}
+%        \label{figure:decision-scatter-last-two-all-others}
+%    }
+%    \subfigure[][Last two decision problems] {
+%        \centering
+%        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/decision-problems-last-two}
+%        \label{figure:decision-scatter-last-two}
+%    }
+%    \caption{Run times in ms of decision subproblems using the solver \McSplit-D, which solves
+%        the maximum common subgraph problem by solving a sequence of decision problems.  Instances
+%        that were not solved to optimality within the time limit are not shown.}\label{figure:decision-problem-time-scatters}
+%\end{figure}
+
