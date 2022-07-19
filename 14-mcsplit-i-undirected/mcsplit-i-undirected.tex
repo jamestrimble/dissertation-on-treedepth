@@ -1948,7 +1948,7 @@ are shown as horizontal lines.  When $m=1$---that is,
 when all vertices have the same label---the \McSplit\ bound is strictly tighter than the clique-algorithm
 bound of all 90 of our instances.  On average, the \McSplit\ bound is tighter than than the clique
 bound for $m < 4$, and worse than the clique bound for $m > 5$.  Of the 900 instances with $m > 10$,
-McSplit had a tighter bound than the clique algorithm for only a single instance.
+\McSplit\ had a tighter bound than the clique algorithm for only a single instance.
 
 \begin{figure}[htb]
     \centering
@@ -1963,21 +1963,25 @@ McSplit had a tighter bound than the clique algorithm for only a single instance
     \label{figure:bound-ratio}
 \end{figure}
 
-\hrule
+To summarise, the upper bound of the clique encoding
+dominates that of CP-FC and \McSplit where vertices are ``as labelled as possible'',
+whereas neither bound dominates for unlabelled graphs.  Experimentally, we
+see that the \McSplit\ bound is tighter than the clique bound for unlabelled
+graphs, but the tightness of the clique bound steadily increases
+relative to that of the \McSplit\ bound as the number of vertex
+labels is increased.
 
-TODO grib
-
-A further advantage of our encoding is that it gives us efficient access to a
-better branching heuristic. The CP-FC algorithm uses smallest domain first,
-which in our algorithm corresponds to branching on a label class with smallest
-$|\setH|$. We instead branch on the label class with smallest $\max(|\setG|,|\setH|)$.
-This is empirically better, and accounts for much of the difference between
-the number of recursive calls made; branching on the smallest $|\setG| |\setH|$ gives
-very similar results. This can be viewed as exploiting both smallest domain first,
-and the dual viewpoint \citep{DBLP:conf/ecai/Geelen92} of smallest domain
-first, simultaneously, but we do not have the overheads of having to maintain
-and channel between the dual viewpoint that would be required when using a
-conventional domain store.
+%A further advantage of our encoding is that it gives us efficient access to a
+%better branching heuristic. The CP-FC algorithm uses smallest domain first,
+%which in our algorithm corresponds to branching on a label class with smallest
+%$|\setH|$. We instead branch on the label class with smallest $\max(|\setG|,|\setH|)$.
+%This is empirically better, and accounts for much of the difference between
+%the number of recursive calls made; branching on the smallest $|\setG| |\setH|$ gives
+%very similar results. This can be viewed as exploiting both smallest domain first,
+%and the dual viewpoint \citep{DBLP:conf/ecai/Geelen92} of smallest domain
+%first, simultaneously, but we do not have the overheads of having to maintain
+%and channel between the dual viewpoint that would be required when using a
+%conventional domain store.
 
 \section{Papers using \McSplit}\label{sec:mcsplit-papers}
 
@@ -1987,35 +1991,36 @@ This section briefly surveys this work.
 
 \subsection{Publications co-authored by the present author}
 
-Archibald et al. \cite{DBLP:conf/cpaior/ArchibaldDHMP019} introduce \emph{solution-biased search},
+\citet{DBLP:conf/cpaior/ArchibaldDHMP019} introduce \emph{solution-biased search},
 a technique using restarts and nogood learning that allows algorithm to quickly explore diverse
 parts of the search tree rather than explore it in order (as a typical backtracking algorithm
 such as the standard version of \McSplit\ does); this can often help the algorithm to find good
 solutions quickly.  For the paper, I designed and implemented a version
 of \McSplit\ using solution-biased search; this led to modestly improved run times on many instances.
 
-For a paper coauthored with Gocht et al. \cite{DBLP:conf/cp/GochtMMNPT20}, the present
-author added proof logging \cite{DBLP:conf/ijcai/GochtMN20} to the C++ implementation of
-McSplit to create a \emph{certified} version of the solver.  This outputs a log of the
+For \citet{DBLP:conf/cp/GochtMMNPT20}, the present
+author added proof logging \citep{DBLP:conf/ijcai/GochtMN20} to the C++ implementation of
+\McSplit\ to create a \emph{certified} version of the solver.  This outputs a log of the
 solver's reasoning steps using the cutting plane proof system
-\cite{DBLP:journals/dam/CookCT87}, such that the log can be verified using a
+\citep{DBLP:journals/dam/CookCT87}, such that the log can be verified using a
 simple and extensively-tested checker program.  The proof logging and verification process
 slows down the solver by around three orders of magnitude; therefore I did not use it for
 the experiments in the current thesis chapter.  However, the programs's logs were verified
-for all 16,300 instances considered for the paper, which is evidence of the implementation's
+for all 16,300 instances considered for the paper, providing evidence of the implementation's
 correctness.
 
 \subsection{Other papers}
 
-Liu et al. \cite{DBLP:conf/aaai/0001LJ020} use reinforcement learning to create a better branching
-heuristic.  Specifically, when selecting a vertex in $\graphG$ or $\graphH$ to use for branching,
+\citet{DBLP:conf/aaai/0001LJ020} introduce improved variable- and value-ordering
+heuristics for \McSplit\ using reinforcement learning.
+Specifically, when selecting a vertex in $\graphG$ or $\graphH$ to use for branching,
 the algorithm prefers to use vertices that have resulted in a large decrease to the upper bound
 in previous recursive calls.  This strategy increased the speed of \McSplit\ on maximum common subgraph
 instances by around a factor of 2.  It caused an even more dramatic improvement when \McSplit\ was
 applied to the induced subgraph isomorphism problem, outperforming a leading specialised subgraph
 isomorphism solver.
 
-Quer, Marcelli, and Squillero \cite{DBLP:journals/computation/QuerMS20}
+\citet{DBLP:journals/computation/QuerMS20}
 explore several enhancements of \McSplit,
 including a massively parallel GPU implementation using CUDA, a recursion-free implementation,
 and a parallel portfolio solver containing these along with the original \McSplit\
@@ -2029,7 +2034,7 @@ the Masters thesis of Jonathan Trummer --- make significant contributions
 in terms both of algorithm design and experimental work, and therefore
 deserve mention despite being unpublished.
 
-Dilkas \cite{dilkas2018} performs a detailed experimental evaluation
+\citet{dilkas2018} performs a detailed experimental evaluation
 of \McSplit\ and a clique algorithm for a range of labelling schemes, finding that \McSplit\
 outperforms the clique encoding even for labelled graphs, if only a small number of labels are
 used.  Dilkas uses machine learning to construct a portfolio solver that chooses intelligently
@@ -2039,17 +2044,13 @@ outperforms each of its component algorithms, giving overall performance close t
 best solver.  Finally, Dilkas constructs hybrid algorithm, \textsc{Fusion}, that switches
 from \McSplit\ to the clique encoding at a specified depth of recursion.
 
-Trummer \cite{trummer2021} TODO
+\cite{trummer2021} presents several innovations for maximum common induced subgraph algorithms,
+including improved reinforcement learning for \McSplit\ based on
+\citet{DBLP:conf/aaai/0001LJ020}, and a version of \McSplit\ with symmetry breaking.
 
-\subsection{Applications of \McSplit}
+\subsection{An application to a question in probability theory}
 
-This subsection presents two applications of \McSplit\---one in cheminformatics
-and the other in probability theory.
-
-\paragraph{Isolde.} TODO (I emailed Tristan Croll on 19 Oct 2021 to ask for a simple explanation of
-what he uses \McSplit\ for.)
-
-\paragraph{Random graphs.} Chatterjee and Diaconis \cite{chatterjee2021isomorphisms} consider taking two
+Chatterjee and Diaconis \cite{chatterjee2021isomorphisms} consider taking two
 independent random $G(N, 1/2)$ graphs $G$ and $H$, and finding the order of their maximum
 common induced subgraph.  They prove that as $N\to\infty$, the maximum common
 subgraph of $G$ and $H$ will, with probability tending to 1, be in a range
@@ -2088,30 +2089,25 @@ generated data.
 \section{Conclusion}
 \label{sec:mcsplit-conclusion}
 
-We have introduced the \McSplit\ algorithm for maximum common subgraph
-problems.  This algorithm is more than an order of magnitude faster than the
-previous state of the art for unlabelled and undirected instances. We have
-shown how the algorithm can be extended for graphs with labels on edges, labels
+This chapter has introduced the \McSplit\ algorithm for maximum common induced subgraph
+problems, which is more than an order of magnitude faster than the
+previous state of the art for unlabelled, undirected instances. We have
+seen how the algorithm can be extended for graphs with labels on edges, labels
 on vertices, loops, directed edges and the requirement that the resultant graph
-be connected.
+be connected.  We have also explored the large effect that sorting graphs
+by degree can have on run times, and examined the relationship between the upper bounds
+calculated by \McSplit\ and by clique algorithms.
 
-We believe there is more to be discovered about branching heuristics. There is
-also the potential to branch on both sides, that is instead of branching on
-vertices in $\V(\graphG)$, it would be equally valid to branch on a vertex in
-$\V(\graphH)$, since our data structure treats the two graphs symmetrically. More
-interestingly, we could choose which graph to branch on at each search node
-using some heuristic (perhaps choosing based on whether the $\setG$ or $\setH$ set is
-smaller).
-
-It would be interesting to see whether these techniques are more broadly
-applicable---we suspect that some other problems may have a similar branching
-structure which would also benefit from a partitioning domain store
+It would be interesting in the future to see whether the data structures and
+partitioning algorithms of \McSplit\ have applicability beyond subgraph
+problems---the author suspects that some other problems may have a similar
+branching structure which would also benefit from a partitioning domain store
 representation. Most obviously, we could solve the induced subgraph isomorphism
 problem in the same way (and with nearly no changes to the code), and our
 connected variant shows that certain side constraints can also be handled.
-However, we cannot solve non-induced subgraph isomorphism this way, nor can
-we handle certain richer labelling schemes such as those used in temporal
-subgraph isomorphism \citep{DBLP:conf/asunam/RedmondC13}.
+However, we cannot solve non-induced subgraph isomorphism this way, nor can we
+handle certain richer labelling schemes such as those used in temporal subgraph
+isomorphism \citep{DBLP:conf/asunam/RedmondC13}.
 
 % \section{Commented out recycle bin}
 % 
