@@ -1026,7 +1026,7 @@ a branch-and-bound algorithm for the maximum clique problem.
 
 \paragraph{Extensions of \McSplit}
 The definition of the association graph can easily be modified to handle loops,
-directed edges, and labelled vertices and edges \cite{LeviG}.  It would be
+directed edges, and labelled vertices and edges \citep{LeviG}.  It would be
 possible to modify our correctness proof of \McSplit\ to apply to any of these
 variants of the problem by using an appropriate definition of the association
 graph.
@@ -1035,58 +1035,80 @@ To solve the maximum common \emph{connected} subgraph problem with a clique algo
 we must distinguish between two types of edges in the association graph: $c$-edges
 corresponding to edges in graphs $\graphG$ and $\graphH$, and $d$-edges corresponding
 to non-edges in the two graphs.  We then search for a clique in the association graph
-that is spanned by $c$-edges.
-\cite{DBLP:journals/tcs/Koch01,DBLP:conf/mco/VismaraV08,DBLP:conf/cp/McCreeshNPS16}
-\cite{DBLP:conf/cp/McCreeshNPS16} introduces a modified maximum-clique algorithm
+that is spanned by $c$-edges
+\citep{DBLP:journals/tcs/Koch01,DBLP:conf/mco/VismaraV08,DBLP:conf/cp/McCreeshNPS16}.
+\citet{DBLP:conf/cp/McCreeshNPS16} introduces a modified maximum-clique algorithm
 that solves this problem by only choosing to add those vertices to the clique $C$ that
-have at least one $c$-edge to a vertex that is already in the clique.  (The first
+share at least one $c$-edge with a vertex that is already in the clique.  (The first
 vertex added to $C$ is a special case and is not subject to this restriction.)
 It would be straightforward to modify our clique algorithm to solve this version of the
 problem, and we could then modify the proof of \cref{cliqueMcSplitProp} to prove the
 correctness of the connected version of \McSplit.
 
-
-TODO note that this discussion shows similarity between \McSplit\ and clique encoding
-
 \section{Heuristics}\label{sec:mcsplit-heuristics}
 
-Small scale experiments (not presented here) were performed to identify
-suitable heuristics for the $\FuncSty{SelectLabelClass}$ and
-$\FuncSty{SelectVertex}$ functions.  Our $\FuncSty{SelectLabelClass}$
-function chooses a label class with the smallest $\max(|\setG|,|\setH|)$,
-breaking ties by selecting a class containing a vertex in $G$ with the largest degree (TODO fix this to say what we actually do). From
-the selected class, $\FuncSty{SelectVertex}$ chooses a vertex in $\setG$ with
-maximum degree. We further discuss the effectiveness of our
-$\FuncSty{SelectLabelClass}$ function in \cref{sec:comparison}.
+We turn now to variable- and value-ordering heuristics for \McSplit.
+The value-ordering heuristic begins with the $\FuncSty{SelectLabelClass}$
+function; our implementation chooses a label class with the smallest
+$\max(|\setG|,|\setH|)$. As we will see in 
+\Cref{sec:mcsplit-finding-all}, this strategy performs slightly
+better than a smallest-domain-first strategy (select the label class
+with smallest $|\setH|$) on a set of benchmark instances.\footnote{Patrick
+Prosser carried out further, unpublished experiments
+that found that minimising $|\setG|\times|\setH|$ performs similarly
+\citep{Prosser2017McSplitHeuristics}.}
+Ties are broken by selecting a label class with the smallest-numbered
+vertex of graph $G$.
+The $\FuncSty{SelectVertex}$ selects the smallest-numbered vertex
+within this label class.
 
-\subsubsection{Tie-breaking by vertex degree}
+The value-ordering heuristic controls the iteration
+order at \lineref{SelectVertex} of \cref{McSplitAlg}. The strategy
+in our implementation iterates in ascending order of vertex number.
 
-We now turn to the $\FuncSty{SelectVertex}$ procedure and the order over which
-vertices in $H$ are iterated in \lineref{WLoop}.  In constraint programming
-terminology, the former corresponds to a tie-breaker for the variable-ordering
-heuristic, while the latter corresponds to a value-ordering heuristic.
+\subsection{Ordering graphs by vertex degree}
 
-For both of these, the \McSplit\ algorithm takes the simple approach of reordering
-graphs $G$ and $H$ by degree before search.  This prompts the question: is it
-better to sort each graph in ascending or descending order of degree?  The answer depends on the structure of the two graphs.  To shed some light on this question, we present results of an comparing increasing degree and decreasing degree orders for both graphs on random $G(n,p)$ graphs, where the density parameter $p$
-is varied from 0 to 1.
+Our variable and value ordering strategies both depend on the order
+in which vertices are numbered.
+In this dissertation, we follow the Glasgow Subgraph Solver
+\citep{DBLP:journals/jair/McCreeshPST18,DBLP:conf/gg/McCreeshP020}
+and number vertices in order of degree. (For efficiency, we
+also generate new adjacency matrices for the reordered graphs
+before search.)
+
+\Cref{figure:mcis-heatmaps}
+
+Is it better to order the vertices in each graph in ascending or descending
+order of degree?  The answer depends on the structure of the two graphs.  To
+shed some light on this question, we present results of an experiment comparing
+increasing degree and decreasing degree orders for graphs $G$ and $H$ where
+both graphs are random $G(n,p)$ graphs.
+The $p$ (density) parameter for both graphs
+was varied from $0$ to $1$ in steps of $0.01$, for a total of $10201$
+pairs of graph.  For each graph, we considered the two possible degree orders;
+we call these strategies
+``G increasing'' (smallest degree first for graph $G$), ``G decreasing'',
+``H increasing'', and ``H decreasing''.
+Due to the large number of instances, $n=10$ was used.
+Each run was repeated 32 times, and an average (mean) number of calls to the
+$\FuncSty{Search}$ function was computed.
 
 \begin{figure}[htb]
     \centering
     \subfigure[][Unlabelled, undirected] {
         \centering
-        \includegraphics*[width=0.92\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10.pdf}
+        \includegraphics*[trim=0 .4cm 0 0,clip,width=0.92\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10.pdf}
         \label{figure:mcis-heatmap}
     }
     \subfigure[][Unlabelled, directed] {
         \centering
-        \includegraphics*[width=0.92\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10directed.pdf}
-        \label{figure:sip-heatmap-12}
+        \includegraphics*[trim=0 .4cm 0 0,clip,width=0.92\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10directed.pdf}
+        \label{figure:mcis-heatmap-dir}
     }
     \subfigure[][Edge labelled, undirected] {
         \centering
-        \includegraphics*[width=0.92\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10edgelabelled.pdf}
-        \label{figure:sip-heatmap-16}
+        \includegraphics*[trim=0 .4cm 0 0,clip,width=0.92\textwidth]{14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained/observable-figures/winners10edgelabelled.pdf}
+        \label{figure:mcis-heatmap-edgelab}
     }
     \subfigure[][Colour key (search effort divided by search effort of best strategy)] {
         \centering
@@ -1097,6 +1119,55 @@ is varied from 0 to 1.
     (horizontal axis) and target density (vertical axis)}\label{figure:mcis-heatmaps}
 \end{figure}
 
+The heatmaps in \Cref{figure:mcis-heatmaps} show how effective each pairing of
+variable and value ordering heuristics was best for each pattern density /
+target density pair.  To explain the plots, we refer to the first of the four
+squares in \Cref{figure:mcis-heatmap} as an example.  On the $x$ and $y$ axes,
+we have values of the graph generator's $p$ (density) parameter ranging from 0
+to 1 for the pattern and target graph respectively.  The plot shows, for each
+pair of density parameters, how the strategy ``G increasing, H increasing''
+compares with the best of the four possible strategies.  Dark blue indicates
+that ``G increasing, H increasing'' is not beaten by any of the other three
+strategies, mid blue indicates that it requires between 1 and 2 times the
+search effort of the best strategy, and light blue indicates that it requires
+between 2 and 10 times the search effort of the best strategy.  From this
+subplot we can see that, for random graphs with pattern order 8 and target
+order 80, the ``G increasing, H increasing'' strategy appears to be preferable
+to the other three strategies if the density of the target graph exceeds that
+of the pattern graph.
+
+\Cref{figure:mcis-heatmap} shows results for unlabelled, undirected graphs.
+The middle two subplots show that---at least for these random graphs---it
+is seldom optimal to use different ordering strategies for graphs $G$ and $H$.
+The first and last subplots show that it is best to sort in increasing degree
+order if the density of $H$ is much greater than the density of $G$, while
+it is best to sort in decreasing degree order if the opposite is true.  Yet the
+decision rule ``sort in increasing order if and only if the density of $H$ is
+greater than the density of $G$'' often leads to poor results if both graphs are
+sparse.
+
+\Cref{figure:mcis-heatmap-dir} shows results for directed graphs. The overall
+pattern is somewhat similar to the undirected case.
+
+\Cref{figure:mcis-heatmap-edgelab} shows results for undirected graphs with
+edge labels chosen uniformly at random from a set of five labels.  In this
+case, the increasing order for both graphs tends to be best when $H$ is
+very dense, and the decreasing order tends to be best otherwise.
+
+A clear message from these figures is that the optimal choice of variable and
+value ordering heuristic depends on the characteristics of an instance in a
+complex way.
+If we were to pick a simple decision rule for ordering based on the densities
+of $G$ and $H$, a plausible candidate would be ``use increasing order for both
+graphs if the density of $H$ is greater than $\frac{1}{2}$; otherwise use
+decreasing order for both graphs''.  This is the rule we use throughout
+this chapter and the next chapter.
+The exception is in the comparison of algorithms in \label{sec:mcsplit-experiments},
+where we use the results from \citet{DBLP:conf/ijcai/McCreeshPT17}; in these
+experiments, decreasing degree order was used throughout.  In practice, this
+makes very little difference to the results: none of the directed instances,
+and only $4\%$ of the undirected instances, have a graph $G$ with density
+greater than $\frac{1}{2}$.
 \FloatBarrier
 
 \section{Experimental Evaluation 1: Finding all maximum common subgraphs}
