@@ -1166,7 +1166,15 @@ greater than $\frac{1}{2}$.
 
 Our experiments use a database of randomly-generated maximum common subgraph
 instances \citep{DBLP:journals/prl/SantoFSV03,DBLP:journals/jgaa/ConteFV07}.
-For each instance, $10 \leq n_G = n_H \leq 100$.  For unlabelled instances, the
+Each instance satisfies $10 \leq n_G = n_H \leq 100$.  The database's authors
+produced each instance by generating a graph $G'$ of a given family to serve as
+the common induced subgraph, then adding additional vertices and edges at
+random to $G'$ in order to produce graphs $G$ and $H$. Several families of
+common subgraph are used: Erd\H{o}s-Rényi $G(n,p)$ graphs; 2D, 3D, and 4D meshes;
+bounded valence graphs; and randomly perturbed (``irregular'') versions of
+meshes and bounded valence graphs.
+
+For unlabelled instances, the
 first ten instances from each family whose members have no more than 50
 vertices are used, giving a total of 4,110 instances.  For labelled instances,
 the first ten instances from every family are used, giving a total of 8,140
@@ -1224,22 +1232,6 @@ $\McSplit - 1$ has only the first change from the list above,
 $\McSplit - 1,2$ has the first two changes, and
 $\McSplit - 1,2,3$: has all three changes.
 
-\Cref{fig:mcsplit-vs-kh} shows the results of our experiment.  The cumulative plot shows,
-in line with our hypotheses,
-that \McSplit\ is around two orders of magnitude faster than KH overall, and that
-$\McSplit - 1,2,3$ and KH have very similar overall performance.  The first scatter
-plot shows that \McSplit\ clearly outperforms KH, with KH running faster than \McSplit\
-on only a handful of instances.  The fourth scatter plot shows that --- as we expected ---
-$\McSplit - 1,2,3$ and KH have similar run times on an instance-by-instance basis.
-(It appears, furthermore, that
-KH has a slight advantage on the easiest instances and
-$\McSplit - 1,2,3$ has a slight advantage on the hardest instances.)
-
-Returning to the cumulative plot, it is evident that the second and third changes (weakening
-the bound and not sorting by degree) have a large effect on the run time of \McSplit\,
-but that the first change (using the sizes of both $\setG$ and $\setH$ in the variable-ordering
-heuristic) has only a minor effect.
-
 \begin{figure}[htb]
     \centering
     \subfigure[][Cumulative plot of run times] {
@@ -1258,6 +1250,22 @@ heuristic) has only a minor effect.
     \caption{Cumulative and scatter plots of run times (ms) of Krissinel and Henrick \cite{DBLP:journals/spe/KrissinelH04}
             and four versions of \McSplit on the 4110 unlabelled, undirected MCS instances}\label{fig:mcsplit-vs-kh}
 \end{figure}
+
+\Cref{fig:mcsplit-vs-kh} shows the results of our experiment.  The cumulative plot shows,
+in line with our hypotheses,
+that \McSplit\ is around two orders of magnitude faster than KH overall, and that
+$\McSplit - 1,2,3$ and KH have very similar overall performance.  The first scatter
+plot shows that \McSplit\ clearly outperforms KH, with KH running faster than \McSplit\
+on only a handful of instances.  The fourth scatter plot shows that --- as we expected ---
+$\McSplit - 1,2,3$ and KH have similar run times on an instance-by-instance basis.
+(It appears, furthermore, that
+KH has a slight advantage on the easiest instances and
+$\McSplit - 1,2,3$ has a slight advantage on the hardest instances.)
+
+Returning to the cumulative plot, it is evident that the second and third changes (weakening
+the bound and not sorting by degree) have a large effect on the run time of \McSplit\,
+but that the first change (using the sizes of both $\setG$ and $\setH$ in the variable-ordering
+heuristic) has only a minor effect.
 
 \section{Experimental Evaluation 2: finding a maximum common subgraph}
 \label{sec:mcsplit-experiments}
@@ -1468,61 +1476,6 @@ construct but trivial to solve.
 
 TODO: write about \McSplitDown.
 
-\begin{figure}[htb]
-    \centering
-    \includegraphics*[width=0.75\textwidth]{14-mcsplit-i-undirected/img/gen-graph-sip-cumulative.pdf}
-    \caption{Cumulative numbers of instances solved over time for the maximum
-    common connected subgraph problem on the large subgraph isomorphism benchmark
-    suite.} \label{figure:sip-cumulative}
-\end{figure}
-
-\paragraph{Large subgraph isomorphism instances} We also ran the algorithms on
-a set of 5,725 larger instances used in recent studies of subgraph
-isomorphism~\citep{DBLP:conf/lion/KotthoffMS16} and maximum common
-subgraph~\citep{UpcomingAAAIPaper}.  This benchmark set includes real-world
-graphs and graphs generated using random models.  Pattern graphs range from 4
-vertices to 900 with a median of 80; target graphs range from 10 vertices to
-6,671 with a median of 561. Cumulative runtimes on these instances are shown in
-\cref{figure:sip-cumulative}.  This is a challenging set of instances, and more
-than half of the instances cannot be solved within a timeout of 1,000 seconds by
-any solver. Furthermore, the CP-FC algorithm and the clique encoding run out of
-memory on many of the instances (these are treated as timeouts, following
-\citet{UpcomingAAAIPaper}).
-
-\begin{figure*}[htb]
-    \centering
-    \subfigure[][Unlabelled, undirected instances] {\label{figure:prettyheatmaps1}
-        \includegraphics*[width=.5\textwidth]{14-mcsplit-i-undirected/img/gen-graph-plain-james-versus-cp-fc-nodes-scatter.pdf}
-    }
-    \par\bigskip
-    \subfigure[][Labelled, directed instances] {\label{figure:prettyheatmaps2}
-        \includegraphics*[width=.5\textwidth]{14-mcsplit-i-undirected/img/gen-graph-33ved-james-versus-cp-fc-nodes-scatter.pdf}
-    }
-    \par\bigskip
-    \subfigure[][Subgraph isomorphism instances]{\label{figure:prettyheatmaps3}
-       \includegraphics*[width=.5\textwidth]{14-mcsplit-i-undirected/img/gen-graph-sip-james-versus-kdown-nodes-scatter.pdf}
-    }
-    \caption{Relative search space sizes for instances which were solved by both algorithms within the timeout.}
-    \label{figure:prettyheatmaps}
-\end{figure*}
-
-The basic \McSplit\ is beaten by $k{\downarrow}$ 
-\citet{UpcomingAAAIPaper} on this dataset. However, as
-\cref{figure:sip-cumulative} shows, \McSplitDown\ is the overall strongest
-algorithm on these instances for every choice of timeout.
-In many cases the maximum common subgraph covers nearly all of the smaller graph;
-thus, it is unsurprising that \kDown\ and \McSplitDown\ outperform the branch-and-bound
-\McSplit\ on this set of instances.
-%%% * The commented lines below are incorrect. *
-%%%(By contrast, the optimal solutions for the instances in
-%%%\cref{figure:mcs-cumulative-plain-not-connected},
-%%%\cref{figure:mcs-cumulative-labelled-not-connected}
-%%%and
-%%%\cref{figure:mcs-cumulative-connected} typically cover a smaller proportion of the
-%%%input graphs, and \McSplit{$\downarrow$} is often more than a magnitude slower than
-%%%the plain \McSplit\ algorithm for these instances; the \McSplit{$\downarrow$} results
-%%%are not shown for these instances.)
-
 Because \kDown\ is based on a subgraph isomorphism algorithm and can perform strong
 domain filtering when searching for a common subgraph that contains most or
 all of graph $G$, we might expect \kDown\ to outperform \McSplitDown\ if the maximum
@@ -1614,6 +1567,8 @@ relationship between these two measures. Above the point where the maximum
 common subgraph is 70\% as large as each input graph, \McSplitDown\ becomes
 the faster algorithm.
 
+\FloatBarrier
+
 \section{Comparison with Existing Algorithms}
 \label{sec:comparison}
 
@@ -1628,6 +1583,18 @@ indicate a higher density of points around a location.) We see a close
 correlation: \McSplit\ typically does slightly less work, and sometimes does more, but
 instances with more than one order of magnitude difference in search tree size
 are rare.
+
+\begin{figure*}[htb]
+    \centering
+    \subfigure[][Unlabelled, undirected instances] {\label{figure:prettyheatmaps1}
+        \includegraphics*[width=.48\textwidth]{14-mcsplit-i-undirected/img/gen-graph-plain-james-versus-cp-fc-nodes-scatter.pdf}
+    }
+    \subfigure[][Labelled, directed instances] {\label{figure:prettyheatmaps2}
+        \includegraphics*[width=.48\textwidth]{14-mcsplit-i-undirected/img/gen-graph-33ved-james-versus-cp-fc-nodes-scatter.pdf}
+    }
+    \caption{Relative search space sizes for instances which were solved by both algorithms within the timeout.}
+    \label{figure:prettyheatmaps}
+\end{figure*}
 
 Why is this? We do not see a similar correlation between our search tree size
 and that of the clique approach. The key observation is that \McSplit\ may be
@@ -1644,8 +1611,8 @@ CP-FC, and the vertices in $\setH$ to domain values. The label-class
 representation of domains is possible because throughout the CP-FC algorithm
 for maximum common subgraph, the domains of any two variables are either
 identical or disjoint (excluding $\bot$, which is either present in all domains or in none).
-To the best of our knowledge, this observation has not been made previously,
-and it is not exploited in other algorithms for maximum common subgraph.
+%To the best of our knowledge, this observation has not been made previously,
+%and it is not exploited in other algorithms for maximum common subgraph.
 
 CP-FC uses a soft all-different constraint to compute a bound, which requires
 running a matching algorithm on a supporting compatibility graph.  We now
@@ -1668,18 +1635,9 @@ mapping, giving a bound of 5.  CP-FC uses the compatibility graph $\graphB$ in
 \cref{fig:cpfc-bipartite} to calculate an upper bound; variables are
 represented by vertices on the left, values are represented by vertices on the
 right, and a variable may take a value if and only if the corresponding
-vertices are adjacent.  The upper bound is calculated by CP-FC by computing a
-maximum matching on this bipartite graph, and adding the size of this matching
-to the size of the current mapping.
-
-The vertices in the bipartite graph are coloured to emphasise how they
-correspond to the two label classes.  Each label class corresponds to a
-complete bipartite graph, and there are no edges between the components
-corresponding to different label classes.  Clearly, a maximum matching in
-$\graphB$ must be the union of the maximum matching in each complete bipartite
-subgraph, and each of these matchings in turn have the same size as the smaller
-of the left and right sets of vertices.  It follows that the CP-FC bound is
-identical to the \McSplit\ bound.
+vertices of the compatibility graph are adjacent.  The upper bound is
+calculated by CP-FC by computing a maximum matching on this bipartite graph,
+and adding the size of this matching to the size of the current mapping.
 
 \begin{figure}[htb]
 \centering
@@ -1734,6 +1692,15 @@ identical to the \McSplit\ bound.
 \label{fig:cpfc-bipartite}
 \end{figure}
 
+The vertices in the bipartite graph are coloured to emphasise how they
+correspond to the two label classes.  Each label class corresponds to a
+complete bipartite graph, and there are no edges between the components
+corresponding to different label classes.  Clearly, a maximum matching in
+$\graphB$ must be the union of the maximum matching in each complete bipartite
+subgraph, and each of these matchings in turn have the same size as the smaller
+of the left and right sets of vertices.  It follows that the CP-FC bound is
+identical to the \McSplit\ bound.
+
 
 %%% This equivalence to CP-FC makes the correctness of \McSplit\ easy to establish:
 %%% if we replace the label-class representation of $\mathit{future}$ with
@@ -1757,20 +1724,21 @@ identical to the \McSplit\ bound.
 %%% \label{cpAlg}
 %%% \end{algorithm}
 
-\hrule
+%\hrule
+%
+%{\color{blue} TODO: this paragraph is directly from our IJCAI paper.  I expand on it
+%below, so the paragraph can perhaps be deleted later.}
+%This bound is incomparable to the clique bound, which is given by a greedy
+%colouring of a microstructure-like graph \citep{DBLP:conf/cp/McCreeshNPS16}.
+%The clique bound is potentially stronger, in that it can reason about
+%compatibilities between individual variable-vertex assignments. The clique
+%bound is also able to make use of edge label information, which CP-FC and our
+%equivalent bound cannot---this comes at the expense of much higher memory
+%requirements, and also longer calculation times for unlabelled graphs. The
+%clique bound is also potentially weaker: it is not even guaranteed to be less
+%than or equal to the number of remaining variables, in the CP-FC sense.
 
-{\color{blue} TODO: this paragraph is directly from our IJCAI paper.  I expand on it
-below, so the paragraph can perhaps be deleted later.}
-This bound is incomparable to the clique bound, which is given by a greedy
-colouring of a microstructure-like graph \citep{DBLP:conf/cp/McCreeshNPS16}.
-The clique bound is potentially stronger, in that it can reason about
-compatibilities between individual variable-vertex assignments. The clique
-bound is also able to make use of edge label information, which CP-FC and our
-equivalent bound cannot---this comes at the expense of much higher memory
-requirements, and also longer calculation times for unlabelled graphs. The
-clique bound is also potentially weaker: it is not even guaranteed to be less
-than or equal to the number of remaining variables, in the CP-FC sense.
-
+This bound is incomparable to the clique bound.
 To compare the clique bound and the \McSplit\ bound and to give some
 insight into why the clique algorithm is so effective for labelled
 graphs, we consider two extreme
@@ -1784,7 +1752,7 @@ all vertex labels are equal).  \Cref{fig:clique-better-bound} shows
 an example in which the clique bound is stronger than the \McSplit\ bound.
 The input graphs are the graphs $K_2$ and $I_2$.  The association graph
 is the independent set $I_4$, and therefore a greedy colouring will yield
-a single colouring class, resulting in an upper bound of 1 on the clique
+a single colour class, resulting in an upper bound of 1 on the clique
 number.  \McSplit\ gives an upper bound of 2, since there is a single label
 class containing two vertices from each graph.
 
@@ -1908,14 +1876,11 @@ colour classes are $\{1a,2a\}$, $\{1b,2b\}$, and $\{1c,2c\}$).
 We now turn to the extreme case in which all vertex labels are distinct
 in each of the two input graphs.  \Cref{fig:clique-bound-labelled} shows
 two graphs, each with three distinctly-labelled vertices; the labels
-are represented by three different shapes.  The \McSplit\ upper bound is 3.
+are represented by three different shapes.  The \McSplit\ upper bound is 3,
+since there are three label classes, each with one from each graph.
 A greedy colouring of the association graph gives a stronger bound, 2,
 irrespective of the order in which the nodes are coloured, since
 nodes $1a$ and $3c$ will be assigned to the same colour class.
-
-Clearly, this example generalises: if all of the vertices in each input
-graph have distinct labels, then the clique bound is less than or equal to
-the \McSplit\ bound.
 
 \begin{figure}[htb]
 \centering
@@ -1976,6 +1941,10 @@ the \McSplit\ bound.
 \label{fig:clique-bound-labelled}
 \end{figure}
 
+Clearly, this example generalises: if all of the vertices in each input
+graph have distinct labels, then the clique bound is less than or equal to
+the \McSplit\ bound.
+
 We have established that the \McSplit\ and clique upper bounds are incomparable for unlabelled graphs,
 and that the clique algorithm's bound is stronger than the \McSplit\ bound if there are very many vertex
 labels.  To find out which bound is better in practice for unlabelled graphs, and to find the point
@@ -2015,6 +1984,8 @@ McSplit had a tighter bound than the clique algorithm for only a single instance
 
 \hrule
 
+TODO grib
+
 A further advantage of our encoding is that it gives us efficient access to a
 better branching heuristic. The CP-FC algorithm uses smallest domain first,
 which in our algorithm corresponds to branching on a label class with smallest
@@ -2026,20 +1997,6 @@ and the dual viewpoint \citep{DBLP:conf/ecai/Geelen92} of smallest domain
 first, simultaneously, but we do not have the overheads of having to maintain
 and channel between the dual viewpoint that would be required when using a
 conventional domain store.
-
-What about our relationship to the $k{\downarrow}$ of
-\citet{UpcomingAAAIPaper}?  \Cref{figure:prettyheatmaps3} plots the number of
-recursive calls made by $k{\downarrow}$ and \McSplit{$\downarrow$} on each of the subgraph
-isomorphism instances. Although \McSplit{$\downarrow$} is the faster of the two algorithms overall, it
-explores more search nodes than $k{\downarrow}$ for most instances (even taking
-into account that $k{\downarrow}$ uses a unit propagation loop, and so measures
-the search tree slightly differently). This is the classic tradeoff between
-speed and cleverness. A hybrid algorithm could be beneficial here: it could use
-$k{\downarrow}$ initially, switching to \McSplit{$\downarrow$} when the extra filtering is
-ineffective, and finally switching to a clique encoding when fewer than some
-threshold number of vertices remain to be selected. This might deliver the
-benefits of the clique encoding for labelled graphs, while avoiding the high
-memory cost and colouring time of encoding the full instance.
 
 \section{Papers using \McSplit}\label{sec:mcsplit-papers}
 
@@ -2241,3 +2198,62 @@ subgraph isomorphism \citep{DBLP:conf/asunam/RedmondC13}.
 %    $\{1,2,3,5\}$ which is isomorphic to the subgraph of $\graphH$ induced by $\{a,f,d,b\}$.}
 %\label{fig:association-graph}
 %\end{figure}
+
+% SIP INSTANCES
+%
+%\begin{figure}[htb]
+%    \centering
+%    \includegraphics*[width=0.75\textwidth]{14-mcsplit-i-undirected/img/gen-graph-sip-cumulative.pdf}
+%    \caption{Cumulative numbers of instances solved over time for the maximum
+%    common connected subgraph problem on the large subgraph isomorphism benchmark
+%    suite.} \label{figure:sip-cumulative}
+%\end{figure}
+%
+%\paragraph{Large subgraph isomorphism instances} We also ran the algorithms on
+%a set of 5,725 larger instances used in recent studies of subgraph
+%isomorphism~\citep{DBLP:conf/lion/KotthoffMS16} and maximum common
+%subgraph~\citep{UpcomingAAAIPaper}.  This benchmark set includes real-world
+%graphs and graphs generated using random models.  Pattern graphs range from 4
+%vertices to 900 with a median of 80; target graphs range from 10 vertices to
+%6,671 with a median of 561. Cumulative runtimes on these instances are shown in
+%\cref{figure:sip-cumulative}.  This is a challenging set of instances, and more
+%than half of the instances cannot be solved within a timeout of 1,000 seconds by
+%any solver. Furthermore, the CP-FC algorithm and the clique encoding run out of
+%memory on many of the instances (these are treated as timeouts, following
+%\citet{UpcomingAAAIPaper}).
+%
+%    \par\bigskip
+%    \subfigure[][Subgraph isomorphism instances]{\label{figure:prettyheatmaps3}
+%       \includegraphics*[width=.5\textwidth]{14-mcsplit-i-undirected/img/gen-graph-sip-james-versus-kdown-nodes-scatter.pdf}
+%    }
+%What about our relationship to the $k{\downarrow}$ of
+%\citet{UpcomingAAAIPaper}?  \Cref{figure:prettyheatmaps3} plots the number of
+%recursive calls made by $k{\downarrow}$ and \McSplit{$\downarrow$} on each of the subgraph
+%isomorphism instances. Although \McSplit{$\downarrow$} is the faster of the two algorithms overall, it
+%explores more search nodes than $k{\downarrow}$ for most instances (even taking
+%into account that $k{\downarrow}$ uses a unit propagation loop, and so measures
+%the search tree slightly differently). This is the classic tradeoff between
+%speed and cleverness. A hybrid algorithm could be beneficial here: it could use
+%$k{\downarrow}$ initially, switching to \McSplit{$\downarrow$} when the extra filtering is
+%ineffective, and finally switching to a clique encoding when fewer than some
+%threshold number of vertices remain to be selected. This might deliver the
+%benefits of the clique encoding for labelled graphs, while avoiding the high
+%memory cost and colouring time of encoding the full instance.
+% 
+% The basic \McSplit\ is beaten by $k{\downarrow}$ 
+% \citet{UpcomingAAAIPaper} on this dataset. However, as
+% \cref{figure:sip-cumulative} shows, \McSplitDown\ is the overall strongest
+% algorithm on these instances for every choice of timeout.
+% In many cases the maximum common subgraph covers nearly all of the smaller graph;
+% thus, it is unsurprising that \kDown\ and \McSplitDown\ outperform the branch-and-bound
+% \McSplit\ on this set of instances.
+% %%% * The commented lines below are incorrect. *
+% %%%(By contrast, the optimal solutions for the instances in
+% %%%\cref{figure:mcs-cumulative-plain-not-connected},
+% %%%\cref{figure:mcs-cumulative-labelled-not-connected}
+% %%%and
+% %%%\cref{figure:mcs-cumulative-connected} typically cover a smaller proportion of the
+% %%%input graphs, and \McSplit{$\downarrow$} is often more than a magnitude slower than
+% %%%the plain \McSplit\ algorithm for these instances; the \McSplit{$\downarrow$} results
+% %%%are not shown for these instances.)
+% 
