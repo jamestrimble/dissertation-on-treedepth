@@ -1057,10 +1057,12 @@ better than a smallest-domain-first strategy (select the label class
 with smallest $|\setH|$) on a set of benchmark instances.\footnote{Patrick
 Prosser carried out further, unpublished experiments
 that found that minimising $|\setG|\times|\setH|$ performs similarly
-\citep{Prosser2017McSplitHeuristics}.}
+\citep{Prosser2017McSplitHeuristics}. The fact that we can cheaply compute
+such heuristics is an advantage of \McSplit\ over CP algorithms, although
+the reason for the success of these heuristics remains unclear.}
 Ties are broken by selecting a label class with the smallest-numbered
 vertex of graph $G$.
-The $\FuncSty{SelectVertex}$ selects the smallest-numbered vertex
+The $\FuncSty{SelectVertex}$ function selects the smallest-numbered vertex
 within this label class.
 
 The value-ordering heuristic controls the iteration
@@ -1080,19 +1082,11 @@ before search.)
 Is it better to order the vertices in each graph in ascending or descending
 order of degree?  To shed some light on this question, we present results of an
 experiment comparing increasing degree and decreasing degree orders for graphs
-$G$ and $H$ where both graphs are random $G(n,p)$ graphs.  As we will see, the
-answer depends in a complex way on the structure of the two graphs.
+$G$ and $H$ where both graphs are random Erd\H{o}s-Rényi $G(n,p)$ graphs.  As
+we will see, the answer depends in a complex way on the structure of the two
+graphs.
 
-The $p$ (density) parameter for both graphs was varied from $0$ to $1$ in steps
-of $0.01$, for a total of $10201$ pairs of graph.  For each graph, we
-considered the two possible degree orders; we call these strategies ``$G$
-increasing'' (smallest degree first for graph $G$), ``$G$ decreasing'', ``$H$
-increasing'', and ``$H$ decreasing''.  Due to the large number of instances,
-$n=10$ was used.  Each run was repeated 32 times with different random graphs,
-and an average (mean) number of calls to the $\FuncSty{Search}$ function was
-computed across the 32 runs.
-
-\begin{figure}[htb]
+\begin{figure}[htb!]
     \centering
     \subfigure[][Unlabelled, undirected] {
         \centering
@@ -1117,6 +1111,15 @@ computed across the 32 runs.
     \caption{Heatmaps of \McSplit\ search effort compared to the best strategy, varying density of $G$ (horizontal axis) and density of $H$ (vertical axis)}\label{figure:mcis-heatmaps}
 \end{figure}
 
+In the experiment, the $p$ (density) parameter for both graphs was varied from
+$0$ to $1$ in steps of $0.01$, for a total of $10201$ pairs of graph.  For each
+graph, we considered the two possible degree orders; we call these strategies
+``$G$ increasing'' (smallest degree first for graph $G$), ``$G$ decreasing'',
+``$H$ increasing'', and ``$H$ decreasing''.  Due to the large number of
+instances, $n=10$ was used.  Each run was repeated 32 times with different
+random graphs, and an average (mean) number of calls to the $\FuncSty{Search}$
+function was computed across the 32 runs.
+
 The heatmaps in \Cref{figure:mcis-heatmaps} show how effective each pairing of
 ordering strategies was for each $G$ density / $H$ density pair.  To explain
 the plots, we refer to the first of the four squares in
@@ -1132,8 +1135,9 @@ between 2 and 10 times the search effort of the best strategy.
 
 \Cref{figure:mcis-heatmap} shows results for unlabelled, undirected graphs.
 The middle two subplots show that---at least for these random graphs---it
-is seldom optimal to use different ordering strategies for graphs $G$ and $H$.
-The first and last subplots show that it is best to sort in increasing degree
+is seldom optimal to order one graph by increasing degree and the other
+by decreasing degree.
+The first and last subplots show that it is best to sort both graphs in increasing degree
 order if the density of $H$ is much greater than the density of $G$, while
 it is best to sort in decreasing degree order if the opposite is true.  Yet the
 decision rule ``sort in increasing order if and only if the density of $H$ is
@@ -1154,13 +1158,15 @@ the densities of $G$ and $H$, a plausible candidate would be ``use increasing
 order for both graphs if the density of $H$ is greater than $\frac{1}{2}$;
 otherwise use decreasing order for both graphs''.  This is the rule we use
 throughout this chapter and the next chapter.  There is one exception: in the
-comparison of algorithms in \Cref{sec:mcsplit-experiments}, we reuse the
+comparison of algorithms in \Cref{sec:mcsplit-experiments}, we use the
 results from a very large-scale experiment in
 \citet{DBLP:conf/ijcai/McCreeshPT17}. These experiments used a version of
 \McSplit\ where decreasing degree order was always used.  In practice, this
 makes very little difference to the results: none of the directed instances,
-and only $4\%$ of the undirected instances, have a graph $G$ with density
+and only $4\%$ of the undirected instances, have a graph $H$ with density
 greater than $\frac{1}{2}$.
+
+\FloatBarrier
 
 \section{Instances used in experiments}\label{sec:mcis-instances}
 
@@ -1267,6 +1273,8 @@ the bound and not sorting by degree) have a large effect on the run time of \McS
 but that the first change (using the sizes of both $\setG$ and $\setH$ in the variable-ordering
 heuristic) has only a minor effect.
 
+\FloatBarrier
+
 \section{Experimental Evaluation 2: finding a maximum common subgraph}
 \label{sec:mcsplit-experiments}
 
@@ -1279,8 +1287,8 @@ results are available at
 https://github.com/jamestrimble/ijcai2017-partitioning-common-subgraph}
 The experiments described in this section were first published in
 \citet{DBLP:conf/ijcai/McCreeshPT17}.  Although I designed and implemented
-\McSplit\ and was the main author of this paper, the experiments in this
-section were performed by Ciaran McCreesh.
+\McSplit\ and was the main author of this paper, credit for running
+the experiments in this section is due to Ciaran McCreesh.
 
 We compare against the following implementations.
 
@@ -1301,6 +1309,7 @@ This uses Prosser's MCSa1 algorithm \citep{DBLP:journals/algorithms/Prosser12}, 
 based on an algorithm by \citet{DBLP:journals/ieicet/TomitaSHW13} and uses a
 bitset representation to enable very fast operations on sets
 \citep{DBLP:journals/cor/SegundoRJ11}.\footnote{
+Subsequently to the running of this experiment,
 I also tried using another state of the
 art maximum clique solver, IncMC2 \citep{DBLP:journals/informs/LiFJX18}, which
 uses a technique from MaxSat solvers to achieve an upper bound that is tighter
