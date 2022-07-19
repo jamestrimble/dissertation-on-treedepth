@@ -83,6 +83,7 @@ and shows the close relationship between \McSplit\ and the method of
 finding a maximum clique in the association graph.
 \Cref{sec:mcsplit-heuristics} discusses variable and value ordering
 heuristics.
+\Cref{sec:mcis-instances} describes the instances used for our experiments.
 Sections \ref{sec:mcsplit-finding-all} and \ref{sec:mcsplit-experiments}
 are experimental comparisons of
 \McSplit\ with other algorithms for the problems of finding all
@@ -1076,22 +1077,20 @@ and number vertices in order of degree. (For efficiency, we
 also generate new adjacency matrices for the reordered graphs
 before search.)
 
-\Cref{figure:mcis-heatmaps}
-
 Is it better to order the vertices in each graph in ascending or descending
-order of degree?  The answer depends on the structure of the two graphs.  To
-shed some light on this question, we present results of an experiment comparing
-increasing degree and decreasing degree orders for graphs $G$ and $H$ where
-both graphs are random $G(n,p)$ graphs.
-The $p$ (density) parameter for both graphs
-was varied from $0$ to $1$ in steps of $0.01$, for a total of $10201$
-pairs of graph.  For each graph, we considered the two possible degree orders;
-we call these strategies
-``G increasing'' (smallest degree first for graph $G$), ``G decreasing'',
-``H increasing'', and ``H decreasing''.
-Due to the large number of instances, $n=10$ was used.
-Each run was repeated 32 times, and an average (mean) number of calls to the
-$\FuncSty{Search}$ function was computed.
+order of degree?  To shed some light on this question, we present results of an
+experiment comparing increasing degree and decreasing degree orders for graphs
+$G$ and $H$ where both graphs are random $G(n,p)$ graphs.  As we will see, the
+answer depends in a complex way on the structure of the two graphs.
+
+The $p$ (density) parameter for both graphs was varied from $0$ to $1$ in steps
+of $0.01$, for a total of $10201$ pairs of graph.  For each graph, we
+considered the two possible degree orders; we call these strategies ``$G$
+increasing'' (smallest degree first for graph $G$), ``$G$ decreasing'', ``$H$
+increasing'', and ``$H$ decreasing''.  Due to the large number of instances,
+$n=10$ was used.  Each run was repeated 32 times with different random graphs,
+and an average (mean) number of calls to the $\FuncSty{Search}$ function was
+computed across the 32 runs.
 
 \begin{figure}[htb]
     \centering
@@ -1115,26 +1114,21 @@ $\FuncSty{Search}$ function was computed.
         \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/deg_sorting_experiment_fine_grained/img/key.pdf}
         \label{figure:mcis-heatmap-key}
     }
-    \caption{Heatmaps of \McSplit\ search effort compared to the best strategy, varying pattern density
-    (horizontal axis) and target density (vertical axis)}\label{figure:mcis-heatmaps}
+    \caption{Heatmaps of \McSplit\ search effort compared to the best strategy, varying density of $G$ (horizontal axis) and density of $H$ (vertical axis)}\label{figure:mcis-heatmaps}
 \end{figure}
 
 The heatmaps in \Cref{figure:mcis-heatmaps} show how effective each pairing of
-variable and value ordering heuristics was best for each pattern density /
-target density pair.  To explain the plots, we refer to the first of the four
-squares in \Cref{figure:mcis-heatmap} as an example.  On the $x$ and $y$ axes,
-we have values of the graph generator's $p$ (density) parameter ranging from 0
-to 1 for the pattern and target graph respectively.  The plot shows, for each
-pair of density parameters, how the strategy ``G increasing, H increasing''
-compares with the best of the four possible strategies.  Dark blue indicates
-that ``G increasing, H increasing'' is not beaten by any of the other three
+ordering strategies was for each $G$ density / $H$ density pair.  To explain
+the plots, we refer to the first of the four squares in
+\Cref{figure:mcis-heatmap}.  On the $x$ and $y$ axes, we have
+values of the graph generator's $p$ (density) parameter ranging from 0 to 1 for
+graphs $G$ and $H$ respectively.  The plot shows, for each pair of density
+parameters, how the strategy ``$G$ increasing, $H$ increasing'' compares with
+the best of the four possible strategies.  Dark blue indicates that ``$G$
+increasing, $H$ increasing'' is not beaten by any of the other three
 strategies, mid blue indicates that it requires between 1 and 2 times the
 search effort of the best strategy, and light blue indicates that it requires
-between 2 and 10 times the search effort of the best strategy.  From this
-subplot we can see that, for random graphs with pattern order 8 and target
-order 80, the ``G increasing, H increasing'' strategy appears to be preferable
-to the other three strategies if the density of the target graph exceeds that
-of the pattern graph.
+between 2 and 10 times the search effort of the best strategy.
 
 \Cref{figure:mcis-heatmap} shows results for unlabelled, undirected graphs.
 The middle two subplots show that---at least for these random graphs---it
@@ -1143,12 +1137,11 @@ The first and last subplots show that it is best to sort in increasing degree
 order if the density of $H$ is much greater than the density of $G$, while
 it is best to sort in decreasing degree order if the opposite is true.  Yet the
 decision rule ``sort in increasing order if and only if the density of $H$ is
-greater than the density of $G$'' often leads to poor results if both graphs are
-sparse.
+greater than the density of $G$'' often leads to poor results if the graphs are
+sparse and have similar density.
 
 \Cref{figure:mcis-heatmap-dir} shows results for directed graphs. The overall
-pattern is somewhat similar to the undirected case.
-
+pattern is somewhat similar to the undirected case.  
 \Cref{figure:mcis-heatmap-edgelab} shows results for undirected graphs with
 edge labels chosen uniformly at random from a set of five labels.  In this
 case, the increasing order for both graphs tends to be best when $H$ is
@@ -1156,19 +1149,31 @@ very dense, and the decreasing order tends to be best otherwise.
 
 A clear message from these figures is that the optimal choice of variable and
 value ordering heuristic depends on the characteristics of an instance in a
-complex way.
-If we were to pick a simple decision rule for ordering based on the densities
-of $G$ and $H$, a plausible candidate would be ``use increasing order for both
-graphs if the density of $H$ is greater than $\frac{1}{2}$; otherwise use
-decreasing order for both graphs''.  This is the rule we use throughout
-this chapter and the next chapter.
-The exception is in the comparison of algorithms in \label{sec:mcsplit-experiments},
-where we use the results from \citet{DBLP:conf/ijcai/McCreeshPT17}; in these
-experiments, decreasing degree order was used throughout.  In practice, this
+complex way.  If we were to pick a simple decision rule for ordering based on
+the densities of $G$ and $H$, a plausible candidate would be ``use increasing
+order for both graphs if the density of $H$ is greater than $\frac{1}{2}$;
+otherwise use decreasing order for both graphs''.  This is the rule we use
+throughout this chapter and the next chapter.  There is one exception: in the
+comparison of algorithms in \Cref{sec:mcsplit-experiments}, we reuse the
+results from a very large-scale experiment in
+\citet{DBLP:conf/ijcai/McCreeshPT17}. These experiments used a version of
+\McSplit\ where decreasing degree order was always used.  In practice, this
 makes very little difference to the results: none of the directed instances,
 and only $4\%$ of the undirected instances, have a graph $G$ with density
 greater than $\frac{1}{2}$.
-\FloatBarrier
+
+\section{Instances used in experiments}\label{sec:mcis-instances}
+
+Our experiments use a database of randomly-generated maximum common subgraph
+instances \citep{DBLP:journals/prl/SantoFSV03,DBLP:journals/jgaa/ConteFV07}.
+For each instance, $10 \leq n_G = n_H \leq 100$.  For unlabelled instances, the
+first ten instances from each family whose members have no more than 50
+vertices are used, giving a total of 4,110 instances.  For labelled instances,
+the first ten instances from every family are used, giving a total of 8,140
+instances. Like \citet{DBLP:conf/cp/McCreeshNPS16}, we use the labelling scheme
+in which the number of distinct vertex labels and the number of distinct edge
+labels is approximately equal to a third of the number of vertices in each
+graph.
 
 \section{Experimental Evaluation 1: Finding all maximum common subgraphs}
 \label{sec:mcsplit-finding-all}
@@ -1183,13 +1188,14 @@ we return from the function only if the bound is \emph{strictly} less than the
 size of the incumbent.
 
 \citet{DBLP:journals/spe/KrissinelH04} introduce a forward-checking
-algorithm --- which we will refer to as KH --- for finding all maximum common subgraphs of two given graphs.  Their algorithm
-is equivalent to the CP-FC algorithm, except that it uses a simpler upper-bound function:
-the bound is computed by counting the number of unmapped vertices in the first graph that
-may still be mapped to at least one vertex in the second graph.  In this section we
-introduce a sequence of modifications to \McSplit\ that make the algorithm progressively
-closer to KH, and show experimentally how these versions of \McSplit\ compare to each
-other and to KH.
+algorithm---which we will refer to as KH---for finding all maximum common
+subgraphs of two given graphs.  Their algorithm is effectively a
+forward-checking constraint programming algorithm, with a simple upper bound
+that is computed by counting the number of unmapped vertices in $G$ that have
+at least one vertex remaining in their domain.  In this section we
+introduce a sequence of modifications to \McSplit\ that make the algorithm
+progressively closer to KH, and show experimentally how these modifications
+progressively reduce the speed of \McSplit\ until it is similar to that of KH.
 
 We can emulate the search tree of KH
 by making the following three modifications to \McSplit\ in addition to the modifications for
@@ -1197,7 +1203,7 @@ finding all maximum common subgraphs described in this section's first paragraph
 
 \begin{enumerate}
     \item Modify the variable selection heuristic so that it chooses a label class with
-as small a set $\setH$ as possible, rather than minimising $\max(|\setG|,|\setH|)$.
+as small a set $\setH$ as possible---a smallest domain first strategy---rather than minimising $\max(|\setG|,|\setH|)$.
     \item Rather 
 than using $|M|  + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} \min(|\setG|,|\setH|)$
 as the upper bound bound on \lineref{CalcBound} of \Cref{McSplitAlg},
@@ -1289,17 +1295,6 @@ Each of these comparator
 programs is an optimised, dedicated implementation and does not use a
 general-purpose constraint programming toolkit.  We used the original authors'
 code in each case.
-
-Our first set of experiments uses a database of randomly-generated maximum
-common subgraph instances
-\citep{DBLP:journals/prl/SantoFSV03,DBLP:journals/jgaa/ConteFV07}.  For
-unlabelled instances, we selected the first ten instances from each family
-whose members have no more than 50 vertices, for a total of 4,100 instances.
-For labelled instances, we selected the first ten instances from every family,
-for a total of 8,140 instances with up to 100 vertices; like
-\citet{DBLP:conf/cp/McCreeshNPS16}, we use the labelling scheme in which the
-number of distinct vertex labels and the number of distinct edge labels is
-approximately equal to 33 percent of the number of vertices in each graph.
 
 \begin{figure}[htb]
     \centering
