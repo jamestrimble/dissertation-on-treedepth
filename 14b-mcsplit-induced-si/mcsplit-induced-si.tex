@@ -195,7 +195,7 @@ operations can be performed in the usual way.
 \section{The algorithm}\label{sec:mcsplit-si-algorithm}
 
 \Cref{McSplitSIAlg} presents the overall structure of \McSplit-SI.  The entry point is
-on \lineref{McSplitSIFun}.  If $G$ has more vertices than $H$, the instance is trivially
+\lineref{McSplitSIFun}.  If $G$ has more vertices than $H$, the instance is trivially
 unsatisfiable. Otherwise, the global data structures are set up with
 a single label class, and the main recursive function $\FuncSty{Search}$ is called with
 an empty mapping.
@@ -265,7 +265,7 @@ the $\Gptrs$ and $\Hptrs$ arrays, we set the label-class pointers of
 $\Gptrs[v]$ and $\Hptrs[w]$ to null since these vertices
 are no longer in a label class, and update the vertex pointers
 for $v$, $w$, and the vertices with which these were swapped to point to these
-vertices' new positions in the $V_G$ and $V_H$ arrays.
+vertices' new positions in the $\Garray$ and $\Harray$ arrays.
 \Cref{figure:si-data-structures-2} shows the data structures after the assignment
 of $2$ to $d$ in our example.
 
@@ -435,7 +435,7 @@ In \Cref{figure:si-data-structures-3}, we can see that the first label class
 now contains no elements of $V_G$.  As a result, we can safely delete this label
 class object from the linked list.  The general procedure of deletion is as
 follows.\footnote{Our implementation has an extra pointer within each label
-class object so we can store the deleted\_label\_classes list as a linked list
+class object so we can store the $\AlgVar{deletions}$ list as a linked list
 without the need for an external array of pointers.}
 
 
