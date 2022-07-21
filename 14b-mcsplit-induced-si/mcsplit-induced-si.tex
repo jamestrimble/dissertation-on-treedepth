@@ -28,11 +28,11 @@
 In the induced subgraph isomorphism problem (ISIP), we seek an induced copy of \emph{pattern} graph $G$ in \emph{target} graph $H$. This is closely related to the maximum common induced subgraph problem: we can view ISIP as a decision version of MCIS in which the common subgraph is required to contain all of pattern graph's vertices.
 The \McSplit\ algorithm may be trivially modified to solve the induced subgraph isomorphism problem: rather than calculating an upper bound at each search node, simply backtrack when the $G$-set of any label class is larger than the corresponding $H$-set.
 
-While \McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a boolean variable and $n_G$ and $n_H$ are the orders of the pattern and target graphs.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would permit amortized constant time adjacency tests in the algorithm's partitioning step, but would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, \McSplit\ iterates over the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
+\McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, but it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a boolean variable and $n_G$ and $n_H$ are the orders of the pattern and target graphs.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would permit amortized constant time adjacency tests in the algorithm's partitioning step, but would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, \McSplit\ iterates over the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
 
 \begin{figure}[htb]
     \centering
-    \includegraphics*[width=0.6\textwidth]{14b-mcsplit-induced-si/density-chart/plots/n-density-pdf}
+    \includegraphics*[width=0.7\textwidth]{14b-mcsplit-induced-si/density-chart/plots/n-density-pdf}
     \caption{Number of vertices and density (log scale) for each target graph in the benchmark set
     of $14,621$ subgraph isomorphism decision instances.}
     \label{figure:si-targets-n-density}
@@ -48,10 +48,12 @@ partitioning step from $O(n_G + n_H)$ to $O(|N(v)| + |N(w)|)$, where $(v,w)$ is
 the most-recently made mapping of a pattern vertex to a target vertex.In this
 chapter we introduce this improved algorithm, which we call \McSplit-SI.
 
-\McSplit-SI explores the same search tree as \McSplit. Its key differences from
-\McSplit\ are the use of adjacency lists rather than adjacency matrices
-to represent graphs; a backtrackable, doubly-linked list of label class objects;
-and algorithms for partitioning and un-partitioning that are more intricate
+\McSplit-SI explores the same search tree as the first decision problem of
+\McSplitDown\ (where the target is to find a copy of all of $G$ in $H$).
+Its key differences from
+\McSplit\ are (1) the use of adjacency lists rather than adjacency matrices
+to represent graphs; (2) a backtrackable, doubly-linked list of label class objects;
+and (3) algorithms for partitioning and backtracking that are more intricate
 than the corresponding steps in \McSplit.
 
 \Cref{sec:mcsplit-si-data-structures} introduces the data structures of \McSplit-SI,
@@ -129,19 +131,17 @@ The final component of our collection of data structures contains the arrays $\G
 and $\Hptrs$.  These contain
 an object for each vertex $v$ of $G$ and $H$ respectively.  Each object comprises two pointers.
 The first pointer of $\Gptrs[v]$ points to the location in $\Garray$ at which $v$
-appears, and the second points to the label class containing $v$.
+appears, and the second points to the label class containing $v$ (or is a null pointer
+if $v$ is not currently in a label class).
 Similarly, the pointers of $\Hptrs[w]$ point to the position in $\Harray$ at which $w$
 appears and the label class containing $w$.
 The arrays $\Gptrs$ and $\Hptrs$ allows us to perform constant-time
 manipulations to label classes given only a vertex; it is these arrays that enable
 \McSplit-SI to carry out the partitioning step without iterating over the vertices in each label class.
 
-Initially, the doubly-linked list of label classes contains a single element representing
-all vertices of graphs $G$ and $H$.
-
 \begin{figure}[htb]
     \centering
-    \scalebox{.8}{
+    \scalebox{.6}{
         \tikz {
             \graph [nodes={draw, circle, minimum width=.55cm, inner sep=1pt}, circular placement, radius=0.95cm,
                     clockwise=5] {
@@ -162,25 +162,29 @@ all vertices of graphs $G$ and $H$.
     \label{figure:example-g-and-h-redux}
 \end{figure}
 
-\Cref{figure:example-g-and-h-redux} reproduces, for convenience, the example
-graphs from \Cref{c:mcsplit-i-undirected} which we will also use for our running example
-in this chapter.
-\Cref{figure:si-data-structures} shows the data structures of \McSplit-SI
-after making the assignment $(1,a)$ in the induced subgraph isomorphism instance with pattern
-graph $G$ and target graph $H$.  In the middle row of the figure we have the doubly-linked
-list $\calLC$.  Immediately above and below this are the $\Garray$ and $\Harray$ arrays.
-At the top and bottom are the arrays $\Gptrs$ and $\Hptrs$.
+\Cref{figure:example-g-and-h-redux} reproduces the graphs from
+\Cref{c:mcsplit-i-undirected} which we will use again as the instance for this
+chapter's running example.  \Cref{figure:si-data-structures} shows the data
+structures of \McSplit-SI after making the assignment $(1,a)$.  In the middle
+row of the figure we have the doubly-linked list $\calLC$, and immediately
+above and below this are the $\Garray$ and $\Harray$ arrays.  At the top and
+bottom are the arrays $\Gptrs$ and $\Hptrs$.  The latter two arrays are indexed
+by the vertex sets of the two graphs; although sets $\{1,\dots,5\}$ and
+$\{a,\dots,f\}$ are used in this example, our implementation requires these sets to be
+$\{0, \dots, n_G-1\}$ and $\{0, \dots, n_H-1\}$ so that constant-time array
+operations can be performed in the usual way.
+
 
 \begin{figure}[htb]
     \centering
-    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1}
+    \includegraphics*[width=0.75\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1}
     \caption{The data structures of \McSplit-SI after assigning vertex $1$ to vertex $a$.
         Circles represent pointers; hollow circles are null pointers.  The middle row shows
-        the doubly-linked list of label classes.  Shown immediately above and below this are the
+        the list of label classes.  Immediately above and below this are the
         permutations of $V(G)$ and $V(H)$, stored as arrays.  The top and bottom rows
-        show the arrays $\Gptrs$ and $\Hptrs$.  Each element of these arrays
-        corresponds to a vertex $v$ of $G$ or $H$, and points to the position of $v$
-        the permutation and to the label class containing $v$.  To reduce clutter in the diagram,
+        show arrays $\Gptrs$ and $\Hptrs$.  Each element of these arrays
+        corresponds to a vertex $v$ of $G$ or $H$, and points to the position of $v$ in
+        the permutation and to the label class containing $v$.  To reduce clutter,
         the label class pointers are shown pointing to a rectangle of the same colour as the
         label class.}
     \label{figure:si-data-structures}
@@ -192,15 +196,16 @@ At the top and bottom are the arrays $\Gptrs$ and $\Hptrs$.
 
 \Cref{McSplitSIAlg} presents the overall structure of \McSplit-SI.  The entry point is
 on \lineref{McSplitSIFun}.  If $G$ has more vertices than $H$, the instance is trivially
-unsatisfiable. Otherwise, the global data label-class data structures are set up with
+unsatisfiable. Otherwise, the global data structures are set up with
 a single label class, and the main recursive function $\FuncSty{Search}$ is called with
 an empty mapping.
 
-\Lineref{McSplitSIReturnTrue} returns true if a mapping containing all vertices of the
-pattern graph has been found.  Otherwise, the algorithm selects a label class
-$\langle S_G, S_H \rangle$, and from within $S_G$ a vertex on which to branch.
-(We will discuss variable selection heuristics in section ...) We then iterate
-over the vertices $w$ in $S_H$, attemptying to map $v$ to $w$.
+\Lineref{McSplitSIReturnTrue} returns \boolT\ if a mapping containing all
+vertices of the pattern graph has been found.  Otherwise, the algorithm selects
+a label class $\langle S_G, S_H \rangle$, and from within $S_G$ a vertex on
+which to branch.  (We will discuss variable selection heuristics in
+\Cref{mcsplit-si-heuristics}.) We then iterate over the vertices $w$ in $S_H$,
+attemptying to map $v$ to $w$.
 
 \begin{algorithm}[htb]
 \AlgorithmFontSize
@@ -312,7 +317,7 @@ of $2$ to $d$ in our example.
 
 \begin{figure}[htb]
     \centering
-    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-2}
+    \includegraphics*[width=0.75\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-2}
     \caption{The data structures after mapping vertex $2$ to vertex $d$.}
     \label{figure:si-data-structures-2}
 \end{figure}
@@ -327,7 +332,7 @@ the refinement of label classes carried out after mapping $2$ to $d$.
 
 \begin{figure}[htb]
     \centering
-    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-3}
+    \includegraphics*[width=0.75\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-3}
     \caption{The data structures after partitioning}
     \label{figure:si-data-structures-3}
 \end{figure}
@@ -531,7 +536,7 @@ exists an isomorphism from the pattern graph to an induced subgraph of the targe
 graph.  We can trivially modify the program to solve the enumeration problem
 of counting \emph{all} such matchings.  The only change that is required is
 to increment a global counter of solutions on
-\lineref{McSplitSIReturnTrue} of \label{McSplitSIAlg} rather than returning
+\lineref{McSplitSIReturnTrue} of \Cref{McSplitSIAlg} rather than returning
 $\AlgVar{true}$.
 
 \subsection{Optimisations}\label{sec:mcsplit-si-optimisations}
@@ -1168,7 +1173,7 @@ using the data structures of \McSplit-SI.
 
 \begin{figure}[htb]
     \centering
-    \includegraphics*[width=0.9\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1-ll-version}
+    \includegraphics*[width=0.75\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1-ll-version}
     \caption{The data structures of \McSplit-SI-LL. Each of the two sets of vertices in a label
         class is represented as a doubly-linked list.}
     \label{figure:si-data-structures-ll-version}
