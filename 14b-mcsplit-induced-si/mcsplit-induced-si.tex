@@ -1791,16 +1791,25 @@ instances artificially easy.  The same pair of permuted graphs was given to
 each solver.
 
 \paragraph{Results for satisfiable instances}
-Tables \ref{tab:KnightSat2} to \ref{tab:KnightSat4} show run times for satisfiable instances.
+Tables \ref{tab:KnightSat2} to \ref{tab:KnightSat4} show run times for satisfiable instances
+of the form $P_m \square P_n$ for $m \in \{2,3,4\}$.
 \McSplit-SI-static, Glasgow without supplemental graphs, and RI are excluded from the tables for brevity,
-because they are outperformed by \McSplit-SI, Glasgow, and RI respectively.
+because \McSplit-SI, Glasgow, and RI-DS respectively perform similarly or better.
 \McSplit-SI and \McSplit-SI-LL both outperformed \McSplit-SI-AM, as we would expect given the
-sparsity of the instances.
-For instances with pattern graphs of the form $P_2 \square P_n$,
-there was no clear winning solver, but RI-DS and VF3 performed very well overall.
-For instances with pattern graphs of the form $P_3 \square P_n$, there was again no clear winner.
-\McSplit-SI-LL was the best solver overall for instances with pattern graphs of the form $P_4 \square P_n$,
-running orders of magnitude faster than all of the non-\McSplit-SI solvers on many instances.
+sparsity of the instances. \McSplit-SI-LL was consistently slightly faster than \McSplit-SI.
+
+For these satisfiable instances, there was no clear winning solver. Each of
+\McSplit-SI-LL, Glasgow, and RI-DS each was the fastest solver for some
+instances.  We observe some surprising behaviour: larger instances are often
+solved much more quickly than smaller ones by a given solver. In
+\Cref{tab:KnightSat2}, for example, \McSplit-SI-LL solves the instance with
+target $K_{16}$ faster than the instance with target $K_{15}$.  This is
+probably nothing more than an artifact of the way vertices were randomly
+permuted in the instance files. In the author's experience, different random
+permutations give very different run times for these instances.  (We might
+therefore expect good results from a solver that tries solving different
+permutations of the pattern and target graphs in parallel.  This is left as
+future work.)
 
 \begin{table}[htb]
 \centering
@@ -1833,7 +1842,7 @@ running orders of magnitude faster than all of the non-\McSplit-SI solvers on ma
 
 \paragraph{Results for unsatisfiable instances}
 Tables \ref{tab:KnightSat2} to \ref{tab:KnightSat4} show run times for unsatisfiable instances.
-For each of these families of instances, \McSplit-SI-LL is the overall winner. Among the
+For each of these families of instances, \McSplit-SI-LL is the clear overall winner. Among the
 non-\McSplit\ solvers, Glasgow is the fastest constraint programming solver and RI-DS
 is the fastest other solver.
 
