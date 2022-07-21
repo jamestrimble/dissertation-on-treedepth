@@ -6,32 +6,33 @@
 
 \section{Introduction}
 
-A maximum common subgraph of graphs $G$ and $H$ is clearly
-also a maximum common subgraph of $H$ and $G$.  In this chapter, we ask whether
-it can be useful to swap the two input graphs when calling a maximum common subgraph
-solver.  We will see that swapping the graphs can have a very large effect on the
+A maximum common subgraph of $G$ and $H$ is clearly
+also a maximum common subgraph of $H$ and $G$.  In this chapter we examine whether
+it can be useful to swap the two input graphs when calling an MCIS solver.
+We will see that swapping the graphs can have a very large effect on the
 run time of \McSplit\
 if the two graphs differ in density or order.  The second contribution of this
 chapter is to introduce \McSplit-2S, a modified
 version of \McSplit\ that generalises the idea of swapping graphs by choosing
 at each search node which side of a label class to branch on.
-Our experimental evaluation shows some modest successes for this algorithm.
+Our experimental evaluation finds that algorithm improves upon \McSplit,
+albeit very modestly, for some classes of graphs.
 
-\Cref{sec:when-swap} presents initial results on the effect of swapping graphs,
-and introduces two heuristics for deciding when we should swap.
-\Cref{sec:explaining-sd-so} speculates about reasons for the success of the swapping
-rules.
-\Cref{sec:mcsplit2} introduces \McSplit-2S, a version of \McSplit\ that can branch
-on two sides.
+\Cref{sec:when-swap} introduces two simple and very effective heuristics for
+deciding whether to swap graphs.  \Cref{sec:explaining-sd-so} speculates about
+reasons for the success of the swapping rules.  \Cref{sec:mcsplit2} introduces
+\McSplit-2S, a version of \McSplit\ that can branch on two sides.
 \Cref{sec:swapping-related-work} discusses related work, and
 \Cref{sec:swapping-conclusion} concludes.
 
 \section{When should we swap the graphs?}\label{sec:when-swap}
 
-We begin by plotting run times of \McSplit\ with and without swapping graphs, to
-give an idea of the difference that swapping can make.  We refer to the swapping
+We refer to the swapping
 version of \McSplit\ as \McSplit-Swap; this is shown in
-\Cref{McSplitSwapAlg}.
+\Cref{McSplitSwapAlg}. \McSplit-Swap simply calls \McSplit\ with the two
+graphs interchanged, then returns the resulting mapping with its elements reversed.
+We begin by plotting run times of \McSplit\ with and without swapping graphs, to
+give an idea of the difference that swapping can make.
 
 \begin{algorithm}[h!]
 \DontPrintSemicolon
@@ -44,13 +45,15 @@ version of \McSplit\ as \McSplit-Swap; this is shown in
 \label{McSplitSwapAlg}
 \end{algorithm}
 
-\Cref{subfig:runtime-swapping-scatter-mcsplain} shows run times for the MCS
-Plain instances described in \Cref{sec:mcsplit-experiments}.  For this plot, as
-with all experiments in this chapter, we use a random sample of 1000 of the
-benchmark instances.  The horizontal axis shows run time in milliseconds
-without swapping the graphs, and the vertical axis shows run time with
-swapping.  Although swapping graphs can make a small difference, it does not
-change run time by as much as an order of magnitude for any of these instances.
+\Cref{subfig:runtime-swapping-scatter-mcsplain} shows run times for unlabelled,
+undirected instances from the database described in
+\Cref{sec:mcsplit-instances}; we will refer to these as the MCS Plain
+instances.  As with all experiments in this chapter, the plot use a
+random sample of 1000 of the benchmark instances.  The horizontal axis shows
+run time in milliseconds without swapping the graphs, and the vertical axis
+shows run time with swapping.  Although swapping graphs can make a small
+difference, it does not change run time by as much as an order of magnitude for
+any of these instances.
 
 \begin{figure}[htb]
     \centering
@@ -69,27 +72,29 @@ change run time by as much as an order of magnitude for any of these instances.
         \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-right-random3}
         \label{subfig:runtime-swapping-scatter-random3}
     }
-    \caption{Run times in ms for \McSplit\ (horizontal axis) and \McSplit\ with graphs $G$ and $H$ swapped
-        (vertical axis).  Each point represents one graph pair.  Swapping the graphs has little effect on run time
+    \caption{Run times in ms for \McSplit\ (horizontal axis) and \McSplit-Swap
+        (vertical axis).  Each point represents an instance.  Swapping the graphs
+        has little effect on run time
         for MCS Plain instances, but changes the run time by orders of magnitude
         for many of the random instances.}\label{figure:runtime-swapping-scatter}
 \end{figure}
 
 The fact that swapping makes little difference to run time on the MCS Plain
-instances can be explained by the way these instances are generated.  Within each MCS
-Plain instance, the two graphs are are produced using the same graph generator,
-have the same number of vertices, and have very similar density
-(\Cref{figure:mcsplain-densities}).  Thus, it is unsurprising that swapping the
-graphs has little effect on run time.
+instances can be explained by the way these instances are generated.  Within
+each MCS Plain instance, the two graphs are are produced using the same graph
+generator, have the same number of vertices, and have very similar density
+(\Cref{figure:mcsplain-densities}).  Given the similarity of the two graphs in
+each of these instances, it is unsurprising that swapping the graphs has little
+effect on run time.
 
-To examine pairs of graphs with very \emph{different} characteristics, we generated
-two sets of random instances using the Erdos-Renyi $G(n,p)$ model.  We will
-use these instances throughout this chapter. The first
-set has 24 vertices per graph, with the $p$ parameter of the generator chosen
-randomly from the interval $[0,1]$; thus, the graphs have the same order but
-vary greatly in density.  The second set of instances has the density parameter
-$p$ set to $0.3$ for all instances, with the number of vertices in each graph
-randomly chosen from $\{10, 11, \dots, 50\}$.  We will refer to these as the
+To examine pairs of graphs with very \emph{different} characteristics, we
+generated two sets of random instances using the Erdos-Renyi $G(n,p)$ model.
+The first set has 24 vertices per graph, with the $p$ parameter of the
+generator chosen randomly from the interval $[0,1]$; thus, the graphs have the
+same order but vary greatly in density.  The second set of instances has the
+density parameter $p$ set to $0.3$ for all instances, with the number of
+vertices in each graph randomly chosen from $\{10, 11, \dots, 50\}$.  These
+instances will be used throughout this chapter; we call them
 \emph{varying-density instances} and the \emph{varying-order instances}
 respectively.
 
@@ -131,7 +136,7 @@ in the upper and lower triangles tend to be solved more quickly by \McSplit, whi
 those lying in the left and right triangles tend to be solved more
 quickly by \McSplit-Swap.
 
-\begin{figure}[h!]
+\begin{figure}[htb]
     \centering
     \subfigure[][Density] {
         \centering
@@ -157,8 +162,8 @@ The union of the left and right triangles in
 \Cref{figure:coloured-scatter-run-times-density} has a simple characterisation.
 Define the measure \emph{density extremeness} of
 a graph as $\left|\frac{1}{2} - d\right|$, where $d$ is the graph's
-density.  This is simply a measure of how close a graph's
-density is to either 0 or 1; thus, a clique and an independent set
+density.  This measures how close a graph's
+density is to either 0 or 1; a clique and an independent set
 have the highest possible density extremeness.  The union of the left and right triangles
 in \Cref{figure:coloured-scatter-run-times-density} contains exactly those
 graph pairs $(G,H)$ such that the density extremeness of $G$ is greater than
@@ -216,7 +221,7 @@ instances.  In summary, for this family of instances, \McSplit-SD clearly improv
     }
     \caption{The run times of \McSplit-SD are faster overall than those of \McSplit\ for the
         random varying-density instances, and almost indistinguishable from those of the virtual
-        best solver of \McSplit\ and \McSplit\ with swapped graphs.}
+        best solver of \McSplit\ and \McSplit\-Swap.}
         \label{figure:left-vs-smart-d-mcis}
 \end{figure}
 
@@ -281,19 +286,19 @@ instances.
     }
     \caption{The run times of \McSplit-SD are faster overall than those of \McSplit\ for the
         random varying-order instances, and almost indistinguishable from those of the virtual
-        best solver of \McSplit\ and \McSplit\ with swapped graphs.}
+        best solver of \McSplit\ and \McSplit\-Swap.}
         \label{figure:left-vs-smart-o-mcis}
 \end{figure}
 
 \section{Explaining the success of \McSplit-SD and \McSplit-SO}\label{sec:explaining-sd-so}
 
-Why are \McSplit-SD and \McSplit-SO effective?  In this section, we give some
+Why are \McSplit-SO and \McSplit-SD effective?  In this section, we give some
 speculative reasons related to the bound calculated at each search node that go
 some way towards explaining the success of the swapping heuristics.  In each
 case, we start with an example, then broaden the discussion to the general
 case.
 
-We begin by considering \McSplit-SO: why it is useful to select the graph with
+First, consider \McSplit-SO: why it is useful to select the graph with
 fewer vertices as the first argument when calling \McSplit?  Let $G$ be a graph
 with $n_G$ vertices and $H$ be a graph with $n_H$ vertices, such that $n_G <
 n_H$.  If we call $\McSplit(G,H)$, the first call to $\FuncSty{Search()}$ in
@@ -379,7 +384,7 @@ the smaller graph, we can reduce the bound to 4 which lets us prune the search t
 In \Cref{figure:search-tree-without-swapping}, the rejected vertex belongs to the larger
 side of the label class, and therefore the bound remains at 5.
 
-Clearly, this argument generalises: for any two graphs of unequal order,
+This argument generalises: for any two graphs of unequal order,
 the final child of the search tree's root node will have a smaller bound
 if we call \McSplit\ with the smaller graph first than if we call the algorithm
 with the larger graph first.  This provides at least some explanation for the success of
@@ -548,8 +553,8 @@ maps a vertex from $\setH$ to each vertex in $\setG$ in turn
 \end{algorithm}
 
 In addition to \McSplit-2S, we implemented the reverse heuristic, which replaces the condition
-$|G| \leq |H|$ on \Cref{ChooseBranchingSideMS2} with $|G| > |H|$.  We call this algorithm,
-which we would expect to perform poorly, \McSplit-2S'.
+$|G| \leq |H|$ on \Cref{ChooseBranchingSideMS2} with $|G| > |H|$.  This algorithm,
+which we would expect to perform poorly, is called \McSplit-2S'.
 
 \Cref{tab:mcsplit-variants} summarises the variants of \McSplit\ that we compare in this section.
 
@@ -594,7 +599,7 @@ On these ``mix and match'' instances, \McSplit-SD, \McSplit-SO, and \McSplit-2S 
 all are clearly faster overall than \McSplit.  A partial explanation for the similar performance
 of \McSplit-SD and \McSplit-SO on these instances is that density and degree are negatively correlated
 for this set of instances.  As a result, the two swapping rules agree --- and thus the two
-algorithms behave identically --- on 745 of the 1000 instances.
+algorithms behave identically --- on 745 of the 1000 instances.  TODO CHECK THIS NUMBER 745
 
 \Cref{figure:mcsplit2-cumulative-random4} introduces another new set of random
 instances, with both density and order varying.  Each graph is a $G(n,p)$
@@ -684,7 +689,7 @@ between pairs of vertices.
 The cumulative plot also shows results for \McSplit-2S'.  The results are somewhat disappointing; all three algorithms
 have very similar performance overall.  The scatter plot shows that \McSplit-2S is often slightly faster than \McSplit\ --- indeed,
 \McSplit-2S is faster than \McSplit\ on 174 instances and slower than \McSplit\ on only 91 instances --- but the differences
-in run times are very marginal.
+in run times are very marginal.  TODO: UPDATE NUMBERS, TALK ABOUT TIMOUT WEIRDNESS
 
 \begin{figure}[htb]
     \centering
@@ -714,7 +719,7 @@ $1 \leq m < n$.  The generator works as follows: begin with the star $K_{1,m}$.
 Extra vertices are added one by one until the graph has $n$ vertices.  Each time a vertex $v$ is added,
 $m$ edges are added from $v$ to earlier vertices.  These edges are added at random, but using a ``preferential
 attachment'' mechanism: at each step, vertices with more existing edges are proportionately more likely to have a new edge
-added.  We use the implementation of this generator from the Python package NetworkX \cite{networkx}.
+added.  We use the implementation of this generator from the Python package NetworkX \citep{networkx}.
 For each instance, we use the following ranges of parameter values in order to
 have wide variation in order and density between instances: $n$ is chosen at random
 from $\{10,\dots,50\}$, and $m$ is chosen at random from $\{2,\dots,n-1\}$.  Within each instance, the two
@@ -815,12 +820,12 @@ when calling \McSplit: one using the graphs' densities, and the other using thei
 We have shown that both rules are very effective in reducing the run time of \McSplit\ both on random
 graphs and on ``mix and match'' instances created by choosing random pairs of graphs from the
 MCS Plain instances.  Using insights from the behaviour of these versions of \McSplit, we have
-introduced \McSplit-2S, a version of \McSplit\ that branches on vertices of both graphs.  We have
-shown that this achieves similar performance to \McSplit-SD and \McSplit-SO on several graph
-families, and demonstrated that there exist families of graphs on which it outperforms both
-of these algorithms.
+introduced \McSplit-2S, a version of \McSplit\ that branches on vertices of both graphs.
+This achieves similar performance to \McSplit-SD and \McSplit-SO on several graph
+families, and there exist families of graphs on which it outperforms both
+algorithms.
 
-There are many potential avenues for future work.  Most obviously, we could investigate
+There are many potential avenues for future work.  We could investigate
 whether swapping rules are useful for other maximum common subgraph algorithms, including
 algorithm for maximum common \emph{edge} subgraph which are beyond the scope of this
 dissertation.
@@ -832,3 +837,9 @@ We could investigate replacing our simple ``branch on the larger side'' heuristi
 sophisticated rules for choosing which side to branch on at each search node.  We could also
 combine the two-sided branching of \McSplit-2S with the initial swapping rules of \McSplit-SD
 or \McSplit-SO.
+
+Towards the end of next chapter, we will return to the MCIS problem with
+specialised algorithm for large, sparse graphs.  All of the instances in that
+chapter have $|V(G)| < |V(H)|$, so we will implicitly use the \McSplit-SO
+swapping heuristic. First, we turn to our second problem: induced subgraph
+isomorphism.
