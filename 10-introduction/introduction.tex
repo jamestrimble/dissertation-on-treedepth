@@ -3,6 +3,7 @@
 
 \newcommand{\ChapterRef}[1] {\Cref{#1}: \nameref{#1}}
 
+\section{Background and Motivation}
 A \emph{graph} is a collection of items, some pairs of which are related; we
 call the items \emph{vertices} and the pairwise relationships \emph{edges}.
 %Abstractly, we can view a graph as a collection of dots (the vertices) with
@@ -19,10 +20,12 @@ in another given object.  The goal of this dissertation is to introduce new,
 practical algorithms for such problems.
 
 We first consider the \emph{maximum common induced subgraph} family of
-problems, in which we seek a large subgraph that is contained in each of two
-given graphs.  Depending on the flavour of the problem, these graphs may be
-directed or undirected and may or may not have labels.  All of these variants
-of the can be handled by the \McSplit\ family of algorithms.  These algorithms
+problems, in which we seek a large graph that appears as part (that is,
+is a \emph{subgraph}) of each of two
+given graphs.  The problem has a number of variants, such as a version where
+the vertices have labels---atomic number in the case of molecules---and
+the subgraphs must have the same labels.
+The \McSplit\ family of algorithms can handle many of these variants.  These algorithms
 use a simple, fast and space-efficient data structure to keep track of the set
 of vertices in the second graph to which a given vertex in the first graph may
 be mapped.
@@ -34,12 +37,11 @@ of the \McSplit\ algorithm---\McSplit-SI---to solve the problem. This version
 of the algorithm has a specialised version of \McSplit's data structure that
 allows very fast processing of sparse graphs.
 
-For the final problem considered in this dissertation, we turn from subgraphs
-to supergraphs.  We study the problem of finding, for a given family of graphs,
+Finally, we study the problem of finding, for a given family of graphs,
 an \textit{induced universal graph}---that is, a graph that contains every
 member of the family as an induced subgraph---with as few vertices as
-possible.  This problem generalises the \textit{minimum common supergraph}
-problem to an arbitrary number of input graphs.  Although much progress has
+possible.
+Although much progress has
 been made on asymptotic results on the size of induced universal graphs, almost no
 work has been done on developing algorithms to solve the problem exactly.  This
 dissertation presents an algorithm for finding minimal induced universal graphs
@@ -58,28 +60,40 @@ experimental setup.
 \paragraph*{\ChapterRef{c:mcsplit-i-undirected}} introduces the \McSplit\
 algorithm for the maximum common induced subgraph problem and its variants, and
 carries out experimental comparisons with existing state of the art solvers.
-The chapter has a detailed discussion of the similarities and differences
-between \McSplit\ on one hand and constraint programming and clique approaches
+We find that the algorithm is more than an order of magnitude faster than the prior
+state of the art for unlabelled graphs, including in the variant of the problem
+where the subgraph must be connected.
+The chapter has an empirical study of ordering strategies for the vertices
+of the two input graphs, and a detailed study---both in theory and practice---of
+the similarities and differences
+between \McSplit\ on one hand, and constraint programming and clique approaches
 on the other.
 
 
-\paragraph*{\ChapterRef{c:swapping-graphs-mcsplit}} asks whether and when
-it is useful to swap the two graphs given as input to a \McSplit.  We develop
-two simple rules for determining when to swap the graphs, and generalise
-these to the algorithm \McSplit-2S which branches on vertices of both
-input graphs.
+\paragraph*{\ChapterRef{c:swapping-graphs-mcsplit}} asks whether and when it is
+useful to swap the two graphs given as input to a \McSplit.  We develop two
+simple and highly effective rules for determining when to swap the graphs, and
+generalise these to the algorithm \McSplit-2S which branches on vertices of
+both input graphs.
 
 \paragraph*{\ChapterRef{c:mcsplit-si}} introduces the \McSplit-SI algorithm for the
-induced subgraph isomorphism problem.  This is based on \McSplit, but uses
+induced subgraph isomorphism problem.  This uses
 special data structures designed to work well if the input graphs are sparse.
 We present an extensive set of experiments comparing the algorithm to state of
-the art solvers.  Finally, we modify \McSplit-SI to solve the maximum common
+the art solvers; this demonstrates that the algorithm runs faster than the
+existing state of the art solvers on several classes of random and structured
+graphs.
+In addition, we demonstrate that \McSplit-SI achieves generalised arc consistency
+on the all-different constraint, and we introduce two variants of the algorithm
+including one optimised for dense graphs.
+Finally, we modify \McSplit-SI to solve the maximum common
 induced subgraph problem, and show that it outperforms the state of the art
 solver for large, sparse graphs.
 
 \paragraph*{\ChapterRef{c:universal-graphs}} introduces exact and heuristic
 algorithms for the minimum induced universal graph problems, and uses these
-algorithms to add new terms to integer sequences.  The chapter includes
+algorithms to add new terms to entries in
+the On-Line Encyclopedia of Integer Sequences.  The chapter includes
 an experimental study of ordering heuristics for these algorithms.
 
 \paragraph*{\ChapterRef{c:conclusion}} summarises progress made in the dissertation
@@ -88,20 +102,11 @@ and outlines directions for future work.
 \section{Publications and Authorship}
 
 During the course of my PhD I carried out work on other graph algorithms---in particular,
-for maximum weight clique and treedepth---that is not presented in this thesis.
+maximum weight clique and treedepth---that is not presented in this thesis.
 For completeness, the following is a full list of publications
 since the start of my PhD.
 
-\Cref{c:mcsplit-i-undirected} of this dissertation contains material from the
-first publication on the list.  I was the lead author of this paper, which was
-co-authored by Ciaran McCreesh and Patrick Prosser.
-Ciaran McCreesh carried out the experimental comparison of \McSplit\ with
-existing solvers which forms much of the input to \Cref{sec:mcsplit-experiments} in
-this dissertation.
-
-I am the sole author of all other chapters of this dissertation.
-
-\begin{itemize}
+\begin{enumerate}
     \item\bibentry{DBLP:conf/ijcai/McCreeshPT17}
     \item\bibentry{DBLP:conf/cp/McCreeshPST17}
     \item\bibentry{DBLP:conf/cpaior/HoffmannMNPRS018}
@@ -113,7 +118,29 @@ I am the sole author of all other chapters of this dissertation.
     \item\bibentry{DBLP:conf/gg/McCreeshP020}
     \item\bibentry{DBLP:conf/cp/GochtMMNPT20}
     \item\bibentry{DBLP:journals/cor/DelormeGGKMPT22}
-\end{itemize}
+\end{enumerate}
+
+\Cref{c:mcsplit-i-undirected} of this dissertation contains material from the
+first publication on the list.  I designed and implemented the \McSplit\
+algorithm and was the lead author of this paper, which was
+co-authored by Ciaran McCreesh and Patrick Prosser.
+Ciaran McCreesh carried out the experimental comparison of \McSplit\ with
+existing solvers.  \Cref{sec:mcsplit-experiments}, which uses the data from these
+experiments, is a revised and greatly extended version of the experimental
+section of the paper.
+
+I am the sole author of all other chapters of this dissertation.
+
+\section{Earlier Publications by the Author}
+
+The following is a list of the author's publications prior to PhD study.
+
+\begin{enumerate}
+    \item\bibentry{DBLP:conf/sigecom/DickersonMPST16}
+    \item\bibentry{DBLP:conf/ijcai/McCreeshPT16}
+    \item\bibentry{DBLP:conf/cp/McCreeshPT16}
+    \item\bibentry{DBLP:journals/constraints/ManloveMT17}
+\end{enumerate}
 
 %%  %==============================================================================
 %%  \section{Thesis Statement}
