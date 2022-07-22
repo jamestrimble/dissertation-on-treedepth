@@ -1046,10 +1046,10 @@ It would be straightforward to modify our clique algorithm to solve this version
 problem, and we could then modify the proof of \cref{cliqueMcSplitProp} to prove the
 correctness of the connected version of \McSplit.
 
-\section{Heuristics}\label{sec:mcsplit-heuristics}
+\section{Variable and value ordering heuristics}\label{sec:mcsplit-heuristics}
 
 We turn now to variable- and value-ordering heuristics for \McSplit.
-The value-ordering heuristic begins with the $\FuncSty{SelectLabelClass}$
+The variable-ordering heuristic begins with the $\FuncSty{SelectLabelClass}$
 function; our implementation chooses a label class with the smallest
 $\max(|\setG|,|\setH|)$. As we will see in 
 \Cref{sec:mcsplit-finding-all}, this strategy performs slightly
@@ -1066,7 +1066,7 @@ The $\FuncSty{SelectVertex}$ function selects the smallest-numbered vertex
 within this label class.
 
 The value-ordering heuristic controls the iteration
-order at \lineref{SelectVertex} of \cref{McSplitAlg}. The strategy
+order at \lineref{DecisionWLoop} of \cref{McSplitAlg}. The strategy
 in our implementation iterates in ascending order of vertex number.
 
 \subsection{Ordering graphs by vertex degree}
@@ -1081,7 +1081,7 @@ before search.)
 
 Is it better to order the vertices in each graph in ascending or descending
 order of degree?  To shed some light on this question, we present results of an
-experiment comparing increasing degree and decreasing degree orders for graphs
+experiment comparing increasing and decreasing degree orders for graphs
 $G$ and $H$ where both graphs are random Erd\H{o}s-Rényi $G(n,p)$ graphs.  As
 we will see, the answer depends in a complex way on the structure of the two
 graphs.
@@ -1160,11 +1160,15 @@ otherwise use decreasing order for both graphs''.  This is the rule we use
 throughout this chapter and the next chapter.  There is one exception: in the
 comparison of algorithms in \Cref{sec:mcsplit-experiments}, we use the
 results from a very large-scale experiment in
-\citet{DBLP:conf/ijcai/McCreeshPT17}. These experiments used a version of
-\McSplit\ where decreasing degree order was always used.  In practice, this
-makes very little difference to the results: none of the directed instances,
-and only $4\%$ of the undirected instances, have a graph $H$ with density
-greater than $\frac{1}{2}$.
+\citet{DBLP:conf/ijcai/McCreeshPT17}.
+These experiments used a simpler approach---decreasing
+degree order on all instances.
+This makes no difference for the directed-graph instances, since
+all graphs in the benchmark set have density less than $\frac{1}{2}$
+and therefore the decreasing degree order is always consistent with
+our proposed rule.
+For the undirected instances, the two rules agree for $96\%$ of the
+instances.
 
 \FloatBarrier
 
