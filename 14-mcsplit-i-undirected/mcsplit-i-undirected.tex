@@ -1236,7 +1236,7 @@ by making all three changes to \McSplit\ we will have an algorithm with similar 
 to the algorithm of KH (albeit with some variation due to the different data structures
 used by the two algorithms to represent domains).
 To test these hypotheses, we ran five algorithms
-on the set of 4110 unlabelled, undirected MCS instances.  In addition to \McSplit\ and
+on the set of 4110 unlabelled, undirected instances.  In addition to \McSplit\ and
 KH, we used three modified versions of \McSplit:
 $\McSplit - 1$ has only the first change from the list above,
 $\McSplit - 1,2$ has the first two changes, and
@@ -1258,7 +1258,7 @@ $\McSplit - 1,2,3$: has all three changes.
         \label{figure:kh-plain-cumulative}
     }
     \caption{Cumulative and scatter plots of run times (ms) of Krissinel and Henrick \cite{DBLP:journals/spe/KrissinelH04}
-            and four versions of \McSplit on the 4110 unlabelled, undirected MCS instances}\label{fig:mcsplit-vs-kh}
+            and four versions of \McSplit on the 4110 unlabelled, undirected instances}\label{fig:mcsplit-vs-kh}
 \end{figure}
 
 \Cref{fig:mcsplit-vs-kh} shows the results of our experiment.  The cumulative plot shows,
@@ -1505,6 +1505,211 @@ there is no requirement for the common subgraph to be connected.
 
 
 
+\FloatBarrier
+
+
+\subsection{Run time comparisons by family: unlabelled instances}
+
+We have seen so far show that \McSplit\ and \McSplitDown\ are
+faster than both the clique encoding and \kDown\ for the unlabelled instances.  This section
+presents more detailed scatter plots of per-instance run times, with one plot for each of the five
+families of instances: Erd\H{o}s-Rényi random graphs, regular and irregular meshes, bounded
+valence (BV) graphs, and irregular BV graphs.
+
+\Cref{figure:mcsplain-runtime-mcsplitdown-cpfc-scatters} compares CP-FC and \McSplitDown.  On each of the
+families of instances, \McSplitDown\ is substantially faster than CP-FC.  Indeed, there is not a
+single instance on which CP-FC is faster than \McSplitDown.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Random graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-cpfc-random}
+        \label{figure:mcsplain-runtime-mcsplitdown-cpfc-random}
+    }
+    \subfigure[][Regular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-cpfc-regular-mesh}
+        \label{figure:mcsplain-runtime-mcsplitdown-cpfc-regular-mesh}
+    }
+    \subfigure[][Irregular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-cpfc-irregular-mesh}
+        \label{figure:mcsplain-runtime-mcsplitdown-cpfc-irregular mesh}
+    }
+    \subfigure[][Bounded valence graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-cpfc-bv}
+        \label{figure:mcsplain-runtime-mcsplitdown-cpfc-bv}
+    }
+    \subfigure[][Irregular BV graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-cpfc-irregular-bv}
+        \label{figure:mcsplain-runtime-mcsplitdown-cpfc-irregular-bv}
+    }
+    \caption{\McSplitDown\ and CP-FC run times for unlabelled instances, with one plot per family of instances.}
+    \label{figure:mcsplain-runtime-mcsplitdown-cpfc-scatters}
+\end{figure}
+
+
+
+\Cref{figure:mcsplain-runtime-mcsplitdown-kdown-scatters} compares \kDown\ and \McSplitDown.
+Again, \McSplitDown\ is consistently the faster algorithm across all five instance families.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Random graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-kdown-random}
+        \label{figure:mcsplain-runtime-mcsplitdown-kdown-random}
+    }
+    \subfigure[][Regular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-kdown-regular-mesh}
+        \label{figure:mcsplain-runtime-mcsplitdown-kdown-regular-mesh}
+    }
+    \subfigure[][Irregular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-kdown-irregular-mesh}
+        \label{figure:mcsplain-runtime-mcsplitdown-kdown-irregular mesh}
+    }
+    \subfigure[][Bounded valence graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-kdown-bv}
+        \label{figure:mcsplain-runtime-mcsplitdown-kdown-bv}
+    }
+    \subfigure[][Irregular BV graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-kdown-irregular-bv}
+        \label{figure:mcsplain-runtime-mcsplitdown-kdown-irregular-bv}
+    }
+    \caption{\McSplitDown\ and $k\downarrow$ run times for unlabelled instances, with one plot per family of instances.}
+    \label{figure:mcsplain-runtime-mcsplitdown-kdown-scatters}
+\end{figure}
+
+
+
+\Cref{figure:mcsplain-runtime-mcsplitdown-clique-scatters} compares the clique encoding and \McSplitDown.
+In each instance class, \McSplitDown\ outperforms the clique algorithm overall.  However, the results are
+not as clear-cut as in the CP-FC and \kDown\ comparisons.  In particular, a number of instances
+in the Random family were solved more quickly by the clique solver than by \McSplitDown.  Of the 2398
+instances in this family that were solved by at least one of these two solvers within the time limit,
+the clique encoding was faster than \McSplitDown\ on 125 instances.  All but 11 of these 125 instances
+were in the densest subset of the Random instances: graphs with each edge generated with probability $0.2$,
+shown as orange points on the plot.
+(Other instances in the Random family had edges generated with probabilities $0.01$, $0.05$, and $0.1$.)
+This suggests that, for random instances, the advantage of \McSplitDown\ is greatest in sparse graphs.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Random graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-clique-random}
+        \label{figure:mcsplain-runtime-mcsplitdown-clique-random}
+    }
+    \subfigure[][Regular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-clique-regular-mesh}
+        \label{figure:mcsplain-runtime-mcsplitdown-clique-regular-mesh}
+    }
+    \subfigure[][Irregular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-clique-irregular-mesh}
+        \label{figure:mcsplain-runtime-mcsplitdown-clique-irregular mesh}
+    }
+    \subfigure[][Bounded valence graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-clique-bv}
+        \label{figure:mcsplain-runtime-mcsplitdown-clique-bv}
+    }
+    \subfigure[][Irregular BV graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcsplain-runtime-mcsplitdown-clique-irregular-bv}
+        \label{figure:mcsplain-runtime-mcsplitdown-clique-irregular-bv}
+    }
+    \caption{\McSplitDown\ and clique run times for unlabelled instances, with one plot per family of instances.  In the first plot,
+            the densest instances ($p=0.2$) are highlighted in orange.}
+    \label{figure:mcsplain-runtime-mcsplitdown-clique-scatters}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Run time comparisons by family: labelled instances}
+
+\Cref{figure:mcs33ved-runtime-mcsplitdown-cpfc-scatters} compares \McSplitDown\ and CP-FC run times
+on the five families of instances with labels on vertices and edges.  As in the unlabelled case,
+\McSplitDown\ is the clear winner for each of the five families.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Random graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-cpfc-random}
+        \label{figure:mcs33ved-runtime-mcsplitdown-cpfc-random}
+    }
+    \subfigure[][Regular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-cpfc-regular-mesh}
+        \label{figure:mcs33ved-runtime-mcsplitdown-cpfc-regular-mesh}
+    }
+    \subfigure[][Irregular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-cpfc-irregular-mesh}
+        \label{figure:mcs33ved-runtime-mcsplitdown-cpfc-irregular mesh}
+    }
+    \subfigure[][Bounded valence graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-cpfc-bv}
+        \label{figure:mcs33ved-runtime-mcsplitdown-cpfc-bv}
+    }
+    \subfigure[][Irregular BV graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-cpfc-irregular-bv}
+        \label{figure:mcs33ved-runtime-mcsplitdown-cpfc-irregular-bv}
+    }
+    \caption{\McSplitDown\ and CP-FC run times for vertex and edge labelled instances, with one plot per family of instances.}
+    \label{figure:mcs33ved-runtime-mcsplitdown-cpfc-scatters}
+\end{figure}
+
+
+\Cref{figure:mcs33ved-runtime-mcsplitdown-clique-scatters} compares \McSplitDown\ and the clique
+encoding on the labelled instances.
+In each of the five families, the clique algorithm
+is the clear winner for all but the most trivial instances.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Random graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-clique-random}
+        \label{figure:mcs33ved-runtime-mcsplitdown-clique-random}
+    }
+    \subfigure[][Regular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-clique-regular-mesh}
+        \label{figure:mcs33ved-runtime-mcsplitdown-clique-regular-mesh}
+    }
+    \subfigure[][Irregular meshes] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-clique-irregular-mesh}
+        \label{figure:mcs33ved-runtime-mcsplitdown-clique-irregular mesh}
+    }
+    \subfigure[][Bounded valence graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-clique-bv}
+        \label{figure:mcs33ved-runtime-mcsplitdown-clique-bv}
+    }
+    \subfigure[][Irregular BV graphs] {
+	\centering
+        \includegraphics*[width=0.3\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/mcs33ved-runtime-mcsplitdown-clique-irregular-bv}
+        \label{figure:mcs33ved-runtime-mcsplitdown-clique-irregular-bv}
+    }
+    \caption{\McSplitDown\ and clique run times for vertex and edge labelled instances, with one plot per family of instances.}
+    \label{figure:mcs33ved-runtime-mcsplitdown-clique-scatters}
+\end{figure}
+
+
+\FloatBarrier
 
 
 \subsection{On which Instances Should we Choose \McSplit{$\downarrow$}
