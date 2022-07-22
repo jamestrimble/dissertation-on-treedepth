@@ -2191,8 +2191,8 @@ common subgraph solvers.
 To summarise the results of \cite{DBLP:conf/cpaior/ArchibaldDHMP019}
 for these instances, \McSplitDown\ (that is, the earlier, dense version
 of the algorithm) is slightly faster overall than
-$k\downarrow$, but a version of $k\downarrow$ using \emph{solution-biased
-search} (which we will call $k\downarrow$+SBS) is faster than
+\kDown, but a version of \kDown\ using \emph{solution-biased
+search} (which we will call \kDown+SBS) is faster than
 \McSplitDown.  Solution-biased search uses a randomised value-ordering
 heuristic, and periodically restarts search to quickly
 explore many parts of the search tree.  New constraints are added
@@ -2201,13 +2201,13 @@ revisited.
 
 \McSplit-sparse, like \McSplit-SI, is a new algorithm that
 has not appeared in published work.
-To compare \McSplit-sparse with $k\downarrow$ and $k\downarrow$+SBS,
+To compare \McSplit-sparse with \kDown\ and \kDown+SBS,
 we used the three algorithms to solve the maximum
 common subgraph problem for each of the 14,621 instances.
 The cumulative plot in \Cref{figure:mcsplit-sparse-cumulative} 
 shows that \McSplit-sparse is the clear overall winner: it solves
 278 more instances than the next best algorithm within the 1000 second
-time limit, and solves more instances than either variant of $k\downarrow$
+time limit, and solves more instances than either variant of \kDown
 for any per-instance time limit below 1000 seconds.
 
 \begin{figure}[htb]
@@ -2222,14 +2222,14 @@ TODO: CHECK WHY A McSplit timeout point seems to be missing on M4D plot!!!
 \Cref{figure:mcsplit-sparse-scatter-by-family} shows scatter plots
 of run times by family, comparing the best two algorithms.  Points
 above the diagonal line represent instances for which \McSplit-sparse
-is faster than $k\downarrow$+SBS. 
+is faster than \kDown+SBS. 
 \McSplit-sparse is the clear winner on the Images family,
 solving 242 more Images instances
-within the 1000 second time limit than $k\downarrow$+restarts.
+within the 1000 second time limit than \kDown+restarts.
 \McSplit-sparse also performs very well on the LV instances,
-solving 92 more instances than $k\downarrow$+restarts.
+solving 92 more instances than \kDown+restarts.
 On the other hand
-hand, $k\downarrow$+restarts solves more instances than \McSplit-sparse in the
+hand, \kDown+restarts solves more instances than \McSplit-sparse in the
 BVG, M4D, Meshes and Rand families: a total of 56 more instances across these
 four families.
 
@@ -2273,7 +2273,7 @@ four families.
         \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/sip-instances-mcis-experiment/experiment/plots/by-family/scatter-Images.pdf}
         \label{figure:TODO}
     }
-    \caption{Run times in ms of \McSplit-sparse (horizontal axis) and k$\downarrow$+restarts (vertical axis), by family.}
+    \caption{Run times in ms of \McSplit-sparse (horizontal axis) and \kDown+restarts (vertical axis), by family.}
     \label{figure:mcsplit-sparse-scatter-by-family}
 \end{figure}
 
@@ -2292,7 +2292,7 @@ contributes only $100/6278$ units.
 but there is only a tiny difference between the rescaled number of instances
 solved by the two leading solvers within the 1000 second time limit.
 We could easily construct alternative scalings, such as one that emphasises
-the Meshes family, that favour $k\downarrow$+SBS overall.
+the Meshes family, that favour \kDown+SBS overall.
 While it is clear that \McSplit-sparse outperforms the state of the art
 for many instances---and several families of instances---this rescaling
 exercise serves as a cautionary reminder that the apparent winner
