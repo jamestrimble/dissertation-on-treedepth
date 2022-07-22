@@ -196,6 +196,10 @@ operations can be performed in the usual way.
 
 We begin our detailed look at \McSplit-SI with
 \Cref{McSplitSIAlg}, which presents the algorithm's overall structure.
+For simplicity, the algorithm as presented returns only \boolT\ or
+\boolF; it is of course straightforward to also return the mapping found for
+feasible instances if required.
+
 The entry point is
 \lineref{McSplitSIFun}.  If $G$ has more vertices than $H$, the instance is trivially
 unsatisfiable. Otherwise, the global data structures are set up with
@@ -507,12 +511,14 @@ label classes rather than the label classes from which they were split.
 After recursively calling $\FuncSty{Search}$ on \lineref{McSplitSISearchRecursive}
 of \Cref{McSplitSIAlg}, the algorithm calls $\FuncSty{Unfilter}$
 (\Cref{McSplitSIAlgUnfilter}) to reverse the effects of the $\FuncSty{Filter}$
-function.  grib
-grib
-grib
-First, we undo deletions, restoring each deleted label classes to its
-original position in the doubly linked list using the ``dancing links'' method
-introduced by \cite{DBLP:journals/ipl/HitotumatuN79} and described by Knuth (cite).
+function.  
+First, each deleted label class is restored to its
+original position in the doubly linked list.  We use the ``dancing links'' method
+introduced by \citet{DBLP:journals/ipl/HitotumatuN79} and named by
+\citet{knuth2020art}: since we have kept each deleted label class
+in memory and since its $\AlgVar{prev}$ and $\AlgVar{next}$ pointers
+already point to the position in the linked list from which it was removed,
+the operation of re-inserting a label class is very simple and fast.
 
 \begin{algorithm}[htb]
 \AlgorithmFontSize
@@ -527,8 +533,8 @@ introduced by \cite{DBLP:journals/ipl/HitotumatuN79} and described by Knuth (cit
     }
 \nl   \For {$\LC \in \AlgVar{splits}$, in reverse order} {
 \nl     \LeftComment{Merge \LC.next into \LC} \;
-\nl     \lFor{$u$ in the set $S_G$ of \LC.next}{$\Gptrs[u].\labelClass \gets \LC$}
-\nl     \lFor{$u$ in the set $S_H$ of \LC.next}{$\Hptrs[u].\labelClass \gets \LC$}
+\nl     \lFor{$u$ in the set $S_G$ of \LC.next}{$\Gptrs[u].\labelClass \gets \LC$}\label{RestoreGLabelClasses}
+\nl     \lFor{$u$ in the set $S_H$ of \LC.next}{$\Hptrs[u].\labelClass \gets \LC$}\label{RestoreHLabelClasses}
 \nl     $\LC.\varEndG \gets \LC.next.\varEndG$ \;
 \nl     $\LC.\varEndH \gets \LC.next.\varEndH$ \;
 \nl     Remove $\LC.next$ from the doubly linked list of label classes
@@ -538,10 +544,12 @@ introduced by \cite{DBLP:journals/ipl/HitotumatuN79} and described by Knuth (cit
 \label{McSplitSIAlgUnfilter}
 \end{algorithm}
 
-Next, we undo splits.  Just as in \McSplit, there is
+Next, we merge partitioned label classes.  Just as in \McSplit, there is
 no need to reorder the $V_G$ and $V_H$ permutations when backtracking.
-
-Finally, we undo the vertex mapping by calling $\FuncSty{Unassign}$.
+It is necessary, however, to restore the label class pointers in $\Gptrs$
+and $\Hptrs$ (\lineref{RestoreGLabelClasses} and \lineref{RestoreHLabelClasses}
+of \Cref{McSplitSIAlgUnfilter}) of those vertices that were removed from
+the original label class.
 
 \FloatBarrier
 
@@ -557,7 +565,7 @@ $\AlgVar{true}$.
 
 \subsection{Optimisations}\label{sec:mcsplit-si-optimisations}
 
-This section describes optimisations in our implementation of \McSplit-SI.
+This section describes two optimisations in our implementation of \McSplit-SI.
 
 \paragraph{Lazy partitioning}
 The partitioning loops beginning on \lineref{FilterGLoop}
@@ -593,7 +601,7 @@ C++'s $\FuncSty{new}$ and $\FuncSty{delete}$ keywords for each allocation and de
 \subsection{Variants: vertex and edge labels and directed graphs}
 
 \McSplit-SI can be straightforwardly extended to support vertex labels (and loops, by
-treating a loop as a label modifier) using essentially
+treating a loop as a label modifier) using
 the same method as in \McSplit: for each vertex label $l$ that appears in the pattern graph,
 we initially create a a label class that contains all vertices in the pattern and target
 graphs that have label $l$.  If any of these initial label classes contains more pattern vertices
@@ -611,7 +619,7 @@ would be possible to do so with a fairly simple modification to the algorithm.
 Moreover, this modification does not change the
 $O(|N_G(v)| + |N_H(w)|)$ time complexity of the filtering step.  We assume that
 the labels belong to some ordered set such as the integers.  The key is to sort
-the adjacency lists according to edge label before running the \McSplit-SI
+the adjacency lists of $G$ and $H$ according to edge label before running the \McSplit-SI
 algorithm: each adjacency list $N(v)$ is sorted such that if the label on edge
 $\{v,u\}$ is less than the label on $\{v,u'\}$ then $u$ appears before $u'$ in
 the adjacency lists.  When partitioning is carried out, the
@@ -626,7 +634,7 @@ function.
 \section{Variable and value ordering heuristics}\label{sec:mcsplit-si-heuristics}
 
 The speed of \McSplit-SI, like that of other subgraph isomorphism solvers
-\cite{DBLP:journals/tcbb/BonniciG17,DBLP:journals/jair/McCreeshPST18},
+\citep{DBLP:journals/tcbb/BonniciG17,DBLP:journals/jair/McCreeshPST18},
 is greatly affected by the order
 in which pattern and target vertices are chosen during search.
 Using terminology from constraint programming, we call the strategy
@@ -636,34 +644,21 @@ strategy used to decide the iteration order over target vertices on
 \lineref{McSplitSIWLoop} the \emph{value ordering heuristic}.
 
 Our variable ordering heuristic is the \emph{smallest domain first} heuristic,
-which is commonly used in constraint programming and was proposed as early as
-1965 \cite{golomb1965backtrack}.
-This heuristic is also used by the Glasgow Subgraph Solver.
+which is also used by the Glasgow Subgraph Solver.
 In \McSplit-SI, the smallest domain first heuristic requires
-that we choose a vertex $v$ from a label class $\langle G, H \rangle$ with
-as small a set $H$ as possible.  This leaves open the question of how
-to choose among vertices with equally small domains.
+that we choose a vertex $v$ from a label class $\langle V_G, V_H \rangle$ with
+as small a set $V_H$ as possible.  Since we cannot have a solution
+to the induced subgraph isomorphism problem
+if $|V_G|>|V_H|$ for any label class, this heuristic is equivalent
+to the \McSplit\ heuristic of minimising $\max(|V_G|,|V_H|)$ that we
+used in \Cref{c:mcsplit-i-undirected}.
 
-As a first step towards understanding the effect of value ordering heuristics
-and tie-breaking rules for variable ordering heuristics, we carried out an experiment
-with random undirected graphs from the $G(n,p)$ model, in which pattern and target
-densities were varied from $0$ to $1$ in steps of $0.01$ (for a total of $10201$
-pairs of pattern density and target density).  We considered two tie-breaking
-strategies for the variable order heuristic: prefer pattern vertices of low
-degree (``G increasing'') and prefer pattern vertices of high degree (``G decreasing'').
-We considered two corresponding value ordering heuristics based on the degree of target
-vertices: ``H increasing'' and ``H decreasing''.  We ran the experiment three times,
-with 8-, 12- and 16-vertex pattern graphs; in each case, the target graph had 80 vertices.
-Search effort was measured by counting the number of calls to $\FuncSty{Search}$.
-Each run was repeated 32 times, and an average (mean) number of calls was computed.
-A node limit of 10 million was set; runs with more than 10 million recursive calls
-were counted as requiring 10 million calls.
-(Similar heatmaps for the Glasgow Subgraph Solver comparing the first and last of the strategies shown were
-presented by McCreesh et al.\ \cite{DBLP:journals/jair/McCreeshPST18}.  Moreover,
-that paper shows that there is a strong relationship between the optimal strategy
-and the location of the phase transition between unsatisfiable and satisfiable
-instances.
-The results of McCreesh et al.\ show similar patterns to those shown here for \McSplit-SI.)
+As with the \McSplit\ algorithm for MCIS (see \Cref{sec:mcsplit-heuristics}),
+\McSplit-SI sorts the vertices of both graphs according to degree before search.
+We now repeat the exercise in \Cref{sec:mcsplit-heuristics}---this time for
+induced subgraph isomorphism---of varying the pattern
+and target graph densities and finding out which ordering strategy works
+best for a given pair of densities.
 
 \begin{figure}[htb]
     \centering
@@ -691,22 +686,24 @@ The results of McCreesh et al.\ show similar patterns to those shown here for \M
     (horizontal axis) and target density (vertical axis)}\label{figure:sip-heatmaps}
 \end{figure}
 
-The heatmaps in \Cref{fig:sip-heatmaps} show which pairing of variable and value
-ordering heuristics was best for each pattern density - target density pair.  To explain
-the plots, we refer to the first of the four squares in \Cref{figure:sip-heatmap-8}
-as an example.  On the $x$ and $y$ axes, we have values of the graph generator's $p$
-(density) parameter ranging from 0 to 1 for the pattern
-and target graph respectively.  The plot shows, for each pair of density
-parameters, how the combination of ``G increasing'' variable-ordering tie breaker
-and ``H increasing'' value-ordering heuristic compares with the best of the four
-possible strategies.  Dark blue indicates that ``G increasing, H increasing'' is
-the best strategy, mid blue indicates that it requires between 1 and 2 times the search
-effort of the best strategy, and light blue indicates that it requires between 2 and
-10 times the search effort of the best strategy.  From this subplot we can see that,
-for random graphs with pattern order 8 and target order 80, the ``G increasing,
-H increasing'' strategy appears to be preferable to the other three strategies
-if the density of the target graph exceeds that of the pattern graph.
+As before, we generated
+undirected graphs using the $G(n,p)$ model, varying pattern and target
+densities were varied from $0$ to $1$ in steps of $0.01$.
+We ran the experiment three times,
+with 8-, 12- and 16-vertex pattern graphs; in each case, the target graph had 80 vertices.
+Search effort was measured by counting the number of calls to $\FuncSty{Search}$.
+Each run was repeated 32 times, and an average (mean) number of calls was computed.
+A node limit of 100 million was set; runs with more than 100 million recursive calls
+were counted as requiring 100 million calls.
+(Similar heatmaps for the Glasgow Subgraph Solver comparing the first and last of the strategies shown were
+presented by McCreesh et al.\ \cite{DBLP:journals/jair/McCreeshPST18}.  Moreover,
+that paper shows that there is a strong relationship between the optimal strategy
+and the location of the phase transition between unsatisfiable and satisfiable
+instances.
+The results of McCreesh et al.\ show similar patterns to those shown here for \McSplit-SI.)
 
+The heatmaps in \Cref{figure:sip-heatmaps} show which pairing of pattern and target
+graph orders was best for each pattern density / target density pair.
 The first subplot of
 \Cref{figure:sip-heatmap-8}
 shows that the ``G decreasing, H decreasing'' strategy is
@@ -720,20 +717,18 @@ pattern.  Now, the ``G increasing'' tie-break for the value ordering heuristic
 appear to be preferable in most cases where the target density exceeds $0.5$.  This is equivalent
 to preferring pattern vertices that are involved in as few constraints as possible.
 
-A clear message from these figures is that the optimal choice of variable and
-value ordering heuristic depends on the characteristics of an instance in a
-complex way.
-In the experimental evaluation in \Cref{sec:si-experiments}, I consider two 
+As we saw for MCIS, we can see that there is a complex relationship between
+the densities of the graphs and the optimal strategy for ordering vertices.
+For the experimental evaluation in \Cref{sec:si-experiments}, I tried two 
 strategies which broadly extrapolate from the results in
 \Cref{figure:sip-heatmap-8} and
 \Cref{figure:sip-heatmap-16}.  The first strategy is to use ``G increasing, H increasing''
 if the target density is greater than the pattern density, and ``G decreasing, H decreasing''
-otherwise.  The second strategy is to use ``G increasing, H increasing if the target
+otherwise.  The second strategy is to use ``G increasing, H increasing'' if the target
 density is greater than $0.5$, and ``G decreasing, H decreasing'' otherwise.
-In practice, my suggestion is that it would be useful to choose
-variable and value ordering heuristics empirically based on a subset of the family
-of instances to be solved, and perhaps even to try running multiple heuristics
-in parallel.
+The latter of these strategies---which matches the \McSplit\ strategy---performed
+much better, and therefore the results of that strategy
+are reported in \Cref{sec:si-experiments}.
 
 \subsection{Static variable ordering heuristics}
 
@@ -741,11 +736,11 @@ So far in this section, we have considered only \emph{dynamic} variable
 ordering heuristics, in which the choice of $v$ is made during search and
 depends primarily on the current sizes of label classes.  The RI solver does
 not use the concept of domains, and therefore by necessity takes a simpler
-approach: it uses a static variable order, which is determined before search
+approach: it uses a static variable order that is determined before search
 \citep{DBLP:journals/tcbb/BonniciG17}.  We will use this as an alternative
-variable ordering strategy for \McSplit-SI and, as we will see in
-\Cref{sec:si-experiments}, it is often a very successful strategy in practice.
-Therefore this subsection will describe the RI strategy in detail.
+variable ordering strategy for \McSplit-SI and---as we will see in
+\Cref{sec:si-experiments}---it is often a very successful strategy in practice.
+Therefore we will now describe the RI strategy in detail.
 
 RI generates its variable order by adding one vertex of graph $G$ at a time,
 maintaining three sets.  Set $X_1$ contains pattern-graph vertices already in
@@ -779,14 +774,17 @@ is computed on the complement of $G$ rather than on $G$ itself.
 
 \section{Generalised arc consistency on the all-different constraint}\label{sec:mcsplit-si-gac}
 
-The constraint programming model for induced subgraph isomorphism contains an all-different
+
+The constraint programming model for induced subgraph isomorphism in \Cref{subsec:cp-model-isip}
+contains an all-different
 constraint over all the variables; this constraint ensures that each of the pattern-graph vertices
 is mapped to a distinct vertex in the target graph.  The strongest level of consistency that can
 be achieved for this constraint is \emph{generalised arc consistency (GAC)}, in which value
 $x$ may only be in the domain of variable $X$ if there is some assignment to all
-the variables involved in the constraint such that $X$ takes the value $x$.
+the variables involved in the constraint such that $X$ takes the value $x$
+and the constraint is satisfied.
 The classic algorithm for achieving GAC on an all-different constraint is R\'egin's
-\cite{DBLP:conf/aaai/Regin94}, which operates
+(\citeyear{DBLP:conf/aaai/Regin94}), which operates
 on a (perhaps implicit) bipartite graph with variables on the left and values on the right, and 
 deletes every edge that does not appear in any maximum matching.  The algorithm operates by computing
 a maximum matching on the bipartite graph, then finding strongly connected components on an related directed
@@ -829,20 +827,30 @@ either equal or disjoint, and also on the fact that \McSplit-SI backtracks if $|
 for any label class.
 
 \begin{proposition}\label{gacProposition}
-    \McSplit-SI maintains generalised arc consistency on the all-different constraint
+    At the start of every call to $\FuncSty{Search}$ of
+    \McSplit-SI, the list of label classes is GAC with respect to 
+    the all-different constraint.
 \end{proposition}
 
 \begin{proof}
 Let $\langle V_G^1, V_H^1 \rangle, \dots, \langle V_G^k, V_H^k \rangle$ be the list of
-label classes.  From (a previous chapter) \Cref{c:mcsplit-i-undirected}, we have that $|V_G^i| \leq |V_H^i|$
-for $1 \leq i \leq k$ and that $V_H^i \cap V_H^j = \emptyset$ for $i \not= j$.
+label classes.  
+We have that $|V_G^i| \leq |V_H^i|$ for $1 \leq i \leq k$, since the algorithm
+backtracks whenever this does not hold.
+Furthermore, a \emph{disjointness property} holds: for $i \not= j$, we have
+    $V_G^i \cap V_G^j = \emptyset$ and $V_H^i \cap V_H^j =
+    \emptyset$ (which follows from the way label classes are partitioned,
+    as discussed in \Cref{c:mcsplit-i-undirected}).
 
 Let $v \in V_G^i$ and $w \in V_H^i$ for some $1 \leq i \leq k$.  We need to show that we
-extend the mapping
-$(v,w)$ to a complete assignment of the vertices in all $V_G^j$ ($1 \leq j \leq k$).
+can extend the mapping
+$(v,w)$ to a complete assignment of the vertices in all of the $V_G^j$ ($1 \leq j \leq k$)
+such that no two vertices of $G$ are mapped to the same vertex of $H$.
 This can be achieved by assiging, for each $j$ ($1 \leq j \leq k$) the vertices of
-$V_G^j \setminus \{v\}$ to any $|V_G^j \setminus \{v\}|$ vertex subset of
-$V_H^j \setminus \{w\}$.
+$V_G^j \setminus \{v\}$ to any subset of
+$V_H^j \setminus \{w\}$ with $|V_G^j \setminus \{v\}|$ vertices.
+Such a subset exists since $|V_G^j| \leq |V_H^j|$. No two of these subsets
+contain the same vertex of $H$ by the disjointness property.
 \end{proof}
 
 \subsection{A family of instances where \McSplit-SI outperforms other algorithms}
@@ -988,8 +996,9 @@ that we can backtrack.
 The final two graphs in \Cref{figure:gac-example} generalise $G_2$ and $H_2$; as $k$ is incremented,
 a vertex is added to each of the $v$, $w$, $y$ and $z$ sets.
 \Cref{tab:gk-run-times} shows run times for the enumeration problem
-using \McSplit-SI, Glasgow, Glasgow with no supplemental graphs, and RI for a range of values of $k$.
-VF3 was excluded from the experiment because the current version does not handle disconnected graphs correctly.
+using \McSplit-SI, Glasgow, Glasgow with no supplemental graphs, and RI for a range of values of
+$k$.\footnote{VF3 was excluded from the experiment because the version available when the
+experiment was run not handle disconnected graphs correctly.}
 \McSplit-SI solves the instance $k=1\,000\,000$ in less than a second;
 Glasgow and RI time out on the $k=10$ and $k=6$ instances respectively.
 
@@ -1299,7 +1308,7 @@ switched off.
 for subgraph isomorphism that stores graphs as adjacency matrices rather than
 adjacency lists.  This does not use the \McSplit-SI data structures described
 in this chapter, and is essentially a decision version of the \McSplit\ solver
-for maximum common subgraph described in \label{c:mcsplit-i-undirected}.
+for maximum common subgraph described in \Cref{c:mcsplit-i-undirected}.
 However, we tried to make the implementation fast, and indeed we will see in
 the results that the algorithm often outperforms \McSplit-SI on instances with
 relatively dense graphs.  The main additional feature compared to the maximum
