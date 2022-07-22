@@ -59,11 +59,12 @@ than the corresponding steps in \McSplit.
 \Cref{sec:mcsplit-si-data-structures} introduces the data structures of \McSplit-SI,
 \Cref{sec:mcsplit-si-algorithm} describes the algorithm itself, and
 \Cref{sec:mcsplit-si-heuristics} discusses variable and value ordering heuristics.
-\Cref{sec:mcsplit-si-gac} shows that \McSplit-SI achieves generalised arc consistence
 on the all-different constraint without the need for a complex filtering algorithm.
 \Cref{sec:mcsplit-si-ll} introduces an alternative version of \McSplit-SI
-using linked lists of vertices.
-\Cref{sec:mcsplit-si-space-complexity} shows that the algorithm is space-efficient.
+using linked lists of vertices,
+\Cref{sec:mcsplit-si-adjmat} and introduces another alternative version that is
+well-suited to dense graphs.
+\Cref{sec:mcsplit-si-gac} shows that \McSplit-SI achieves generalised arc consistence
 \Cref{sec:mcsplit-si-experiments} presents a detailed set of experiments comparing
 \McSplit-SI with other solvers.
 \Cref{sec:mcsplit-sparse} shows how, with only a few changes, we can use a version
@@ -563,7 +564,7 @@ to increment a global counter of solutions on
 \lineref{McSplitSIReturnTrue} of \Cref{McSplitSIAlg} rather than returning
 $\AlgVar{true}$.
 
-\subsection{Optimisations}\label{sec:mcsplit-si-optimisations}
+\subsection{Optimisations}\label{subsec:mcsplit-si-optimisations}
 
 This section describes two optimisations in our implementation of \McSplit-SI.
 
@@ -730,7 +731,7 @@ The latter of these strategies---which matches the \McSplit\ strategy---performe
 much better, and therefore the results of that strategy
 are reported in \Cref{sec:si-experiments}.
 
-\subsection{Static variable ordering heuristics}
+\subsection{Static variable ordering heuristics}\label{subsec:mcsplit-si-static}
 
 So far in this section, we have considered only \emph{dynamic} variable
 ordering heuristics, in which the choice of $v$ is made during search and
@@ -772,8 +773,151 @@ which I will refer to as \McSplit-SI-static.  I have modified the RI heuristic
 in one respect: if graph $H$ has density greater than \nicefrac{1}{2}, the order
 is computed on the complement of $G$ rather than on $G$ itself.
 
-\section{Generalised arc consistency on the all-different constraint}\label{sec:mcsplit-si-gac}
+\section{A version using linked lists of vertices}\label{sec:mcsplit-si-ll}
 
+The data structure used by \McSplit-SI to represent the two lists of vertices
+within each label class enables fast partitioning, but has the disadvantage
+that the vertices in each list are not kept in any particular order.  This has
+two negative consequences.  First, when selecting a label class according to
+the smallest domain first heuristic with tie breaking on degree, we need to
+scan the pattern-graph vertices within each label class of minimum size to find
+a vertex of optimal degree.  Second, we face a time-space tradeoff when
+iterating over the target-graph vertices in degree order on
+\lineref{McSplitSIWLoop} of \Cref{McSplitSIAlg}: we can choose either to copy
+the list of vertices representing $S_H$ and then sort this copy, or to scan the
+list $S_H$ on each iteration for the next-best element.  The first of these
+options --- which we use in our implementation --- requires $O(|S_H| \log
+|S_H|)$ time and $|S_H|$ words of additional space; the second requires
+$O(|S_H|^2)$ time and no additional space.
+
+These disadvantages tend to be small in practice, as the label class chosen for
+iteration tends to be small except at the root of the search tree.
+Nevertheless, there exist pathological instances in which the smallest label
+classes are large even deep in the search tree.  For example, if the pattern
+and target graphs have no edges then there is only one label class at every
+depth of recursion.  Therefore, it would be useful to have a version of
+\McSplit-SI that keeps the vertices sorted in each label class without increasing
+the time complexity of the partitioning procedure.  This section describes
+such a version, which we call \McSplit-SI-LL because it stores
+vertices in linked lists.
+
+The data structures of \McSplit-SI-LL differ from those of \McSplit-SI as
+follows.  \McSplit-SI-LL does not use the arrays \Garray\ and \Harray; rather,
+each element of \Gptrs\ and \Hptrs\ has forward and backward pointers that
+enable the vertices within a label class to be joined together as a doubly
+linked list.  In each label class, \varStartG, \varEndG, \varStartH, and
+\varEndH\ point to the first and last nodes of these linked lists in \Gptrs\
+and \Hptrs.  Each label class has two additional integer members that store the
+lengths of the two lists of vertices.
+
+Since the linked-list nodes are embedded in an array, we can delete a given
+vertex from its list in constant time.  We have the usual time complexity
+guarantees of doubly linked lists for other operations: constant-time
+append and insert, and linear-time iteration.
+
+\Cref{figure:si-data-structures-ll-version}
+shows the data structures of \McSplit-SI-LL after assigning vertex $1$ to vertex $a$;
+this corresponds to \Cref{figure:si-data-structures} which shows the same state
+using the data structures of \McSplit-SI.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics*[width=0.75\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1-ll-version}
+    \caption{The data structures of \McSplit-SI-LL. Each of the two sets of vertices in a label
+        class is represented as a doubly-linked list.}
+    \label{figure:si-data-structures-ll-version}
+\end{figure}
+
+Before the first call to $\FuncSty{Search}()$, the two linked lists of vertices in
+each label class are sorted in order of vertex degree.  We also sort each adjacency list
+of graphs $G$ and $H$ in order of vertex degree.
+
+We require the order of each linked list of vertices to be maintained
+by the $\FuncSty{Filter}$ and $\FuncSty{Unfilter}$ functions.  The first of these is straightforward:
+when iterating over an adjacency list in the $\FuncSty{Filter}$ function, we delete each vertex $v$
+from its label class and append it to the new label class.  Because the adjacency lists have been sorted
+by degree before search, vertices are appended to each new label class in order of degree.
+
+The $\FuncSty{Unfilter}$ function requires more work in \McSplit-SI-LL than in \McSplit-SI,
+since when merging label classes we must ensure that each vertex is returned to the position
+in its former label class from which it was removed.  To enable this, we perform a little extra
+bookkeeping during the $\FuncSty{Filter}$ function: each time we remove a vertex $u$, we store
+$v$ in an array along with a pointer to its successor node in the linked list from which $u$
+was removed.  This array is at most as long $|N_G(v)|$ or $|N_H(v)|$, and the storage
+space for all of these arrays can be pre-allocated before search.
+
+In the next section, we will see that \McSplit-SI-LL is space-efficient.  The experimental evaluation
+in \Cref{sec:si-experiments} shows that \McSplit-SI-LL have \McSplit-SI have broadly
+similar run times, but that each of algorithms has families of instances for which it is the faster
+solver.
+
+\subsection{Space complexity}\label{sec:mcsplit-si-space-complexity}
+
+The following proposition demonstrates that the memory needed by \McSplit-SI-LL
+is bounded above by a constant multiple of the space used to store the adjacency
+lists of $G$ and $H$.  While this is greater than the space complexity of 
+VF3 and RI, which require only $|V(G)| + |V(H)|$ space, it is a improvement
+over all previous constraint programming algorithms, which
+require at least $O(|V(G)| |V(H)|)$ space just to represent
+the initial domains.  The Glasgow Subgraph Solver uses $O(|V(H)|)$ space
+to represent adjacency matrices, and requires $O(|V(G)|^2|V(H)|)$ space
+to solve any satisfiable instance.
+
+\begin{proposition}\label{mcsplit-si-space}
+    \McSplit-SI-LL uses $O(n_G + m_G + m_H)$ space, where
+    $n_G=|V(G)|$,
+    $m_G=|E(G)|$, and
+    $m_H=|E(H)|$.
+\end{proposition}
+
+\begin{proof}
+    The function $\FuncSty{Filter}(v,w)$ runs in $O(|N_G(v)| + |N_H(w)|)$ time
+    and each of its operations allocates at most $O(1)$ space; therefore the
+    function uses $O(|N_G(v)| + |N_H(w)|)$ space.
+
+    Each of the functions
+    $\FuncSty{SelectLabelClass}$,
+    $\FuncSty{SelectVertex}$,
+    $\FuncSty{Assign}$,
+    $\FuncSty{Unassign}$,
+    and
+    $\FuncSty{Unfilter}$
+    uses $O(1)$ space and does not allocate any memory that is not released
+    when the function returns.  Moreover, $\FuncSty{Unfilter}$ releases
+    all of the memory that was allocated by the corresponding call to $\FuncSty{Filter}$.
+
+    The mapping $M$ can be no larger than $n_G$, so the maximum recursion depth for
+    $\FuncSty{Search}$ calls is $n_G + 1$.  Now suppose we are at the start of the
+    $\FuncSty{Search}$ function at some given node at depth $k$ of the search tree 
+    ($k \leq n_G + 1$).  At earlier levels of the call stack, $k-1$ calls to $\FuncSty{Filter}$
+    have been made; the $v$ parameter for these calls has taken distinct values
+    $\{v_1, \dots, v_{k-1}\} \subseteq V(G)$, and the $w$ parameter has taken distinct values
+    $\{w_1, \dots, w_{k-1}\} \subseteq V(H)$.  These $\FuncSty{Filter}$ calls have used
+    $\sum_{i=1}^{k-1} O(|N_G(v_i)| + |N_H(w_i)|) = O(m_G + m_H)$ space.  In total,
+    local variables used in the $k$
+    recursive calls of $\FuncSty{Search}$ use a further $O(k) = O(n_G)$ space.  Thus,
+    the total space usage is $O(n_G + m_G + m_H)$.
+\end{proof}
+
+\section{A version for dense graphs}\label{sec:mcsplit-si-adjmat}
+
+Our second alternative version of \McSplit-SI 
+stores graphs as adjacency matrices rather than
+adjacency lists.  This does not use the \McSplit-SI data structures described
+in this chapter, and is essentially a decision version of the \McSplit\ solver
+for maximum common subgraph described in \Cref{c:mcsplit-i-undirected}.
+We will see in \Cref{sec:mcsplit-si-experiments}
+that the algorithm often outperforms \McSplit-SI on instances with
+relatively dense graphs.  The main additional feature compared to the maximum
+common subgraph version of \McSplit\ is a version of the lazy partitioning
+technique that was described in \Cref{subsec:mcsplit-si-optimisations}.  Before
+running the partitioning algorithm, we iterate over the label classes, counting
+in each label class the number of vertices adjacent to $v$ in the pattern graph
+and to $w$ in the target class.  This often allows us to backtrack without the
+need for the relatively expensive step of swapping vertices within a label
+class.
+
+\section{Generalised arc consistency on the all-different constraint}\label{sec:mcsplit-si-gac}
 
 The constraint programming model for induced subgraph isomorphism in \Cref{subsec:cp-model-isip}
 contains an all-different
@@ -1030,7 +1174,7 @@ Glasgow and RI time out on the $k=10$ and $k=6$ instances respectively.
 
 \subsection{A family of instances where \McSplit-SI is outperformed by Glasgow}
 
-In the previous subsection, we saw a family of instances on which \McSplit-SI easily outperforms
+In the previous subsection, we saw a family of instances on which \McSplit-SI outperforms
 the Glasgow Subgraph Solver.  We can easily construct a family of instances where the reverse is true.
 Consider the graphs in \Cref{figure:glasgow-fast-example}.
 Graph $G'_3$ consists of three copies of the cycle $C_4$ and three copies of the star
@@ -1147,141 +1291,12 @@ solve the instance with $k=1000$ (a 7000-vertex pattern graph and an
 As we have seen in this section, neither \McSplit-SI nor Glasgow dominates the other solver.  In the next
 section, we perform an experimental evalulation to compare solvers on benchmark instances.
 
-\FloatBarrier
-
-\section{A version using linked lists of vertices}\label{sec:mcsplit-si-ll}
-
-The data structure used by \McSplit-SI to represent the two lists of vertices
-within each label class enables fast partitioning, but has the disadvantage
-that the vertices in each list are not kept in any particular order.  This has
-two negative consequences.  First, when selecting a label class according to
-the smallest domain first heuristic with tie breaking on degree, we need to
-scan the pattern-graph vertices within each label class of minimum size to find
-a vertex of optimal degree.  Second, we face a time-space tradeoff when
-iterating over the target-graph vertices in degree order on
-\lineref{McSplitSIWLoop} of \Cref{McSplitSIAlg}: we can choose either to copy
-the list of vertices representing $S_H$ and then sort this copy, or to scan the
-list $S_H$ on each iteration for the next-best element.  The first of these
-options --- which we use in our implementation --- requires $O(|S_H| \log
-|S_H|)$ time and $|S_H|$ words of additional space; the second requires
-$O(|S_H|^2)$ time and no additional space.
-
-These disadvantages tend to be small in practice, as the label class chosen for
-iteration tends to be small except at the root of the search tree.
-Nevertheless, there exist pathological instances in which the smallest label
-classes are large even deep in the search tree.  For example, if the pattern
-and target graphs have no edges then there is only one label class at every
-depth of recursion.  Therefore, it would be useful to have a version of
-\McSplit-SI that keeps the vertices sorted in each label class without increasing
-the time complexity of the partitioning procedure.  This section describes
-such a version, which we call \McSplit-SI-LL because it stores
-vertices in linked lists.
-
-The data structures of \McSplit-SI-LL differ from those of \McSplit-SI as
-follows.  \McSplit-SI-LL does not use the arrays \Garray\ and \Harray; rather,
-each element of \Gptrs\ and \Hptrs\ has forward and backward pointers that
-enable the vertices within a label class to be joined together as a doubly
-linked list.  In each label class, \varStartG, \varEndG, \varStartH, and
-\varEndH\ point to the first and last nodes of these linked lists in \Gptrs\
-and \Hptrs.  Each label class has two additional integer members that store the
-lengths of the two lists of vertices.
-
-Since the linked-list nodes are embedded in an array, we can delete a given
-vertex from its list in constant time.  We have the usual time complexity
-guarantees of doubly linked lists for other operations: constant-time
-append and insert, and linear-time iteration.
-
-\Cref{figure:si-data-structures-ll-version}
-shows the data structures of \McSplit-SI-LL after assigning vertex $1$ to vertex $a$;
-this corresponds to \Cref{figure:si-data-structures} which shows the same state
-using the data structures of \McSplit-SI.
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics*[width=0.75\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1-ll-version}
-    \caption{The data structures of \McSplit-SI-LL. Each of the two sets of vertices in a label
-        class is represented as a doubly-linked list.}
-    \label{figure:si-data-structures-ll-version}
-\end{figure}
-
-Before the first call to $\FuncSty{Search}()$, the two linked lists of vertices in
-each label class are sorted in order of vertex degree.  We also sort each adjacency list
-of graphs $G$ and $H$ in order of vertex degree.
-
-We require the order of each linked list of vertices to be maintained
-by the $\FuncSty{Filter}$ and $\FuncSty{Unfilter}$ functions.  The first of these is straightforward:
-when iterating over an adjacency list in the $\FuncSty{Filter}$ function, we delete each vertex $v$
-from its label class and append it to the new label class.  Because the adjacency lists have been sorted
-by degree before search, vertices are appended to each new label class in order of degree.
-
-The $\FuncSty{Unfilter}$ function requires more work in \McSplit-SI-LL than in \McSplit-SI,
-since when merging label classes we must ensure that each vertex is returned to the position
-in its former label class from which it was removed.  To enable this, we perform a little extra
-bookkeeping during the $\FuncSty{Filter}$ function: each time we remove a vertex $u$, we store
-$v$ in an array along with a pointer to its successor node in the linked list from which $u$
-was removed.  This array is at most as long $|N_G(v)|$ or $|N_H(v)|$, and the storage
-space for all of these arrays can be pre-allocated before search.
-
-In the next section, we will see that \McSplit-SI-LL is space-efficient.  The experimental evaluation
-in the following section shows that \McSplit-SI-LL runs faster \McSplit-SI on some instances, but
-slightly slower on many instances.
-
-\FloatBarrier
-
-\section{Space complexity}\label{sec:mcsplit-si-space-complexity}
-
-The following proposition demonstrates that the memory needed by \McSplit-SI-LL
-is bounded above by a constant multiple of the space used to store the adjacency
-lists of $G$ and $H$.  While this is greater than the space complexity of 
-VF3 and RI, which require only $|V(G)| + |V(H)|$ space, it is improvement
-over all previous constraint programming algorithms, which
-require at least $O(|V(G)| |V(H)|)$ space just to represent
-the initial domains.  The Glasgow Subgraph Solver uses $O(|V(H)|)$ space
-to represent adjacency matrices, and requires $O(|V(G)|^2|V(H)|)$ space
-to solve any satisfiable instance.
-
-\begin{proposition}\label{mcsplit-si-space}
-    \McSplit-SI-LL uses $O(n_G + m_G + m_H)$ space, where
-    $n_G=|V(G)|$,
-    $m_G=|E(G)|$, and
-    $m_H=|E(H)|$.
-\end{proposition}
-
-\begin{proof}
-    The function $\FuncSty{Filter}(v,w)$ runs in $O(|N_G(v)| + |N_H(w)|)$ time
-    and each of its operations allocates at most $O(1)$ space; therefore the
-    function uses $O(|N_G(v)| + |N_H(w)|)$ space.
-
-    Each of the functions
-    $\FuncSty{SelectLabelClass}$,
-    $\FuncSty{SelectVertex}$,
-    $\FuncSty{Assign}$,
-    $\FuncSty{Unassign}$,
-    and
-    $\FuncSty{Unfilter}$
-    uses $O(1)$ space and does not allocate any memory that is not released
-    when the function returns.  Moreover, $\FuncSty{Unfilter}$ releases
-    all of the memory that was allocated by the corresponding call to $\FuncSty{Filter}$.
-
-    The mapping $M$ can be no larger than $n_G$, so the maximum recursion depth for
-    $\FuncSty{Search}$ calls is $n_G + 1$.  Now suppose we at the start of the
-    $\FuncSty{Search}$ function at some given node at depth $k$ of the search tree 
-    ($k \leq n_G + 1$).  At earlier levels of the call stack, $k-1$ calls to $\FuncSty{Filter}$
-    have been made; the $v$ parameter for these calls has taken distinct values
-    $\{v_1, \dots, v_{k-1}\} \subseteq V(G)$, and the $w$ parameter has taken distinct values
-    $\{w_1, \dots, w_{k-1}\} \subseteq V(H)$.  These $\FuncSty{Filter}$ calls have used
-    $\sum_{i=1}^{k-1} O(|N_G(v_i)| + |N_H(w_i)|) = O(m_G + m_H)$ space.  In total,
-    local variables used in the $k$
-    recursive calls of $FuncSty{Search}$ use a further $O(k) = O(n_G)$ space.  Thus,
-    the total space usage is $O(n_G + m_G + m_H)$.
-\end{proof}
-
 \section{Experimental evaluation}\label{sec:mcsplit-si-experiments}
 \label{sec:si-experiments}
 
-In this section, we compare the speed of \McSplit-SI with three state-of-the-art algorithms
-on three sets of benchmark instances.  In \Cref{subsec:si-decision-experiment},
-we use an existing large, heterogeneous set of pairs of unlabelled
+We now compare the speed of \McSplit-SI with existing state-of-the-art algorithms
+on three sets of benchmark instances.  \Cref{subsec:si-decision-experiment}
+uses an existing large, heterogeneous set of pairs of unlabelled
 graphs.
 In \Cref{subsec:si-knights-experiment},
 we consider a new set of decision-problem
@@ -1291,34 +1306,22 @@ Finally, in \Cref{subsec:si-enumeration-experiment}, we use pairs of random dire
 graphs based on another existing benchmark set;
 we solve the problem of counting all induced subgraph isomorphisms from the pattern to the target.
 
-\subsection{Other solvers}
+\subsection{Solvers used}
 
-Our experiments compare \McSplit-SI with three state-of-the-art subgraph isomorphism solvers:
-VF3, RI, and Glasgow.  
-
+Our experiments compare \McSplit-SI with four state-of-the-art subgraph isomorphism solvers:
+VF3, RI, RI-DS, and Glasgow.   In addition, we use PathLAD in \Cref{subsec:si-knights-experiment};
+this solver has been shown in prior work to be outperformed by Glasgow and VF3 respectively
+on the other two sets of instances \citep{DBLP:journals/pami/CarlettiFSV18,DBLP:conf/gbrpr/Solnon19}.
+These solvers are described in \Cref{sec:si-algorithms}.
 In terms of effort per search node, \McSplit-SI may be viewed intuitively as sitting
-between Glasgow on one hand VF3 and RI on the other.
+between Glasgow and PathLAD on one hand and VF3, RI, and RI-DS on the other.
 
 We use the 14 March 2022 version of the Glasgow solver, published
 online.\footnote{\url{https://github.com/ciaranm/glasgow-subgraph-solver}}
 In addition, we report results of the Glasgow solver with supplemental graphs
 switched off.
 
-\paragraph*{\McSplit-SI-adjmat} Finally, we implemented a version of \McSplit\
-for subgraph isomorphism that stores graphs as adjacency matrices rather than
-adjacency lists.  This does not use the \McSplit-SI data structures described
-in this chapter, and is essentially a decision version of the \McSplit\ solver
-for maximum common subgraph described in \Cref{c:mcsplit-i-undirected}.
-However, we tried to make the implementation fast, and indeed we will see in
-the results that the algorithm often outperforms \McSplit-SI on instances with
-relatively dense graphs.  The main additional feature compared to the maximum
-common subgraph version of \McSplit is a version of the lazy partitioning
-technique that was described in \Cref{subsec:mcsplit-si-optimisations}.  Before
-running the partitioning algorithm, we iterate over the label classes, counting
-in each label class the number of vertices adjacent to $v$ in the pattern graph
-and to $w$ in the target class.  This often allows us to backtrack without the
-need for the relatively expensive step of swapping vertices within a label
-class.
+The \McSplit-SI variants used are shown in \Cref{tab:mcsplit-si-variants}.
 
 \begin{table}[htb]
 \centering
@@ -1328,17 +1331,18 @@ class.
     Name & Description \\ [0.5ex]
  \midrule
     \McSplit-SI & The base \McSplit-SI algorithm \\
-    \rule{0pt}{2.3ex}\McSplit-SI-LL & \McSplit-SI with lists of vertices stored as sorted doubly-linked lists \\
+    \rule{0pt}{2.3ex}\McSplit-SI-LL & \McSplit-SI with lists of vertices stored as sorted doubly-linked lists
+                (\Cref{sec:mcsplit-si-ll})\\
     \rule{0pt}{2.3ex}\McSplit-SI-AM & An adaptation of \McSplit\ decision-problem solver (using adjacence matrix
         representation of graphs) to the induced subgraph isomorphism problem.  This does not use \McSplit-SI's
-        partitioning algorithm optimised for sparse graphs. \\
-    \rule{0pt}{2.3ex}\McSplit-SI-s & \McSplit-SI with the dynamic variable-ordering heuristic replaced by
-        the static heuristic of RI \citep{DBLP:journals/tcbb/BonniciG17} \\
-    \rule{0pt}{2.3ex}\McSplit-SI-pre & TODO, refer forward. \\
+        partitioning algorithm optimised for sparse graphs. (\Cref{sec:mcsplit-si-adjmat})\\
+    \rule{0pt}{2.3ex}\McSplit-SI-static & \McSplit-SI with the dynamic variable-ordering heuristic replaced by
+        the static heuristic of RI \citep{DBLP:journals/tcbb/BonniciG17} (\Cref{subsec:mcsplit-si-static})\\
+%    \rule{0pt}{2.3ex}\McSplit-SI-pre & TODO, refer forward. \\
 \bottomrule
 \end{tabular}
 \caption{Summary of \McSplit-SI variants used in this chapter's experiments}
-\label{tab:mcsplit-si variants}
+\label{tab:mcsplit-si-variants}
 \end{table}
 
 \subsection{Decision instances}\label{subsec:si-decision-experiment}
@@ -1578,9 +1582,8 @@ and VBOS (vertical axis) for each instance.  On six families
 of instances (BVG, Rand, LV, Phase, Images, Meshes), the number
 of instances where \McSplit-SI is faster than VBOS is greater than the number of instances where
 the reverse is true. 
-On the other hand, Glasgow certainly does not dominate the other solvers;
-indeed, there are certainly families such as Scalefree
-where \McSplit-SI appears to be worse overall than VBOS.
+On the other hand, \McSplit-SI certainly does not dominate the other solvers;
+indeed, there are families such as Scalefree where \McSplit-SI appears to be worse overall than VBOS.
 
 \begin{figure}[htb]
     \centering
@@ -1690,13 +1693,26 @@ presolver.
 \caption{Number of instances solved within 1000 seconds using a 100 ms presolve.  Each number
         refers to a solver that runs the solver named in the row for 100 ms, then switches to the
         solver named in the column.  Underlined values are greater than the number of instances
-        solved by Glasgow without presolve ($14,524$).}
+        solved by Glasgow without presolve ($14,524$). McS-SI-s=\McSplit-SI-static.}
 \label{tab:si-decision-presolve-counts}
 \end{table}
 
 \paragraph*{Number of instances solved}
-TODO talk about how \Cref{tab:si-decision-solved-counts} shows the number of instances
-solved.
+\Cref{tab:si-decision-solved-counts} shows, for each family and each solver,
+the number of instances that were solved within the 1000-second time limit.
+The final column, ``McS pre.'', refers to a solver that runs \McSplit-SI for 100 ms
+as a presolver, then runs \McSplit-SI-static for the remaining time.  For every
+family, this solver is able to solve at least as many instances as the best other
+solver.
+
+``Phase'' is family on which all \McSplit-SI variants perform particularly well in
+\Cref{tab:si-decision-solved-counts}.  This family is unusual in that the graphs
+in many of the instances have density greater than $\nicefrac{1}{2}$.  
+Much of the success of \McSplit-SI on these instances is due to the
+strategy of sorting graphs in increasing order of degree if the target
+graph is dense (\Cref{sec:mcsplit-si-heuristics}).  I re-ran the experiment 
+with \McSplit-SI using the decreasing-degree sort order for all graphs;
+only 179 rather than 199 Phase instances were solved within the time limit.
 
 \begin{table}[htb]
 \centering
@@ -1704,12 +1720,18 @@ solved.
     \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/solved-counts}
 \caption{The number of instances in each family that were solved by each solver
     within the 1000 second time limit.
-    The ``Count'' column shows the total number of instances per family.}
+    The ``Count'' column shows the total number of instances per family.
+    An underlined value indicates that no other solver solved a greater number of instances
+    in this family.}
 \label{tab:si-decision-solved-counts}
 \end{table}
 
-\paragraph*{Number of for which each solver was the fastest}
-TODO talk about \Cref{tab:si-decision-winner-counts}
+\paragraph*{Number of instances for which each solver was the fastest}
+\Cref{tab:si-decision-winner-counts} shows, for each family and each solver,
+the number of instances for which the solver was the fastest of all solvers
+shown.  For seven of the nine families, \McSplit-SI had the highest count
+of ``wins''.  Glasgow performs poorly by this measure; for five families,
+there were no instances for which it was the fastest solver.
 
 \begin{table}[htb]
 \centering
@@ -1717,7 +1739,8 @@ TODO talk about \Cref{tab:si-decision-winner-counts}
     \input{14b-mcsplit-induced-si/decision-instances-experiment/experiment/fatanode-results/winner-counts}
 \caption{For each family of instances, the number of instances for which each solver's
     run time equalled the best run time among all solvers shown.  The second
-    column shows the total number of instances per family.}
+    column shows the total number of instances per family.  Underlined values
+    are the best (or join-best) for that family.}
 \label{tab:si-decision-winner-counts}
 \end{table}
 
@@ -1796,7 +1819,7 @@ TODO talk about \Cref{tab:si-decision-winner-counts}
 \subsection{Knight's grid instances}\label{subsec:si-knights-experiment}
 
 Our second set of decision-problem instances were proposed by Knuth in a recent pre-fascicle
-of The Art of Computer Programming \cite{knuth2022art}.  Each pattern graph is a rectangular grid
+of The Art of Computer Programming \citep{knuth2022art}.  Each pattern graph is a rectangular grid
 $P_m \square P_n$, and each target graph is a knight graph $N_t$ which has one vertex for each
 square of a $t \times t$ chessboard and an edge between any two squares that are a knight's
 move (two squares horizontally and one square vertically or vice versa) apart.
@@ -1838,7 +1861,6 @@ tour of length $m$.
 For $m \in \{2,3,4\}$, we considered instances of the form ``is $P_m \square P_n$ isomorphic
 to a subgraph of $K_k$, with $k \geq 4$ and $n$ equal to either the largest value for which
 the instance is satisfiable or the smallest value for which the instance is unsatisfiable.
-
 The vertices of each graph were randomly permuted to ensure that the vertex
 order does not give clues to the solvers that might make the satisfiable
 instances artificially easy.  The same pair of permuted graphs was given to
@@ -1895,7 +1917,7 @@ future work.)
 \end{table}
 
 \paragraph{Results for unsatisfiable instances}
-Tables \ref{tab:KnightSat2} to \ref{tab:KnightSat4} show run times for unsatisfiable instances.
+Tables \ref{tab:KnightUnsat2} to \ref{tab:KnightUnsat4} show run times for unsatisfiable instances.
 For each of these families of instances, \McSplit-SI-LL is the clear overall winner. Among the
 non-\McSplit\ solvers, Glasgow is the fastest constraint programming solver and RI-DS
 is the fastest other solver.
@@ -1932,11 +1954,11 @@ The goal of this experiment was to compare a set of general-purpose subgraph iso
 solvers on an interesting set of benchmark instances, but we should note that the solvers
 compared here are far from the fastest way to solve the specific problem of embedding
 a large grid in an knight graph.
-Donald Knuth, in preparing \citet{knuth2022art}, wrote a series of six specialised
+\citet{knuth2022art} has written six specialised
 programs for finding such maximal embeddings.  To give an example of the programs' run times,
 the program \texttt{back-knightgrid2-strict} takes less than
 three seconds to find the largest $k$ such that $P_2 \square P_k$
-is isomorphic to an induced subgraph of $K_{14}$; the fastest
+is isomorphic to an induced subgraph of $K_{14}$. The fastest
 program in our experiment needs more than 600 seconds to solve the same problem.
 Among several other interesting techniques, Knuth's programs use symmetry breaking;
 it would certainly be possible to add symmetry breaking to each of the solvers considered
@@ -1980,11 +2002,6 @@ of $n$ for the target graph that were used by Carletti et al.; these are shown i
 In each instance, a randomly-selected subset of $20\%$ of the target vertices is selected,
 and the subgraph induced by this subset is used as the pattern graph.  Thus, each instance
 is satisfiable (and a typical instance has exactly one solution).
-
-We do not include the LAD solver in our experiments because
-the experimental results of \cite{DBLP:journals/pami/CarlettiFSV18} show that LAD
-is orders of magnitude slower than VF3 on instances constructed in
-this way.
 
 \begin{table}[htb]
 \centering
