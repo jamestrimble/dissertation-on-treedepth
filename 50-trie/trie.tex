@@ -142,7 +142,7 @@ The very closely related concept \emph{almost contains} is introduced by Charika
 \section{The data structure}
 
 We assume that the universe $U$, of which the elements of $\mathcal{C}$ are
-subsets, is a totally-ordered set.  In our examples, we will have $U = \{0, \dots, 7\}$.
+subsets, is a totally ordered set.  In our examples, we will have $U = \{0, \dots, 7\}$.
 
 The new data structure is a trie, and the layout of the trie is the same as
 that of a Set-Trie \cite{DBLP:conf/IEEEares/Savnik13}.  Each set to be stored
@@ -347,7 +347,7 @@ The implementations were in Java, and I ran the experiment on my laptop.
 For each $k \in \{0, \dots, 10\}$, I randomly generated
 100,000 10-element subsets of $U = \{0, \dots, 49\}$ and added them to a trie
 data structure.  I then performed 1000 $(S, k)$ queries, with each set $S$
-being a randomly-generated set of size 10.  I ran the same set of additions
+being a randomly generated set of size 10.  I ran the same set of additions
 and queries using Java's HashSet data structure; the queries were performed
 by iterating over all elements $S$ of the HashSet and testing whether the union
 of the query set and $S$ had cardinality at most $10 + k$.
@@ -369,7 +369,7 @@ from the characters at nodes.
     \caption{Comparison of hash set and trie for almost-subset queries.
         For each value of $k$ from 0 to 10, we added 100,000 sets of size 10
         to a collection, then performed 1000 queries.  Each query sought,
-        for a randomly-generated set of size 10, 
+        for a randomly generated set of size 10, 
         all $k$-almost subsets of $S$ in the collection.  The \emph{Items}
         column shows the mean number of items returned from the collection
         per query.  The final two columns show the total time (for

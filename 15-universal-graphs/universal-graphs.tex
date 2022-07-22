@@ -341,7 +341,7 @@ For this experiment, we let $\calF = \calF(5)$, and we consider the problem
 of finding induced universal graphs of order 8.
 Each point on the plots
 represents one of the 34 graphs of order 5 (fewer than 34 points are visible
-due to exactly-overlapping points, as we would expect).  On the vertical
+due to exactly overlapping points, as we would expect).  On the vertical
 axis, we have the number of graphs in $\calF(8)$ containing $G$; we would like
 graphs for which this value is small to appear early in our order.
 On the horizontal axes we have each of our two measures: size of automorphism group
@@ -1083,7 +1083,7 @@ until timeout, is $\FuncSty{FindInducedUniversalGraph'}()$.
 \nl    Add edges to make vertices $\{0, \dots, 5\}$ of $G$ a clique \;
 \nl    Add to $G$ each possible edge marked $\boldsymbol{\cdot}$ in \Cref{fig:heuristic-regions} with probability $1/2$ \;
     \nl    \For {$i \in \{1, \dots \AlgVar{maxIter}\}$\label{ImproveLoop}}{
-\nl      $v, w \gets$ vertices corresponding to a randomly-selected position marked $\boldsymbol{\cdot}$ in \Cref{fig:heuristic-regions} \;
+\nl      $v, w \gets$ vertices corresponding to a randomly selected position marked $\boldsymbol{\cdot}$ in \Cref{fig:heuristic-regions} \;
     \nl      $G' \gets \FuncSty{FlipEdge}(G, v, w)$ \label{FlipStep} \;
     \nl      \lIf {$\FuncSty{Score}(G') = |\calF(6)|$}{$\KwSty{return}$~$G'$ \LeftComment{Success!}}
     \nl      \lIf {$\FuncSty{Score}(G') \geq \FuncSty{Score}(G)$}{$G \gets G'$\label{ImproveLoopEnd}}
@@ -1156,7 +1156,7 @@ of 156 graphs) that are
 isomorphic to an induced subgraph of our 14-vertex graph.  If the most recent flip
 increased this number or left it unchanged, we accept the modification
 to the graph.  After $\AlgVar{maxIter}$
-flips, we restart the algorithm with a new randomly-generated graph.
+flips, we restart the algorithm with a new randomly generated graph.
 
 Our implementation has two optimisations that are not shown in \Cref{alg:heuristic}.
 First, scores are cached in a dictionary data structure, so that we can quickly look

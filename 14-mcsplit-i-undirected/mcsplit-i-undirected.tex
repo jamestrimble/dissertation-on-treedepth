@@ -1014,7 +1014,7 @@ mirror those of the \McSplit\ algorithm.
 \end{proof}
 
 It is clear from the proof of \cref{cliqueMcSplitProp} that \cref{DecisionMcSplitAlg}
-and \cref{CliqueDecisionAlg} explore identically-shaped search trees.
+and \cref{CliqueDecisionAlg} explore identically shaped search trees.
 
 \paragraph{Branch and bound algorithms}
 In order to simplify the exposition, this section has shown that a
@@ -1174,7 +1174,7 @@ instances.
 
 \section{Instances used in experiments}\label{sec:mcis-instances}
 
-Our experiments use a database of randomly-generated maximum common subgraph
+Our experiments use a database of randomly generated maximum common subgraph
 instances \citep{DBLP:journals/prl/SantoFSV03,DBLP:journals/jgaa/ConteFV07}.
 Each instance satisfies $10 \leq n_G = n_H \leq 100$.  The database's authors
 produced each instance by generating a graph $G'$ of a given family to serve as
@@ -2065,7 +2065,7 @@ colour classes are $\{1a,2a\}$, $\{1b,2b\}$, and $\{1c,2c\}$).
 
 We now turn to the extreme case in which all vertex labels are distinct
 in each of the two input graphs.  \Cref{fig:clique-bound-labelled} shows
-two graphs, each with three distinctly-labelled vertices; the labels
+two graphs, each with three distinctly labelled vertices; the labels
 are represented by three different shapes.  The \McSplit\ upper bound is 3,
 since there are three label classes, each with one from each graph.
 A greedy colouring of the association graph gives a stronger bound, 2,
@@ -2212,7 +2212,7 @@ author added proof logging \citep{DBLP:conf/ijcai/GochtMN20} to the C++ implemen
 \McSplit\ to create a \emph{certified} version of the solver.  This outputs a log of the
 solver's reasoning steps using the cutting plane proof system
 \citep{DBLP:journals/dam/CookCT87}, such that the log can be verified using a
-simple and extensively-tested checker program.  The proof logging and verification process
+simple and extensively tested checker program.  The proof logging and verification process
 slows down the solver by around three orders of magnitude; therefore I did not use it for
 the experiments in the current thesis chapter.  However, the programs's logs were verified
 for all 16,300 instances considered for the paper, providing evidence of the implementation's
@@ -2247,7 +2247,7 @@ deserve mention despite being unpublished.
 of \McSplit\ and a clique algorithm for a range of labelling schemes, finding that \McSplit\
 outperforms the clique encoding even for labelled graphs, if only a small number of labels are
 used.  Dilkas uses machine learning to construct a portfolio solver that chooses intelligently
-between \McSplit\ and the clique encoding according to easily-computed characteristics of the
+between \McSplit\ and the clique encoding according to easily computed characteristics of the
 two input graphs such as density and standard deviation of degrees. The portfolio solver
 outperforms each of its component algorithms, giving overall performance close to that of the virtual
 best solver.  Finally, Dilkas constructs hybrid algorithm, \textsc{Fusion}, that switches

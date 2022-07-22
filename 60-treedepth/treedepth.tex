@@ -671,7 +671,7 @@
     We choose the lowest-numbered vertex $v$ in $G$ as our starting point, and
     attempt to grow the path from $v$ in two directions (\codelineref{TwoDirectionsOfPathSearch}).
     In each of these two growing phases, the algorithm extends the path
-    by one vertex at a time until the most-recently-visited vertex has no
+    by one vertex at a time until the most recently visited vertex has no
     neighbours that are not on the path (\linerangeref{StartOfPathLoop}{EndOfPathLoop}).
     If $\lceil \log_2(k+1)\rceil$, where $k$ is the length of the constructed path,
     exceeds the target treedepth, the algorithm returns $\AlgVar{true}$.
@@ -915,7 +915,7 @@
     We have introduced an algorithm for computing the exact treedepth of a graph, and shown
     experimentally that it runs orders of magnitude faster than the current state of the art
     on a varied set of benchmark instances.  The core of the algorithm is a
-    simple pair of mutually-recursive functions.
+    simple pair of mutually recursive functions.
     To this basic algorithm, we have added symmetry breaking, domination,
     lower bounding, and vertex ordering rules.  There is room for further
     improvement to each of these extensions of the algorithm.

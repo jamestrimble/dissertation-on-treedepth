@@ -313,7 +313,7 @@ Indeed \textsc{Clique} is, in an important sense, one of the hardest problems in
 \citep{DBLP:conf/coco/Karp72}: every instance of a problem in \NP\ can be
 transformed, or \emph{reduced}, to a \textsc{Clique} instance in polynomial
 time, such that the original instance and the reduced instance give the same
-answer.  Any problem with this property is called \emph{\NP-complete}.
+answer.  Any problem in \NP that has this property is called \emph{\NP-complete}.
 
 A problem $H$ is \emph{\NP-hard} if it is at least as hard as any problem in \NP;
 that is, if any problem in \NP\ can be solved in polynomial time under the assumption
@@ -393,7 +393,7 @@ problem and MCIS: by a result due to \citet{whitney1932congruent}, we can find
 the MCES two graphs by searching for an MCIS on their line graphs.  This
 approach has a small complication: the triangle graph $K_3$ and the claw graph
 $K_{1,3}$ (\cref{fig:k3-and-claw}) both have $K_3$ as their line graph, and we
-must therefore check during search that no strongly-connected component of $G$
+must therefore check during search that no strongly connected component of $G$
 that is a triangle (resp.\ claw) is mapped to a claw (resp.\ triangle) in $H$.
 
 \begin{figure}[htb]
@@ -1082,7 +1082,7 @@ In this type of algorithm, connected
 subgraphs of the first graph are enumerated by backtracking search.
 A subgraph isomorphism solver is used to test whether each of these subgraphs
 appears in each of the other input graphs.  In some versions of this algorithms,
-the subgraphs of $G$ are tested for isomorphism with previously-generated subgraphs
+the subgraphs of $G$ are tested for isomorphism with previously generated subgraphs
 in order to break symmetries.
 Unfortunately, we have been unable to find an implementation of this technique
 for MCIS in general graphs to use in our experimental evaluation.

@@ -52,7 +52,7 @@ chapter we introduce this improved algorithm, which we call \McSplit-SI.
 \McSplitDown\ (where the target is to find a copy of all of $G$ in $H$).
 Its key differences from
 \McSplit\ are (1) the use of adjacency lists rather than adjacency matrices
-to represent graphs; (2) a backtrackable, doubly-linked list of label class objects;
+to represent graphs; (2) a backtrackable, doubly linked list of label class objects;
 and (3) algorithms for partitioning and backtracking that are more intricate
 than the corresponding steps in \McSplit.
 
@@ -81,12 +81,12 @@ contiguously in an array, and each object representing a label class $\langle
 S_G, S_H \rangle$ requires only four indices or pointers---to the start and end
 of the array slices that contain $S_G$ and $S_H$.  To enable partitioning in
 $O(|N_G(v)| + |N_H(w)|)$ time, \McSplit-SI requires a more elaborate
-label-class object, and stores these objects in a doubly-linked list which is
+label-class object, and stores these objects in a doubly linked list which is
 modified when partitioning domains and restored on backtracking.
 
 \Cref{tab:mcsplit-si-object} lists the member variables of a label class object.
 The first two members are $\AlgVar{prev}$ and $\AlgVar{next}$ pointers, which
-allow the set of label classes to be jointed together as a doubly-linked list.
+allow the set of label classes to be jointed together as a doubly linked list.
 These pointers are useful not only for iterating over the list but also
 for restoring deleted elements when backtracking, as we will discuss shortly.
 
@@ -97,8 +97,8 @@ for restoring deleted elements when backtracking, as we will discuss shortly.
  \toprule
     Name & Type & Description \\ [0.5ex]
  \midrule
-    $\AlgVar{prev}$ & Pointer to Label Class & The previous label class in the doubly-linked list of label classes \\
-    \rule{0pt}{2.3ex}$\AlgVar{next}$ & Pointer to Label Class & The next label class in the doubly-linked list of label classes \\
+    $\AlgVar{prev}$ & Pointer to Label Class & The previous label class in the doubly linked list of label classes \\
+    \rule{0pt}{2.3ex}$\AlgVar{next}$ & Pointer to Label Class & The next label class in the doubly linked list of label classes \\
     \rule{0pt}{2.3ex}\varStartG & Pointer to Integer & Pointer to the first vertex of the $G$-set\\
     \rule{0pt}{2.3ex}\varEndG & Pointer to Integer & Pointer to one element past the last vertex of the $G$-set\\
     \rule{0pt}{2.3ex}\varStartH & Pointer to Integer & Pointer to the first vertex of the $H$-set\\
@@ -122,7 +122,7 @@ when backtracking.)  The second flag is used temporarily during the partitioning
 to record whether the label class has been partitioned.
 
 The collection of data structures used by \McSplit-SI to represent the set of
-active label classes has three components.  The first is the the doubly-linked
+active label classes has three components.  The first is the the doubly linked
 list of label class objects that we have described; we call this \calLC.  The
 second component is the pair of arrays that store partitions of $V(G)$ and
 $V(H)$ that are pointed to by each label class object (\McSplit\ similary uses
@@ -167,7 +167,7 @@ manipulations to label classes given only a vertex; it is these arrays that enab
 \Cref{c:mcsplit-i-undirected} which we will use again as the instance for this
 chapter's running example.  \Cref{figure:si-data-structures} shows the data
 structures of \McSplit-SI after making the assignment $(1,a)$.  In the middle
-row of the figure we have the doubly-linked list $\calLC$, and immediately
+row of the figure we have the doubly linked list $\calLC$, and immediately
 above and below this are the $\Garray$ and $\Harray$ arrays.  At the top and
 bottom are the arrays $\Gptrs$ and $\Hptrs$.  The latter two arrays are indexed
 by the vertex sets of the two graphs; although sets $\{1,\dots,5\}$ and
@@ -505,7 +505,7 @@ memory for arrays on each call to $\FuncSty{Filter}$: rather than storing the re
 as linear lists of pointers, we store two additional pointers within
 each label class so that the lists can be stored as (intrusive) singly linked
 lists without any need to allocate additional arrays.  In the case of the
-$\AlgVar{splits}$ list, our implementation returns a list of the newly-created
+$\AlgVar{splits}$ list, our implementation returns a list of the newly created
 label classes rather than the label classes from which they were split.
 
 \paragraph{Reversing the effects of the Filter function}
@@ -587,7 +587,7 @@ not need to create the new label classes or move vertices at all.
 \paragraph{Memory allocation}
 Our implementation aims to make as few calls to the system memory allocator as possible when creating
 new label class objects.  We have implemented a very simple allocator, as follows.  There is a \emph{free list}
-of label class objects, which is a singly-linked list of objects that are not currently in use.  When
+of label class objects, which is a singly linked list of objects that are not currently in use.  When
 a new label class is required, the first element of the free list is used.  If the free list is empty,
 we allocate a contiguous pool of 100 label class objects using the system allocator (in order to improve
 locality of reference), and add each of these to the free list.  A label class is deleted simply by
@@ -824,7 +824,7 @@ using the data structures of \McSplit-SI.
     \centering
     \includegraphics*[width=0.75\textwidth]{14b-mcsplit-induced-si/figs/data-structure-step-1-ll-version}
     \caption{The data structures of \McSplit-SI-LL. Each of the two sets of vertices in a label
-        class is represented as a doubly-linked list.}
+        class is represented as a doubly linked list.}
     \label{figure:si-data-structures-ll-version}
 \end{figure}
 
@@ -941,7 +941,7 @@ The algorithm iterates over the domains involved in the constraint, maintaining 
 all values seen so far.  If, at any step during the algorithm, $|A|$ is smaller than the number
 of domains visited so far, the algorithm can backtrack.  If $|A|$ equals the number of domains visited
 so far, then all of the members of $A$ are added to a set $H$ (the \emph{Hall set}), and are deleted from
-the domains of subsequently-visited variables.\footnote{To simplify the presentation,
+the domains of subsequently visited variables.\footnote{To simplify the presentation,
 I have made trivial changes from the algorithm described by McCreesh and Prosser.
 These changes affect neither the results nor the time complexity of the propagation algorithm.}
 The order in which variables are visited is crucial
@@ -1331,7 +1331,7 @@ The \McSplit-SI variants used are shown in \Cref{tab:mcsplit-si-variants}.
     Name & Description \\ [0.5ex]
  \midrule
     \McSplit-SI & The base \McSplit-SI algorithm \\
-    \rule{0pt}{2.3ex}\McSplit-SI-LL & \McSplit-SI with lists of vertices stored as sorted doubly-linked lists
+    \rule{0pt}{2.3ex}\McSplit-SI-LL & \McSplit-SI with lists of vertices stored as sorted doubly linked lists
                 (\Cref{sec:mcsplit-si-ll})\\
     \rule{0pt}{2.3ex}\McSplit-SI-AM & An adaptation of \McSplit\ decision-problem solver (using adjacence matrix
         representation of graphs) to the induced subgraph isomorphism problem.  This does not use \McSplit-SI's
@@ -1999,7 +1999,7 @@ family from our experiment.)
 
 For each value of $p$, we use the values
 of $n$ for the target graph that were used by Carletti et al.; these are shown in \Cref{tab:carletti-n}.
-In each instance, a randomly-selected subset of $20\%$ of the target vertices is selected,
+In each instance, a randomly selected subset of $20\%$ of the target vertices is selected,
 and the subgraph induced by this subset is used as the pattern graph.  Thus, each instance
 is satisfiable (and a typical instance has exactly one solution).
 
