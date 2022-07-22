@@ -835,7 +835,11 @@ since the $B$ sets are a union of the label classes in \McSplit-SI, and it
 leaves unavailable the smallest-domain-first heuristic used by \McSplit-SI.
 RI is simpler still; it does not distinguish between sets $B$ and $C$.
 
-(TODO mention RI-DS)
+RI-DS \citep{DBLP:journals/bmcbi/BonniciGPSF13} is a version of RI that
+stores a domain for each vertex of $G$. These domains are filtered before search,
+but the algorithm does not perform additional filtering during search.  Therefore,
+the algorithm is more akin to the backtracking VF3 and RI solvers than to a
+constraint programming solver.
 
 \subsection{Other approaches}\label{subsec:other-approaches-sip}
 
