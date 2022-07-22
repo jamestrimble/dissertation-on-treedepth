@@ -44,8 +44,9 @@
   \end{tikzpicture}
 }
 
-Before we move to this dissertation's new contributions, this chapter presents
-necessary background material.  Sections \ref{sec:graph-terminology} and
+This chapter presents
+necessary background material for the remainder of the dissertation.
+Sections \ref{sec:graph-terminology} and
 \ref{sec:complexity} introduce topics from graph theory and complexity theory.
 \Cref{sec:problems} formally introduces the problems tacked by this
 dissertation, and \Cref{sec:related-problems} discusses closely related
@@ -313,12 +314,15 @@ Indeed \textsc{Clique} is, in an important sense, one of the hardest problems in
 \citep{DBLP:conf/coco/Karp72}: every instance of a problem in \NP\ can be
 transformed, or \emph{reduced}, to a \textsc{Clique} instance in polynomial
 time, such that the original instance and the reduced instance give the same
-answer.  Any problem in \NP that has this property is called \emph{\NP-complete}.
+answer.  Any problem in \NP\ that has this property is called \emph{\NP-complete}.
 
 A problem $H$ is \emph{\NP-hard} if it is at least as hard as any problem in \NP;
 that is, if any problem in \NP\ can be solved in polynomial time under the assumption
 that we have an oracle that can solve $H$ in constant time.  We will see in the next
 section that all three problems considered in this dissertation are \NP-hard.
+
+TODO could lead on to a section on coping with complexity as relating to optimisation problems, i.e., exponential-time algorithms that "perform well in practice", e.g., based on branch and bound, integer and constraint programming, FPT algorithms,...
+give theoretical bounds for current state of the art exponential-time algorithms for optimisation problems that you consider.
 
 \section{Problems covered by this dissertation}\label{sec:problems}
 
@@ -335,6 +339,8 @@ if so, return the isomorphism.
 find a graph with as few vertices as possible that contains each member of $\calF$
 as an induced subgraph.
 \end{itemize}
+
+TODO maybe give examples here?
 
 Each
 of these three problems can be seen to be \NP-hard by a simple reduction from
@@ -1193,7 +1199,7 @@ within that time.
 MCIS is \NP-hard, even if graphs are both bipartite.  This can be shown by a
 reduction from maximum induced matching.  (I think the proof for maximum induced
 matchings is in Induced Matchings (1989) by Kathie Cameron). Is there another
-proof somewhere?
+proof somewhere? David: Yes, see http://dx.doi.org/doi:10.1016/j.jda.2004.05.001 for a survey of the early results
 
 Independent set is NP-hard on planar graphs (see Wikipedia).  Therefore
 MCIS also is.
