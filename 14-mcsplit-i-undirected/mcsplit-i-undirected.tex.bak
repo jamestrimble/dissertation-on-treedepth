@@ -550,7 +550,7 @@ is partitioned in order to move all vertices adjacent to $w$ to the right.
 If, after this partitioning procedure, the right-hand portion of both of these subarrays
 has nonzero length, we create a new LC-array element pointing to these right-hand portions;
 this step corresponds to \linerangeref{IfNonEmpty}{AddToFutureWithEdge}.
-If the left-hand portion of both of these subarrays
+If, the left-hand portion of both of these subarrays
 has nonzero length, we create a new LC-array element pointing to these left-hand portions;
 this step corresponds to \linerangeref{IfNonEmpty2}{InnerLoopEnd}.
 
@@ -785,7 +785,6 @@ undirected and loopless.
 fact that a common subgraph with $t$ vertices exists if and only if the
 association graph has a clique with $t$ vertices; see
 \Cref{subsec:clique-algorithms}.  The proof strategy is to introduce and prove
-correct
 a simple algorithm for the clique decision problem, and then to show that this
 algorithm, when applied to the association graph, carries out exactly the same
 steps as the \McSplit\ algorithm applied to graphs $\graphG$ and $\graphH$.  A
@@ -906,7 +905,7 @@ algorithm.
 $\graphG$ and $\graphH$ for which we wish to find a common subgraph, and that
 $\graphA$ is their association graph.  We will consider calls to
 $\FuncSty{Search}(\AlgVar{future},M,t)$ in the \McSplit\
-algorithm (\cref{DecisionMcSplitAlg}), and corresponding calls to
+algorithm (\cref{DecisionMcSplitAlg}), and corresponding calls
 $\FuncSty{CliqueSearch}(P,C,t)$ in the clique algorithm
 \cref{CliqueDecisionAlg}, where $P = \{G \times H \mid \langle G,H \rangle \in
 \AlgVar{future}\}$ and $C = M$.  That is, each call to the
@@ -1326,7 +1325,7 @@ $k{\downarrow}$ algorithm of \citet{UpcomingAAAIPaper} (which only supports
 unlabelled, undirected, unconnected instances).
 \end{itemize}
 
-Each
+Each comparator
 program is an optimised, dedicated implementation and does not use a
 general-purpose CP toolkit.  We used the original authors'
 code in each case.
@@ -1417,7 +1416,7 @@ the strongest solver of those tested for these instances.
 
 Comparing only \McSplit\ with \McSplitDown\ on these instances, the branch and bound
 algorithm is by a narrow margin the overall winner.  The instance-by-instance
-comparison of the two algorithms in \Cref{figure:33ved-scatter} shows a similar pattern
+comparison of the two algorithms in \Cref{figure:33ved-scatter} shows a similar patten
 to the undirected, unlabelled instances, albeit without instances where \McSplitDown\
 is dramatically faster than \McSplit.
 
@@ -1721,14 +1720,14 @@ We have already seen from the colour coding in Figures
 \ref{figure:mcs-cumulative-plain-not-connected} and
 \ref{figure:mcs-cumulative-labelled-not-connected}
 that \McSplit\ is often slightly faster than \McSplitDown\ on instances where
-the maximum common subgraph is much smaller than the input graphs, and that
+the maximum commmon subgraph is much smaller than the input graphs, and that
 \McSplitDown\ is often much faster than \McSplit\ on instances with a large
 maximum common subgraph.  \Cref{figure:mcsplit-runtime-ratio-soln-size}
 examines this relationship in more detail.  In each plot, we have one
 point per instance.  The vertical axis measures the ratio of run times;
 values above 1 indicate that \McSplitDown\ is faster than \McSplit.
 The horizontal axis measures the number of vertices in a maximum
-common subgraph as a proportion of the number of vertices in each
+common subgraph as a proporition of the number of vertices in each
 of the two input graphs.
 
 \begin{figure}[htb]
@@ -2140,7 +2139,7 @@ We have established that the \McSplit\ and clique upper bounds are incomparable 
 and that the clique algorithm's bound is stronger than the \McSplit\ bound if there are very many vertex
 labels.  To find out which bound is better in practice for unlabelled graphs, and to find the point
 at which the clique bound becomes preferable, I carried out a small experiment on $G(n,p)$ random graphs,
-varying the size of the set of vertex labels.
+variying the size of the set of vertex labels.
 
 I generated 1800 pairs of random undirected, loopless graphs of order 20 without edge labels,
 with densities ranging from $0.1$ to $0.9$
@@ -2215,7 +2214,7 @@ solver's reasoning steps using the cutting plane proof system
 \citep{DBLP:journals/dam/CookCT87}, such that the log can be verified using a
 simple and extensively tested checker program.  The proof logging and verification process
 slows down the solver by around three orders of magnitude; therefore I did not use it for
-the experiments in the current thesis chapter.  However, the program's logs were verified
+the experiments in the current thesis chapter.  However, the programs's logs were verified
 for all 16,300 instances considered for the paper, providing evidence of the implementation's
 correctness.
 
@@ -2237,7 +2236,7 @@ and a parallel portfolio solver containing these along with the original \McSpli
 implementation.  The GPU implementation is shown to be promising although not competitive
 with CPU implementations on the hardware used by the paper's authors; the portfolio solver,
 however, is able to solve more instances within a given time limit than any of the
-constituent solvers.
+constitutent solvers.
 
 Finally, two theses --- the undergraduate thesis of Paulius Dilkas and
 the Masters thesis of Jonathan Trummer --- make significant contributions
@@ -2287,7 +2286,7 @@ generated data.
 \begin{figure}[htb]
     \centering
     \includegraphics*[width=0.7\textwidth]{14-mcsplit-i-undirected/data-for-diaconis-and-chatterjee/plot}
-    \caption{For each $N$, the blue bands give the range of predicted maximum
+    \caption{For each $N$, the blue bands give the range of prediced maximum
     common induced subgraph orders given by the asymptotic formula by
     Chatterjee and Diaconis \cite{chatterjee2021isomorphisms}.  For $N \leq 32$,
     100 instances were generated; the orange bands give the range of MCIS orders
