@@ -468,12 +468,12 @@ after presenting the \McSplit\ algorithm in detail.
 \nl \For {$w \in \setH$ \label{WLoop}} {
 \nl    $\AlgVar{future'} \gets \emptyset$ \label{NewFuture} \;
 \nl    \For {$\langle \setG',\setH'\rangle \in \AlgVar{future}$ \label{InnerLoop}}{
-\nl        $\setG'' \gets \setG' \cap \N(\graphG, v) \setminus \{v\}$ \label{NewPWithEdge} \;
-\nl        $\setH'' \gets \setH' \cap \N(\graphH, w) \setminus \{w\}$ \;
+\nl        $\setG'' \gets \setG' \cap \N(\graphG, v)$ \label{NewPWithEdge} \;
+\nl        $\setH'' \gets \setH' \cap \N(\graphH, w)$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{IfNonEmpty}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$ \label{AddToFutureWithEdge}}
-\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v) \setminus \{v\}$ \label{NewPWithoutEdge}  \;
-\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w) \setminus \{w\}$ \;
+\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v)$ \label{NewPWithoutEdge}  \;
+\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w)$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{IfNonEmpty2}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$} \label{InnerLoopEnd}
        }
@@ -752,12 +752,12 @@ I will describe how the proof can be extended to the full branch-and-bound \McSp
     \nl \For {$w \in \setH$ \algstep{C} \label{DecisionWLoop}} {
 \nl    $\AlgVar{future'} \gets \emptyset$ \label{DecisionNewFuture} \;
 \nl    \For {$\langle \setG',\setH'\rangle \in \AlgVar{future}$ \label{DecisionInnerLoop}}{
-\nl        $\setG'' \gets \setG' \cap \N(\graphG, v) \setminus \{v\}$ \label{DecisionNewPWithEdge} \;
-\nl        $\setH'' \gets \setH' \cap \N(\graphH, w) \setminus \{w\}$ \;
+\nl        $\setG'' \gets \setG' \cap \N(\graphG, v)$ \label{DecisionNewPWithEdge} \;
+\nl        $\setH'' \gets \setH' \cap \N(\graphH, w)$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{DecisionIfNonEmpty}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$ \label{DecisionAddToFutureWithEdge}}
-\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v) \setminus \{v\}$ \label{DecisionNewPWithoutEdge}  \;
-\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w) \setminus \{w\}$ \;
+\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v)$ \label{DecisionNewPWithoutEdge}  \;
+\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w)$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{DecisionIfNonEmpty2}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$} \label{DecisionInnerLoopEnd}
        }
