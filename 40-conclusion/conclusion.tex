@@ -1,35 +1,80 @@
 \chapter{Conclusion}
 \label{c:conclusion}
 
-This dissertation has introduced the \McSplit\ family of algorithms ---
-\McSplit\ for maximum common induced subgraph and \McSplit-SI for induced
-subgraph isomorphism.  We have shown the close relationship between these
-algorithms and both constraint programming and clique algorithms, and have
-demonstrated experimentally that the \McSplit\ algorithms outperform the
-existing state of the art on many families of benchmark instances.
+This dissertation has introduced the \McSplit\ family of algorithms---\McSplit\
+for maximum common induced subgraph (MCIS) and \McSplit-SI for the induced
+subgraph isomorphism problem (ISIP).  We have seen the close relationship
+between these algorithms and both constraint programming and clique algorithms.
+We have also seen how the data structures of \McSplit, combined with the
+special properties of the problems, give us good upper bounds for MCIS and
+generalised arc consistency on the all-different constraint in ISIP at almost
+no computational cost.
 
-We have applied \McSplit-SI to the problem of finding a small induced universal
-graph --- that is, a graph that contains every member of a given set of graphs
-as an induced subgraph --- which has received much theoretical attention on
+The \McSplit\ algorithms outperform
+the existing state of the art on many families of benchmark instances.  In the
+case of MCIS, this is particularly true for unlabelled, undirected instances;
+the clique encoding remains the best approach for instances with many labels on
+vertices and edges.  For induced subgraph isomorphism, \McSplit-SI is the
+fastest solver for many classes of graphs, including both random graphs and
+some classes of structured graphs such as the new knight's grid instances
+proposed by Knuth.  But
+\McSplit-SI is not the best ISIP solver for every instance---for some pairs of
+structured graphs from the Stanford GraphBase, for example,
+supplemental graphs give the Glasgow solver an advantage.
+
+Turning from subgraphs to supergraphs,
+we have applied \McSplit-SI to the problem of finding a small induced universal
+graph---that is, a graph that contains every member of a given set of graphs as
+an induced subgraph. This problem has received much theoretical attention on
 asymptotic results but very little attention on the development of solvers for
-small instances.  For this problem, we have developed new exact and heuristic
-algorithms for the problem and used these to generate new terms that have been
-included in the Online Encyclopedia of Integer Sequences.
+small instances.  We have developed new exact and heuristic algorithms for the
+problem and used these to generate new terms that have been included in the
+Online Encyclopedia of Integer Sequences.
 
-The strength of \McSplit\ --- its compact data structures that require little
-memory and enable very fast and simple filtering algorithms --- has the
+The strength of \McSplit\ --- its compact data structure that requires little
+memory and enables fast and simple filtering algorithms --- has the
 disadvantage that it places limits on how the algorithm can be modified.  For example, there
 appears to be no obvious way to add supplemental graphs to \McSplit-SI because
 they would break the invariant that two domains must be equal or disjoint.  Yet
-I would argue that \McSplit\ and \McSplit-SI are far from local optima, and
-that there remain many promising avenues for future development of the
-algorithms.  We could explore new variable and value ordering heuristics, and
-indeed work by other authors subsequent to the work presented in this thesis
-(TODO cite) has shown the effectiveness of more sophisticated heuristics.  We
-could try new search strategies beyond depth-first traversal of the search
-tree; initial work on using solution-biased search for \McSplit\ showed
-promising results, and this could extended to \McSplit-SI.
+many promising avenues remain for future development of the
+algorithms. For example:
+
+\begin{itemize}
+
+    \item We could explore new variable and value ordering heuristics.
+        Other authors have already shown that reinforcement learning
+        can be used to improve the heuristics in \McSplit\
+       \citep{DBLP:conf/aaai/0001LJ020,trummer2021}.
+       The present author, in preliminary work not presented here,
+        has found that a version of the $\mathsf{dom/deg}$ heuristic
+	\citep{DBLP:conf/cp/BessiereR96} solves more of the ISIP
+	instances in \label{subsec:si-decision-experiment}
+	than the smallest-domain-first approach that we have used.
+
+    \item We could use new search strategies beyond depth-first traversal of
+    the search tree. Initial work on using solution-biased search
+    \citep{DBLP:conf/cpaior/ArchibaldDHMP019} for \McSplit\ showed promising
+    results, and this could extended to \McSplit-SI.
+
+    \item We could develop new swapping rules for \McSplit\ like those in
+    \Cref{c:swapping-graphs-mcsplit}, using characteristics of the graphs other
+    than order and degree.
+
+    \item We could create a portfolio solver that chooses an appropriate
+    solver for each instance from a set of solvers including \McSplit.
+    This has already been done successfully for MCIS by \citep{dilkas2018};
+    future work could extend this by adding the swapping versions of
+    \McSplit\ from \Cref{c:swapping-graphs-mcsplit}.  There does not
+    yet exist a portfolio solver for ISIP that uses \McSplit-SI.
+
+    \item We could solve the maximum common \emph{edge} subgraph by
+    using \McSplit\ to solve MCIS on the line graphs of the two input
+    graphs \citep{DBLP:journals/jcamd/RaymondW02a}.  The same method
+    could be used to solve subgraph monomorphism
+    using \McSplit-SI.
+
+\end{itemize}
 
 Finally, it would be interesting to look for other constraint satisfaction
 problems in which many domains and constraints are equal or similar, for which
-we might use a \McSplit-like data structure.
+we might use a \McSplit-like data structure as a domain store.
