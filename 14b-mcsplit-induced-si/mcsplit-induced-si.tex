@@ -193,7 +193,7 @@ operations can be performed in the usual way.
 
 \FloatBarrier
 
-\section{The algorithm}\label{sec:mcsplit-si-algorithm}
+\section{The \McSplit-SI algorithm}\label{sec:mcsplit-si-algorithm}
 
 We begin our detailed look at \McSplit-SI with
 \Cref{McSplitSIAlg}, which presents the algorithm's overall structure.
@@ -773,7 +773,7 @@ which I will refer to as \McSplit-SI-static.  I have modified the RI heuristic
 in one respect: if graph $H$ has density greater than \nicefrac{1}{2}, the order
 is computed on the complement of $G$ rather than on $G$ itself.
 
-\section{A version using linked lists of vertices}\label{sec:mcsplit-si-ll}
+\section{\McSplit-SI-LL: A version using linked lists of vertices}\label{sec:mcsplit-si-ll}
 
 The data structure used by \McSplit-SI to represent the two lists of vertices
 within each label class enables fast partitioning, but has the disadvantage
@@ -899,7 +899,7 @@ to solve any satisfiable instance.
     the total space usage is $O(n_G + m_G + m_H)$.
 \end{proof}
 
-\section{A version for dense graphs}\label{sec:mcsplit-si-adjmat}
+\section{\McSplit-SI-AM: A version for dense graphs}\label{sec:mcsplit-si-adjmat}
 
 Our second alternative version of \McSplit-SI 
 stores graphs as adjacency matrices rather than
