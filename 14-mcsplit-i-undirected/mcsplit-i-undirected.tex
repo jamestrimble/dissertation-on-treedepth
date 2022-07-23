@@ -467,7 +467,7 @@ after presenting the \McSplit\ algorithm in detail.
 \nl $v \gets \FuncSty{SelectVertex}(\setG)$ \label{SelectVertex} \;
 \nl \For {$w \in \setH$ \label{WLoop}} {
 \nl    $\AlgVar{future'} \gets \emptyset$ \label{NewFuture} \;
-\nl    \For {$\langle \setG',\setH'\rangle \in future$ \label{InnerLoop}}{
+\nl    \For {$\langle \setG',\setH'\rangle \in \AlgVar{future}$ \label{InnerLoop}}{
 \nl        $\setG'' \gets \setG' \cap \N(\graphG, v) \setminus \{v\}$ \label{NewPWithEdge} \;
 \nl        $\setH'' \gets \setH' \cap \N(\graphH, w) \setminus \{w\}$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{IfNonEmpty}}{
@@ -751,7 +751,7 @@ I will describe how the proof can be extended to the full branch-and-bound \McSp
 \nl $v \gets \FuncSty{SelectVertex}(\setG)$ \label{DecisionSelectVertex} \;
     \nl \For {$w \in \setH$ \algstep{C} \label{DecisionWLoop}} {
 \nl    $\AlgVar{future'} \gets \emptyset$ \label{DecisionNewFuture} \;
-\nl    \For {$\langle \setG',\setH'\rangle \in future$ \label{DecisionInnerLoop}}{
+\nl    \For {$\langle \setG',\setH'\rangle \in \AlgVar{future}$ \label{DecisionInnerLoop}}{
 \nl        $\setG'' \gets \setG' \cap \N(\graphG, v) \setminus \{v\}$ \label{DecisionNewPWithEdge} \;
 \nl        $\setH'' \gets \setH' \cap \N(\graphH, w) \setminus \{w\}$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{DecisionIfNonEmpty}}{
