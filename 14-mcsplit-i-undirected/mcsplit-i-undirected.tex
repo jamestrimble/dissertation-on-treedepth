@@ -605,13 +605,13 @@ of generality that these labels are natural numbers. Suppose further that
 we require that each vertex of $\graphG$ that appears in the common subgraph be mapped to a vertex
 of $\graphH$ with the same label.
 
-Let $l_G: V(\graphG) \rightarrow \mathbb{N}$ be the labelling function for graph $\graphG$,
-and let $l_H: V(\graphH) \rightarrow \mathbb{N}$ be the labelling function for graph $\graphH$.
+Let $\ell_G: V(\graphG) \rightarrow \mathbb{N}$ be the labelling function for graph $\graphG$,
+and let $\ell_H: V(\graphH) \rightarrow \mathbb{N}$ be the labelling function for graph $\graphH$.
 Let $L \subset \mathbb{N}$ be the set of labels that are used in both graphs.
 To enforce the requirement of matching labels, we simply
 replace the initial label class $\{\langle V(\graphG),V(\graphH) \rangle\}$ in \lineref{FirstExpandCall}
 of \cref{McSplitAlg}
-with $\{\langle l_G^{-1}(l), l_H^{-1}(l)\rangle \mid l \in L\}$.  Thus, we replace
+with $\{\langle \ell_G^{-1}(l), \ell_H^{-1}(l)\rangle \mid l \in L\}$.  Thus, we replace
 a single label class in which any vertex in $\graphG$ can be mapped to any
 vertex in $\graphH$ with a set of label classes ensuring that vertices can only
 be mapped to like-labelled vertices.
