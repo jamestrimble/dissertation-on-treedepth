@@ -689,7 +689,7 @@ between pairs of vertices.
 The cumulative plot also shows results for \McSplit-2S'.  The results are somewhat disappointing; all three algorithms
 have very similar performance overall.  The scatter plot shows that \McSplit-2S is often slightly faster than \McSplit\ --- indeed,
 \McSplit-2S is faster than \McSplit\ on 174 instances and slower than \McSplit\ on only 91 instances --- but the differences
-in run times are very marginal.  TODO: UPDATE NUMBERS, TALK ABOUT TIMOUT WEIRDNESS
+in run times are very marginal.  TODO: UPDATE NUMBERS, TALK ABOUT TIMEOUT WEIRDNESS
 
 \begin{figure}[htb]
     \centering
@@ -740,15 +740,15 @@ tend to have very similar run times, with \McSplit-2S the slightly faster algori
 	\includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-ba}
         \label{figure:mcsplit-vs-mcsplit2-ba-scatter}
     }
-    \caption{Comparison of \McSplit\ and \McSplit-2S on Barabasi-Albert graphs}
+    \caption{Comparison of \McSplit\ and \McSplit-2S on Barabási-Albert graphs}
     \label{figure:mcsplit-vs-mcsplit2-ba}
 \end{figure}
 
 The goal of our final instance generator in this section is to produce two graphs with very different
 characteristics, but with equal orders and densities.  Each instance in this family
-consists of one Barabasi-Albert graph and one $G(n,m)$ graph, with the parameters for the latter
-generator chosen to match the order and density of the Barabasi-Albert graph.  A ``coin flip''
-is used to determine whether $G$ is the Barabasi-Albert graph or the $G(n,m)$ graph.
+consists of one Barabási-Albert graph and one $G(n,m)$ graph, with the parameters for the latter
+generator chosen to match the order and density of the Barabási-Albert graph.  A ``coin flip''
+is used to determine whether $G$ is the Barabási-Albert graph or the $G(n,m)$ graph.
 \Cref{figure:mcsplit-vs-mcsplit2-ba-gnm}
 shows the results of running our algorithms on these instances.  The cumulative curve shows that \McSplit-2S is, by a small margin, the
 fastest algorithm overall, and that \McSplit-2S' is the slowest.  \McSplit-2S and \McSplit\ exceeded
@@ -767,12 +767,12 @@ algorithms often have very different run times, with \McSplit\ outperforming \Mc
 	\includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-ba-gnm}
         \label{figure:mcsplit-vs-mcsplit2-ba-gnm-scatter}
     }
-    \caption{Comparison of \McSplit\ and \McSplit-2S on $G(n,m)$ / Barabasi-Albert graphs pairs}
+    \caption{Comparison of \McSplit\ and \McSplit-2S on $G(n,m)$ / Barabási-Albert graphs pairs}
     \label{figure:mcsplit-vs-mcsplit2-ba-gnm}
 \end{figure}
 
 To summarise, this section has shown a modest win for \McSplit-2S; for our two families of
-instances using the Barabasi-Albert model, \McSplit-2S slightly outperforms \McSplit\ --- and therefore
+instances using the Barabási-Albert model, \McSplit-2S slightly outperforms \McSplit\ --- and therefore
 also outperforms \McSplit-SD and \McSplit-SO.
 
 %\begin{figure}[h!]
