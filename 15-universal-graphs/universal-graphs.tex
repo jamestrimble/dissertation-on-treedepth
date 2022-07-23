@@ -115,7 +115,7 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
     \subfigure[][A demonstration that the first graph in \Cref{fig:univ3a} is induced universal
             for $\calF(3)$.  For each graph $G$ in $\calF(3)$ ($I_3$, $K_3$, $P_3$, and
             a graph with a single edge), an induced subgraph isomorphic to $G$ is shown in a
-            single color.] {
+            single colour.] {
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
         \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
                 clockwise=5] {
@@ -979,7 +979,7 @@ for $k \geq 4$ --- cited in the previous section.
     Suppose that $G$ is an induced universal graph for the family of all graphs
     on $k$ vertices, and that $G$ has no more than $2k + 1$ vertices.  Graphs
     $K_k$ and $I_k$ are both members of $\calF(k)$, and therefore must
-    be induced sugraphs of $G$.  Clearly, this clique and
+    be induced subgraphs of $G$.  Clearly, this clique and
     independent set may overlap by no more than one vertex, so their union must
     contain at least $2k - 1$ vertices.  Therefore it is possible to partition
     the vertices of $G$ into three sets: a clique $S_1$, an independent set
@@ -1292,7 +1292,7 @@ We will refer to this as the ``naive completion'' method.
 Because the naive completion method has to test a huge number of graphs,
 many pairs of which are isomorphic, we created an improved version of the
 algorithm, which we will refer to as the ``symmetry breaking completion''
-method.  Our description refers to the adjacence matrix in
+method.  Our description refers to the adjacency matrix in
 \Cref{fig:regions-for-trees}.
 This adds two symmetry-breaking constraints on the adjacency matrix.
 The first of these constraints concerns the grey shaded region at the bottom-right
@@ -1320,7 +1320,7 @@ in \Cref{fig:regions-for-trees}. Each row of this region has $n-k$ entries,
 named $x_{i1}, \dots, x_{i,n-k}$.  For our symmetry-breaking constraint, we
 view each row as the binary number $x_{i1}, \dots, x_{i,n-k}$
 (with $x_{i,n-k}$ as the least significant digit), and we insist
-that these numbers are in nondecreasing order; thus
+that these numbers are in non-decreasing order; thus
 $x_{21}, \dots, x_{2,n-k} \leq \dots \leq x_{k1}, \dots, x_{k,n-k}$.
 In other words, we impose a lexicographic ordering constraint
 on the rows of this region.
@@ -1345,7 +1345,7 @@ graphs are not stored in $\calG$ would be label the vertices
 of a graph $G$ canonically before adding it to the collection
 \cite{DBLP:journals/jsc/McKayP14}, and to store the collection as a
 hash set.  Because this part of the program is not a performance
-bottleneck, and to miminise software dependencies, our implementation
+bottleneck, and to minimise software dependencies, our implementation
 uses the simpler approach of testing whether $G$ is isomorphic
 to each existing member of $\calG$, in turn.}
 
