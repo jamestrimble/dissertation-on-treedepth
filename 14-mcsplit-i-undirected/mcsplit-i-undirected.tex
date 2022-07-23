@@ -554,7 +554,7 @@ If, the left-hand portion of both of these subarrays
 has nonzero length, we create a new LC-array element pointing to these left-hand portions;
 this step corresponds to \linerangeref{IfNonEmpty2}{InnerLoopEnd}.
 
-Although this partitioning step re-orders vertices within a label class in in
+Although this partitioning step re-orders vertices within a label class in
 order to create new label classes, a convenient property is that the vertices
 of the pre-partition label class remain contiguous. Therefore there is no need
 to copy the $G$-array or $H$-array, or to store bookkeeping information
@@ -1224,7 +1224,7 @@ finding all maximum common subgraphs described in this section's first paragraph
 as small a set $\setH$ as possible---a smallest domain first strategy---rather than minimising $\max(|\setG|,|\setH|)$.
     \item Rather 
 than using $|M|  + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} \min(|\setG|,|\setH|)$
-as the upper bound bound on \lineref{CalcBound} of \Cref{McSplitAlg},
+as the upper bound on \lineref{CalcBound} of \Cref{McSplitAlg},
 use $|M|  + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} |\setG|$.  Clearly,
 this bound is weaker than or equal to \McSplit's bound.
     \item Leave the vertices of $G$ and $H$ in their original order rather than sorting
@@ -1348,7 +1348,7 @@ seconds per instance to solve the same number of instances.  For any given
 number of instances, \McSplit\ is more than an order of magnitude
 faster than its nearest competitor.  Moreover, \McSplit\ is the fastest algorithm
 on 87\% of the 3,506 instances that
-could be solved by at least one of the four algorithms in less than than
+could be solved by at least one of the four algorithms in less than
 1,000 seconds---TODO FIXME \kDown\ is not included in this!.
 
 \begin{figure}[htb!]
@@ -2155,7 +2155,7 @@ clique upper bound, with one point per instance.  The value of $m$ parameter is 
 axis; points towards the right of the plot have more distinct vertex labels.  Mean values
 are shown as horizontal lines.  When $m=1$---that is,
 when all vertices have the same label---the \McSplit\ bound is strictly tighter than the clique-algorithm
-bound of all 90 of our instances.  On average, the \McSplit\ bound is tighter than than the clique
+bound of all 90 of our instances.  On average, the \McSplit\ bound is tighter than the clique
 bound for $m < 4$, and worse than the clique bound for $m > 5$.  Of the 900 instances with $m > 10$,
 \McSplit\ had a tighter bound than the clique algorithm for only a single instance.
 
