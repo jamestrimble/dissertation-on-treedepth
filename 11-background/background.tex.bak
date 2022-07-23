@@ -362,7 +362,7 @@ unlabelled graphs.
 This section briefly introduces three problems that are closely related to
 maximum common induced subgraph and induced subgraph isomorphism.
 
-The \emph{graph isomorphism problem} is to determine whether two given graphs are
+The \emph{graph isomorphism problem} is to dermine whether two given graphs are
 isomorphic. It can be viewed as a version the induced subgraph isomorphism
 problem that returns ``no'' if the input graphs do not have the same number of
 vertices.  It is unknown whether the problem is \NP-complete, and it is also
@@ -462,7 +462,7 @@ Formally, a CSP is a triple $\langle X, D, C\rangle$, where
 \item $D$ is a corresponding tuple of finite \emph{domains} $D = \langle D_1, D_2, \dots, D_n\rangle$
   such that each $x_i$ must take a value in $D_i$,
 \item $C$ is a tuple of constraints, each of which acts on a subset of $X$ and restricts
-  the values that may be taken simultaneously by those variables.
+  the values that may be taken simulatenously by those variables.
 \end{itemize}
 
 A solution to a CSP is an assignment of domain values to each variable in $X$
@@ -764,7 +764,7 @@ generalised arc consistency on the allDifferent constraint.
 different) filtering, which propagates the following constraint: if $v \in
 V(G)$ is mapped to $w \in V(H)$, then the neighbours of $v$ in $G$ must all be
 mapped to different values, and these values must all belong to the set
-$N_H(w)$.  This strengthens the filtering of the nRF+ algorithm
+$N_H(w)$.  This strengtens the filtering of the nRF+ algorithm
 \citep{DBLP:journals/mscs/LarrosaV02}, and can be performed in $O(|V(G)| \cdot
 |V(H)| \cdot \Delta_G^2 \cdot \Delta_H^2)$ time, where $\Delta_G$ and
 $\Delta_H$ are the maximum degrees of $G$ and $H$.
@@ -772,7 +772,7 @@ $\Delta_H$ are the maximum degrees of $G$ and $H$.
 The SND algorithm \citep{DBLP:conf/cp/AudemardLMGP14} extends LAD by counting
 the number of length-$k$ paths between pairs of vertices for small values of
 $k$, and enforcing within a LAD-style constraint that a pair of pattern
-vertices connected by $p$ paths of length $k$ may not be mapped to a pair of
+vertices connected by $p$ paths of lenght $k$ may not be mapped to a pair of
 target vertices connected by fewer than $p$ paths of length $k$.  PathLAD
 \citep{DBLP:conf/lion/KotthoffMS16} incorporates a subset of the SND filtering
 into the LAD algorithm.
@@ -868,7 +868,7 @@ algorithm is not readily available.
 (To preview the family of algorithms
 presented in this dissertation, the \McSplit\ algorithm shares with
 Sussenguth's algorithm the approach of storing pairs of sets $\langle S_G, S_H
-\rangle$ representing vertices that may be mapped to one another. However,
+\rangle$ respresenting vertices that may be mapped to one another. However,
 \McSplit\ uses a very different data structure to store these sets, taking
 advantage of the fact that the sets used by \McSplit\ are guaranteed to be
 disjoint.)
@@ -1147,7 +1147,7 @@ of the Glasgow Subgraph Solver).
 
 Scatter plots and cumulative plots are used frequently in this dissertation to
 compare the run times of algorithms.  To illustrate how these will be used,
-consider the run times in milliseconds for ten hypothetical instances,
+consider the run times in milliseconds for ten hypothethetical instances,
 with one row per instance, in \Cref{fig:intro-dummy-table}.
 
 \Cref{fig:intro-dummy-scatter} shows a scatter plot of these run times. Log
@@ -1155,7 +1155,7 @@ scales are used for run times throughout this dissertation. Since run times are
 measured at a 1 millisecond resolution, the points are jittered by adding a
 uniform random number in the range $[-1/2,1/2)$ to each time. This reduces
 over-plotting and thus helps to show the distribution of points, with only a
-negligible effect on the plots' precision. Run times of zero are plotted in the
+negligible effect on the plots' precision. Run times of zero are ploted in the
 range $[1/2,1)$ because zero cannot appear on a log scale.  Timeouts (exceeding
 1000 seconds) appear in the grey band just beyond a run time of 1000 seconds;
 again, we jitter these within the band to minimise over-plotting. The line
