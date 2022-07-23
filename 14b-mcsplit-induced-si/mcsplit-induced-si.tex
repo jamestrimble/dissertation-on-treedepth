@@ -28,7 +28,7 @@
 In the induced subgraph isomorphism problem (ISIP), we seek an induced copy of \emph{pattern} graph $G$ in \emph{target} graph $H$. This is closely related to the maximum common induced subgraph problem: we can view ISIP as a decision version of MCIS in which the common subgraph is required to contain all of pattern graph's vertices.
 The \McSplit\ algorithm may be trivially modified to solve the induced subgraph isomorphism problem: rather than calculating an upper bound at each search node, simply backtrack when the $G$-set of any label class is larger than the corresponding $H$-set.
 
-\McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, but it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a boolean variable and $n_G$ and $n_H$ are the orders of the pattern and target graphs.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would permit amortized constant time adjacency tests in the algorithm's partitioning step, but would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, \McSplit\ iterates over the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
+\McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, but it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a boolean variable and $n_G$ and $n_H$ are the orders of the pattern and target graphs.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would permit amortised constant time adjacency tests in the algorithm's partitioning step, but would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, \McSplit\ iterates over the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
 
 \begin{figure}[htb]
     \centering
@@ -112,7 +112,7 @@ for restoring deleted elements when backtracking, as we will discuss shortly.
 \end{table}
 
 The next four members of the object play the same role as the four indices used in \McSplit's
-simpler label class object: they point to the ranges in the permuations of $V(G)$ and $V(H)$ that
+simpler label class object: they point to the ranges in the permutations of $V(G)$ and $V(H)$ that
 contain $S_G$ and $S_H$.
 
 Finally, we have two boolean flags, $\varActive$ and $\varSplitting$.  The first flag
@@ -122,10 +122,10 @@ when backtracking.)  The second flag is used temporarily during the partitioning
 to record whether the label class has been partitioned.
 
 The collection of data structures used by \McSplit-SI to represent the set of
-active label classes has three components.  The first is the the doubly linked
+active label classes has three components.  The first is the doubly linked
 list of label class objects that we have described; we call this \calLC.  The
 second component is the pair of arrays that store partitions of $V(G)$ and
-$V(H)$ that are pointed to by each label class object (\McSplit\ similary uses
+$V(H)$ that are pointed to by each label class object (\McSplit\ similarly uses
 two arrays for this purpose).   We call these arrays $\Garray$ and $\Harray$.
 
 The final component of our collection of data structures contains the arrays $\Gptrs$
@@ -214,7 +214,7 @@ vertices of the pattern graph has been found.  Otherwise, the algorithm selects
 a label class $\langle S_G, S_H \rangle$, and a vertex from $S_G$ on
 which to branch.  (We will discuss variable selection heuristics in
 \Cref{sec:mcsplit-si-heuristics}.) We then iterate over the vertices $w$ in $S_H$,
-attemptying to map $v$ to $w$.
+attempting to map $v$ to $w$.
 
 \begin{algorithm}[htb]
 \AlgorithmFontSize
@@ -990,7 +990,7 @@ Let $v \in V_G^i$ and $w \in V_H^i$ for some $1 \leq i \leq k$.  We need to show
 can extend the mapping
 $(v,w)$ to a complete assignment of the vertices in all of the $V_G^j$ ($1 \leq j \leq k$)
 such that no two vertices of $G$ are mapped to the same vertex of $H$.
-This can be achieved by assiging, for each $j$ ($1 \leq j \leq k$) the vertices of
+This can be achieved by assigning, for each $j$ ($1 \leq j \leq k$) the vertices of
 $V_G^j \setminus \{v\}$ to any subset of
 $V_H^j \setminus \{w\}$ with $|V_G^j \setminus \{v\}|$ vertices.
 Such a subset exists since $|V_G^j| \leq |V_H^j|$. No two of these subsets
@@ -999,7 +999,7 @@ contain the same vertex of $H$ by the disjointness property.
 
 \subsection{A family of instances where \McSplit-SI outperforms other algorithms}
 
-In this subsection, we consider a family of graphs devised to deminstrate
+In this subsection, we consider a family of graphs devised to demonstrate
 that the generalised arc consistency achieved by \McSplit-SI can give a dramatic
 speed-up compared to algorithms that do not achieve GAC.
 The instances described here are presented as an existence proof, rather than
@@ -1289,7 +1289,7 @@ solve the instance with $k=1000$ (a 7000-vertex pattern graph and an
 \end{table}
 
 As we have seen in this section, neither \McSplit-SI nor Glasgow dominates the other solver.  In the next
-section, we perform an experimental evalulation to compare solvers on benchmark instances.
+section, we perform an experimental evaluation to compare solvers on benchmark instances.
 
 \section{Experimental evaluation}\label{sec:mcsplit-si-experiments}
 \label{sec:si-experiments}
@@ -1333,7 +1333,7 @@ The \McSplit-SI variants used are shown in \Cref{tab:mcsplit-si-variants}.
     \McSplit-SI & The base \McSplit-SI algorithm \\
     \rule{0pt}{2.3ex}\McSplit-SI-LL & \McSplit-SI with lists of vertices stored as sorted doubly linked lists
                 (\Cref{sec:mcsplit-si-ll})\\
-    \rule{0pt}{2.3ex}\McSplit-SI-AM & An adaptation of \McSplit\ decision-problem solver (using adjacence matrix
+    \rule{0pt}{2.3ex}\McSplit-SI-AM & An adaptation of \McSplit\ decision-problem solver (using adjacency matrix
         representation of graphs) to the induced subgraph isomorphism problem.  This does not use \McSplit-SI's
         partitioning algorithm optimised for sparse graphs. (\Cref{sec:mcsplit-si-adjmat})\\
     \rule{0pt}{2.3ex}\McSplit-SI-static & \McSplit-SI with the dynamic variable-ordering heuristic replaced by
@@ -1376,7 +1376,7 @@ in the following families.
         extra edges added to the mesh graph.
     \item \textbf{Rand:} Erd\H{o}s-Rényi $G(n,p)$ random graphs.
     \item \textbf{Phase:} Pairs of Erd\H{o}s-Rényi $G(n,p)$ random graphs
-        with parameters chosen near the satisfiable/unsatifiable phase transition in order
+        with parameters chosen near the satisfiable/unsatisfiable phase transition in order
         to make the instances very challenging to solve.
         \citep{DBLP:journals/jair/McCreeshPST18}
     \item \textbf{PR}, \textbf{Meshes} and \textbf{Images:} Instances derived from a pattern recognition problem, where
@@ -1572,7 +1572,7 @@ the best of the other solvers? To answer this question, we calculate the run
 time of the virtual best other solver (VBOS) for each instance
 by taking the lowest run time
 of the five non-\McSplit\ solvers: Glasgow, Glasgow without supplemental graphs, RI, RI-DS, and VF3.
-This VBOS is essentially equivalent to running the constitutent solvers in parallel
+This VBOS is essentially equivalent to running the constituent solvers in parallel
 and stopping when the first solver terminates; we can also view it
 as an idealised portfolio solver with an oracle that selects
 the best non-\McSplit\ solver for a given instance.
@@ -1680,7 +1680,7 @@ within 1000 seconds by each pair of solvers, excluding \McSplit-SI-AM and RI-DS
 to save space.  Seven pairs of solvers---each of which used a version of \McSplit-SI
 as the presolver, the main solver, or both---solved more instances than Glasgow,
 which was the single
-best individal solver by this measure with $14,524$ instances solved.
+best individual solver by this measure with $14,524$ instances solved.
 The best two solver pairs
 each solved $14,546$ instances.  These use \McSplit-SI-static as the main
 solver and either \McSplit-SI or Glasgow without supplemental graphs as the
@@ -2139,7 +2139,7 @@ than on the labelled instances, exceeding one order of magnitude in many cases.
 \subsection{Verification}
 
 For each of the decision instances, we verified that all of the programs that did not time out
-agreed on whether the instance was satistfiable or unsatisfiable.  For enumeration instances,
+agreed on whether the instance was satisfiable or unsatisfiable.  For enumeration instances,
 we verified that the solvers agreed on the number of solutions.
 
 In addition, we checked the number of search nodes visited by \McSplit-SI,
@@ -2147,7 +2147,7 @@ In addition, we checked the number of search nodes visited by \McSplit-SI,
 on instances where neither solver timed out.  In each case, the counts of search nodes were equal,
 indicating that --- as expected --- the three solvers explored exactly the same search tree.
 
-I verified that the the pseudocode in this chapter accurately describes the \McSplit-SI
+I verified that the pseudocode in this chapter accurately describes the \McSplit-SI
 algorithm by re-implementing the algorithm in Python from the pseudocode and checking
 that it gives the same result and search node count as the original C++ implementation.
 
@@ -2400,7 +2400,7 @@ advance to provide no domain filtering.
         \label{figure:TODO}
     }
     \caption{Scatter plots of run times in ms for decision instances.
-            The horizontal axis shows the the run time of \McSplit-SI-static
+            The horizontal axis shows the run time of \McSplit-SI-static
             with a 100 ms \McSplit-SI presolve; the vertical axis shows
             the run time of the solver named in the subfigure caption.}
     \label{figure:TODO}
