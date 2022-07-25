@@ -33,8 +33,8 @@ set logscale
 set title
 set format x '$10^{%T}$'
 set format y '$10^{%T}$'
-set xrange[.5:1400000]
-set yrange[.5:1400000]
+set xrange[.5:1500000]
+set yrange[.5:1500000]
 set xtics autofreq
 set key off
 
