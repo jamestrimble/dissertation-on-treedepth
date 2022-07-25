@@ -59,17 +59,17 @@ any of these instances.
     \centering
     \subfigure[][MCS Plain instances] {
         \centering
-        \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-right-mcsplain}
+        \includegraphics*[width=0.42\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-right-mcsplain-jittered}
         \label{subfig:runtime-swapping-scatter-mcsplain}
     }
     \subfigure[][Random varying-density instances] {
         \centering
-        \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-right-random2}
+        \includegraphics*[width=0.42\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-right-random2-jittered}
         \label{subfig:runtime-swapping-scatter-random2}
     }
     \subfigure[][Random varying-order instances] {
         \centering
-        \includegraphics*[width=0.44\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-right-random3}
+        \includegraphics*[width=0.42\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-right-random3-jittered}
         \label{subfig:runtime-swapping-scatter-random3}
     }
     \caption{Run times in ms for \McSplit\ (horizontal axis) and \McSplit-Swap
@@ -216,12 +216,12 @@ instances.  In summary, for this family of instances, \McSplit-SD clearly improv
     }
     \subfigure[][Run times (ms)] {
         \centering
-        \includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-smart-random2}
+        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-smart-random2-jittered}
         \label{figure:left-vs-smart-random2}
     }
     \caption{The run times of \McSplit-SD are faster overall than those of \McSplit\ for the
         random varying-density instances, and almost indistinguishable from those of the virtual
-        best solver of \McSplit\ and \McSplit\-Swap.}
+        best solver of \McSplit\ and \McSplit-Swap.}
         \label{figure:left-vs-smart-d-mcis}
 \end{figure}
 
@@ -281,12 +281,12 @@ instances.
     }
     \subfigure[][Run times (ms)] {
         \centering
-        \includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-smart-random3}
+        \includegraphics*[width=0.4\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/left-vs-smart-random3-jittered}
         \label{figure:left-vs-smart-random3}
     }
     \caption{The run times of \McSplit-SD are faster overall than those of \McSplit\ for the
         random varying-order instances, and almost indistinguishable from those of the virtual
-        best solver of \McSplit\ and \McSplit\-Swap.}
+        best solver of \McSplit\ and \McSplit-Swap.}
         \label{figure:left-vs-smart-o-mcis}
 \end{figure}
 
@@ -700,7 +700,7 @@ in run times are very marginal.  TODO: UPDATE NUMBERS, TALK ABOUT TIMEOUT WEIRDN
     }
     \subfigure[][Scatter plot with one point per instance] {
 	\centering
-	\includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-gnm}
+	\includegraphics*[width=0.40\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-gnm-jittered}
         \label{figure:mcsplit-vs-mcsplit2-gnm-scatter}
     }
     \caption{Comparison of \McSplit\ and \McSplit-2S on $G(n,m)$ graphs}
@@ -737,7 +737,7 @@ tend to have very similar run times, with \McSplit-2S the slightly faster algori
     }
     \subfigure[][Scatter plot with one point per instance] {
 	\centering
-	\includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-ba}
+	\includegraphics*[width=0.40\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-ba-jittered}
         \label{figure:mcsplit-vs-mcsplit2-ba-scatter}
     }
     \caption{Comparison of \McSplit\ and \McSplit-2S on Barabási-Albert graphs}
@@ -764,7 +764,7 @@ algorithms often have very different run times, with \McSplit\ outperforming \Mc
     }
     \subfigure[][Scatter plot with one point per instance] {
 	\centering
-	\includegraphics*[width=0.41\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-ba-gnm}
+	\includegraphics*[width=0.40\textwidth]{14-mcsplit-i-undirected/modified-mcsplit-experiment/plots/plots/mcsplit-vs-mcsplit2-ba-gnm-jittered}
         \label{figure:mcsplit-vs-mcsplit2-ba-gnm-scatter}
     }
     \caption{Comparison of \McSplit\ and \McSplit-2S on $G(n,m)$ / Barabási-Albert graphs pairs}
