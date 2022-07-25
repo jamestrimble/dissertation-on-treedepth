@@ -30,7 +30,7 @@ set obj 2 rect from 1000000.5, graph 0 to 1500000, graph 1
 #### Scatter small multiples ####
 
 #set terminal.pngcairo size 5cm,5cm font "Times,10"
-set terminal pngcairo font "Times,48" size 1280,1280
+set terminal pngcairo font "Times,48" size 1280,1280 linewidth 3
 
 set key off
 
