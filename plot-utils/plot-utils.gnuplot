@@ -3,5 +3,5 @@ slightjitt(x) = x - .3 * rand(0) * .6
 cumux(x) = x==0 ? 1 : x
 cumuy(x) = x>=1e6 ? 1e-10 : 1
 
-circleColour = '#660f5d94'
-circleColourOrange = '#66ff7f0e'
+circleColour = '#770f5d94'
+circleColourOrange = '#77ff7f0e'
