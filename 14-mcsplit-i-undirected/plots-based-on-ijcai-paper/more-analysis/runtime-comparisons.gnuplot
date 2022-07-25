@@ -31,24 +31,9 @@ set title "33 per cent labelled MCS instances, nodes"
 plot "../experiments/gpgnode-results/mcs33ved/nodes.data" u 5:7 notitle w points pointtype 7 pointsize .1, x notitle
 
 
-set xlabel '\textproc{McSplit} runtime (ms)'
-set ylabel '\textproc{McSplit}${\downarrow}$ runtime (ms)'
-
-plot "../experiments/gpgnode-results/mcs33ved/runtimes.data" u 7:8 notitle w points pointtype 7 pointsize .1, x notitle
-
-
-set output "plots/mcsplain-runtime-mcsplit-vs-mcsplitdown.tex"
-set title
-plot "< awk 'NR==1 || $7 >= .7' kup-vs-kdown-mcsplain.txt" u 4:5 w points pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
-     "< awk 'NR==1 || $7 < .7' kup-vs-kdown-mcsplain.txt" u 4:5 w points pointtype 7 pointsize .18 lc rgb '#ff7f0e' notitle, \
-     x lc rgb '#888888' notitle
-
-set output "plots/mcs33ved-runtime-mcsplit-vs-mcsplitdown.tex"
-set title
-plot "< awk 'NR==1 || $7 >= .5' kup-vs-kdown-mcs33ved.txt" u 4:5 w points pointtype 7 pointsize .18 lc rgb '#1f77b4' notitle, \
-     "< awk 'NR==1 || $7 < .5' kup-vs-kdown-mcs33ved.txt" u 4:5 w points pointtype 7 pointsize .18 lc rgb '#ff7f0e' notitle, \
-     x lc rgb '#888888' notitle
-
+#set xlabel '\textproc{McSplit} runtime (ms)'
+#set ylabel '\textproc{McSplit}${\downarrow}$ runtime (ms)'
+#plot "../experiments/gpgnode-results/mcs33ved/runtimes.data" u 7:8 notitle w points pointtype 7 pointsize .1, x notitle
 
 
 set terminal tikz standalone color size 6cm,4cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
