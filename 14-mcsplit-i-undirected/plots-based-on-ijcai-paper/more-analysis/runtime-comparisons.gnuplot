@@ -102,26 +102,6 @@ set output "plots/mcs33ved-runtime-kasc-kdesc.tex"
 set title "33 per cent labelled MCS instances, run time, k-ascending vs k-descending"
 plot "kup-vs-kdown-mcs33ved.txt" u 4:5:7 w points pointtype 7 pointsize .1 lc palette notitle, x notitle, 2.6*x with line notitle
 
-#####################################################
-
-#  Commented out: scatter plot with instance types coloured. Small multiples will probably be easier to read.
-#  set title
-#  set terminal tikz standalone color size 12cm,7cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
-#  set xlabel 'CP-FC runtime (ms)'
-#  set ylabel '\textproc{McSplit} runtime (ms)'
-#  set output "plots/mcsplain-runtime-mcsplit-cpfc.tex"
-#  set xrange [1:1000100]
-#  set yrange [1:1000100]
-#  set size square
-#  set key outside
-#  set key right center reverse Left
-#  plot "< awk 'NR==1 || /_r[0-9]*_/' ../experiments/gpgnode-results/mcsplain/runtimes.data" u ($3*1000):8 w points lc rgb "#1f77b4" pointtype 7 pointsize .1 title "Random", \
-#       "< awk 'NR==1 || /_m[0-9]D_/' ../experiments/gpgnode-results/mcsplain/runtimes.data" u ($3*1000):8 w points lc rgb "#ff7f0e" pointtype 7 pointsize .1 title "Regular mesh", \
-#       "< awk 'NR==1 || /_m[0-9]Dr[0-9]_/' ../experiments/gpgnode-results/mcsplain/runtimes.data" u ($3*1000):8 w points lc rgb "#2ca02c" pointtype 7 pointsize .1 title "Irregular mesh", \
-#       "< awk 'NR==1 || /_b0[0-9]_/' ../experiments/gpgnode-results/mcsplain/runtimes.data" u ($3*1000):8 w points lc rgb "#d62728" pointtype 7 pointsize .1 title "BV", \
-#       "< awk 'NR==1 || /_b0[0-9]m_/' ../experiments/gpgnode-results/mcsplain/runtimes.data" u ($3*1000):8 w points lc rgb "#9467bd" pointtype 7 pointsize .1 title "Irregular BV", \
-#      x notitle
-
 set title
 set terminal tikz standalone color size 5cm,5cm font '\scriptsize' preamble '\usepackage{times,microtype,algorithm2e,algpseudocode,amssymb}'
 set xrange [1:1000100]
