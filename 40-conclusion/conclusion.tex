@@ -1,11 +1,11 @@
 \chapter{Conclusion}
 \label{c:conclusion}
 
-This dissertation has introduced the \McSplit\ family of algorithms---\McSplit\
+This dissertation has introduced the \McSplit\ family of algorithms: \McSplit\
 for maximum common induced subgraph (MCIS) and \McSplit-SI for the induced
 subgraph isomorphism problem (ISIP).  We have seen the close relationship
 between these algorithms and both constraint programming and clique algorithms.
-We have also seen how the data structures of \McSplit, combined with the
+We have also seen how the algorithms' data structures, combined with the
 special properties of the problems, give us good upper bounds for MCIS and
 generalised arc consistency on the all-different constraint in ISIP at almost
 no computational cost.
@@ -22,20 +22,46 @@ proposed by Knuth.  But
 structured graphs from the Stanford GraphBase, for example,
 supplemental graphs give the Glasgow solver an advantage.
 
+In addition to the new solvers presented in this dissertation,
+our study of algorithms for MCIS and ISIP yields the following
+simple conclusions which should be applicable to a broad
+range of current and future solvers.
+
+\begin{itemize}
+    \item Branch and bound is not always the best optimisation strategy
+        for MCIS. We have seen that \McSplitDown, which solves a sequence
+        of decision problems, can be orders of magnitude faster than
+        the branch-and-bound solver \McSplit, particularly on instances
+        where the maximum common induced subgraph is almost as large as
+        the input graphs.
+    \item It can be helpful to swap the two input graphs before calling
+        an MCIS solver, particularly if the graphs differ
+        in order or density.
+    \item In both MCIS and ISIP, choosing the best strategy for sorting the vertices
+        of each graph is a non-trivial problem, and the decision
+        should take into account the properties
+        of the graphs.  It can be helpful, for example, to sort in decreasing
+        order of degree if the target graph is sparse and in increasing order of
+        degree if the target graph is dense.
+\end{itemize}
+
 Turning from subgraphs to supergraphs,
 we have applied \McSplit-SI to the problem of finding a small induced universal
 graph---that is, a graph that contains every member of a given set of graphs as
-an induced subgraph. This problem has received much theoretical attention on
-asymptotic results but very little attention on the development of solvers for
+an induced subgraph. This problem has received much theoretical attention,
+but there is almost no prior work on the development of solvers for
 small instances.  We have developed new exact and heuristic algorithms for the
 problem and used these to generate new terms that have been included in the
 Online Encyclopedia of Integer Sequences.
+
+\subsection{Future Work}
 
 The strength of \McSplit\ --- its compact data structure that requires little
 memory and enables fast and simple filtering algorithms --- has the
 disadvantage that it places limits on how the algorithm can be modified.  For example, there
 appears to be no obvious way to add supplemental graphs to \McSplit-SI because
-they would break the invariant that two domains must be equal or disjoint.  Yet
+they would break the invariant that two domains must be equal or disjoint.  Despite
+this limitation,
 many promising avenues remain for future development of the
 algorithms. For example:
 
