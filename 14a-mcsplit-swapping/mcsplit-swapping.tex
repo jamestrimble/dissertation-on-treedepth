@@ -1,7 +1,7 @@
 \algnewcommand{\IfNDebug}[1]{#1}
 %\algnewcommand{\IfNDebug}[1]{}
 
-\chapter{Swapping graphs and two-sided branching in \McSplit}
+\chapter{Swapping Graphs and Two-Sided Branching in \McSplit}
 \label{c:swapping-graphs-mcsplit}
 
 \section{Introduction}
@@ -25,7 +25,7 @@ reasons for the success of the swapping rules.  \Cref{sec:mcsplit2} introduces
 \Cref{sec:swapping-related-work} discusses related work, and
 \Cref{sec:swapping-conclusion} concludes.
 
-\section{When should we swap the graphs?}\label{sec:when-swap}
+\section{When Should we Swap the Graphs?}\label{sec:when-swap}
 
 We refer to the swapping
 version of \McSplit\ as \McSplit-Swap; this is shown in
@@ -119,7 +119,7 @@ We have seen that \McSplit\ and
 use to choose the better algorithm for a given instance? We now turn to this
 question, beginning with the varying-density instances.
 
-\subsection{Random graphs with fixed $n$ and varying density}
+\subsection{Random Graphs With Fixed $n$ and Varying Density}
 
 Can we tell in advance whether we should swap the graphs of a given instance?
 \Cref{figure:coloured-scatter-run-times-density} shows that, in the case of our
@@ -225,7 +225,7 @@ instances.  In summary, for this family of instances, \McSplit-SD clearly improv
         \label{figure:left-vs-smart-d-mcis}
 \end{figure}
 
-\subsection{Random graphs with similar density and varying $n$}
+\subsection{Random Graphs With Similar Density and Varying $n$}
 
 We now turn to our family of varying-order instances: random instances
 generated with $p=0.3$ and varying values of $n$.
@@ -290,7 +290,7 @@ instances.
         \label{figure:left-vs-smart-o-mcis}
 \end{figure}
 
-\section{Explaining the success of \McSplit-SD and \McSplit-SO}\label{sec:explaining-sd-so}
+\section{Explaining the Success of \McSplit-SD and \McSplit-SO}\label{sec:explaining-sd-so}
 
 Why are \McSplit-SO and \McSplit-SD effective?  In this section, we give some
 speculative reasons related to the bound calculated at each search node that go
@@ -666,7 +666,7 @@ of the five used that comes closest to a smallest-domain-first heuristic.  Howev
 of \McSplit-2S' is explained by our foregoing discussion of the effect of branching side on upper
 bounds.
 
-\subsection{Graph pairs with equal density and order}
+\subsection{Pairs of Graphs With Equal Density and Order}
 
 In the previous section, we saw that \McSplit-2S is substantially faster overall than \McSplit\ for families
 of instances in which the pattern and target graph differ in density or order.  Yet the results in that
@@ -782,7 +782,7 @@ also outperforms \McSplit-SD and \McSplit-SO.
 %        \label{figure:mcsplit-vs-mcsplit2-gnm}
 %\end{figure}
 
-\section{Related work}\label{sec:swapping-related-work}
+\section{Related Work}\label{sec:swapping-related-work}
 
 I have not been able to find any prior work on maximum common subgraph problems in which
 graphs are swapped using any criterion other than number of vertices.  Nor have I found

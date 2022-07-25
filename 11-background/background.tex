@@ -58,7 +58,7 @@ and \ref{sec:mcs-algorithms} review existing algorithms for subgraph
 isomorphism and maximum common subgraph.  \Cref{sec:experimental-details} gives
 details on how experiments were performed and how the results are displayed.
 
-\section{Graph theory terminology}\label{sec:graph-terminology}
+\section{Graph Theory Terminology}\label{sec:graph-terminology}
 
 A graph $G$ is a pair $(V, E)$ whose \emph{vertex set} $V = V(G)$
 is an arbitrary finite set and whose \emph{edge set} $E = E(G)$
@@ -324,7 +324,7 @@ section that all three problems considered in this dissertation are \NP-hard.
 TODO could lead on to a section on coping with complexity as relating to optimisation problems, i.e., exponential-time algorithms that "perform well in practice", e.g., based on branch and bound, integer and constraint programming, FPT algorithms,...
 give theoretical bounds for current state of the art exponential-time algorithms for optimisation problems that you consider.
 
-\section{Problems covered by this dissertation}\label{sec:problems}
+\section{Problems Covered by This Dissertation}\label{sec:problems}
 
 This dissertation presents algorithms for the following three problems.
 
@@ -595,7 +595,7 @@ of which are significant research topics in their own right. To give four exampl
 \sbox{\MCSDomainsBoxC}{\MCSDomains{C}{0.5/4.5/M,1.5/4.5/$\times$,2.5/4.5/$\times$,3.5/4.5/$\times$,4.5/4.5/$\times$,5.5/4.5/$\times$,0.5/3.5/$\times$,1.5/3.5/$\times$,2.5/3.5/$\times$,3.5/3.5/M,4.5/3.5/$\times$,5.5/3.5/$\times$,0.5/2.5/$\times$,1.5/2.5/$\times$,2.5/2.5/$\times$,3.5/2.5/$\times$,4.5/2.5/$\times$,5.5/2.5/,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/$\times$,4.5/1.5/,5.5/1.5/$\times$,0.5/0.5/$\times$,1.5/0.5/,2.5/0.5/,3.5/0.5/$\times$,4.5/0.5/$\times$,5.5/0.5/$\times$}}
 \sbox{\MCSDomainsBoxD}{\MCSDomains{D}{0.5/4.5/M,1.5/4.5/$\times$,2.5/4.5/$\times$,3.5/4.5/$\times$,4.5/4.5/$\times$,5.5/4.5/$\times$,0.5/3.5/$\times$,1.5/3.5/$\times$,2.5/3.5/$\times$,3.5/3.5/M,4.5/3.5/$\times$,5.5/3.5/$\times$,0.5/2.5/$\times$,1.5/2.5/$\times$,2.5/2.5/$\times$,3.5/2.5/$\times$,4.5/2.5/$\times$,5.5/2.5/M,0.5/1.5/$\times$,1.5/1.5/$\times$,2.5/1.5/$\times$,3.5/1.5/$\times$,4.5/1.5/$\times$,5.5/1.5/$\times$,0.5/0.5/$\times$,1.5/0.5/,2.5/0.5/,3.5/0.5/$\times$,4.5/0.5/$\times$,5.5/0.5/$\times$}}
 
-\subsection{A simple CP model for induced subgraph isomorphism}
+\subsection{A Simple CP Model for Induced Subgraph Isomorphism}
 \label{subsec:cp-model-isip}
 
 We now introduce a simple CSP formulation for induced subgraph isomorphism.
@@ -715,7 +715,7 @@ simple backtracking algorithms without the domain store used by constraint
 programming algorithms.  Finally, \Cref{subsec:other-approaches-sip}, reviews
 other approaches.
 
-\subsection{Algorithms based on constraint programming}\label{subsec:cp-sip}
+\subsection{Algorithms Based on Constraint Programming}\label{subsec:cp-sip}
 
 The algorithm of \citet{ullmann1976algorithm} solves only the subgraph
 monomorphism problem.  The constraint programming model it uses is essentially
@@ -814,7 +814,7 @@ the state-of-the-art algorithms to which we compare it in our experiments
 uses symmetry breaking.  This appears to be a fruitful area for future
 work.
 
-\subsection{Pattern recognition algorithms}\label{subsec:pr-sip}
+\subsection{Pattern Recognition Algorithms}\label{subsec:pr-sip}
 
 Algorithms for induced subgraph isomorphism from the pattern recognition (PR) community
 take a lightweight approach---they do not store domains and perform
@@ -847,7 +847,7 @@ but the algorithm does not perform additional filtering during search.  Therefor
 the algorithm is more akin to the backtracking VF3 and RI solvers than to a
 constraint programming solver.
 
-\subsection{Other approaches}\label{subsec:other-approaches-sip}
+\subsection{Other Approaches}\label{subsec:other-approaches-sip}
 
 \citet{sussenguth1965graph}'s backtracking algorithm for induced subgraph
 isomorphism pre-dates the field of constraint programming but shares the
@@ -1016,7 +1016,7 @@ compilation of code for different bitset sizes.  The paper also introduces a
 modified version of the algorithm to solve the maximum common \emph{connected}
 induced subgraph problem.
 
-\subsection{Constraint programming algorithms}
+\subsection{Constraint Programming Algorithms}
 
 \citet{DBLP:journals/spe/McGregor82}
 introduced a branch and bound algorithm for the maximum common
@@ -1078,7 +1078,7 @@ each of these subproblems solved by a modified Glasgow algorithm
 domains using supplemental graphs, albeit with weaker propagation
 than for induced subgraph isomorphism.
 
-\subsection{Subgraph enumeration algorithms}
+\subsection{Subgraph Enumeration Algorithms}
 
 Finally, we mention briefly a very different technique that has been used
 in a number of papers to find a maximum common connected subgraph between two or more
