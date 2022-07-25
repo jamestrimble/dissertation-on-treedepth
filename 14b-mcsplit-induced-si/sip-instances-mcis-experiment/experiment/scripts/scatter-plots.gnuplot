@@ -21,7 +21,7 @@ set style rect fc lt -1 fs solid 0.15 noborder
 set obj 1 rect from .5, 1000000.5 to graph 1, 1500000
 set obj 2 rect from 1000000.5, graph 0 to 1500000, graph 1
 
-set terminal pngcairo font "Times,48" size 1280,1280
+set terminal pngcairo font "Times,48" size 1280,1280 linewidth 3
 
 set key off
 
