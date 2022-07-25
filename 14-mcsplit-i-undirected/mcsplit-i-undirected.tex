@@ -568,7 +568,7 @@ Therefore there is no need
 to copy the $G$-array or $H$-array, or to store bookkeeping information
 other than the LC-arrays to restore label classes when backtracking.
 
-\subsection{A related algorithm: \citet{DBLP:journals/jacm/SchmidtD76}}
+\subsection{A Related Algorithm: \citet{DBLP:journals/jacm/SchmidtD76}}
 
 The algorithm of \citet{DBLP:journals/jacm/SchmidtD76},
 henceforth SD, is a backtracking algorithm for a different
@@ -600,7 +600,7 @@ search node than \McSplit's method based on adjacency matrices. Unfortunately,
 the distance matrix cannot be straightforwardly used for the maximum common
 subgraph problem.
 
-\subsection{Extensions for problem variants}\label{sec:extensions}
+\subsection{Extensions for Problem Variants}\label{sec:extensions}
 
 Maximum common subgraph problems come in many variants. Often
 vertices or edges have labels---for example, denoting the kind of atom or bond they represent in
@@ -739,7 +739,7 @@ On a later iteration, with a goal size of 5, this stored subgraph can then
 be returned without any need for search.  Thus, the subproblems are not
 solved completely independently, as they are by \kDown.}
 
-\section{Proof of correctness}\label{sec:mcsplit-proof}
+\section{Proof of Correctness}\label{sec:mcsplit-proof}
 
 This section proves the correctness of the variant of \McSplit\ in \cref{DecisionMcSplitAlg}, which solves
 the decision variant of maximum common induced subgraph: given two graphs and a natural number
@@ -1058,7 +1058,7 @@ It would be straightforward to modify our clique algorithm to solve this version
 problem, and we could then modify the proof of \cref{cliqueMcSplitProp} to prove the
 correctness of the connected version of \McSplit.
 
-\section{Variable and value ordering heuristics}\label{sec:mcsplit-heuristics}
+\section{Variable and Value Ordering Heuristics}\label{sec:mcsplit-heuristics}
 
 We turn now to variable- and value-ordering heuristics for \McSplit.
 The variable-ordering heuristic begins with the $\FuncSty{SelectLabelClass}$
@@ -1081,7 +1081,7 @@ The value-ordering heuristic controls the iteration
 order at \lineref{DecisionWLoop} of \cref{McSplitAlg}. The strategy
 in our implementation iterates in ascending order of vertex number.
 
-\subsection{Ordering graphs by vertex degree}
+\subsection{Ordering Graphs by Vertex Degree}
 
 Our variable and value ordering strategies both depend on the order
 in which vertices are numbered.
@@ -1184,7 +1184,7 @@ instances.
 
 \FloatBarrier
 
-\section{Instances used in experiments}\label{sec:mcis-instances}
+\section{Instances Used in Experiments}\label{sec:mcis-instances}
 
 Our experiments use a database of randomly generated maximum common subgraph
 instances \citep{DBLP:journals/prl/SantoFSV03,DBLP:journals/jgaa/ConteFV07}.
@@ -1205,7 +1205,7 @@ in which the number of distinct vertex labels and the number of distinct edge
 labels is approximately equal to a third of the number of vertices in each
 graph.
 
-\section{Experimental Evaluation 1: Finding all maximum common subgraphs}
+\section{Experimental Evaluation 1: Finding All Maximum Common Subgraphs}
 \label{sec:mcsplit-finding-all}
 
 With two trivial modifications, the \McSplit\ algorithm can be used to find
@@ -1291,7 +1291,7 @@ heuristic) has only a minor effect.
 
 \FloatBarrier
 
-\section{Experimental Evaluation 2: finding a maximum common subgraph}
+\section{Experimental Evaluation 2: Finding a Maximum Common Subgraph}
 \label{sec:mcsplit-experiments}
 
 This section presents our main performance comparison of \McSplit\ against
@@ -1520,7 +1520,7 @@ there is no requirement for the common subgraph to be connected.
 \FloatBarrier
 
 
-\subsection{Run time comparisons by family: unlabelled instances}
+\subsection{Run Time Comparisons by Family: Unlabelled Instances}
 
 We have seen so far show that \McSplit\ and \McSplitDown\ are
 faster than both the clique encoding and \kDown\ for the unlabelled instances.  This section
@@ -1646,7 +1646,7 @@ This suggests that, for random instances, the advantage of \McSplitDown\ is grea
 
 \FloatBarrier
 
-\subsection{Run time comparisons by family: labelled instances}
+\subsection{Run Time Comparisons by Family: Labelled Instances}
 
 \Cref{figure:mcs33ved-runtime-mcsplitdown-cpfc-scatters} compares \McSplitDown\ and CP-FC run times
 on the five families of instances with labels on vertices and edges.  As in the unlabelled case,
@@ -1724,8 +1724,8 @@ is the clear winner for all but the most trivial instances.
 \FloatBarrier
 
 
-\subsection{On which Instances Should we Choose \McSplit{$\downarrow$}
-    over \McSplit?}\label{sec:which-mcsplit-down}
+\subsection{On Which Instances Should we Choose \McSplit{$\downarrow$}
+    Over \McSplit?}\label{sec:which-mcsplit-down}
 
 On which instances is it better to use \McSplit{$\downarrow$} than \McSplit?
 We have already seen from the colour coding in Figures
@@ -1771,7 +1771,7 @@ the faster algorithm.
 
 \FloatBarrier
 
-\section{Comparison with Existing Algorithms}
+\section{Comparison With Existing Algorithms}
 \label{sec:comparison}
 
 Our experimental results suggest that \McSplit\ has broadly similar performance
@@ -2204,13 +2204,13 @@ labels is increased.
 %and channel between the dual viewpoint that would be required when using a
 %conventional domain store.
 
-\section{Publications using \McSplit}\label{sec:mcsplit-papers}
+\section{Publications Using \McSplit}\label{sec:mcsplit-papers}
 
 Since the \McSplit\ algorithm was published at IJCAI 2017, a number of papers, including
 two that I co-authored, have further investigated the algorithm.
 This section briefly surveys this work.
 
-\subsection{Publications co-authored by the present author}
+\subsection{Publications Co-Authored by the Present Author}
 
 \citet{DBLP:conf/cpaior/ArchibaldDHMP019} introduce \emph{solution-biased search},
 a technique using restarts and nogood learning that allows algorithm to quickly explore diverse
@@ -2269,7 +2269,7 @@ from \McSplit\ to the clique encoding at a specified depth of recursion.
 including improved reinforcement learning for \McSplit\ based on
 \citet{DBLP:conf/aaai/0001LJ020}, and a version of \McSplit\ with symmetry breaking.
 
-\subsection{An application to a question in probability theory}
+\subsection{An Application to a Question in Probability Theory}
 
 Chatterjee and Diaconis \cite{chatterjee2021isomorphisms} consider taking two
 independent random $G(N, 1/2)$ graphs $G$ and $H$, and finding the order of their maximum
