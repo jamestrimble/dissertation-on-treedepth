@@ -6,6 +6,8 @@ mkdir -p plots
 
 awk -f make-density-extremeness.awk ../fatanode-results/runtimes.randomplaininstances2.txt > runtimes-and-extremeness.randomplaininstances2.txt
 
+gnuplot scatter-plots.gnuplot
+
 gnuplot plots.gnuplot
 sed -i -e '19s/^\(\\path.*\)/\% \1/' plots/*.tex
 cd plots && latexmk -pdf *.tex
