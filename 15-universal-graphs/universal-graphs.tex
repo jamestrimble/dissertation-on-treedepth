@@ -219,7 +219,7 @@ upper bound is given.  Finally, Section~\ref{sec:trees} describes a specialised
 algorithm for families of trees, and gives results for
 these families.
 
-\section{Generating all induced universal graphs}\label{sec:method}
+\section{Generating all Induced Universal Graphs}\label{sec:method}
 
 Given $\calF$ and $n$,
 we use the brute-force approach
@@ -303,7 +303,7 @@ results from this chapter, including lists of minimal induced universal graphs
 in graph6 format, are available from
 \url{https://github.com/jamestrimble/small-universal-graphs}}
 
-\section{Iteration order for $\calF$}\label{sec:iteration-order}
+\section{Iteration Order for $\calF$}\label{sec:iteration-order}
 
 When determining on \lineref{HLoop} of \Cref{alg:brute-force} whether a graph $G$ contains
 every element of $\calF$ as an induced subgraph, are some iteration orders of
@@ -372,7 +372,7 @@ subgraph isomorphism calls in \Cref{alg:brute-force}.
 \label{fig:scatter}
 \end{figure}
 
-\subsection{Testing the strategies: $\calF = \calF(5)$}
+\subsection{Testing the Strategies: $\calF = \calF(5)$}
 
 We now test whether each of our ordering strategies results, as hoped,
 in a reduced number of calls to the subgraph isomorphism function
@@ -455,7 +455,7 @@ will not be contained in the larger graph.
 
 \input{15-universal-graphs/img/graphs5}
 
-\subsection{Testing the strategies: $\calF \subset \calF(5)$}
+\subsection{Testing the Strategies: $\calF \subset \calF(5)$}
 
 While the almost-random strategy was very effective when searching
 for induced universal graphs of \emph{all} graphs of a given order,
@@ -495,7 +495,7 @@ tends to outperform the edges strategy.
 \label{fig:second-experiment-using-sample}
 \end{figure}
 
-\subsection{Testing the strategies: a family of trees}
+\subsection{Testing the Strategies: A Family of Trees}
 
 As a final test case, we let $\calF$ be the family of all trees on 6 vertices,
 and searched for all graphs of order 8 that are induced universal for $\calF$.
@@ -1277,7 +1277,7 @@ gives results generated using these two methods, along with additional
 upper bounds generated using a specialised version of our hill-climbing
 algorithm.
 
-\subsection{The completion method}
+\subsection{The Completion Method}
 
 In our second approach to finding induced universal graphs for the
 family of all trees on $k$ vertices, we embed the star $S_{k-1}$ --- which must be
@@ -1427,7 +1427,7 @@ of trees on $k$ vertices.  This is shown by the following proposition.
     viewed as binary numbers, are in lexicographic order.
 \end{proof}
 
-\subsection{Results for families of trees}
+\subsection{Results for Families of Trees}
 
 The symmetry-breaking completion method is much faster than \Cref{alg:brute-force}.
 For $n=9$ and $k=6$, for example, the completion method takes 9 seconds whereas

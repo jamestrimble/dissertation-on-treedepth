@@ -20,7 +20,7 @@
 \newcommand{\Garray}{\ensuremath{A_G}}
 \newcommand{\Harray}{\ensuremath{A_H}}
 
-\chapter{McSplit-SI: An algorithm for the induced subgraph isomorphism problem}
+\chapter{McSplit-SI: An Algorithm for the Induced Subgraph Isomorphism Problem}
 \label{c:mcsplit-si}
 
 \section{Introduction}
@@ -73,7 +73,7 @@ of \McSplit-SI to solve MCIS on sparse graphs.
 
 \FloatBarrier
 
-\section{The data structures of \McSplit-SI}\label{sec:mcsplit-si-data-structures}
+\section{The Data Structures of \McSplit-SI}\label{sec:mcsplit-si-data-structures}
 
 In the MCIS version of \McSplit\ described in \Cref{c:mcsplit-i-undirected},
 the label class objects at each level of the search tree are stored
@@ -193,7 +193,7 @@ operations can be performed in the usual way.
 
 \FloatBarrier
 
-\section{The \McSplit-SI algorithm}\label{sec:mcsplit-si-algorithm}
+\section{The \McSplit-SI Algorithm}\label{sec:mcsplit-si-algorithm}
 
 We begin our detailed look at \McSplit-SI with
 \Cref{McSplitSIAlg}, which presents the algorithm's overall structure.
@@ -554,7 +554,7 @@ the original label class.
 
 \FloatBarrier
 
-\subsection{Finding all solutions}
+\subsection{Finding all Solutions}
 
 The \McSplit-SI algorithm that we have described so far determines whether there
 exists an isomorphism from the pattern graph to an induced subgraph of the target
@@ -599,7 +599,7 @@ on rare occasions when the free list is exhausted.
 This approach to memory allocation typically reduces run time by around $10\%$ in comparison to use of
 C++'s $\FuncSty{new}$ and $\FuncSty{delete}$ keywords for each allocation and deallocation.
 
-\subsection{Variants: vertex and edge labels and directed graphs}
+\subsection{Variants: Vertex and Edge Labels and Directed Graphs}
 
 \McSplit-SI can be straightforwardly extended to support vertex labels (and loops, by
 treating a loop as a label modifier) using
@@ -632,7 +632,7 @@ edge labels are handled in \McSplit; unlike \McSplit, however, the
 data structures of \McSplit-SI allow us to avoid sorting in the $\FuncSty{Filter}()$
 function.
 
-\section{Variable and value ordering heuristics}\label{sec:mcsplit-si-heuristics}
+\section{Variable and Value Ordering Heuristics}\label{sec:mcsplit-si-heuristics}
 
 The speed of \McSplit-SI, like that of other subgraph isomorphism solvers
 \citep{DBLP:journals/tcbb/BonniciG17,DBLP:journals/jair/McCreeshPST18},
@@ -731,7 +731,7 @@ The latter of these strategies---which matches the \McSplit\ strategy---performe
 much better, and therefore the results of that strategy
 are reported in \Cref{sec:si-experiments}.
 
-\subsection{Static variable ordering heuristics}\label{subsec:mcsplit-si-static}
+\subsection{Static Variable Ordering Heuristics}\label{subsec:mcsplit-si-static}
 
 So far in this section, we have considered only \emph{dynamic} variable
 ordering heuristics, in which the choice of $v$ is made during search and
@@ -773,7 +773,7 @@ which I will refer to as \McSplit-SI-static.  I have modified the RI heuristic
 in one respect: if graph $H$ has density greater than \nicefrac{1}{2}, the order
 is computed on the complement of $G$ rather than on $G$ itself.
 
-\section{\McSplit-SI-LL: A version using linked lists of vertices}\label{sec:mcsplit-si-ll}
+\section{\McSplit-SI-LL: A Version Using Linked Lists of Vertices}\label{sec:mcsplit-si-ll}
 
 The data structure used by \McSplit-SI to represent the two lists of vertices
 within each label class enables fast partitioning, but has the disadvantage
@@ -851,7 +851,7 @@ in \Cref{sec:si-experiments} shows that \McSplit-SI-LL have \McSplit-SI have bro
 similar run times, but that each of algorithms has families of instances for which it is the faster
 solver.
 
-\subsection{Space complexity}\label{sec:mcsplit-si-space-complexity}
+\subsection{Space Complexity}\label{sec:mcsplit-si-space-complexity}
 
 The following proposition demonstrates that the memory needed by \McSplit-SI-LL
 is bounded above by a constant multiple of the space used to store the adjacency
@@ -899,7 +899,7 @@ to solve any satisfiable instance.
     the total space usage is $O(n_G + m_G + m_H)$.
 \end{proof}
 
-\section{\McSplit-SI-AM: A version for dense graphs}\label{sec:mcsplit-si-adjmat}
+\section{\McSplit-SI-AM: A Version for Dense Graphs}\label{sec:mcsplit-si-adjmat}
 
 Our second alternative version of \McSplit-SI 
 stores graphs as adjacency matrices rather than
@@ -917,7 +917,7 @@ and to $w$ in the target class.  This often allows us to backtrack without the
 need for the relatively expensive step of swapping vertices within a label
 class.
 
-\section{Generalised arc consistency on the all-different constraint}\label{sec:mcsplit-si-gac}
+\section{Generalised Arc Consistency on the All-Different Constraint}\label{sec:mcsplit-si-gac}
 
 The constraint programming model for induced subgraph isomorphism in \Cref{subsec:cp-model-isip}
 contains an all-different
@@ -961,7 +961,7 @@ propagator, we describe
 a family of instances that cannot be solved efficiently by Glasgow --- or indeed by RI --- but can
 be solved very quickly by \McSplit-SI.
 
-\subsection{\McSplit-SI achieves GAC}
+\subsection{\McSplit-SI Achieves GAC}
 
 In \Cref{gacProposition}, we view the label classes as a domain store in which each label
 class $\langle V_G, V_H \rangle$ represents a set of $|V_G|$ variables, each with domain $V_H$,
@@ -997,7 +997,7 @@ Such a subset exists since $|V_G^j| \leq |V_H^j|$. No two of these subsets
 contain the same vertex of $H$ by the disjointness property.
 \end{proof}
 
-\subsection{A family of instances where \McSplit-SI outperforms other algorithms}
+\subsection{A Family of Instances Where \McSplit-SI Outperforms Other Algorithms}
 
 In this subsection, we consider a family of graphs devised to demonstrate
 that the generalised arc consistency achieved by \McSplit-SI can give a dramatic
@@ -1172,7 +1172,7 @@ Glasgow and RI time out on the $k=10$ and $k=6$ instances respectively.
 \label{tab:gk-run-times}
 \end{table}
 
-\subsection{A family of instances where \McSplit-SI is outperformed by Glasgow}
+\subsection{A Family of Instances Where \McSplit-SI is Outperformed by Glasgow}
 
 In the previous subsection, we saw a family of instances on which \McSplit-SI outperforms
 the Glasgow Subgraph Solver.  We can easily construct a family of instances where the reverse is true.
@@ -1291,7 +1291,7 @@ solve the instance with $k=1000$ (a 7000-vertex pattern graph and an
 As we have seen in this section, neither \McSplit-SI nor Glasgow dominates the other solver.  In the next
 section, we perform an experimental evaluation to compare solvers on benchmark instances.
 
-\section{Experimental evaluation}\label{sec:mcsplit-si-experiments}
+\section{Experimental Evaluation}\label{sec:mcsplit-si-experiments}
 \label{sec:si-experiments}
 
 We now compare the speed of \McSplit-SI with existing state-of-the-art algorithms
@@ -1306,7 +1306,7 @@ Finally, in \Cref{subsec:si-enumeration-experiment}, we use pairs of random dire
 graphs based on another existing benchmark set;
 we solve the problem of counting all induced subgraph isomorphisms from the pattern to the target.
 
-\subsection{Solvers used}
+\subsection{Solvers Used}
 
 Our experiments compare \McSplit-SI with four state-of-the-art subgraph isomorphism solvers:
 VF3, RI, RI-DS, and Glasgow.   In addition, we use PathLAD in \Cref{subsec:si-knights-experiment};
@@ -1345,7 +1345,7 @@ The \McSplit-SI variants used are shown in \Cref{tab:mcsplit-si-variants}.
 \label{tab:mcsplit-si-variants}
 \end{table}
 
-\subsection{Decision instances}\label{subsec:si-decision-experiment}
+\subsection{Decision Instances}\label{subsec:si-decision-experiment}
 
 Our first set of benchmark instances is
 a collection of $14,621$ pairs of undirected, unlabelled graphs.
@@ -1816,7 +1816,7 @@ there were no instances for which it was the fastest solver.
 
 \FloatBarrier
 
-\subsection{Knight's grid instances}\label{subsec:si-knights-experiment}
+\subsection{Knight's Grid Instances}\label{subsec:si-knights-experiment}
 
 Our second set of decision-problem instances were proposed by Knuth in a recent pre-fascicle
 of The Art of Computer Programming \citep{knuth2022art}.  Each pattern graph is a rectangular grid
@@ -1966,7 +1966,7 @@ here in order to decrease their run times on these instances \citep{zampelli2007
 
 \FloatBarrier
 
-\subsection{Enumeration instances}\label{subsec:si-enumeration-experiment}
+\subsection{Enumeration Instances}\label{subsec:si-enumeration-experiment}
 
 Our final set of benchmark instances is based on the MIVIA LDGraphs dataset
 \citep{DBLP:journals/pami/CarlettiFSV18}.  In each LDGraphs instance, the pattern and
@@ -2159,7 +2159,7 @@ the graphs generated by that program.
 
 \FloatBarrier
 
-\section{Using the \McSplit-SI data structures for MCIS}\label{sec:mcsplit-sparse}
+\section{Using the \McSplit-SI Data Structures for MCIS}\label{sec:mcsplit-sparse}
 
 We have so far seen dense and sparse variants of \McSplit\ for induced subgraph isomorphism, and
 a dense variant for maximum common induced subgraph.  The algorithm that is missing from this
@@ -2178,7 +2178,7 @@ subgraph.  The \FuncSty{Search} function takes an extra parameter: the current
 upper bound. The \FuncSty{Filter} function updates this bound each time a label
 class is partitioned, and returns early if the bound falls below the target.
 
-\subsection{Experimental evaluation of \McSplit-sparse}
+\subsection{Experimental Evaluation of \McSplit-Sparse}
 
 Following the lead of \cite{DBLP:conf/cpaior/ArchibaldDHMP019},
 we use the 14,621 subgraph isomorphism instances described
@@ -2307,7 +2307,7 @@ benchmark instances used.
     \label{figure:mcsplit-sparse-cumulative-rescaled}
 \end{figure}
 
-\subsection{When is \kDown\ better than \McSplitDown?}
+\subsection{When is \kDown\ Better Than \McSplitDown?}
 
 TODO FIXME THIS IS OLD MATERIAL USING OLD RESULTS FROM THE McSplit CHAPTER! BUT
 MAYBE I SHOULD UPDATE IT TO FIT IN HERE?
