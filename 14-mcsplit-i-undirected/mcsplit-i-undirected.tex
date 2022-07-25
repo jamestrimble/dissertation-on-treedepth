@@ -77,54 +77,57 @@ adjacency lists---first for induced subgraph isomorphism, then for
 MCIS.
 
 The discussion of \McSplit\ in this chapter proceeds as follows.
-\Cref{sec:mcsplit} introduces the algorithms and its data structures.
+\Cref{sec:mcsplit} introduces the algorithm and its data structures.
 \Cref{sec:mcsplit-proof} proves the correctness of the algorithm
-and shows the close relationship between \McSplit\ and the method of
-finding a maximum clique in the association graph.
+and shows the close relationship between two methods for solving
+MCIS: \McSplit\ on one hand and
+finding a maximum clique in the association graph on the other.
 \Cref{sec:mcsplit-heuristics} discusses variable and value ordering
-heuristics.
-\Cref{sec:mcis-instances} describes the instances used for our experiments.
-Sections \ref{sec:mcsplit-finding-all} and \ref{sec:mcsplit-experiments}
-are experimental comparisons of
-\McSplit\ with other algorithms for the problems of finding all
-MCISs and a single MCIS respectively.
-\Cref{sec:comparison} explains the difference in run times between
-algorithms by examining their upper bounds and heuristics.
+heuristics for \McSplit.
+Sections \ref{sec:mcis-instances} 
+to \ref{sec:mcsplit-experiments}
+present experimental comparisons of
+\McSplit\ with existing algorithms, and
+\Cref{sec:comparison} explains the difference in run times that
+we observe in these experiments.
 \Cref{sec:mcsplit-papers} reviews papers that build on the \McSplit\
-algorithm.
-\Cref{sec:mcsplit-conclusion} concludes.
+algorithm, and \Cref{sec:mcsplit-conclusion} concludes.
 
 \section{The \McSplit\ Algorithm \label{sec:mcsplit}}
 
 We initially assume that graphs are unlabelled, undirected and without loops;
-\cref{sec:extensions} describes how these restrictions may be relaxed.
-Throughout, $\graphG$ and $\graphH$ will be the two input graphs, with
-$n_G$ and $n_H$ vertices respectively.
+\cref{sec:extensions} will describe how these restrictions may be relaxed.
+Throughout, $\graphG$ and $\graphH$ will be the two input graphs, and
+$n_G$ and $n_H$ will be their orders (that is, the sizes of their vertex sets).
 
-\McSplit\ is a backtracking algorithm that explores a search tree in depth-first
-order.  
-The algorithm
+\McSplit\
 finds a maximum-cardinality mapping $M^* = \{(v_1, w_1), \dots, (v_{m},
-w_{m})\}$ with $|M^*| = m$ vertex pairs, where the $v_i$ are distinct vertices
-from $\V(\graphG)$ and the $w_i$ are distinct vertices from $\V(\graphH)$, such
-that $v_i$ and $v_j$ are adjacent in $\graphG$ if and only if $w_i$ and $w_j$
+w_{m})\}$ with $|M^*| = m$ vertex pairs.
+In this mapping, the $v_i$ are distinct members of
+$\V(\graphG)$ and the $w_i$ are distinct members of $\V(\graphH)$;
+vertices $v_i$ and $v_j$ are adjacent in $\graphG$ if and only if $w_i$ and $w_j$
 are adjacent in $\graphH$.  Given such a mapping, the subgraph of $\graphG$
 induced by $\{v_1, \dots, v_{m}\}$ and the subgraph of $\graphH$ induced by
-$\{w_1, \dots, w_{m}\}$ are isomorphic and correspond to a maximum common subgraph.
+$\{w_1, \dots, w_{m}\}$ are isomorphic and correspond to a maximum common
+induced subgraph.
 
 The behaviour of \McSplit\ is similar to that of a CP solver, and the
 $(v_i, w_i)$
-pairs in $M^*$ are analogous to assignments of value $w_i$ to vertex $v_i$ in CP.
-The main difference between \McSplit\ and a CP solver is that domains are not
+pairs in $M^*$ are analogous to assignments of value $w_i$ to variable $v_i$ in CP.
+A key difference between \McSplit\ and a CP solver is that domains are not
 stored individually in \McSplit; rather, sets of vertices from both graphs
 are stored together in ``label classes''.  The remainder of this section explains
-this in detail.
+the algorithm in detail.
 
-\paragraph{Walkthrough} Before discussing the algorithm in detail, we illustrate
-the main concepts using the graphs $\graphG$ and $\graphH$ in
+\paragraph{Walkthrough} Before giving full details of the algorithm, we illustrate
+its main concepts using the graphs $\graphG$ and $\graphH$ in
 \cref{fig:alg1}.  These graphs have a maximum common subgraph with four
-vertices; one example is the mapping $\{1a, 2f, 3d, 5b\}$ where vertex $1$ is
-assigned to vertex $a$, $2$ to $f$, $3$ to $d$ and $5$ to $b$.
+vertices; one example is the mapping
+$\{(1,a), (2,f), (3,d), (5,b)\}$,
+which we abbreviate as
+$\{1a, 2f, 3d, 5b\}$,
+where vertex $1$ is
+assigned to vertex $a$, $2$ to $f$, and so on.
 
 \begin{figure}[htb]
 \centering
@@ -137,16 +140,17 @@ assigned to vertex $a$, $2$ to $f$, $3$ to $d$ and $5$ to $b$.
 
 The algorithm builds up a mapping $M$ using a depth-first search, starting with the empty mapping
 $\emptyset$ and adding a $(v_i, w_i)$ pair or choosing to leave a vertex in $\V(\graphG)$ unmatched at each level of the search tree.
-Select a vertex in $\V(\graphG)$ as the first vertex to be mapped; in our
+Beginning at the root of the search tree, we
+select a vertex in $\V(\graphG)$ as the first vertex to be mapped; in our
 example we will arbitrarily choose vertex $1$. Each of the vertices in
 $\V(\graphH)$ to which vertex $1$ may be mapped will be tried in turn, and
-finally the possibility where vertex $1$ remains unmatched will be tried.
+finally the decision to leave vertex $1$ unmapped will be tried.
 
 We begin by mapping vertex $1$ to vertex $a$, giving $M=\{1a\}$.  Now
-label each unmatched vertex in $\V(\graphG)$ according to whether it is adjacent to vertex $1$, and
-label each unmatched vertex in $\V(\graphH)$ according to whether it is adjacent to vertex $a$,
-as shown in \cref{fig:alg2}.  Adjacent
-vertices have label 1; non-adjacent vertices have label 0.  We can extend $M$
+label each unmapped vertex in $\V(\graphG)$ according to whether it is adjacent to vertex $1$, and
+label each unmapped vertex in $\V(\graphH)$ according to whether it is adjacent to vertex $a$,
+as shown in \cref{fig:alg2}.  Vertices adjacent to $1$ in $G$ or to $a$ in $H$
+have label 1; non-adjacent vertices have label 0.  We can extend $M$
 with a mapping $vw$, with $v \in \V(\graphG)$ and $w \in \V(\graphH)$, if and only
 if $v$ and $w$ have the same label.  This property, that two vertices may be
 mapped together if and only if they share a label, is the algorithm's main
@@ -200,26 +204,25 @@ invariant.
 
 Next, extend the mapping by pairing a vertex in $\graphG$ with a vertex in $\graphH$ of the
 same label; we will choose to map vertex $2$ to vertex $d$, giving $M=\{1a,
-2d\}$ (\cref{fig:alg3}).  Each unmapped vertex $v \in \V(\graphG)$ is labelled
+2d\}$ (\cref{fig:alg3}).  Each unmapped vertex $v \in \V(\graphG)$ is now labelled
 with a two-character bit string, indicating its adjacency to each of
-the two mapped vertices in $\V(\graphG)$ (vertices $1$ and $2$).  For example, vertex
-$3$ is labelled $01$, indicating that it is not adjacent to vertex $1$ but is adjacent
-to vertex $2$.  Labels are given to unmapped vertices in $\V(\graphH)$ in a similar fashion,
-showing adjacency to matched vertices $a$ and $d$.  Our invariant is
-maintained: we can extend $M$ by a vertex pairing if and only if the two
-vertices have the same label.
+the two mapped vertices in $\V(\graphG)$---vertices $1$ and $2$.  For example, vertex
+$3$ is labelled $01$, indicating that it is adjacent not to vertex $1$ but
+to vertex $2$.  Labels are similarly given to unmapped vertices in $\V(\graphH)$,
+showing adjacency to the mapped vertices $a$ and $d$.  Our invariant is
+maintained: we can extend $M$ by a pair of vertices $vw$ if and only if $v$ and $w$
+have the same label.
 
 The algorithm backtracks when the incumbent (the largest mapping found so far) is at least as large
-as a calculated bound given $M$ and the current labelling. To demonstrate how
-this bound is calculated, we consider the situation one level deeper in the
-search tree shown in \cref{fig:alg4}.
-
-Three vertex labels are used: 100,
-101, and 111.  The first two of these only appear in one graph, and therefore
+as a calculated bound given $M$ and the current labelling. To see how
+this bound is calculated, consider the situation one level deeper in the
+search tree shown in \cref{fig:alg4}.  
+Here, three vertex labels are used: 100,
+101, and 111.  The first two of these labels only appear in one graph, and therefore
 there is no way to add a pair of vertices with label 100 or 101 to the mapping.
 The final label, 111, appears once in $\graphG$ and twice in $\graphH$, and therefore at
 most one pair with this label can be added to $M$.  Thus, the upper bound on
-mapping size is $|M| + 1 = 4$. The general formula for the upper bound is
+the size of a mapping is $|M| + 1 = 4$. The general formula for this upper bound is
 \begin{multline*}
     \mathit{bound} = |M| + \sum_{l \in L} \min\big(|\{ v \in \V(\graphG) : \vtxlabel(v)=l\}|,
         |\{ v \in \V(\graphH) : \vtxlabel(v)=l \}|\big) \text{,}
@@ -238,6 +241,9 @@ At the root node, no vertex-vertex assignments have yet been made.  At each node
 the computed bound is shown.  Nodes at which the incumbent is updated are circled.
 Each edge is labelled with the assignment added to the mapping, except those edges
 with red labels, which represent a decision not to map a vertex of $G$.
+The mapping at an search node contains all vertex-vertex assignments on the path
+from the root to that node; thus, for example, at the bottom-left node
+we have $M=\{1a,2d,3f,5g\}$, and here the incumbent is updated to equal $M$.
 
 \begin{figure}[htb]
     \centering
@@ -262,7 +268,7 @@ present only in one graph but not the other (or which is not present at all).
 Together, these facts allow us to store all the
 necessary information in three arrays.  The first 
 stores a permutation of $\V(\graphG)$ in which like-labelled vertices appear
-consecutively.  The second array, similarly, stores a permutation
+contiguously.  The second array, similarly, stores a permutation
 of $\V(\graphH)$ with like-labelled vertices together.  We call these
 the \emph{$G$-array} and \emph{$H$-array} respectively. The third array,
 which we call the \emph{LC-array},
@@ -283,7 +289,7 @@ been made; the second and third subfigures correspond to the first two steps in 
 Each subfigure shows graphs $\graphG$ and $\graphH$ with vertices colour-coded according
 to their label class.  The three arrays of our data structure are shown on the right of each subfigure,
 with the LC-array below the $G$-array and $H$-array.  The grey numbers below the $G$-array and $H$-array
-are the array indices; these are not stored explicitly.
+are the array indices, which are not stored explicitly.
 
 \begin{figure}[htb]
 \newcommand{\ColouredGraphG}[5] {
@@ -447,10 +453,10 @@ label class shows adjacent vertices.  The LC-array contains an element for each 
 classes, with pointers into the $G$-array and $H$-array.
 
 The situation after the additional mapping of 2 to $d$ is shown in \Cref{subfig:data-structure-c}.
-There are now three label classes, and three corresponding members of the LC-array.
-
-We will describe the low-level details of how the data structure is updated
-after presenting the \McSplit\ algorithm in detail.
+There are now three label classes: the mapped vertices 2 and $d$ have been
+moved out of their label classes, and the purple label class of \Cref{subfig:data-structure-b}
+has been partitioned. The LC-array has three members,
+corresponding to the three label classes.
 
 \begin{algorithm}[htb]
 \DontPrintSemicolon
@@ -495,15 +501,15 @@ after presenting the \McSplit\ algorithm in detail.
 \label{McSplitAlg}
 \end{algorithm}
 
-\paragraph{\cref{McSplitAlg} in detail} We start our search at the function
-$\FuncSty{McSplit}$ (\lineref{McSplitFun}),
+\paragraph{The \McSplit\ algorithm in detail} We start our search at the function
+$\FuncSty{McSplit}$ (\lineref{McSplitFun} of \cref{McSplitAlg}),
 with graphs $\graphG$ and $\graphH$ as inputs.  This function returns a mapping of
 maximum cardinality.  In \lineref{FirstExpandCall} the initial call is made to
-$\FuncSty{Search}$; at this point we have a single label-class containing all
+the recursive function $\FuncSty{Search}$; at this point we have a single label class containing all
 vertices, and the mapping $M$ is empty.
 
-The recursive procedure,
-$\FuncSty{Search}$, has two parameters.  The parameter $\AlgVar{future}$ is a
+The
+$\FuncSty{Search}$ function has two parameters.  The parameter $\AlgVar{future}$ is the
 list of label classes, each represented as a $\langle \setG, \setH \rangle$ pair as
 described above.  The parameter $M$ is the current mapping of vertices.  On
 each call to $\FuncSty{Search}$, the invariant holds that a $(v,w)$ pair may be
@@ -520,10 +526,10 @@ using a heuristic that we will describe in \Cref{sec:mcsplit-heuristics}
 (\lineref{SelectClass}); from this label class, a vertex $v$ is selected
 from $\setG$ (\lineref{SelectVertex}). We now iterate over all
 vertices $w$ in $\setH$, exploring the consequences of adding $(v,w)$ to $M$
-(\linerangeref{WLoop}{ExpandWithV}).  A new set of label-classes,
+(\linerangeref{WLoop}{ExpandWithV}).  A new set of label classes,
 $\AlgVar{future'}$,
-is created (\lineref{NewFuture}); this will be the labelling that results
-from adding $(v,w)$ to our mapping.  Every label-class in $\AlgVar{future}$ can
+is created (\lineref{NewFuture}); this is labelling that results
+from adding $(v,w)$ to our mapping.  Every label class in $\AlgVar{future}$ can
 now be split (\linerangeref{InnerLoop}{InnerLoopEnd}) into two new classes. The
 first of these classes (\linerangeref{NewPWithEdge}{AddToFutureWithEdge})
 contains vertices in $\setG$ adjacent to $v$ and vertices in $\setH$ adjacent to $w$.
@@ -532,17 +538,18 @@ This is then repeated symmetrically for non-adjacency
 (\linerangeref{NewPWithoutEdge}{InnerLoopEnd}). A recursive call is made
 (\lineref{ExpandWithV}), on return from which we remove the mapping $(v,w)$.
 Having explored all possible mappings of $v$ with vertices in $\setH$ we now
-consider what happens if $v$ is not matched
+consider what happens if we make the decision not to map $v$
 (\linerangeref{RemoveV}{ExpandWithoutV}).
 
 \paragraph{Updating the data structure}
-We now return to the data structure illustrated in \Cref{fig:data-structure}, and describe
-our implementation of \linerangeref{InnerLoop}{InnerLoopEnd} of the algorithm.
+To describe
+our implementation of \linerangeref{InnerLoop}{InnerLoopEnd} of the algorithm,
+we now return to the data structure illustrated in \Cref{fig:data-structure}.
 We use a simple $\BigO{n_G+n_H}$-time procedure to create $\AlgVar{future'}$.
 First, $v$ is removed from its label class by swapping it with the rightmost
 element of its label class in the $G$-array and decrementing the corresponding
 pointer in the LC-array. Vertex $w$ is removed in a similar manner.
-Next, the following procedure, corresponding to lines \linerangeref{NewPWithEdge}{InnerLoopEnd}
+Next, the following procedure, corresponding to lines \linerangeref{NewPWithEdge}{InnerLoopEnd},
 is carried out for each label class $\langle \setG,\setH \rangle$.  The sub-array
 of the $G$-array corresponding to $\setG$ is partitioned such that all vertices adjacent to $v$ are moved to
 the rightmost part of the sub-array. Similarly, the sub-array of the $H$-array corresponding to $\setH$
@@ -554,20 +561,22 @@ If the left-hand portion of both of these subarrays
 has nonzero length, we create a new LC-array element pointing to these left-hand portions;
 this step corresponds to \linerangeref{IfNonEmpty2}{InnerLoopEnd}.
 
-Although this partitioning step re-orders vertices within a label class in
-order to create new label classes, a convenient property is that the vertices
-of the pre-partition label class remain contiguous. Therefore there is no need
+Although this partitioning step re-orders vertices within a label class
+to create new label classes, a convenient property is that the vertices
+of the larger label class that existed prior to partitioning remain contiguous.
+Therefore there is no need
 to copy the $G$-array or $H$-array, or to store bookkeeping information
 other than the LC-arrays to restore label classes when backtracking.
 
 \subsection{A related algorithm}
 
-The graph isomorphism algorithm of \citet{DBLP:journals/jacm/SchmidtD76},
-henceforth SD, is a backtracking algorithm that uses a method of partitioning
+The algorithm of \citet{DBLP:journals/jacm/SchmidtD76},
+henceforth SD, is a backtracking algorithm for a different
+problem---graph isomorphism---that uses a method of partitioning
 similar to that of \McSplit. Whereas \McSplit\ stores the vertices of a label
 class contiguously, SD stores an array containing one integer for each vertex
-of $G$, and a similar array for $H$; the array element corresponding to each
-vertex $v$ stores an identifier for $v$'s label class.  This simple data
+of $G$, and a similar array for $H$.
+This simple data
 structure corresponds almost directly to the tables of labels used in
 \Cref{figure:mcsplit-examples} to explain \McSplit, although SD uses an
 additional normalisation step at each search node to ensure that each label can
@@ -578,10 +587,12 @@ work.  However, the present author cannot see a way to adapt the SD data
 structures to handle sparse graphs efficiently as we do with \McSplit\ in
 \Cref{c:mcsplit-si}.
 
+Beyond the difference in data structures, there are two other
+major differences between SD and \McSplit.
 Because SD solves the
 graph isomorphism problem, it is unnecessary to calculate an upper bound; the
-algorithm can backtrack as soon as the number of vertices of $G$ in a label
-class differs from the number of vertices of $H$ in that class.  A further
+algorithm can backtrack as soon as the number of vertices of $G$ with a given
+label differs from the number of vertices of $H$ with that label.  A further
 difference from \McSplit\ is that SD uses
 the distance matrix (a matrix of shortest path lengths) for each
 graph to give a good initial partition and to refine the partition more at each
@@ -664,7 +675,7 @@ time complexity per search node.  To achieve $\BigO{(n_G+n_H) \log (n_G+n_H)}$ t
 complexity per search node---as we do in our implementation of \McSplit---we
 modify the algorithms to use sorting rather
 than explicitly looping over all label classes, as follows.  First, run lines
-17-19 of \cref{McSplitAlg} to create a new label-class of vertices that are
+17-19 of \cref{McSplitAlg} to create a new label class of vertices that are
 not adjacent to $v$ or $w$, and remove these vertices from $\langle \setG',\setH'
 \rangle$.  Next, sort $\setG'$ and $\setH'$ in ascending order of the label on the edge
 from $v$ or $w$ to each vertex. We can then create the label classes
