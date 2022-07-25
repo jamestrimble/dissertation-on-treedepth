@@ -15,7 +15,7 @@ set format y '10^{%L}'
 set xrange [.5:1500000]
 set yrange [.5:1500000]
 
-set style circle radius screen 0.003
+set style circle radius screen 0.0035
 
 set style rect fc lt -1 fs solid 0.15 noborder
 set obj 1 rect from .5, 1000000.5 to graph 1, 1500000
@@ -30,7 +30,7 @@ set obj 2 rect from 1000000.5, graph 0 to 1500000, graph 1
 #### Scatter small multiples ####
 
 #set terminal.pngcairo size 5cm,5cm font "Times,10"
-set terminal pngcairo font "Times,32" size 1280,1280
+set terminal pngcairo font "Times,48" size 1280,1280
 
 set key off
 
@@ -101,3 +101,61 @@ plot "fatanode-results/runtimes-tidied.txt" using (jitt($14)):(jitt($11)) notitl
 set output "plots/scatter-presolve-mcsplit-vf3-jittered.png"
 plot "fatanode-results/runtimes-tidied.txt" using (jitt($14)):(jitt($12)) notitle w circles lc rgb circleColour fill solid noborder, \
     x lc rgb '#888888' notitle
+
+
+#### Scatter small multiples: by family ####
+
+set output "plots/by-family/scatter-Scalefree-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Scalefree.txt" using (jitt($3)):(jitt($8)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-LV-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-LV.txt" using (jitt($3)):(jitt($8)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-BVG-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-BVG.txt" using (jitt($3)):(jitt($8)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-M4D-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-M4D.txt" using (jitt($3)):(jitt($8)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Rand-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Rand.txt" using (jitt($3)):(jitt($8)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-PR-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-PR.txt" using (jitt($3)):(jitt($8)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Phase-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Phase.txt" using (jitt($3)):(jitt($8)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Meshes-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Meshes.txt" using (jitt($3)):(jitt($8)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Images-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Images.txt" using (jitt($3)):(jitt($8)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+
+set output "plots/by-family/scatter-Scalefree-vbos-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Scalefree.txt" using (jitt($3)):(jitt($16)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-LV-vbos-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-LV.txt" using (jitt($3)):(jitt($16)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-BVG-vbos-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-BVG.txt" using (jitt($3)):(jitt($16)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-M4D-vbos-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-M4D.txt" using (jitt($3)):(jitt($16)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Rand-vbos-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Rand.txt" using (jitt($3)):(jitt($16)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-PR-vbos-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-PR.txt" using (jitt($3)):(jitt($16)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Phase-vbos-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Phase.txt" using (jitt($3)):(jitt($16)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Meshes-vbos-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Meshes.txt" using (jitt($3)):(jitt($16)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
+
+set output "plots/by-family/scatter-Images-vbos-jittered.png"
+plot "fatanode-results/by-family/runtimes-tidied-Images.txt" using (jitt($3)):(jitt($16)) notitle w circles lc rgb circleColour fill solid noborder, x lc rgb '#888888' notitle
