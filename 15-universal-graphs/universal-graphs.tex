@@ -36,7 +36,7 @@ has been little effort to develop algorithms
 for the problem.
 This chapter introduces exact and heuristic algorithms for finding
 minimal induced universal graphs, using
-\McSplit-SI\ as a subroutine.
+\McSplit-SI-AM as a subroutine.
 We will use these algorithms to find
 new terms of integer sequences for
 families of small graphs, complementing the known asymptotic results.
@@ -1082,8 +1082,9 @@ construction exists.  This section will show that for $n \leq 10$, there
 exists an induced universal graph with no more than $2n - 2$ vertices
 for the family of $n$-vertex trees.
 
-To generate induced universal graphs for families of
-all trees on $k$ vertices, we tried two approaches.
+For given $k$, we tried two approaches to generate all minimal induced
+universal graphs for the family of
+all trees on $k$ vertices.
 The first approach was to run \Cref{alg:brute-force}, with the family
 $\calF$ of order-$k$ trees loaded from
 a list published by Brendan
@@ -1115,7 +1116,7 @@ method.  Our description refers to the adjacency matrix in
 This adds two symmetry-breaking constraints on the adjacency matrix.
 The first of these constraints concerns the grey shaded region at the bottom-right
 of the adjacency matrix, which has $n - k$ rows and columns.  Rather than
-trying all $2^{n-k \choose 2}$ possible entries for this region of the
+trying all $2^{n-k \choose 2}$ possible ways to fill this region of the
 adjacency matrix, we use a list containing a canonical adjacency matrix
 for each possible graph of order $n-k$, and we require that the shaded
 region be equal to one of these adjacency matrices.
@@ -1134,7 +1135,8 @@ region be equal to one of these adjacency matrices.
 \end{figure}
 
 The second symmetry-breaking constraint concerns the yellow shaded region
-in \Cref{fig:regions-for-trees}. Each row of this region has $n-k$ entries,
+near the top right of
+\Cref{fig:regions-for-trees}. Each row of this region has $n-k$ entries,
 named $x_{i1}, \dots, x_{i,n-k}$.  For our symmetry-breaking constraint, we
 view each row as the binary number $x_{i1}, \dots, x_{i,n-k}$
 (with $x_{i,n-k}$ as the least significant digit), and we insist
@@ -1143,8 +1145,9 @@ $x_{21}, \dots, x_{2,n-k} \leq \dots \leq x_{k1}, \dots, x_{k,n-k}$.
 In other words, we impose a lexicographic ordering constraint
 on the rows of this region.
 
-The algorithm with these symmetry-breaking constraints is shown
-in \Cref{alg:completion}.  The call to $\FuncSty{MakeGraph}()$ on
+\Cref{alg:completion} shows the algorithm that generates and tests each
+adjacency matrix that satisfies these conditions.
+The call to $\FuncSty{MakeGraph}()$ on
 \lineref{MakeGraphLine} constructs a graph by building its
 adjacency matrix as shown in \Cref{fig:regions-for-trees}.  The
 first $k$ vertices are connected in the form of a star;
@@ -1161,7 +1164,7 @@ to $\calG$ if it is not isomorphic to any existing member of the
 collection.\footnote{An efficient method to ensure that isomorphic
 graphs are not stored in $\calG$ would be label the vertices
 of a graph $G$ canonically before adding it to the collection
-\cite{DBLP:journals/jsc/McKayP14}, and to store the collection as a
+\citep{DBLP:journals/jsc/McKayP14}, and to store the collection as a
 hash set.  Because this part of the program is not a performance
 bottleneck, and to minimise software dependencies, our implementation
 uses the simpler approach of testing whether $G$ is isomorphic
@@ -1247,7 +1250,7 @@ of trees on $k$ vertices.  This is shown by the following proposition.
 
 \subsection{Results for Families of Trees}
 
-The symmetry-breaking completion method is much faster than \Cref{alg:brute-force}.
+The symmetry-breaking completion method is faster than \Cref{alg:brute-force}.
 For $n=9$ and $k=6$, for example, the completion method takes 9 seconds whereas
 the brute-force algorithm takes 46 seconds. The difference in run times becomes
 even greater for larger values of $n$ and $k$.
@@ -1324,14 +1327,14 @@ that $t(8) = 13$.
 
 To verify correctness of the results in
 \Cref{tab:graphresults} and \Cref{tab:treeresults}, we repeated every call to
-the McSplit subgraph isomorphism solver using the LAD algorithm \citep{DBLP:journals/ai/Solnon10}
+\McSplit-SI-AM using the LAD algorithm \citep{DBLP:journals/ai/Solnon10}
 as implemented in the \texttt{igraph} library \citep{igraph}.
 
 We verified that the graphs shown as adjacency matrices in \Cref{fig:adjmat14}
 and \Cref{fig:adjmat18} are induced universal graphs for their corresponding families
 using a shell script that calls the Glasgow Subgraph Solver
 \citep{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020} to check for the
-inclusion of every graph of $k$ vertices.
+inclusion of every graph on $k$ vertices.
 This script shares no code with the Python program that generated the graphs.
 
 Finally, we verified all but the final row in each of \Cref{tab:graphresults}
