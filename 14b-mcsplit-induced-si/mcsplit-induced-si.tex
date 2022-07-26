@@ -1422,7 +1422,7 @@ some very dense target graphs.
 %%     plotfile u (c(xcol)==0&&c(ycol)==0?NaN:column(famcol)!=14?NaN:clamp(xcol)):(clamp(ycol)) ls 8 pt 12 ps 0.7 ti 'Images', \
 \paragraph*{Results}
 
-\Cref{figure:unlabelled-vf-instance-runtimes} shows cumulative plots of instances solved by \McSplit-SI
+\Cref{figure:isip-decision-instances-cumulative} shows cumulative plots of instances solved by \McSplit-SI
 and the other algorithms.  To avoid a tangle of overlapping curves, each solver's curve is shown as a dark
 blue line on its own plot, with the curve for \McSplit-SI shown in light blue for comparison on each
 plot.  The solvers can be split into three broad categories.  Constraint programming solvers tend
@@ -1459,7 +1459,7 @@ the pattern recognition solvers---while solving almost as many of the hard insta
     }
     \caption{Cumulative plots of run times for decision instances.  In each subfigure, the algorithm named
         in the caption is in dark blue and \McSplit-SI is in light blue.}
-    \label{figure:unlabelled-vf-instance-runtimes}
+    \label{figure:isip-decision-instances-cumulative}
 \end{figure}
 
 \Cref{figure:si-decision-scatter} shows a scatter plot of run times for each solver, with the run time of
@@ -1601,19 +1601,19 @@ indeed, there are families such as Scalefree where \McSplit-SI appears to be wor
 
 \paragraph*{The effect of target graph density}
 When is it better to use \McSplit-SI than \McSplit-SI-AM?
-\Cref{figure:density-runtime-ratio-am} has a point per instance, with target graph density on the x axis and the ratio of the two solvers' run times 
-on the y axis; a ratio below 1 indicates that \McSplit-SI is the faster solver.  Trivial instances and instances where at least one
+\Cref{figure:density-runtime-ratio-am} has a point per instance, with target graph density on the $x$ axis and the ratio of the two solvers' run times 
+on the $y$ axis; a ratio below 1 indicates that \McSplit-SI is the faster solver.  Trivial instances and instances where at least one
 solver timed out are excluded.  There is a clear positive relationship between density and ratio of run times.  For most instances of
 density below $0.002$, \McSplit-SI is more than $10$ times faster than \McSplit-SI-AM.  However,
 \McSplit-SI-AM soon begins to catch up as target graph density increases, and becomes the faster solver at a target graph density of around
 $0.1$.\footnote{This analysis was carried out using target graph density because we would expect the target graph to have
-a larger effect on run times than the (smaller) pattern graph.  We also re-created the plot with the x axis showing the proportion
+a larger effect on run times than the (smaller) pattern graph.  We also re-created the plot with the $x$ axis showing the proportion
 of all possible edges across pattern \emph{and} target graphs: $(m_G + m_H) / (n_G(n_G-1) + n_H(n_H-1))$,
 where $m_G$ and $n_G$ denote the edge and vertex counts of $G$.  The resulting
 plot was almost identical to \Cref{figure:density-runtime-ratio-am}.}
 
 \Cref{figure:density-runtime-ratio-glasgow} is a similar plot comparing the run time of \McSplit-SI to that of Glasgow.
-(Note the larger range of values of the y axis.)  For very sparse target graphs with density below around $0.002$,
+(Note the larger range of values of the $y$ axis.)  For very sparse target graphs with density below around $0.002$,
 \McSplit-SI consistently runs faster than Glasgow---often by more than an order of magnitude.  For most of the
 instances with denser target graphs,
 \McSplit-SI is again the faster algorithm, and this holds true even for very dense graphs which are not well suited
@@ -2058,7 +2058,7 @@ benefit.
 
 \paragraph*{Results for vertex-labelled instances}
 
-\Cref{figure:unlabelled-vf-instance-runtimes} shows run times for instances with labelled vertices.
+\Cref{figure:labelled-vf-instance-runtimes} shows run times for instances with labelled vertices.
 As was the case for the unlabelled instances, \McSplit-SI is the fastest solver for sparse instances and \McSplit-SI-AM
 is the fastest solver for dense instances (with the exception of the smallest dense instances,
 where \McSplit-SI is fastest).  VF3 is the fastest non-CP solver for every value of $p$, and indeed is almost
