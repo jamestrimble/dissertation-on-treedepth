@@ -20,37 +20,32 @@
 Given a collection $\calF$ of graphs, graph $G$ is \emph{induced universal} for
 $\calF$ if and only if each element of $\calF$ is an induced subgraph of $G$.
 Graph $G$ is a \emph{minimal} induced universal graph for $\calF$ if it has as
-few vertices as possible.
-This chapter introduces  finding
+few vertices as possible.\footnote{We use the word \emph{minimal}
+rather than \emph{minimum} for consistency
+with the literature. Note that we do not use the word in the weaker sense
+of an induced universal graph such that removing any vertex would break the property of induced
+universality.}
+This chapter introduces algorithms for finding
 small induced universal graphs for a family of graphs, both exactly and heuristically.
+
 My motivation for writing the chapter is threefold.
 First, the problem generalises the minimum common supergraph problem
-\cite{DBLP:journals/computing/BunkeJK00}---a natural ``companion problem''
+\citep{DBLP:journals/computing/BunkeJK00}---a natural ``companion problem''
 to maximum common subgraph---from two input graphs to arbitrarily many.  Second, we
-can use McSplit as a fast subgraph isomorphism solver for small graphs as part
-of our algorithm; thus, this chapter provides a new application for McSplit.
+can use \McSplit-SI\ as a fast subgraph isomorphism solver for small graphs as part
+of our algorithm; thus, this chapter provides a new application for \McSplit-SI.
 Third, although much theoretical work has been done to study the size of minimum
 induced universal graphs for vertex counts tending to infinity, little work has
 been done to develop algorithms
 for the problem, and it seems worthwhile to find terms of integer sequences for
 small graphs to complement the known asymptotic results.
 
-We write $\calF(k)$ to denote the family of all graphs on $k$ vertices,
-and we write $f(k)$ to denote the order (that is, the
-number of vertices) of a minimal induced universal graph for $\calF(k)$.
-We write $F(k)$ to denote the number of non-isomorphic graphs of order $f(k)$
-that are induced universal for $\calF(k)$.
-To give an example, we have $f(3)=5$ and $F(3)=5$; all five of the minimal
-induced universal graphs
-for $\calF(3)$ are shown in \Cref{fig:univ3a}. \Cref{fig:univ3b} shows the four
-graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
-
-\begin{figure}[htb]
+\begin{figure}[h!]
     \centering
 
     \subfigure[][The five induced universal graphs of order 5 for \calF(3) (that is, for the family of all 3-vertex graphs)] {
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-        \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
+        \graph [nodes={draw, circle, minimum width=.47cm, inner sep=1pt}, circular placement, radius=0.76cm,
                 clockwise=5] {
                     0,1,2,3,4;
            3 -- 0;
@@ -61,7 +56,7 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
       \end{tikzpicture}
       \qquad
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-        \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
+        \graph [nodes={draw, circle, minimum width=.47cm, inner sep=1pt}, circular placement, radius=0.76cm,
                 clockwise=5] {
                     0,1,2,3,4;
           3 -- 0;
@@ -73,7 +68,7 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
       \end{tikzpicture}
       \qquad
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-        \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
+        \graph [nodes={draw, circle, minimum width=.47cm, inner sep=1pt}, circular placement, radius=0.76cm,
                 clockwise=5] {
                     0,1,2,3,4;
           3 -- 0;
@@ -85,7 +80,7 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
       \end{tikzpicture}
       \qquad
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-        \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
+        \graph [nodes={draw, circle, minimum width=.47cm, inner sep=1pt}, circular placement, radius=0.76cm,
                 clockwise=5] {
                     0,1,2,3,4;
           3 -- 0;
@@ -97,7 +92,7 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
       \end{tikzpicture}
       \qquad
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-        \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
+        \graph [nodes={draw, circle, minimum width=.47cm, inner sep=1pt}, circular placement, radius=0.76cm,
                 clockwise=5] {
                     0,1,2,3,4;
           3 -- 0;
@@ -117,7 +112,7 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
             a graph with a single edge), an induced subgraph isomorphic to $G$ is shown in a
             single colour.] {
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-        \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
+        \graph [nodes={draw, circle, minimum width=.47cm, inner sep=1pt}, circular placement, radius=0.76cm,
                 clockwise=5] {
                     0,1[fill=uofgpumpkin],2[fill=uofgpumpkin],3[fill=uofgpumpkin],4;
            3 -- 0;
@@ -128,7 +123,7 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
       \end{tikzpicture}
       \qquad
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-        \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
+        \graph [nodes={draw, circle, minimum width=.47cm, inner sep=1pt}, circular placement, radius=0.76cm,
                 clockwise=5] {
                     0[fill=uofgturquoise],1,2,3[fill=uofgturquoise],4[fill=uofgturquoise];
            4 -- 1;
@@ -139,7 +134,7 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
       \end{tikzpicture}
       \qquad
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-        \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
+        \graph [nodes={draw, circle, minimum width=.47cm, inner sep=1pt}, circular placement, radius=0.76cm,
                 clockwise=5] {
                     0,1[fill=uofgrose],2,3[fill=uofgrose],4[fill=uofgrose];
            3 -- 0;
@@ -150,7 +145,7 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
       \end{tikzpicture}
       \qquad
       \begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-        \graph [nodes={draw, circle, minimum width=.49cm, inner sep=1pt}, circular placement, radius=0.78cm,
+        \graph [nodes={draw, circle, minimum width=.47cm, inner sep=1pt}, circular placement, radius=0.76cm,
                 clockwise=5] {
                     0,1[fill=uofgmocha],2[fill=uofgmocha],3,4[fill=uofgmocha];
            3 -- 0;
@@ -164,6 +159,16 @@ graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
 \caption{Minimal induced universal graphs for the family of all graphs on 3 vertices}
 \label{fig:univ3}
 \end{figure}
+
+We write $\calF(k)$ to denote the family of all graphs on $k$ vertices,
+and we write $f(k)$ to denote the order (that is, the
+number of vertices) of a minimal induced universal graph for $\calF(k)$.
+We write $F(k)$ to denote the number of non-isomorphic graphs of order $f(k)$
+that are induced universal for $\calF(k)$.
+To give an example, we have $f(3)=5$ and $F(3)=5$; all five of the minimal
+induced universal graphs
+for $\calF(3)$ are shown in \Cref{fig:univ3a}. \Cref{fig:univ3b} shows the four
+graphs in $\calF(3)$ as induced subgraphs of a single induced universal graph.
 
 If family $\calF$ contains only two graphs, the problem of finding a minimal
 induced universal graph from $\calF$ is the \emph{minimum common supergraph}
@@ -248,8 +253,8 @@ interpreter.
 On \lineref{CallSubIso}, the function $\FuncSty{InducedSubIso}()$
 calls an algorithm for the induced
 subgraph isomorphism decision problem; for this,
-our program uses an implementation by the author of the McSplit
-algorithm \cite{DBLP:conf/ijcai/McCreeshPT17}.
+our program uses an implementation by the author of the \McSplit-SI
+algorithm.
 McSplit was designed for
 the more general maximum common induced subgraph problem,
 but it can be used for induced subgraph isomorphism with a simple
@@ -393,6 +398,7 @@ summarises these ordering strategies.
 
 \begin{table}[h!]
 \centering
+\footnotesize
  \begin{tabular}{p{0.25\linewidth} p{0.55\linewidth}}
  \toprule
     Name & Description of strategy \\ [0.5ex]
@@ -423,7 +429,7 @@ with between 304,000 and 305,000 calls being required for each run.
 \begin{figure}[h!]
     \centering
 
-    \includegraphics*[width=0.7\textwidth]{15-universal-graphs/img/second-experiment-plot}
+    \includegraphics*[width=0.601\textwidth]{15-universal-graphs/img/second-experiment-plot}
 
     \caption{Using each of our four order strategies, we ran
         $\FuncSty{AllInducedUniversalGraphs}(\calF(5),9)$ 50 times. The plot
@@ -483,7 +489,7 @@ tends to outperform the edges strategy.
 \begin{figure}[htb]
     \centering
 
-    \includegraphics*[width=0.7\textwidth]{15-universal-graphs/img/second-experiment-plot-using-sample}
+    \includegraphics*[width=0.601\textwidth]{15-universal-graphs/img/second-experiment-plot-using-sample}
 
     \caption{Using each of our four order strategies, we ran
         $\FuncSty{AllInducedUniversalGraphs}(\calF,9)$ 50 times, where
@@ -509,7 +515,7 @@ the other strategies.
 \begin{figure}[htb]
     \centering
 
-    \includegraphics*[width=0.7\textwidth]{15-universal-graphs/img/second-experiment-plot-using-trees}
+    \includegraphics*[width=0.601\textwidth]{15-universal-graphs/img/second-experiment-plot-using-trees}
 
     \caption{Using each of our four order strategies, we ran
         $\FuncSty{AllInducedUniversalGraphs}(\calF,8)$ 50 times, where
@@ -533,20 +539,10 @@ using \Cref{alg:brute-force}. The results are shown in
 Table~\ref{tab:graphresults}.  To my knowledge, result
 $f(5)=10$ and the values of $F(k)$ have not been published previously.
 
-The values $f(1)$, $f(2)$ and $f(3)$ are equal to the simple lower bound $2k
-- 1$ given in a question by ``Chain Markov'' on Mathematics Stack Exchange
-  \cite{math_se_question}.  The values $f(4)$ and $f(5)$ are equal to a lower
-  bound given in a comment by ``bof'' on the same question: $f(k) \geq 2k$ if $k
-  \geq 4$.  (For $k < 10$, this bound improves upon Moon's lower bound $f(k)
-  \geq 2^{(k-1)/2}$.) To briefly summarise the proof, if $f(k) \leq 2k$ then $G$
-  must be a split graph (that is, a graph whose vertices can be partitioned
-  into a clique and an independent set); therefore, $G$ cannot contain the
-  cycle $C_4$ as an induced subgraph.  An example of an 8-vertex induced
-  universal graph for the family of 4-vertex graphs was given by ``Chain
-  Markov'' as a comment on the same question.
 
 \begin{table}[h!]
 \centering
+\footnotesize
 \begin{tabular}{r r r}
  \toprule
  $k$ & $f(k)$ & $F(k)$ \\ [0.5ex]
@@ -564,6 +560,19 @@ induced subgraphs, and $F(k)$ is the number of distinct $f(k)$-vertex graphs tha
 all $k$-vertex graphs as induced subgraphs.}
 \label{tab:graphresults}
 \end{table}
+
+
+The values $f(1)$, $f(2)$ and $f(3)$ are equal to the simple lower bound $2k
+- 1$ given in a question by ``Chain Markov'' on Mathematics Stack Exchange
+  \cite{math_se_question}.  The values $f(4)$ and $f(5)$ are equal to a lower
+  bound given in a comment by ``bof'' on the same question: $f(k) \geq 2k$ if $k
+  \geq 4$.  (For $k < 10$, this bound improves upon Moon's lower bound $f(k)
+  \geq 2^{(k-1)/2}$.) To briefly summarise the proof, if $f(k) \leq 2k$ then $G$
+  must be a split graph (that is, a graph whose vertices can be partitioned
+  into a clique and an independent set); therefore, $G$ cannot contain the
+  cycle $C_4$ as an induced subgraph.  An example of an 8-vertex induced
+  universal graph for the family of 4-vertex graphs was given by ``Chain
+  Markov'' as a comment on the same question.
 %
 %
 
@@ -574,171 +583,174 @@ and 22 minimal induced universal graphs for $\calF(5)$.  Tables
 of these graphs and an example graph for each degree distribution.
 
 \begin{footnotesize}
-\begin{longtable}{m{0.07\linewidth} m{0.15\linewidth} m{0.05\linewidth} m{0.15\linewidth}}
+\begin{longtable}{
+        m{0.05\linewidth} m{0.15\linewidth} m{0.05\linewidth} m{0.12\linewidth} |
+        m{0.05\linewidth} m{0.15\linewidth} m{0.05\linewidth} m{0.12\linewidth}
+    }
 %\begin{longtable}{m{0.05\linewidth} m{0.18\linewidth} m{0.05\linewidth} m{0.15\linewidth}}
 %\begin{table}[h!]
 %\centering
 %\begin{tabular}{m{0.05\linewidth} m{0.18\linewidth} m{0.05\linewidth} m{0.15\linewidth}}
 \toprule
-Edges & Degrees & Count & Example\\ [0.5ex]
+Edges & Degrees & Count & Example &     Edges & Degrees & Count & Example\\ [0.5ex]
 \midrule
-11 & 0 1 2 3 4 4 4 4 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-0}\\
-11 & 0 1 3 3 3 4 4 4 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-1}\\
-11 & 0 2 2 2 3 3 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-2}\\
-11 & 0 2 2 2 3 4 4 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-3}\\
-11 & 0 2 2 3 3 3 4 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-4}\\
-12 & 0 1 3 3 4 4 4 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-5}\\
-12 & 0 1 3 4 4 4 4 4 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-6}\\
-12 & 0 2 2 3 3 4 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-7}\\
-12 & 0 2 2 3 4 4 4 5 & 4 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-8}\\
-12 & 0 2 3 3 3 3 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-9}\\
-12 & 0 2 3 3 3 4 4 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-10}\\
-12 & 0 2 3 3 4 4 4 4 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-11}\\
-12 & 1 1 2 3 4 4 4 5 & 6 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-12}\\
-12 & 1 1 2 4 4 4 4 4 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-13}\\
-12 & 1 1 3 3 3 4 4 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-14}\\
-12 & 1 1 3 3 4 4 4 4 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-15}\\
-12 & 1 2 2 2 3 3 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-16}\\
-12 & 1 2 2 2 3 4 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-17}\\
-12 & 1 2 2 2 3 4 5 5 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-18}\\
-12 & 1 2 2 2 4 4 4 5 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-19}\\
-12 & 1 2 2 3 3 3 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-20}\\
-12 & 1 2 2 3 3 3 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-21}\\
-12 & 1 2 2 3 3 4 4 5 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-22}\\
-12 & 1 2 2 3 4 4 4 4 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-23}\\
-12 & 1 2 3 3 3 3 4 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-24}\\
-12 & 2 2 2 2 3 3 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-25}\\
-12 & 2 2 2 2 3 4 4 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-26}\\
-13 & 0 1 4 4 4 4 4 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-27}\\
-13 & 0 2 3 3 4 4 4 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-28}\\
-13 & 0 2 3 3 4 4 5 5 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-29}\\
-13 & 0 2 3 4 4 4 4 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-30}\\
-13 & 0 3 3 3 3 3 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-31}\\
-13 & 0 3 3 3 3 4 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-32}\\
-13 & 1 1 2 4 4 4 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-33}\\
-13 & 1 1 3 3 4 4 4 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-34}\\
-13 & 1 1 3 3 4 4 5 5 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-35}\\
-13 & 1 1 3 4 4 4 4 5 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-36}\\
-13 & 1 1 4 4 4 4 4 4 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-37}\\
-13 & 1 2 2 3 3 4 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-38}\\
-13 & 1 2 2 3 3 5 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-39}\\
-13 & 1 2 2 3 4 4 4 6 & 4 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-40}\\
-13 & 1 2 2 3 4 4 5 5 & 14 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-41}\\
-13 & 1 2 2 4 4 4 4 5 & 6 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-42}\\
-13 & 1 2 3 3 3 3 5 6 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-43}\\
-13 & 1 2 3 3 3 4 4 6 & 4 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-44}\\
-13 & 1 2 3 3 3 4 5 5 & 12 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-45}\\
-13 & 1 2 3 3 4 4 4 5 & 8 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-46}\\
-13 & 1 2 3 4 4 4 4 4 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-47}\\
-13 & 1 3 3 3 3 3 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-48}\\
-13 & 1 3 3 3 3 4 4 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-49}\\
-13 & 2 2 2 2 3 3 6 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-50}\\
-13 & 2 2 2 2 3 4 5 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-51}\\
-13 & 2 2 2 2 3 5 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-52}\\
-13 & 2 2 2 2 4 4 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-53}\\
-13 & 2 2 2 2 4 4 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-54}\\
-13 & 2 2 2 3 3 3 5 6 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-55}\\
-13 & 2 2 2 3 3 4 4 6 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-56}\\
-13 & 2 2 2 3 3 4 5 5 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-57}\\
-13 & 2 2 2 3 4 4 4 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-58}\\
-13 & 2 2 3 3 3 3 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-59}\\
-13 & 2 2 3 3 3 3 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-60}\\
-13 & 2 2 3 3 3 4 4 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-61}\\
-14 & 0 2 4 4 4 4 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-62}\\
-14 & 0 3 3 3 4 4 5 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-63}\\
-14 & 1 1 3 4 4 5 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-64}\\
-14 & 1 1 4 4 4 4 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-65}\\
-14 & 1 1 4 4 4 4 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-66}\\
-14 & 1 2 2 4 4 5 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-67}\\
-14 & 1 2 3 3 4 4 4 7 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-68}\\
-14 & 1 2 3 3 4 4 5 6 & 16 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-69}\\
-14 & 1 2 3 3 4 5 5 5 & 9 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-70}\\
-14 & 1 2 3 4 4 4 4 6 & 4 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-71}\\
-14 & 1 2 3 4 4 4 5 5 & 14 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-72}\\
-14 & 1 2 4 4 4 4 4 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-73}\\
-14 & 1 3 3 3 3 3 5 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-74}\\
-14 & 1 3 3 3 3 3 6 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-75}\\
-14 & 1 3 3 3 3 4 5 6 & 4 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-76}\\
-14 & 1 3 3 3 3 5 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-77}\\
-14 & 1 3 3 3 4 4 5 5 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-78}\\
-14 & 1 3 3 4 4 4 4 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-79}\\
-14 & 2 2 2 3 3 4 6 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-80}\\
-14 & 2 2 2 3 3 5 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-81}\\
-14 & 2 2 2 3 4 4 5 6 & 9 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-82}\\
-14 & 2 2 2 3 4 5 5 5 & 6 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-83}\\
-14 & 2 2 2 4 4 4 4 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-84}\\
-14 & 2 2 2 4 4 4 5 5 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-85}\\
-14 & 2 2 3 3 3 3 6 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-86}\\
-14 & 2 2 3 3 3 4 5 6 & 14 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-87}\\
-14 & 2 2 3 3 3 5 5 5 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-88}\\
-14 & 2 2 3 3 4 4 4 6 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-89}\\
-14 & 2 2 3 3 4 4 5 5 & 8 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-90}\\
-14 & 2 2 3 4 4 4 4 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-91}\\
-14 & 2 3 3 3 3 3 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-92}\\
-14 & 2 3 3 3 3 4 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-93}\\
-14 & 2 3 3 3 3 4 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-94}\\
-15 & 1 1 4 4 5 5 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-95}\\
-15 & 1 2 3 4 4 5 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-96}\\
-15 & 1 2 3 4 5 5 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-97}\\
-15 & 1 2 4 4 4 4 4 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-98}\\
-15 & 1 2 4 4 4 4 5 6 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-99}\\
-15 & 1 2 4 4 4 5 5 5 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-100}\\
-15 & 1 3 3 3 4 4 5 7 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-101}\\
-15 & 1 3 3 3 4 4 6 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-102}\\
-15 & 1 3 3 3 4 5 5 6 & 4 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-103}\\
-15 & 1 3 3 3 5 5 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-104}\\
-15 & 1 3 3 4 4 4 5 6 & 4 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-105}\\
-15 & 1 3 3 4 4 5 5 5 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-106}\\
-15 & 1 3 4 4 4 4 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-107}\\
-15 & 2 2 2 4 4 5 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-108}\\
-15 & 2 2 2 4 5 5 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-109}\\
-15 & 2 2 3 3 3 5 6 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-110}\\
-15 & 2 2 3 3 4 4 5 7 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-111}\\
-15 & 2 2 3 3 4 4 6 6 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-112}\\
-15 & 2 2 3 3 4 5 5 6 & 14 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-113}\\
-15 & 2 2 3 3 5 5 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-114}\\
-15 & 2 2 3 4 4 4 4 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-115}\\
-15 & 2 2 3 4 4 4 5 6 & 12 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-116}\\
-15 & 2 2 3 4 4 5 5 5 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-117}\\
-15 & 2 2 4 4 4 4 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-118}\\
-15 & 2 2 4 4 4 4 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-119}\\
-15 & 2 3 3 3 3 3 6 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-120}\\
-15 & 2 3 3 3 3 4 5 7 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-121}\\
-15 & 2 3 3 3 3 4 6 6 & 5 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-122}\\
-15 & 2 3 3 3 3 5 5 6 & 6 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-123}\\
-15 & 2 3 3 3 4 4 5 6 & 8 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-124}\\
-15 & 2 3 3 3 4 5 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-125}\\
-15 & 2 3 3 4 4 4 4 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-126}\\
-15 & 2 3 3 4 4 4 5 5 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-127}\\
-15 & 3 3 3 3 3 3 6 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-128}\\
-15 & 3 3 3 3 3 4 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-129}\\
-16 & 1 2 4 4 5 5 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-130}\\
-16 & 1 3 3 4 5 5 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-131}\\
-16 & 1 3 4 4 4 5 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-132}\\
-16 & 1 3 4 4 5 5 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-133}\\
-16 & 2 2 3 4 4 5 5 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-134}\\
-16 & 2 2 3 4 5 5 5 6 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-135}\\
-16 & 2 2 4 4 4 4 5 7 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-136}\\
-16 & 2 2 4 4 4 5 5 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-137}\\
-16 & 2 3 3 3 4 4 6 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-138}\\
-16 & 2 3 3 3 4 5 5 7 & 4 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-139}\\
-16 & 2 3 3 3 4 5 6 6 & 6 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-140}\\
-16 & 2 3 3 3 5 5 5 6 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-141}\\
-16 & 2 3 3 4 4 4 5 7 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-142}\\
-16 & 2 3 3 4 4 4 6 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-143}\\
-16 & 2 3 3 4 4 5 5 6 & 3 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-144}\\
-16 & 2 3 3 4 5 5 5 5 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-145}\\
-16 & 2 3 4 4 4 4 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-146}\\
-16 & 3 3 3 3 3 4 6 7 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-147}\\
-16 & 3 3 3 3 3 5 6 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-148}\\
-16 & 3 3 3 3 4 4 5 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-149}\\
-16 & 3 3 3 3 4 4 6 6 & 2 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-150}\\
-16 & 3 3 3 3 4 5 5 6 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-151}\\
-17 & 2 2 4 4 5 5 5 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-152}\\
-17 & 2 3 3 4 5 5 5 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-153}\\
-17 & 2 3 4 4 4 5 5 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-154}\\
-17 & 3 3 3 3 4 5 6 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-155}\\
-17 & 3 3 3 4 4 4 6 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-156}\\
+11 & 0 1 2 3 4 4 4 4 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-0} &
+11 & 0 1 3 3 3 4 4 4 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-1}\\
+11 & 0 2 2 2 3 3 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-2} &
+11 & 0 2 2 2 3 4 4 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-3}\\
+11 & 0 2 2 3 3 3 4 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-4} &
+12 & 0 1 3 3 4 4 4 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-5}\\
+12 & 0 1 3 4 4 4 4 4 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-6} &
+12 & 0 2 2 3 3 4 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-7}\\
+12 & 0 2 2 3 4 4 4 5 & 4 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-8} &
+12 & 0 2 3 3 3 3 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-9}\\
+12 & 0 2 3 3 3 4 4 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-10} &
+12 & 0 2 3 3 4 4 4 4 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-11}\\
+12 & 1 1 2 3 4 4 4 5 & 6 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-12} &
+12 & 1 1 2 4 4 4 4 4 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-13}\\
+12 & 1 1 3 3 3 4 4 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-14} &
+12 & 1 1 3 3 4 4 4 4 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-15}\\
+12 & 1 2 2 2 3 3 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-16} &
+12 & 1 2 2 2 3 4 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-17}\\
+12 & 1 2 2 2 3 4 5 5 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-18} &
+12 & 1 2 2 2 4 4 4 5 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-19}\\
+12 & 1 2 2 3 3 3 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-20} &
+12 & 1 2 2 3 3 3 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-21}\\
+12 & 1 2 2 3 3 4 4 5 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-22} &
+12 & 1 2 2 3 4 4 4 4 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-23}\\
+12 & 1 2 3 3 3 3 4 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-24} &
+12 & 2 2 2 2 3 3 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-25}\\
+12 & 2 2 2 2 3 4 4 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-26} &
+13 & 0 1 4 4 4 4 4 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-27}\\
+13 & 0 2 3 3 4 4 4 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-28} &
+13 & 0 2 3 3 4 4 5 5 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-29}\\
+13 & 0 2 3 4 4 4 4 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-30} &
+13 & 0 3 3 3 3 3 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-31}\\
+13 & 0 3 3 3 3 4 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-32} &
+13 & 1 1 2 4 4 4 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-33}\\
+13 & 1 1 3 3 4 4 4 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-34} &
+13 & 1 1 3 3 4 4 5 5 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-35}\\
+13 & 1 1 3 4 4 4 4 5 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-36} &
+13 & 1 1 4 4 4 4 4 4 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-37}\\
+13 & 1 2 2 3 3 4 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-38} &
+13 & 1 2 2 3 3 5 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-39}\\
+13 & 1 2 2 3 4 4 4 6 & 4 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-40} &
+13 & 1 2 2 3 4 4 5 5 & 14 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-41}\\
+13 & 1 2 2 4 4 4 4 5 & 6 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-42} &
+13 & 1 2 3 3 3 3 5 6 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-43}\\
+13 & 1 2 3 3 3 4 4 6 & 4 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-44} &
+13 & 1 2 3 3 3 4 5 5 & 12 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-45}\\
+13 & 1 2 3 3 4 4 4 5 & 8 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-46} &
+13 & 1 2 3 4 4 4 4 4 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-47}\\
+13 & 1 3 3 3 3 3 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-48} &
+13 & 1 3 3 3 3 4 4 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-49}\\
+13 & 2 2 2 2 3 3 6 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-50} &
+13 & 2 2 2 2 3 4 5 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-51}\\
+13 & 2 2 2 2 3 5 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-52} &
+13 & 2 2 2 2 4 4 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-53}\\
+13 & 2 2 2 2 4 4 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-54} &
+13 & 2 2 2 3 3 3 5 6 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-55}\\
+13 & 2 2 2 3 3 4 4 6 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-56} &
+13 & 2 2 2 3 3 4 5 5 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-57}\\
+13 & 2 2 2 3 4 4 4 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-58} &
+13 & 2 2 3 3 3 3 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-59}\\
+13 & 2 2 3 3 3 3 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-60} &
+13 & 2 2 3 3 3 4 4 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-61}\\
+14 & 0 2 4 4 4 4 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-62} &
+14 & 0 3 3 3 4 4 5 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-63}\\
+14 & 1 1 3 4 4 5 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-64} &
+14 & 1 1 4 4 4 4 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-65}\\
+14 & 1 1 4 4 4 4 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-66} &
+14 & 1 2 2 4 4 5 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-67}\\
+14 & 1 2 3 3 4 4 4 7 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-68} &
+14 & 1 2 3 3 4 4 5 6 & 16 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-69}\\
+14 & 1 2 3 3 4 5 5 5 & 9 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-70} &
+14 & 1 2 3 4 4 4 4 6 & 4 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-71}\\
+14 & 1 2 3 4 4 4 5 5 & 14 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-72} &
+14 & 1 2 4 4 4 4 4 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-73}\\
+14 & 1 3 3 3 3 3 5 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-74} &
+14 & 1 3 3 3 3 3 6 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-75}\\
+14 & 1 3 3 3 3 4 5 6 & 4 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-76} &
+14 & 1 3 3 3 3 5 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-77}\\
+14 & 1 3 3 3 4 4 5 5 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-78} &
+14 & 1 3 3 4 4 4 4 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-79}\\
+14 & 2 2 2 3 3 4 6 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-80} &
+14 & 2 2 2 3 3 5 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-81}\\
+14 & 2 2 2 3 4 4 5 6 & 9 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-82} &
+14 & 2 2 2 3 4 5 5 5 & 6 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-83}\\
+14 & 2 2 2 4 4 4 4 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-84} &
+14 & 2 2 2 4 4 4 5 5 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-85}\\
+14 & 2 2 3 3 3 3 6 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-86} &
+14 & 2 2 3 3 3 4 5 6 & 14 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-87}\\
+14 & 2 2 3 3 3 5 5 5 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-88} &
+14 & 2 2 3 3 4 4 4 6 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-89}\\
+14 & 2 2 3 3 4 4 5 5 & 8 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-90} &
+14 & 2 2 3 4 4 4 4 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-91}\\
+14 & 2 3 3 3 3 3 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-92} &
+14 & 2 3 3 3 3 4 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-93}\\
+14 & 2 3 3 3 3 4 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-94} &
+15 & 1 1 4 4 5 5 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-95}\\
+15 & 1 2 3 4 4 5 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-96} &
+15 & 1 2 3 4 5 5 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-97}\\
+15 & 1 2 4 4 4 4 4 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-98} &
+15 & 1 2 4 4 4 4 5 6 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-99}\\
+15 & 1 2 4 4 4 5 5 5 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-100} &
+15 & 1 3 3 3 4 4 5 7 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-101}\\
+15 & 1 3 3 3 4 4 6 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-102} &
+15 & 1 3 3 3 4 5 5 6 & 4 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-103}\\
+15 & 1 3 3 3 5 5 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-104} &
+15 & 1 3 3 4 4 4 5 6 & 4 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-105}\\
+15 & 1 3 3 4 4 5 5 5 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-106} &
+15 & 1 3 4 4 4 4 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-107}\\
+15 & 2 2 2 4 4 5 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-108} &
+15 & 2 2 2 4 5 5 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-109}\\
+15 & 2 2 3 3 3 5 6 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-110} &
+15 & 2 2 3 3 4 4 5 7 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-111}\\
+15 & 2 2 3 3 4 4 6 6 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-112} &
+15 & 2 2 3 3 4 5 5 6 & 14 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-113}\\
+15 & 2 2 3 3 5 5 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-114} &
+15 & 2 2 3 4 4 4 4 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-115}\\
+15 & 2 2 3 4 4 4 5 6 & 12 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-116} &
+15 & 2 2 3 4 4 5 5 5 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-117}\\
+15 & 2 2 4 4 4 4 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-118} &
+15 & 2 2 4 4 4 4 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-119}\\
+15 & 2 3 3 3 3 3 6 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-120} &
+15 & 2 3 3 3 3 4 5 7 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-121}\\
+15 & 2 3 3 3 3 4 6 6 & 5 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-122} &
+15 & 2 3 3 3 3 5 5 6 & 6 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-123}\\
+15 & 2 3 3 3 4 4 5 6 & 8 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-124} &
+15 & 2 3 3 3 4 5 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-125}\\
+15 & 2 3 3 4 4 4 4 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-126} &
+15 & 2 3 3 4 4 4 5 5 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-127}\\
+15 & 3 3 3 3 3 3 6 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-128} &
+15 & 3 3 3 3 3 4 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-129}\\
+16 & 1 2 4 4 5 5 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-130} &
+16 & 1 3 3 4 5 5 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-131}\\
+16 & 1 3 4 4 4 5 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-132} &
+16 & 1 3 4 4 5 5 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-133}\\
+16 & 2 2 3 4 4 5 5 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-134} &
+16 & 2 2 3 4 5 5 5 6 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-135}\\
+16 & 2 2 4 4 4 4 5 7 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-136} &
+16 & 2 2 4 4 4 5 5 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-137}\\
+16 & 2 3 3 3 4 4 6 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-138} &
+16 & 2 3 3 3 4 5 5 7 & 4 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-139}\\
+16 & 2 3 3 3 4 5 6 6 & 6 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-140} &
+16 & 2 3 3 3 5 5 5 6 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-141}\\
+16 & 2 3 3 4 4 4 5 7 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-142} &
+16 & 2 3 3 4 4 4 6 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-143}\\
+16 & 2 3 3 4 4 5 5 6 & 3 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-144} &
+16 & 2 3 3 4 5 5 5 5 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-145}\\
+16 & 2 3 4 4 4 4 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-146} &
+16 & 3 3 3 3 3 4 6 7 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-147}\\
+16 & 3 3 3 3 3 5 6 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-148} &
+16 & 3 3 3 3 4 4 5 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-149}\\
+16 & 3 3 3 3 4 4 6 6 & 2 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-150} &
+16 & 3 3 3 3 4 5 5 6 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-151}\\
+17 & 2 2 4 4 5 5 5 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-152} &
+17 & 2 3 3 4 5 5 5 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-153}\\
+17 & 2 3 4 4 4 5 5 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-154} &
+17 & 3 3 3 3 4 5 6 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-155}\\
+17 & 3 3 3 4 4 4 6 7 & 1 & \includegraphics[height=0.7001cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-156}\\
 \bottomrule
 %\end{tabular}
 \caption{There are 438 induced universal graphs for $\calF(4)$, and this set of
@@ -752,7 +764,8 @@ Edges & Degrees & Count & Example\\ [0.5ex]
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{m{0.15\linewidth} m{0.35\linewidth} m{0.15\linewidth} m{0.25\linewidth}}
+\footnotesize
+\begin{tabular}{m{0.12\linewidth} m{0.25\linewidth} m{0.12\linewidth} m{0.2\linewidth}}
  \toprule
     Edges & Degrees & Count & Example\\ [0.5ex]
  \midrule
@@ -1262,6 +1275,7 @@ shows one of the 687 minimal induced universal graphs for the family of 7-vertex
 
 \begin{table}[h!]
 \centering
+\footnotesize
 \begin{tabular}{r r r}
  \toprule
  $k$ & $t(k)$ & $T(k)$ \\ [0.5ex]
