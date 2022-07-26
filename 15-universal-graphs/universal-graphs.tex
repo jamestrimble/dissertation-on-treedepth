@@ -18,7 +18,7 @@
 \section{Introduction}
 
 Given a collection $\calF$ of graphs, graph $G$ is \emph{induced universal} for
-$\calF$ if and only if each element of $\calF$ is an induced subgraph of $G$.
+$\calF$ if and only if each element of $\calF$ is isomorphic to an induced subgraph of $G$.
 Graph $G$ is a \emph{minimal} induced universal graph for $\calF$ if it has as
 few vertices as possible.\footnote{We use the word \emph{minimal}
 rather than \emph{minimum} for consistency
@@ -182,6 +182,7 @@ of the orders of $G$ and $H$ minus the order of a maximum common subgraph
 of $G$ and $H$.  It follows that the minimum common supergraph problem
 and the more general problem of finding a minimum induced universal graph
 are \NP-hard.
+
 \citet{moon_1965} showed that $f(k) \geq 2^{(k-1)/2}$,
 and \citet{alon2017asymptotically} showed that $f(k) = (1 + o(1))2^{(k-1)/2}$.
 There is an extensive literature on bounds on
@@ -206,7 +207,7 @@ for the families of all trees on $k$ vertices, for $1 \leq k \leq 8$,
 published as OEIS sequence A0348638 \citep{oeisA348638}.
 
 The sequel is as follows.
-Section~\ref{sec:method} describes the basic brute force method.
+Section~\ref{sec:method} describes the brute force method.
 Section~\ref{sec:iteration-order} compares four methods for sorting
 the graphs in $\calF$, and compares their effect on the number of subgraph
 isomorphism calls made by the brute-force algorithm.
@@ -262,7 +263,7 @@ each $H \in \calF$ that $H$ is isomorphic to an induced subgraph of $G$.
 
 For the collection $\calF(n)$ of candidate graphs on \lineref{TryEachG}, our
 implementation uses graphs generated using Brendan McKay's \texttt{geng}
-program \cite{DBLP:journals/jal/McKay98}.\footnote{The program \texttt{geng} is distributed
+program \citep{DBLP:journals/jal/McKay98}.\footnote{The program \texttt{geng} is distributed
 with Nauty; we used version 27.r3.\url{https://pallini.di.uniroma1.it/}}
 These are read in \texttt{graph6}
 format\footnote{\url{https://users.cecs.anu.edu.au/~bdm/data/formats.html}}
@@ -1245,7 +1246,7 @@ of trees on $k$ vertices.  This is shown by the following proposition.
 
 The symmetry-breaking completion method is much faster than \Cref{alg:brute-force}.
 For $n=9$ and $k=6$, for example, the completion method takes 9 seconds whereas
-the brute-force algorithm takes 46 seconds. The difference in run-times becomes
+the brute-force algorithm takes 46 seconds. The difference in run times becomes
 even greater for larger values of $n$ and $k$.
 Using the symmetry-breaking completion method,
 we were able to find the values of $t(k)$ and $T(k)$ for $k \leq 7$. We were also
@@ -1320,12 +1321,13 @@ that $t(8) = 13$.
 
 To verify correctness of the results in
 \Cref{tab:graphresults} and \Cref{tab:treeresults}, we repeated every call to
-the McSplit subgraph isomorphism solver using the LAD algorithm \cite{DBLP:journals/ai/Solnon10}
-as implemented in the \texttt{igraph} library \cite{igraph}.
+the McSplit subgraph isomorphism solver using the LAD algorithm \citep{DBLP:journals/ai/Solnon10}
+as implemented in the \texttt{igraph} library \citep{igraph}.
 
 We verified that the graphs shown as adjacency matrices in \Cref{fig:adjmat14}
 and \Cref{fig:adjmat18} are induced universal graphs for their corresponding families
-using a shell script that calls the Glasgow Subgraph Solver \cite{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020} to check for the
+using a shell script that calls the Glasgow Subgraph Solver
+\citep{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020} to check for the
 inclusion of every graph of $k$ vertices.
 This script shares no code with the Python program that generated the graphs.
 
@@ -1344,5 +1346,5 @@ of the sequence $t(k)$.
 Future work could apply the techniques from this chapter to find
 the minimum size of a induced universal graph for families such as
 forests or graphs or bounded degree, complementing the known asymptotic
-results for these families \cite{DBLP:journals/jacm/AlstrupDK17,
+results for these families \citep{DBLP:journals/jacm/AlstrupDK17,
 DBLP:conf/icalp/AbrahamsenAHKS17}.
