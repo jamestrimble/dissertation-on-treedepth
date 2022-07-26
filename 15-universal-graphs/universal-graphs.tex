@@ -180,7 +180,7 @@ is \NP-hard is by reduction from \textsc{Clique}.  Graph $G$ contains a clique
 of order $k$ if and only if the minimum common supergraph of $G$ and
 the complete graph $K_k$ is isomorphic to $G$.}
 
-Moon showed that $f(k) \leq 2^{(k-1)/2}$
+Moon showed that $f(k) \geq 2^{(k-1)/2}$
 \cite{moon_1965}, and Alon showed that $f(k) = (1 + o(1))2^{(k-1)/2}$
 \cite{alon2017asymptotically}.  There is an extensive literature on bounds on
 the order of minimal induced universal subgraphs for many families of graphs;
@@ -427,7 +427,7 @@ with between 304,000 and 305,000 calls being required for each run.
 
     \caption{Using each of our four order strategies, we ran
         $\FuncSty{AllInducedUniversalGraphs}(\calF(5),9)$ 50 times. The plot
-        shows the number calls to the subgraph isomorphism algorithm, in thousands.
+        shows the number of calls to the subgraph isomorphism algorithm, in thousands.
         Horizontal lines show average (mean) number of calls.}
 \label{fig:second-experiment}
 \end{figure}
@@ -489,7 +489,7 @@ tends to outperform the edges strategy.
         $\FuncSty{AllInducedUniversalGraphs}(\calF,9)$ 50 times, where
         $\calF$ is a random subset of $\calF(5)$ containing 17 graphs. This
         parallel coordinates plot
-        shows the number calls to the subgraph isomorphism algorithm, in thousands.
+        shows the number of calls to the subgraph isomorphism algorithm, in thousands.
         Horizontal black lines show average (mean) number of calls.  The four runs for
         each instance are connected by blue lines.}
 \label{fig:second-experiment-using-sample}
@@ -514,7 +514,7 @@ the other strategies.
     \caption{Using each of our four order strategies, we ran
         $\FuncSty{AllInducedUniversalGraphs}(\calF,8)$ 50 times, where
         $\calF$ is the set of all trees of order 6. The plot
-        shows the number calls to the subgraph isomorphism algorithm, in thousands.
+        shows the number of calls to the subgraph isomorphism algorithm, in thousands.
         Horizontal black lines show average (mean) number of calls.}
 \label{fig:second-experiment-using-trees}
 \end{figure}
@@ -530,15 +530,15 @@ $\calF(k)$, and $F(k)$ is the number of non-isomorphic graphs of that order
 that are induced universal for $\calF(k)$.  This section
 presents values of $f(k)$ and $F(k)$ for $0 \leq k \leq 5$, computed
 using \Cref{alg:brute-force}. The results are shown in 
-Table~\ref{tab:graphresults}.  To my knowledge, the value of
-$f(5)$ and the values of $F(k)$ have not been published previously.
+Table~\ref{tab:graphresults}.  To my knowledge, result
+$f(5)=10$ and the values of $F(k)$ have not been published previously.
 
 The values $f(1)$, $f(2)$ and $f(3)$ are equal to the simple lower bound $2k
 - 1$ given in a question by ``Chain Markov'' on Mathematics Stack Exchange
   \cite{math_se_question}.  The values $f(4)$ and $f(5)$ are equal to a lower
   bound given in a comment by ``bof'' on the same question: $f(k) \geq 2k$ if $k
   \geq 4$.  (For $k < 10$, this bound improves upon Moon's lower bound $f(k)
-  \leq 2^{(k-1)/2}$.) To briefly summarise the proof, if $f(k) \leq 2k$ then $G$
+  \geq 2^{(k-1)/2}$.) To briefly summarise the proof, if $f(k) \leq 2k$ then $G$
   must be a split graph (that is, a graph whose vertices can be partitioned
   into a clique and an independent set); therefore, $G$ cannot contain the
   cycle $C_4$ as an induced subgraph.  An example of an 8-vertex induced
@@ -567,9 +567,11 @@ all $k$-vertex graphs as induced subgraphs.}
 %
 %
 
-Figure~\ref{fig:graphs} shows examples of minimal induced universal graphs
-for the families of all graphs with four and five vertices
-respectively.
+There are 438 minimal induced universal graphs for $\calF(4)$,
+and 22 minimal induced universal graphs for $\calF(5)$.  Tables
+\ref{tab:f4-degree-distributions} and
+\ref{tab:f5-degree-distributions} show the degree distributions
+of these graphs and an example graph for each degree distribution.
 
 \begin{footnotesize}
 \begin{longtable}{m{0.07\linewidth} m{0.15\linewidth} m{0.05\linewidth} m{0.15\linewidth}}
@@ -739,8 +741,12 @@ Edges & Degrees & Count & Example\\ [0.5ex]
 17 & 3 3 3 4 4 4 6 7 & 1 & \includegraphics[height=0.8cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-156}\\
 \bottomrule
 %\end{tabular}
-\caption{Ordering strategies tested for the brute-force algorithm}
-\label{tab:TODO}
+\caption{There are 438 induced universal graphs for $\calF(4)$, and this set of
+    438 graphs has 157 distinct degree distributions.  For each degree distribution,
+    this table shows the number of edges, the
+    degree distribution, the number of graphs with that distribution,
+    and an example graph.}
+\label{tab:f4-degree-distributions}
 \end{longtable}
 \end{footnotesize}
 
@@ -768,202 +774,14 @@ Edges & Degrees & Count & Example\\ [0.5ex]
 24 & 2 2 4 4 5 5 5 6 6 9 & 1 & \includegraphics[width=1cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-5-10-15} \\
 \bottomrule
 \end{tabular}
+\caption{There are 22 induced universal graphs for $\calF(4)$, and this set of
+    22 graphs has 16 distinct degree distributions.  For each degree distribution,
+    this table shows the number of edges, the
+    degree distribution, the number of graphs with that distribution,
+    and an example graph.}
 \caption{Ordering strategies tested for the brute-force algorithm}
-\label{tab:TODO}
+\label{tab:f5-degree-distributions}
 \end{table}
-
-\begin{figure}[htb]
-    \centering
-
-\begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-  \pgfsetlinewidth{.5bp}
-%%
-\pgfsetcolor{black}
-  % Edge: 4 -- 0
-  \draw [] (44.956bp,147.01bp) .. controls (40.082bp,141.1bp) and (34.42bp,134.24bp)  .. (29.546bp,128.33bp);
-  % Edge: 5 -- 1
-  \draw [] (166.49bp,80.229bp) .. controls (168.44bp,90.759bp) and (170.89bp,103.99bp)  .. (172.84bp,114.47bp);
-  % Edge: 6 -- 0
-  \draw [] (81.617bp,113.74bp) .. controls (68.067bp,113.87bp) and (49.632bp,114.04bp)  .. (36.095bp,114.17bp);
-  % Edge: 6 -- 1
-  \draw [] (117.47bp,117.89bp) .. controls (129.81bp,120.9bp) and (146.19bp,124.9bp)  .. (158.51bp,127.9bp);
-  % Edge: 6 -- 2
-  \draw [] (96.884bp,95.599bp) .. controls (94.148bp,78.511bp) and (90.056bp,52.957bp)  .. (87.325bp,35.896bp);
-  % Edge: 6 -- 4
-  \draw [] (87.484bp,127.04bp) .. controls (81.59bp,133.51bp) and (74.549bp,141.23bp)  .. (68.67bp,147.68bp);
-  % Edge: 7 -- 0
-  \draw [] (56.422bp,85.611bp) .. controls (48.962bp,91.188bp) and (39.886bp,97.973bp)  .. (32.429bp,103.55bp);
-  % Edge: 7 -- 2
-  \draw [] (75.094bp,57.147bp) .. controls (76.715bp,50.372bp) and (78.564bp,42.641bp)  .. (80.189bp,35.849bp);
-  % Edge: 7 -- 4
-  \draw [] (67.894bp,92.673bp) .. controls (65.43bp,107.47bp) and (61.945bp,128.39bp)  .. (59.482bp,143.18bp);
-  % Edge: 7 -- 5
-  \draw [] (89.1bp,72.32bp) .. controls (105.38bp,70.096bp) and (129.09bp,66.857bp)  .. (145.27bp,64.648bp);
-  % Edge: 7 -- 6
-  \draw [] (81.628bp,89.246bp) .. controls (84.002bp,92.431bp) and (86.52bp,95.808bp)  .. (88.898bp,99.0bp);
-  % Node: 0
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (18.0bp,114.33bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 1
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (176.12bp,132.19bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 2
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (84.46bp,18.0bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 3
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (210.0bp,194.0bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 4
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (56.51bp,161.02bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 5
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (163.15bp,62.21bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 6
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (99.76bp,113.58bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 7
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (70.87bp,74.81bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-%
-\end{tikzpicture}
-\qquad
-\qquad
-\begin{tikzpicture}[>=latex',line join=bevel,scale=.4]
-  \pgfsetlinewidth{.5bp}
-%%
-\pgfsetcolor{black}
-  % Edge: 5 -- 0
-  \draw [] (50.975bp,158.84bp) .. controls (45.582bp,156.23bp) and (39.597bp,153.34bp)  .. (34.222bp,150.74bp);
-  % Edge: 5 -- 1
-  \draw [] (84.643bp,161.37bp) .. controls (96.964bp,157.48bp) and (113.5bp,152.27bp)  .. (125.86bp,148.36bp);
-  % Edge: 6 -- 0
-  \draw [] (21.443bp,105.03bp) .. controls (20.863bp,111.4bp) and (20.211bp,118.58bp)  .. (19.631bp,124.95bp);
-  % Edge: 6 -- 2
-  \draw [] (31.856bp,71.036bp) .. controls (37.972bp,59.88bp) and (46.093bp,45.065bp)  .. (52.198bp,33.928bp);
-  % Edge: 6 -- 5
-  \draw [] (31.841bp,102.81bp) .. controls (39.568bp,116.7bp) and (50.773bp,136.84bp)  .. (58.539bp,150.8bp);
-  % Edge: 7 -- 1
-  \draw [] (135.92bp,66.785bp) .. controls (137.53bp,83.477bp) and (139.91bp,108.08bp)  .. (141.51bp,124.75bp);
-  % Edge: 7 -- 2
-  \draw [] (117.55bp,41.664bp) .. controls (105.65bp,36.69bp) and (89.681bp,30.016bp)  .. (77.737bp,25.024bp);
-  % Edge: 7 -- 3
-  \draw [] (146.34bp,62.563bp) .. controls (149.79bp,66.518bp) and (153.54bp,70.819bp)  .. (156.97bp,74.761bp);
-  % Edge: 8 -- 0
-  \draw [] (79.976bp,126.94bp) .. controls (66.776bp,130.34bp) and (48.816bp,134.96bp)  .. (35.628bp,138.36bp);
-  % Edge: 8 -- 1
-  \draw [] (114.12bp,129.78bp) .. controls (118.2bp,131.62bp) and (122.58bp,133.58bp)  .. (126.67bp,135.42bp);
-  % Edge: 8 -- 3
-  \draw [] (114.19bp,114.53bp) .. controls (125.71bp,109.05bp) and (141.01bp,101.78bp)  .. (152.51bp,96.32bp);
-  % Edge: 8 -- 5
-  \draw [] (87.424bp,137.42bp) .. controls (84.273bp,142.05bp) and (80.806bp,147.15bp)  .. (77.657bp,151.78bp);
-  % Edge: 8 -- 6
-  \draw [] (81.103bp,114.54bp) .. controls (68.744bp,108.69bp) and (51.929bp,100.72bp)  .. (39.582bp,94.871bp);
-  % Edge: 8 -- 7
-  \draw [] (105.76bp,106.01bp) .. controls (111.81bp,93.786bp) and (120.04bp,77.152bp)  .. (126.09bp,64.937bp);
-  % Edge: 9 -- 0
-  \draw [] (66.194bp,101.08bp) .. controls (55.929bp,109.98bp) and (41.964bp,122.1bp)  .. (31.708bp,131.0bp);
-  % Edge: 9 -- 1
-  \draw [] (93.68bp,100.8bp) .. controls (104.16bp,109.69bp) and (118.53bp,121.89bp)  .. (129.11bp,130.87bp);
-  % Edge: 9 -- 2
-  \draw [] (75.241bp,71.56bp) .. controls (72.339bp,60.696bp) and (68.624bp,46.796bp)  .. (65.707bp,35.879bp);
-  % Edge: 9 -- 3
-  \draw [] (97.955bp,89.017bp) .. controls (113.3bp,88.906bp) and (135.24bp,88.748bp)  .. (150.67bp,88.636bp);
-  % Edge: 9 -- 5
-  \draw [] (77.041bp,107.16bp) .. controls (75.021bp,119.7bp) and (72.338bp,136.36bp)  .. (70.321bp,148.89bp);
-  % Edge: 9 -- 6
-  \draw [] (61.949bp,88.484bp) .. controls (55.311bp,88.239bp) and (47.792bp,87.962bp)  .. (41.147bp,87.717bp);
-  % Edge: 9 -- 8
-  \draw [] (88.59bp,105.38bp) .. controls (88.73bp,105.64bp) and (88.871bp,105.9bp)  .. (89.011bp,106.17bp);
-  % Node: 0
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (18.0bp,142.9bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 1
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (143.26bp,142.87bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 2
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (60.93bp,18.0bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 3
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (168.96bp,88.5bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 4
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (210.0bp,18.0bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 5
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (67.44bp,166.8bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 6
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (23.08bp,87.05bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 7
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (134.17bp,48.61bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 8
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (97.65bp,122.39bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-  % Node: 9
-\begin{scope}
-  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
-  \pgfsetstrokecolor{strokecol}
-  \draw (79.94bp,89.15bp) ellipse (18.0bp and 18.0bp);
-\end{scope}
-%
-\end{tikzpicture}
-\caption{Examples of minimal induced universal graphs for $\calF(4)$ and $\calF(5)$}
-\label{fig:graphs}
-\end{figure}
 
 \section{\texorpdfstring{$f(6) = 14$}{f(6)=14}}\label{sec:f6}
 
