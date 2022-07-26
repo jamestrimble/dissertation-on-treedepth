@@ -176,7 +176,8 @@ vertex set, and $\{\{u, v\} \in E \mid \{u, v\} \in W\}$ as its edge set; that
 is, the subgraph includes all edges of $G$ whose endpoints both appear in
 $W$.  We say that this subgraph is \emph{induced by} $W$.
 Graph $G_3$ of \Cref{fig:intro-examples} is thus the subgraph
-of $G_1$ induced by the set $\{1,2,3,4\}$.
+of $G_1$ induced by the set $\{1,2,3,4\}$.  We say that $G$ \emph{contains
+$H$ as an induced subgraph} if $H$ is isomorphic to a subgraph of $G$.
 A \emph{subgraph} (without the ``induced'' qualifier) is an induced subgraph
 with zero or more edges deleted.
 
@@ -328,23 +329,170 @@ give theoretical bounds for current state of the art exponential-time algorithms
 \section{Problems Covered by This Dissertation}\label{sec:problems}
 
 This dissertation presents algorithms for the following three problems.
+The first and third are optimisation problems; the second
+is a decision problem.
 
 \begin{itemize}
     \item \textbf{Maximum common induced subgraph.} Find
-a maximum common induced subgraph of two given graphs.
+a maximum common induced subgraph of two given graphs.  We have seen an example
+in \Cref{fig:cis-example}: the two graphs have a maximum common induced subgraph
+with four vertices.
     \item \textbf{Induced subgraph isomorphism.} Given graphs $G$ (the ``pattern graph'')
     and $H$ (the ``target graph''),
-determine whether $G$ is isomorphic to an induced subgraph of $H$;
-if so, return the isomorphism.
+determine whether $H$ contains $G$ as an induced subgraph;
+if so, return the mapping corresponding to an isomorphism from $G$ to an
+        induced subgraph of $H$.
+    \Cref{fig:isip-examples} gives two examples of instances. The first is unsatisfiable;
+        the solution $\{(1,a),(2,b), (3,d)\}$ for the second instance is shown.
     \item \textbf{Minimum induced universal graph.} Given a family of graphs $\calF$,
 find a graph with as few vertices as possible that contains each member of $\calF$
 as an induced subgraph.
+    \Cref{fig:ind-univ-instance} shows an example instance: the family
+        of graphs $\{C_3, C_4, C_5\}$.  
+    \Cref{fig:ind-univ-solution} shows a corresponding solution with six vertices.
+        This is shown three times, with an induced copy of each input graph
+        highlighted.
 \end{itemize}
 
-TODO maybe give examples here?
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Unsatisfiable] {
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.55cm,inner sep=.7mm}]
+          \node [draw,circle] (1) at (.6,.9) {1};
+          \node [draw,circle] (2) at (0,0) {2};
+          \node [draw,circle] (3) at (1.2,0) {3};
+          \draw (1) -- (2);
+          \draw (1) -- (3);
+          \draw (2) -- (3);
+        \end{tikzpicture}\quad
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.55cm,inner sep=.7mm}]
+          \node [draw,circle] (a) at (0,1) {a};
+          \node [draw,circle] (b) at (1,1) {b};
+          \node [draw,circle] (c) at (1,0) {c};
+          \node [draw,circle] (d) at (0,0) {d};
+          \draw (a) -- (b);
+          \draw (b) -- (c);
+          \draw (c) -- (d);
+          \draw (d) -- (a);
+        \end{tikzpicture}
+        \label{fig:si-unsat}
+    }\qquad\qquad\subfigure[][Satisfiable] {
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.55cm,inner sep=.7mm}]
+          \node [very thick,draw,circle] (1) at (.6,.9) {1};
+          \node [very thick,draw,circle] (2) at (0,0) {2};
+          \node [very thick,draw,circle] (3) at (1.2,0) {3};
+          \draw [very thick] (1) -- (2);
+          \draw [very thick] (1) -- (3);
+          \draw [very thick] (2) -- (3);
+        \end{tikzpicture}\quad
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.55cm,inner sep=.7mm}]
+          \node [very thick,draw,circle] (a) at (0,1) {a};
+          \node [very thick,draw,circle] (b) at (1,1) {b};
+          \node [draw,circle] (c) at (1,0) {c};
+          \node [very thick,draw,circle] (d) at (0,0) {d};
+          \draw [very thick] (a) -- (b);
+          \draw (b) -- (c);
+          \draw (c) -- (d);
+          \draw [very thick] (d) -- (a);
+          \draw [very thick] (b) -- (d);
+        \end{tikzpicture}
+        \label{fig:si-sat}
+    }
+    \caption{Two instances of the induced subgraph isomorphism problem}
+    \label{fig:isip-examples}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Instance] {
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.28cm,inner sep=.7mm}]
+          \node [draw,circle] (1) at (.6,.9) {};
+          \node [draw,circle] (2) at (0,0) {};
+          \node [draw,circle] (3) at (1.2,0) {};
+          \draw (1) -- (2);
+          \draw (1) -- (3);
+          \draw (2) -- (3);
+        \end{tikzpicture}\quad
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.28cm,inner sep=.7mm}]
+          \node [draw,circle] (a) at (0,1) {};
+          \node [draw,circle] (b) at (1,1) {};
+          \node [draw,circle] (c) at (1,0) {};
+          \node [draw,circle] (d) at (0,0) {};
+          \draw (a) -- (b);
+          \draw (b) -- (c);
+          \draw (c) -- (d);
+          \draw (d) -- (a);
+        \end{tikzpicture}\quad
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.28cm,inner sep=.7mm}]
+          \node [draw,circle] (a) at (-.2,.9) {};
+          \node [draw,circle] (b) at (.6,1.4) {};
+          \node [draw,circle] (c) at (1.4,.9) {};
+          \node [draw,circle] (d) at (1,0) {};
+          \node [draw,circle] (e) at (.1,0) {};
+          \draw (a) -- (b);
+          \draw (b) -- (c);
+          \draw (c) -- (d);
+          \draw (d) -- (e);
+          \draw (e) -- (a);
+        \end{tikzpicture}
+        \label{fig:ind-univ-instance}
+    }\qquad\qquad\subfigure[][A solution] {
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.28cm,inner sep=.7mm}]
+            \node [very thick,draw,circle] (a) at (-.2,.9) {};
+          \node [very thick,draw,circle] (b) at (.6,1.4) {};
+          \node [draw,circle] (c) at (1.4,.9) {};
+          \node [draw,circle] (d) at (1,0) {};
+          \node [draw,circle] (e) at (.1,0) {};
+          \node [very thick,draw,circle] (f) at (.6,.8) {};
+            \draw [very thick] (a) -- (b);
+          \draw (b) -- (c);
+          \draw (c) -- (d);
+          \draw (d) -- (e);
+          \draw (e) -- (a);
+            \draw [very thick] (a) -- (f);
+          \draw (f) -- (d);
+            \draw [very thick] (f) -- (b);
+        \end{tikzpicture}\quad
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.28cm,inner sep=.7mm}]
+            \node [very thick,draw,circle] (a) at (-.2,.9) {};
+          \node [draw,circle] (b) at (.6,1.4) {};
+          \node [draw,circle] (c) at (1.4,.9) {};
+          \node [very thick,draw,circle] (d) at (1,0) {};
+          \node [very thick,draw,circle] (e) at (.1,0) {};
+          \node [very thick,draw,circle] (f) at (.6,.8) {};
+          \draw (a) -- (b);
+          \draw (b) -- (c);
+          \draw (c) -- (d);
+            \draw [very thick] (d) -- (e);
+            \draw [very thick] (e) -- (a);
+            \draw [very thick] (a) -- (f);
+            \draw [very thick] (f) -- (d);
+          \draw (f) -- (b);
+        \end{tikzpicture}\quad
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.8,minimum width=.28cm,inner sep=.7mm}]
+            \node [very thick,draw,circle] (a) at (-.2,.9) {};
+          \node [very thick,draw,circle] (b) at (.6,1.4) {};
+          \node [very thick,draw,circle] (c) at (1.4,.9) {};
+          \node [very thick,draw,circle] (d) at (1,0) {};
+          \node [very thick,draw,circle] (e) at (.1,0) {};
+          \node [draw,circle] (f) at (.6,.8) {};
+            \draw [very thick] (a) -- (b);
+            \draw [very thick] (b) -- (c);
+            \draw [very thick] (c) -- (d);
+            \draw [very thick] (d) -- (e);
+            \draw [very thick] (e) -- (a);
+          \draw (a) -- (f);
+          \draw (f) -- (d);
+          \draw (f) -- (b);
+        \end{tikzpicture}
+        \label{fig:ind-univ-solution}
+    }
+    \caption{An instance of the minimal induced universal graph problem, and a solution}
+    \label{fig:induced-universal-example}
+\end{figure}
 
 Each
-of these three problems can be seen to be \NP-hard by a simple reduction from
+of the three problems can be seen to be \NP-hard by a simple reduction from
 \textsc{Clique}.
 Given graph $G$ and natural number $k$, we can determine whether $G$ contains a clique
 of size $k$ by solving either of the first two problems with the complete graph $K_k$ as
@@ -357,6 +505,12 @@ Likewise, each problem has a variant for labelled graphs.
 For the first two problems, this dissertation presents algorithms for both
 labelled graphs and directed graphs; for the third problem we only consider
 unlabelled graphs.
+
+All three problems have natural enumeration counterparts:
+to find all maximum common induced subgraphs, all induced subgraph isomorphisms,
+and all minimum induced univeral graphs.  As we will see in the following
+chapters, our solvers can be straightforwardly extended to handle
+these enumeration versions.
 
 \section{Related Problems}\label{sec:related-problems}
 
