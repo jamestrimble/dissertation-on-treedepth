@@ -307,8 +307,8 @@ $\calF$ is the set of all graphs of order $k$.
 As \cite{chatterjee2021isomorphisms} note, the complete
 graph $K_n$ is the `hardest' graph of order $n$ for a random graph to contain.
 This suggests
-that we should use an order in which $K_k$ and its complement $I_k$ come
-first; we consider two such orders.  The first of these is to sort $\calF(k)$ in descending
+that we should use an order that starts with $K_k$ and its complement $I_k$;
+we will consider two such orders.  The first of these is to sort $\calF(k)$ in descending
 order of automorphism count, so that
 graphs with large automorphism groups appear first in the list.  (Intuitively, if a graph
 has few automorphisms then we can generate many different labelled graphs
@@ -504,7 +504,7 @@ the other strategies.
 \label{fig:second-experiment-using-trees}
 \end{figure}
 
-Since Automorphisms strategy performs consistently well across our three test
+Since the Automorphisms strategy performs consistently well across our three test
 cases, we will use it for the remainder of the chapter.
 
 \section{Results for \texorpdfstring{$k \leq 5$}{k<=5}}\label{sec:results5}
@@ -560,8 +560,8 @@ induced universal graphs for $\calF(4)$,
 and 22 minimal induced universal graphs for $\calF(5)$.
 \Cref{tab:f4-degree-distributions} (which extends over the next
 three pages) and
-\Cref{tab:f5-degree-distributions} show the degree distributions
-of these graphs and an example of a graph with each degree distribution.
+\Cref{tab:f5-degree-distributions} show the edge counts and degree distributions
+of these graphs, along with an example of a graph with each degree distribution.
 
 \clearpage
 
@@ -736,7 +736,7 @@ Edges & Degrees & Count & Example &     Edges & Degrees & Count & Example\\ [0.5
 17 & 3 3 3 4 4 4 6 7 & 1 & \includegraphics[height=0.7151cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-4-8-156}\\
 \bottomrule
 %\end{tabular}
-\caption{There are 438 induced universal graphs for $\calF(4)$, and this set of
+\caption{There are 438 minimal induced universal graphs for $\calF(4)$, and this set of
     438 graphs has 157 distinct degree distributions.  For each degree distribution,
     this table shows the number of edges, the
     degree distribution, the number of graphs with that distribution,
@@ -770,7 +770,7 @@ Edges & Degrees & Count & Example &     Edges & Degrees & Count & Example\\ [0.5
 24 & 2 2 4 4 5 5 5 6 6 9 & 1 & \includegraphics[width=1cm]{15-universal-graphs/img/degree-sequences-example-graphs/graph-5-10-15} \\
 \bottomrule
 \end{tabular}
-\caption{There are 22 induced universal graphs for $\calF(4)$, and this set of
+\caption{There are 22 minimal induced universal graphs for $\calF(5)$, and this set of
     22 graphs has 16 distinct degree distributions.  For each degree distribution,
     this table shows the number of edges, the
     degree distribution, the number of graphs with that distribution,
@@ -783,6 +783,7 @@ Edges & Degrees & Count & Example &     Edges & Degrees & Count & Example\\ [0.5
 This section shows that $f(6) = 14$.  We begin with the lower bound.
 For $k \geq 6$, we can increase by 2 the lower bound --- $f(k) \geq 2k$
 for $k \geq 4$ --- cited in the previous section.
+This gives the following proposition, which implies that $f(6) \geq 14$.
 
 \begin{proposition}\label{f6proposition}
     $f(k) \geq 2k + 2$ for all $k \geq 6$.
@@ -842,7 +843,7 @@ for $k \geq 4$ --- cited in the previous section.
 \caption{If $k > 5$ and $G$ is a graph on $2k + 1$ or fewer vertices, then
 $G$ cannot have as induced subgraphs all four of the following graphs: the
 clique $K_k$, the independent set $I_k$, and
-the two graphs shown. See the proof of Proposition~\ref{f6proposition}.}
+    the two graphs shown (which we call $H$ and $H'$). See the proof of Proposition~\ref{f6proposition}.}
 \label{fig:boundproof}
 \end{figure}
 
@@ -863,12 +864,10 @@ the two graphs shown. See the proof of Proposition~\ref{f6proposition}.}
     these vertices are adjacent in $G$, we have a contradiction.
 \end{proof}
 
-\Cref{f6proposition} implies that $f(6) \geq 14$.
-
-To find an induced universal graph for $\calF(6)$ in order to give an upper bound
-on $f(6)$, we use the following local search
-algorithm, which is shown in \Cref{alg:heuristic}.
-The entry point to the algorithm is function $\FuncSty{FindInducedUniversalGraph}()$,
+To give an upper bound
+on $f(6)$, we use the local search algorithm in \Cref{alg:heuristic},
+which finds an induced universal graph for $\calF(6)$.
+The entry point to the algorithm is the function $\FuncSty{FindInducedUniversalGraph}()$,
 which takes as its parameter the maximum number of attempted improvement steps to
 take before restarting from scratch.  The main search function,
 $\FuncSty{FindInducedUniversalGraph'}()$ is called repeatedly until
@@ -970,10 +969,13 @@ of 156 graphs) that are
 isomorphic to an induced subgraph of our 14-vertex graph.  If the most recent flip
 increased this number or left it unchanged, we accept the modification
 to the graph.  After $\AlgVar{maxIter}$
-flips, we restart the algorithm with a new randomly generated graph.
+flips, we restart the algorithm with a new randomly generated graph to avoid
+getting stuck at a bad local optimum.
 
 Our implementation has two optimisations that are not shown in \Cref{alg:heuristic}.
-First, scores are cached in a dictionary data structure, so that we can quickly look
+First, scores are cached in a dictionary data structure, each key of
+which is the adjacency matrix of a graph flattened to a one-dimensional
+string of bits.  This allows us to quickly look
 up the score of a graph that has already been visited. This data structure is
 cleared on return from $\FuncSty{FindInducedUniversalGraph'}$, in order to
 bound the program's memory use.
@@ -986,9 +988,10 @@ The second optimisation often avoids the need to visit every graph in $\calF(6)$
 during calls to $\FuncSty{Score}()$.  Rather than beginning our count at 0
 and incrementing it for every graph in $\calF(6)$ that is an induced subgraph
 of $G$, we begin our count at $|\calF(6)|$ and decrement it for every
-graph that is \emph{not} an induced subgraph of $G$.  We can then return
-early from the function with a score of $-1$ as soon as the counter variable
-falls below the score obtained by the graph prior to the most recent edge-flip.
+graph that is \emph{not} an induced subgraph of $G$.
+As soon as the counter
+falls below the score that was obtained prior to the most recent edge-flip,
+we can return early from the function with a score of $-1$.
 This does not affect the behaviour of the hill-climbing search, since any
 score below the previous graph's score causes the most recent change
 to be rejected.
