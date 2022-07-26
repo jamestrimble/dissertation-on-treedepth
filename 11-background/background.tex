@@ -530,7 +530,7 @@ This method has the advantage that the canonical
 representations may then be re-used for comparisons with other graphs.
 Considering only pairwise comparisons of graphs, a 2001 study found that the
 induced subgraph isomorphism solver VF2 outperformed Nauty on several classes
-of graph \citep{foggia2001performance}.  While we do not consider graph
+of graphs \citep{foggia2001performance}.  While we do not consider graph
 isomorphism further in this dissertation, it would be an interesting topic of
 future work to test whether the current state of the art subgraph isomorphism
 solvers outperform the best graph isomorphism solvers on some interesting
@@ -541,7 +541,7 @@ non-induced counterpart. The \emph{subgraph monomorphism problem} is to
 determine whether graph $G$ is isomorphic to a subgraph of graph $H$, without
 the requirement that the subgraph be induced.  Some papers use the name
 \emph{subgraph isomorphism} to refer to subgraph monomorphism
-\citep{DBLP:conf/cp/McCreeshP15}, while others use it to refer to induced
+\citep{DBLP:conf/cp/McCreeshP15}, while others use the same name to refer to induced
 subgraph isomorphism \citep{DBLP:journals/pami/CarlettiFSV18}.  To avoid
 confusion, the ambiguous term ``subgraph isomorphism'' (without the ``induced''
 qualifier) will not be used in the sequel.
@@ -570,7 +570,7 @@ in the next section.  \citet{DBLP:conf/mco/VismaraV08} describe how this techniq
 can be used on labelled graphs.
 
 The present author's preliminary work on using the \McSplit\ algorithm
-described in this thesis for MCES shows promising results
+described in this thesis for MCES using line graphs shows promising results
 \citep{trimble2018three}. This would be a useful direction for future work, but
 it is not pursued further in this dissertation.
 
@@ -592,14 +592,14 @@ We now turn from problems to solution methods.  As discussed previously, each
 problem studied in this dissertation is \NP-hard.  This section reviews
 \emph{constraint programming}, a very general framework for modelling and
 solving \NP-hard problems which is the basis of many existing solvers for
-maximum common subgraph and subgraph isomorphism, and which has close
+maximum common subgraph and induced subgraph isomorphism, and which has close
 connections to the \McSplit\ algorithms that we will introduce.
 
 A \emph{constraint satisfaction problem (CSP)} is a problem of finding a value
 for each of a finite set of variables, subject to a set of constraints.
 This framework is extremely broad, and has applications in fields
 including logistics, scheduling, bioinformatics, and discrete mathematics.
-The field of constraint programming is concerned with modelling
+The field of \emph{constraint programming (CP)} is concerned with modelling
 and solving CSPs and related problems.
 
 Many algorithms
@@ -625,8 +625,8 @@ satisfying the constraints $C$.
 
 Broadly, algorithms for solving CSPs can be classed as \emph{complete} (guaranteed to find a solution)
 or \emph{incomplete}. The former category is the focus of this dissertation.
-Complete algorithms---which are the focus of our dissertation---may further
-be subdivided into backtracking search algorithms and dynamic programming
+Complete algorithms may be further
+subdivided into backtracking search algorithms and dynamic programming
 algorithms. All of the constraint programming approaches to MCIS and induced
 subgraph isomorphism use some form of backtracking search, and therefore that will
 be the focus of this section.
@@ -640,7 +640,7 @@ The first step is to model the problem as a CSP. Many models have been proposed
 for the $n$-queens problem \citep{DBLP:reference/fai/Smith06}; we will use a
 simple model with one variable per row ($x_1$ to $x_4$) and four values, $\{a, b, c, d\}$, for
 the four columns.  There are two types of constraint. First, there is a single
-\emph{allDifferent} constraint ensuring the four variables take different
+\emph{allDifferent} constraint to ensure that the four variables take different
 values (and thus the queens are in different columns). Second, there is a
 constraint for each of the ten diagonals that have more than one square
 ensuring that at most one queen is placed on that diagonal.
@@ -847,13 +847,13 @@ current search node cannot possibly increase the incumbent, and it is therefore
 safe to backtrack.
 
 An alternative to branch and bound is to solve the maximisation problem by a
-sequence of decision problems.  The simplest way to do this, assuming that the
+sequence of decision problems.  A simple way to do this, assuming that the
 variable to be optimised is an integer variable, is to start with an optimistic
 target and decrement this each time our search fails.  Beginning at a known
-upper bound $B$ for the optimal objective value, we use search to answer the
-question “does a solution with objective value B exist?” If the answer is
+upper bound $b$ for the optimal objective value, we use search to answer the
+question “does a solution with objective value $b$ exist?” If the answer is
 “yes”, the algorithm terminates. Otherwise, a solution with objective value
-$B-1$ is sought, then $B-2$, and so on until a solution is found.
+$b-1$ is sought, then $b-2$, and so on until a solution is found.
 
 In the next chapter, we compare these two techniques empirically for
 the \McSplit\ algorithm.
@@ -867,7 +867,7 @@ isomorphism are based on algorithms for subgraph monomorphism, and this
 subsection therefore touches on the latter problem.  \Cref{subsec:pr-sip}
 reviews algorithms from the pattern recognition community. These are in general
 simple backtracking algorithms without the domain store used by constraint
-programming algorithms.  Finally, \Cref{subsec:other-approaches-sip}, reviews
+programming algorithms.  Finally, \Cref{subsec:other-approaches-sip} reviews
 other approaches.
 
 \subsection{Algorithms Based on Constraint Programming}\label{subsec:cp-sip}
@@ -934,10 +934,11 @@ into the LAD algorithm.
 
 The Glasgow Subgraph Solver
 \citep{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020} (henceforth Glasgow)
-reverses this trend towards stronger inference at each search node.  The
+reverses this trend towards stronger---and typically also slower---inference
+at each search node.  The
 algorithm aims to achieve most of the domain filtering of LAD and SND with much
 less effort per search node.
-The Glasgow algorithm introduces the
+The Glasgow algorithm introduces
 \emph{supplemental graphs}---graphs that encode the number of paths
 of a given length between pairs of vertices---which provide additional filtering
 very cheaply.
@@ -988,12 +989,12 @@ mapped already, ($B$) unmapped vertices that are adjacent to at least one mapped
 ($C$) all other unmapped vertices.
 If the $B$ (resp. $C$) set of the target graph is smaller than the $B$ (resp. $C$)
 set of the pattern graph, the algorithm can backtrack.
-This data structure can be updated with the same
-time complexity as the partitioning step of \McSplit-SI (and with a slightly
-smaller constant factor given the simplicity of the data structure).  
-However, its ability to prune the search tree is worse than that of \McSplit-SI
-since the $B$ sets are a union of the label classes in \McSplit-SI, and it
-leaves unavailable the smallest-domain-first heuristic used by \McSplit-SI.
+%This data structure can be updated with the same
+%time complexity as the partitioning step of \McSplit-SI (and with a slightly
+%smaller constant factor given the simplicity of the data structure).  
+%However, its ability to prune the search tree is worse than that of \McSplit-SI
+%since the $B$ sets are a union of the label classes in \McSplit-SI, and it
+%leaves unavailable the smallest-domain-first heuristic used by \McSplit-SI.
 RI is simpler still; it does not distinguish between sets $B$ and $C$.
 
 RI-DS \citep{DBLP:journals/bmcbi/BonniciGPSF13} is a version of RI that
@@ -1164,7 +1165,9 @@ uses the one that gives the tightest upper bound.  Unfortunately the authors
 were unable to provide code for RASCAL.
 
 \cite{DBLP:conf/cp/McCreeshNPS16} use a state of the art maximum clique
-algorithm to solve this maximum common induced subgraph.  In addition to greedy
+algorithm, MCSa1
+\citep{DBLP:journals/algorithms/Prosser12,DBLP:journals/ieicet/TomitaSHW13},
+to solve the maximum common induced subgraph problem.  In addition to greedy
 colouring, this algorithm uses a static vertex order based on degree, and has
 very fast operations on sets thanks to the use of bitsets and the separate
 compilation of code for different bitset sizes.  The paper also introduces a
@@ -1214,7 +1217,7 @@ to calculate a stronger upper bound than the one given by
 the \citeauthor{DBLP:conf/mco/VismaraV08} model.
 \citeauthor{DBLP:conf/cp/NdiayeS11} carry out detailed experiments using
 different levels of consistency for the adjacency and soft allDiff constraints.
-The soft allDiff constraint, which used to calculate an upper bound but
+The soft allDiff constraint, if it is used to calculate an upper bound but
 not to filter domains, causes the algorithm to run several times faster
 than the simple difference constraints used by \citeauthor{DBLP:conf/mco/VismaraV08}.
 Comparing forward checking (FC) and maintaining arc consistency (MAC)
@@ -1226,7 +1229,7 @@ model of \citet{DBLP:conf/cp/NdiayeS11}.  This is found to perform better
 overall than ensuring connectedness simply by branching on vertices adjacent to
 some already-mapped vertex.
 
-Finally, the $k\downarrow$ algorithm of \citep{UpcomingAAAIPaper}
+Finally, the \kDown\ algorithm of \citet{UpcomingAAAIPaper}
 solves the optimisation problem as a sequence of decision problems, with
 each of these subproblems solved by a modified Glasgow algorithm
 \citep{DBLP:conf/cp/McCreeshP15}.  It remains possible to filter
