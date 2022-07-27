@@ -2051,10 +2051,12 @@ For all five values of $p$, either \McSplit-SI or \McSplit-SI-AM is the fastest 
 the smallest two values of $p$, \McSplit-SI is the winner; for $p=0.2$ and above, \McSplit-SI-AM
 is slightly faster.  This is as we would expect, since \McSplit-SI is designed to work well
 on instances with sparse pattern and target graphs.  
-\McSplit-SI-LL typically takes around two to three times as long as \McSplit-SI to find all solutions.
+\McSplit-SI-LL typically takes around two to three times as long as \McSplit-SI to find all
+solutions---presumably because of the additional work required to maintain sorted linked
+lists of vertices.
 
-For each value of $p$, there is approximately an order of magnitude difference in run time between
-the fastest variant of \McSplit-SI and the fastest non-\McSplit-SI algorithm.
+For each value of $p$, the best variant of \McSplit-SI
+is approximately an order of magnitude faster than the best non-\McSplit-SI algorithm.
 On sparser instances, VF3 and RI-DS have the closest run times to \McSplit-SI.  Around $p=0.1$,
 the Glasgow solver with supplemental graphs disabled becomes competitive with these algorithm, and at $p=0.4$
 it is at least an order of magnitude faster than either VF3 or RI-DS.
@@ -2065,7 +2067,9 @@ the size of the search tree on the majority of instances, since most pairs of
 vertices in this set of instances are joined by many paths of length 2; thus,
 on this set of instances supplemental graphs have a double overhead --- in
 their construction and in their use during search --- with no corresponding
-benefit.
+benefit.  (This suggests a potential improvement to the Glasgow solver:
+if a pair of supplemental graphs are both complete graphs, they should be
+discarded before search begins because they will provide no domain filtering.)
 
 \begin{figure}[htb]
     \centering
@@ -2198,13 +2202,15 @@ common subgraph problem for each of the 14,621 instances.
 The cumulative plot in \Cref{figure:mcsplit-sparse-cumulative} 
 shows that \McSplit-sparse is the clear overall winner: it solves
 278 more instances than the next best algorithm within the 1000 second
-time limit, and solves more instances than either variant of \kDown
+time limit, and solves more instances than either variant of \kDown\
 for any per-instance time limit below 1000 seconds.
 
 \begin{figure}[htb]
     \centering
     \includegraphics*[width=0.92\textwidth]{14b-mcsplit-induced-si/sip-instances-mcis-experiment/experiment/plots/cumulative.pdf}
-    \caption{TODO}
+    \caption{Cumulative plot of run times for solving the maximum common 
+    induced subgraph problem on the 14,621 instances described in
+    \Cref{subsec:si-decision-experiment}}
     \label{figure:mcsplit-sparse-cumulative}
 \end{figure}
 
@@ -2214,11 +2220,11 @@ above the diagonal line represent instances for which \McSplit-sparse
 is faster than \kDown+SBS. 
 \McSplit-sparse is the clear winner on the Images family,
 solving 242 more Images instances
-within the 1000 second time limit than \kDown+restarts.
+within the 1000 second time limit than \kDown+SBS.
 \McSplit-sparse also performs very well on the LV instances,
-solving 92 more instances than \kDown+restarts.
+solving 92 more instances than \kDown+SBS.
 On the other hand
-hand, \kDown+restarts solves more instances than \McSplit-sparse in the
+hand, \kDown+SBS solves more instances than \McSplit-sparse in the
 BVG, M4D, Meshes and Rand families: a total of 56 more instances across these
 four families.
 
@@ -2253,7 +2259,7 @@ four families.
     \subfigure[][Images] {
         \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/sip-instances-mcis-experiment/experiment/plots/by-family/scatter-Images-jittered}
     }
-    \caption{Run times in ms of \McSplit-sparse (horizontal axis) and \kDown+restarts (vertical axis), by family.}
+    \caption{Run times in ms of \McSplit-sparse (horizontal axis) and \kDown+SBS (vertical axis), by family.}
     \label{figure:mcsplit-sparse-scatter-by-family}
 \end{figure}
 
@@ -2283,52 +2289,54 @@ benchmark instances used.
 \begin{figure}[htb]
     \centering
     \includegraphics*[width=0.92\textwidth]{14b-mcsplit-induced-si/sip-instances-mcis-experiment/experiment/plots/cumulative-rescaled.pdf}
-    \caption{TODO (rescaled)}
+    \caption{\textbf{Rescaled} cumulative plot of run times for solving the maximum common 
+      induced subgraph problem on the 14,621 instances described in
+      \Cref{subsec:si-decision-experiment}}
     \label{figure:mcsplit-sparse-cumulative-rescaled}
 \end{figure}
 
-\subsection{When is \kDown\ Better Than \McSplitDown?}
-
-TODO FIXME THIS IS OLD MATERIAL USING OLD RESULTS FROM THE McSplit CHAPTER! BUT
-MAYBE I SHOULD UPDATE IT TO FIT IN HERE?
-Because \kDown\ is based on a subgraph isomorphism algorithm and can perform strong
-domain filtering when searching for a common subgraph that contains most or
-all of graph $G$, we might expect \kDown\ to outperform \McSplitDown\ if the maximum
-common subgraph is large, but to be slower than \McSplitDown\ otherwise.
-To investigate this, we plot on the vertical axis of \Cref{figure:sip-runtime-ratios} the ratio of the two
-algorithms' run times.  Values higher than 1 indicate that \kDown\ was slower than
-\McSplitDown.  On the horizontal axis, we have the difference between the number of
-vertices in the smaller input graph and the number of vertices in a maximum
-common subgraph; a value of 0 indicates that $G$ is contained in $H$ as an induced subgraph.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics*[width=0.68\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/sip-runtime-ratio-vs-solution-size}
-    \caption{The vertical axis measures the ratio of run times (\kDown\ time divided by \McSplitDown time)
-        The horizontal axis measures the difference between the order of the solution and the order of $G$.
-        Trivial instances that could be solved by either algorithm in less
-        than 1 ms or by both algorithms in less than 100 ms are excluded.  Red points show instances
-        on which at least one algorithm timed out. Timeouts are counted as 1000
-        seconds.}\label{figure:sip-runtime-ratios}
-\end{figure}
-
-Overall, \McSplitDown\ is the faster algorithm for most instances, often by more than
-an order of magnitude.  Looking specifically at the instances in which the maximum common
-subgraph is isomorphic to $G$ --- points in the figure with an x-value of 0 ---
-there are a number of instances on which \kDown\ is orders of magnitude faster than \McSplitDown.  However,
-\McSplitDown\ is faster than \kDown\ for most of these instances.
-
-For instances in which the maximum common subgraph is strictly smaller than $G$,
-\McSplitDown\ is usually the faster of the two algorithms.  This is true even for instances
-where the maximum common subgraph contains all but one of the vertices in $G$.
-Interestingly, \kDown\ appears to perform well for instances in which the maximum
-common subgraph is much smaller than $G$.  This may perhaps be due to small
-sample size.
-
-%State-of-the-art subgraph isomorphism solvers have developed rapidly, even since the
-%development of the \kDown\ solver \cite{DBLP:conf/gg/McCreeshP020}.  It is likely that
-%a version of \kDown\ based on a more recent version of the Glasgow subgraph solver
-%would outperform the version of \kDown\ used here.
+%%%  \subsection{When is \kDown\ Better Than \McSplitDown?}
+%%%  
+%%%  TODO FIXME THIS IS OLD MATERIAL USING OLD RESULTS FROM THE McSplit CHAPTER! BUT
+%%%  MAYBE I SHOULD UPDATE IT TO FIT IN HERE?
+%%%  Because \kDown\ is based on a subgraph isomorphism algorithm and can perform strong
+%%%  domain filtering when searching for a common subgraph that contains most or
+%%%  all of graph $G$, we might expect \kDown\ to outperform \McSplitDown\ if the maximum
+%%%  common subgraph is large, but to be slower than \McSplitDown\ otherwise.
+%%%  To investigate this, we plot on the vertical axis of \Cref{figure:sip-runtime-ratios} the ratio of the two
+%%%  algorithms' run times.  Values higher than 1 indicate that \kDown\ was slower than
+%%%  \McSplitDown.  On the horizontal axis, we have the difference between the number of
+%%%  vertices in the smaller input graph and the number of vertices in a maximum
+%%%  common subgraph; a value of 0 indicates that $G$ is contained in $H$ as an induced subgraph.
+%%%  
+%%%  \begin{figure}[h!]
+%%%      \centering
+%%%      \includegraphics*[width=0.68\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/sip-runtime-ratio-vs-solution-size}
+%%%      \caption{The vertical axis measures the ratio of run times (\kDown\ time divided by \McSplitDown time)
+%%%          The horizontal axis measures the difference between the order of the solution and the order of $G$.
+%%%          Trivial instances that could be solved by either algorithm in less
+%%%          than 1 ms or by both algorithms in less than 100 ms are excluded.  Red points show instances
+%%%          on which at least one algorithm timed out. Timeouts are counted as 1000
+%%%          seconds.}\label{figure:sip-runtime-ratios}
+%%%  \end{figure}
+%%%  
+%%%  Overall, \McSplitDown\ is the faster algorithm for most instances, often by more than
+%%%  an order of magnitude.  Looking specifically at the instances in which the maximum common
+%%%  subgraph is isomorphic to $G$ --- points in the figure with an x-value of 0 ---
+%%%  there are a number of instances on which \kDown\ is orders of magnitude faster than \McSplitDown.  However,
+%%%  \McSplitDown\ is faster than \kDown\ for most of these instances.
+%%%  
+%%%  For instances in which the maximum common subgraph is strictly smaller than $G$,
+%%%  \McSplitDown\ is usually the faster of the two algorithms.  This is true even for instances
+%%%  where the maximum common subgraph contains all but one of the vertices in $G$.
+%%%  Interestingly, \kDown\ appears to perform well for instances in which the maximum
+%%%  common subgraph is much smaller than $G$.  This may perhaps be due to small
+%%%  sample size.
+%%%  
+%%%  %State-of-the-art subgraph isomorphism solvers have developed rapidly, even since the
+%%%  %development of the \kDown\ solver \cite{DBLP:conf/gg/McCreeshP020}.  It is likely that
+%%%  %a version of \kDown\ based on a more recent version of the Glasgow subgraph solver
+%%%  %would outperform the version of \kDown\ used here.
 
 \section{Conclusion}\label{sec:mcsplit-si-conclusion}
 
@@ -2339,6 +2347,10 @@ on the instances considered, with the exception of some satisfiable knights' gri
 with respect to the Glasgow Subgraph Solver is more complex, yet \McSplit-SI clearly outperforms Glasgow on
 two of the three experiments, and is a strong competitor even on the hard decision instances
 where Glasgow performs best.
+
+We have modified the \McSplit-SI algorithm to create the \McSplit-sparse
+algorithm for MCIS, and have shown that this outperforms the existing
+state of the art algorithm \kDown+SBS on large, sparse graphs.
 
 As a minor contribution of this chapter, our experimental evaluation has
 brought to light two potential improvements to the Glasgow solver.  First, the
