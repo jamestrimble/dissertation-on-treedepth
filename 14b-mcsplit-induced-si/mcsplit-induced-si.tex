@@ -1665,6 +1665,45 @@ presolver.
 \label{tab:si-decision-presolve-counts}
 \end{table}
 
+\Cref{figure:presolve-scatter} compares the run times of
+\McSplit-SI-static + \McSplit-SI presolve ($x$ axis) with those of
+seven other algorithms ($y$ axes) on an instance-by-instance basis.
+Unlike in \Cref{figure:si-decision-scatter}, which did not use presolve,
+we see few hard instances where Glasgow is much faster than the presolve version
+of \McSplit-SI, and almost no hard instances where a pattern recognition
+solver (RI, RI-DS or VF3) is faster
+than the presolve version of \McSplit-SI.
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[][Glasgow] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-glasgow-jittered}
+    }
+    \subfigure[][Glasgow, no supp.] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-glasgow-nosupp-jittered}
+    }
+    \subfigure[][RI] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-ri-jittered}
+    }
+    \subfigure[][RI-DS] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-ri-ds-jittered}
+    }
+    \subfigure[][VF3] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-vf3-jittered}
+    }
+    \subfigure[][\McSplit-SI-LL] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-si-ll-jittered}
+    }
+    \subfigure[][\McSplit-SI-AM] {
+        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-si-am-jittered}
+    }
+    \caption{Scatter plots of run times in ms for decision instances.
+            The horizontal axis shows the run time of \McSplit-SI-static
+            with a 100 ms \McSplit-SI presolve; the vertical axis shows
+            the run time of the solver named in the subfigure caption.}
+    \label{figure:presolve-scatter}
+\end{figure}
+
 \paragraph*{Number of instances solved}
 \Cref{tab:si-decision-solved-counts} shows, for each family and each solver,
 the number of instances that were solved within the 1000-second time limit.
@@ -2311,36 +2350,3 @@ algorithm could swap the degree-based heuristic (or alternatively, work on
 complement graphs) if the density of the target graph exceeds $0.5$.  Second,
 the algorithm should discard supplemental graphs that can be determined in
 advance to provide no domain filtering.
-
-\section{Recycle Bin}
-
-\begin{figure}[htb]
-    \centering
-    \subfigure[][Glasgow] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-glasgow-jittered}
-    }
-    \subfigure[][Glasgow, no supp.] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-glasgow-nosupp-jittered}
-    }
-    \subfigure[][RI] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-ri-jittered}
-    }
-    \subfigure[][RI-DS] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-ri-ds-jittered}
-    }
-    \subfigure[][VF3] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-vf3-jittered}
-    }
-    \subfigure[][\McSplit-SI-LL] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-si-ll-jittered}
-    }
-    \subfigure[][\McSplit-SI-AM] {
-        \includegraphics*[width=0.22\textwidth]{14b-mcsplit-induced-si/decision-instances-experiment/experiment/plots/scatter-presolve-mcsplit-si-am-jittered}
-    }
-    \caption{Scatter plots of run times in ms for decision instances.
-            The horizontal axis shows the run time of \McSplit-SI-static
-            with a 100 ms \McSplit-SI presolve; the vertical axis shows
-            the run time of the solver named in the subfigure caption.}
-    \label{figure:TODO}
-\end{figure}
-
