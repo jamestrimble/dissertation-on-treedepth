@@ -214,7 +214,7 @@ maintained: we can extend $M$ by a pair of vertices $vw$ if and only if $v$ and 
 have the same label.
 
 The algorithm backtracks when the incumbent (the largest mapping found so far) is at least as large
-as a calculated bound given $M$ and the current labelling. To see how
+as a calculated bound whose inputs are $M$ and the current labelling. To see how
 this bound is calculated, consider the situation one level deeper in the
 search tree shown in \cref{fig:alg4}.  
 Here, three vertex labels are used: 100,
@@ -237,13 +237,14 @@ the size of a mapping is $|M| + 1 = 4$. The general formula for this upper bound
 
 \paragraph{Search tree} \Cref{figure:mcsplit-search-tree} shows the full search
 tree explored by \McSplit\ with example graphs $G$ and $H$ as input.
-At the root node, no vertex-vertex assignments have yet been made.  At each node,
-the computed bound is shown.  Nodes at which the incumbent is updated are circled.
+At the root node, no vertex-vertex assignments have yet been made.  The large
+number at each node of the tree shows the computed bound.
+Nodes at which the incumbent is updated are circled.
 Each edge is labelled with the assignment added to the mapping, except those edges
 with red labels, which represent a decision not to map a vertex of $G$.
 The mapping at an search node contains all vertex-vertex assignments on the path
 from the root to that node; thus, for example, at the bottom-left node
-we have $M=\{1a,2d,3f,5g\}$, and here the incumbent is updated to equal $M$.
+we have $M=\{1a,2d,3f,5g\}$.
 
 \begin{figure}[htb]
     \centering
@@ -254,31 +255,37 @@ we have $M=\{1a,2d,3f,5g\}$, and here the incumbent is updated to equal $M$.
 
 
 \paragraph{Label classes} We require only $\BigO{n_G+n_H}$ space per level of
-the search tree to store labelling information.  This is done by storing a
-\emph{label class} as a pair $\langle \setG,\setH \rangle$ for each label $l$
-that is used, where $\setG$ is the set of vertices in $\V(\graphG)$ labelled
+the search tree to store labelling information.  This is achieved by storing,
+for each label $l$ that is used, a
+\emph{label class}: a pair $\langle \setG,\setH \rangle$,
+where $\setG$ is the set of vertices in $\V(\graphG)$ labelled
 $l$, and $\setH$ is the set of vertices in $\V(\graphH)$ labelled $l$. Since
 there are $n_G + n_H$ vertices in the two graphs, at most $n_G + n_H$ label
 classes can exist at once, and there are at most $n_G + n_H$ vertices in the
 union of all of the $\setG$ and $\setH$ sets. Furthermore, we do not actually
 need to store the bits making up a label, since we care only that like-labelled
 vertices are kept together. Nor do we need to store any label class which is
-present only in one graph but not the other (or which is not present at all).
+present in one graph but not the other (or which is not present at all).
 
 Together, these facts allow us to store all the
 necessary information in three arrays.  The first 
 stores a permutation of $\V(\graphG)$ in which like-labelled vertices appear
 contiguously.  The second array, similarly, stores a permutation
 of $\V(\graphH)$ with like-labelled vertices together.  We call these
-the \emph{$G$-array} and \emph{$H$-array} respectively. The third array,
+the \emph{$G$-array} and \emph{$H$-array} respectively.  They are modified
+in-place and never copied.
+
+The third array,
 which we call the \emph{LC-array},
-contains a record for each label class $\langle \setG,\setH \rangle$.  Each
-record contains start and end pointers to the portion of the
+contains a record for each label class $\langle \setG,\setH \rangle$.
+Each
+record in an LC-array contains start and end pointers to the portion of the
 $G$-array that contains $\setG$, and start and end pointers to the portion
 of the $H$-array that contains $\setH$.
 This representation has
 similarities to data structures used in partition backtracking for graph isomorphism
 \citep{DBLP:journals/jsc/McKayP14,DBLP:conf/wea/Lopez-PresaA09}.
+A new LC-array is created for each level of the search tree.
 %and the \citet{DBLP:journals/cacm/BronK73}
 %clique enumeration algorithm.
 %TODO: say more about similarities and differences
@@ -438,7 +445,7 @@ are the array indices, which are not stored explicitly.
 \caption{An illustration of \McSplit's data structure for representing label classes. In each subfigure,
 graphs $\graphG$ and $\graphH$ are shown on the left and our data structure for representing label classes
 is shown on the right. Vertices in the same label class are shown in the same colour; white vertices
-do not belong to any label class.}
+do not belong to any label class but may belong to the mapping $M$, which is stored separately.}
 \label{fig:data-structure}
 \end{figure}
 
@@ -505,8 +512,9 @@ corresponding to the three label classes.
 $\FuncSty{McSplit}$ (\lineref{McSplitFun} of \cref{McSplitAlg}),
 with graphs $\graphG$ and $\graphH$ as inputs.  This function returns a mapping of
 maximum cardinality.  In \lineref{FirstExpandCall} the initial call is made to
-the recursive function $\FuncSty{Search}$; at this point we have a single label class containing all
-vertices, and the mapping $M$ is empty.
+the recursive function $\FuncSty{Search}$; at this point
+the mapping $M$ is empty, and
+we have a single label class containing all vertices.
 
 The
 $\FuncSty{Search}$ function has two parameters.  The parameter $\AlgVar{future}$ is the
@@ -524,7 +532,7 @@ The remainder of the procedure performs the search.  A label class
 $\langle \setG, \setH \rangle$ is selected from $\AlgVar{future}$
 using a heuristic that we will describe in \Cref{sec:mcsplit-heuristics}
 (\lineref{SelectClass}); from this label class, a vertex $v$ is selected
-from $\setG$ (\lineref{SelectVertex}). We now iterate over all
+from $\setG$ (\lineref{SelectVertex}). We iterate over all
 vertices $w$ in $\setH$, exploring the consequences of adding $(v,w)$ to $M$
 (\linerangeref{WLoop}{ExpandWithV}).  A new set of label classes,
 $\AlgVar{future'}$,
@@ -549,7 +557,7 @@ We use a simple $\BigO{n_G+n_H}$-time procedure to create $\AlgVar{future'}$.
 First, $v$ is removed from its label class by swapping it with the rightmost
 element of its label class in the $G$-array and decrementing the corresponding
 pointer in the LC-array. Vertex $w$ is removed in a similar manner.
-Next, the following procedure, corresponding to lines \linerangeref{NewPWithEdge}{InnerLoopEnd},
+Next, the following procedure, corresponding to \linerangeref{NewPWithEdge}{InnerLoopEnd},
 is carried out for each label class $\langle \setG,\setH \rangle$.  The sub-array
 of the $G$-array corresponding to $\setG$ is partitioned such that all vertices adjacent to $v$ are moved to
 the rightmost part of the sub-array. Similarly, the sub-array of the $H$-array corresponding to $\setH$
@@ -565,8 +573,9 @@ Although this partitioning step re-orders vertices within a label class
 to create new label classes, a convenient property is that the vertices
 of the larger label class that existed prior to partitioning remain contiguous.
 Therefore there is no need
-to copy the $G$-array or $H$-array, or to store bookkeeping information
-other than the LC-arrays to restore label classes when backtracking.
+to copy the $G$-array or $H$-array, or to store additional bookkeeping information
+to restore label classes when backtracking; we can simply revert to the
+LC-array from the parent node in the search tree.
 
 \subsection{A Related Algorithm: \citet{DBLP:journals/jacm/SchmidtD76}}
 
@@ -795,8 +804,8 @@ undirected and loopless.
 \paragraph{An algorithm for the clique decision problem} Our proof uses the
 fact that a common subgraph with $t$ vertices exists if and only if the
 association graph has a clique with $t$ vertices; see
-\Cref{subsec:clique-algorithms}.  The proof strategy is to introduce and prove
-correct
+\Cref{subsec:clique-algorithms}.  The proof strategy is to prove
+the correctness of
 a simple algorithm for the clique decision problem, and then to show that this
 algorithm, when applied to the association graph, carries out exactly the same
 steps as the \McSplit\ algorithm applied to graphs $\graphG$ and $\graphH$.  A
