@@ -466,6 +466,7 @@ has been partitioned. The LC-array has three members,
 corresponding to the three label classes.
 
 \begin{algorithm}[htb]
+\AlgorithmFontSizeB
 \DontPrintSemicolon
 \nl $\FuncSty{Search}(\AlgVar{future},M)$ \;
 \nl \Begin{
@@ -504,7 +505,7 @@ corresponding to the three label classes.
 \nl $\FuncSty{Search}(\{\langle V(\graphG),V(\graphH) \rangle \},\emptyset)$ \label{FirstExpandCall} \;
 \nl $\KwSty{return}$~$\AlgVar{incumbent}$ \;
 }
-\caption{McSplit: a branch-and-bound algorithm to find a maximum common induced subgraph of two graphs.}
+\caption{\McSplit: a branch-and-bound algorithm to find a maximum common induced subgraph of two graphs.}
 \label{McSplitAlg}
 \end{algorithm}
 
@@ -661,6 +662,7 @@ $v$ and $w$.  This is shown in \cref{labDirAlg}, where
 $L=\{0,1,2,3\}$.
 
 \begin{algorithm}[htb]
+\AlgorithmFontSizeB
 \DontPrintSemicolon
 \nl    \For {$l \in L$}{
 \nl        $\setG'' \gets \{ u \in \setG' : u \neq v \wedge A_\graphG[v][u] = l \}$ \;
@@ -748,6 +750,8 @@ On a later iteration, with a goal size of 5, this stored subgraph can then
 be returned without any need for search.  Thus, the subproblems are not
 solved completely independently, as they are by \kDown.}
 
+\FloatBarrier
+
 \section{Proof of Correctness}\label{sec:mcsplit-proof}
 
 This section proves the correctness of the variant of \McSplit\ in \cref{DecisionMcSplitAlg}, which solves
@@ -760,6 +764,7 @@ proof that focuses on the details that are specific to \McSplit.  At the end of 
 I will describe how the proof can be extended to the full branch-and-bound \McSplit\ algorithm.
 
 \begin{algorithm}[htb]
+\AlgorithmFontSizeB
 \DontPrintSemicolon
 \nl $\FuncSty{Search}(\AlgVar{future},M,t)$ \;
 \nl \Begin{
@@ -822,6 +827,7 @@ our proof will require the colouring to mimic \McSplit's behaviour, and I will g
 more details on this below.
 
 \begin{algorithm}[htb]
+\AlgorithmFontSizeB
 \DontPrintSemicolon
 \nl $\FuncSty{CliqueSearch}(P,C,t)$ \;
 \nl \KwData{Candidate vertices $P$, clique $C$ such that $|C| \leq t$, and target size $t$}
@@ -1066,6 +1072,8 @@ vertex added to $C$ is a special case and is not subject to this restriction.)
 It would be straightforward to modify our clique algorithm to solve this version of the
 problem, and we could then modify the proof of \cref{cliqueMcSplitProp} to prove the
 correctness of the connected version of \McSplit.
+
+\FloatBarrier
 
 \section{Variable and Value Ordering Heuristics}\label{sec:mcsplit-heuristics}
 
