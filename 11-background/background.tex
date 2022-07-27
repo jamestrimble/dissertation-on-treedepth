@@ -1291,9 +1291,10 @@ constraint? Do I compare against this in McSplit chapter?
 
 \subsection{Experimental setup}
 
-The primary experimental setup used for this dissertation was cluster
+The primary experimental setup used for this dissertation was a cluster
 of machines with dual Intel Xeon E5-2697A v4 CPUs with thermal scaling disabled
-and 512GBytes RAM. All algorithms used are sequential; 32 instances
+and 512GBytes RAM, with all code compiled GCC version 9.4.0.
+All algorithms used are sequential; 32 instances
 (one per CPU core) were solved concurrently.
 This setup was used except where indicated otherwise: namely, in
 \Cref{sec:mcsplit-experiments} and \Cref{c:universal-graphs}.
@@ -1301,7 +1302,7 @@ This setup was used except where indicated otherwise: namely, in
 All of the new algorithms presented were implemented by the present author in
 C++ (Chapters \ref{c:mcsplit-i-undirected} to \ref{c:mcsplit-si})
 and Python (Chapter \ref{c:universal-graphs}).  All solvers by other
-authors were implemented either in C or C++.  In all cases, the 
+authors were implemented either in C or C++.  Throughout, the 
 compiler flag \texttt{-O3} (optimization level 3) was used.
 
 \subsection{Conventions for Plots}
