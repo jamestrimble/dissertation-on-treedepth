@@ -2296,10 +2296,11 @@ correctness.
 heuristics for \McSplit\ using reinforcement learning.
 Specifically, when selecting a vertex in $\graphG$ or $\graphH$ to use for branching,
 the algorithm prefers to use vertices that have resulted in a large decrease to the upper bound
-in previous recursive calls.  This strategy increased the speed of \McSplit\ on maximum common subgraph
-instances by around a factor of 2.  It caused a larger speedup when \McSplit\ was
-applied to the induced subgraph isomorphism problem, outperforming a leading specialised subgraph
-isomorphism solver.
+in previous recursive calls.  This strategy enabled the new solver, \McSplit+RL,
+to solve more instances within a time limit than \McSplit. Interestingly, a scatter
+plot in the paper shows that each of \McSplit\ and \McSplit+RL is faster than
+the other algorithm for many instances. This suggests that it could be useful
+to include both algorithms in a portfolio solver.
 
 \citet{DBLP:journals/computation/QuerMS20}
 explore several enhancements of \McSplit,
@@ -2311,9 +2312,8 @@ however, is able to solve more instances within a given time limit than any of t
 constituent solvers.
 
 Finally, two theses --- the undergraduate thesis of Paulius Dilkas and
-the Masters thesis of Jonathan Trummer --- make significant contributions
-in terms both of algorithm design and experimental work, and therefore
-deserve mention despite being unpublished.
+the Masters thesis of Jonathan Trummer --- make contributions
+in both algorithm design and experimental work.
 
 \citet{dilkas2018} performs a detailed experimental evaluation
 of \McSplit\ and a clique algorithm for a range of labelling schemes, finding that \McSplit\
@@ -2322,7 +2322,7 @@ used.  Dilkas uses machine learning to construct a portfolio solver that chooses
 between \McSplit\ and the clique encoding according to easily computed characteristics of the
 two input graphs such as density and standard deviation of degrees. The portfolio solver
 outperforms each of its component algorithms, giving overall performance close to that of the virtual
-best solver.  Finally, Dilkas constructs hybrid algorithm, \textsc{Fusion}, that switches
+best solver.  Finally, Dilkas a constructs hybrid algorithm, \textsc{Fusion}, that switches
 from \McSplit\ to the clique encoding at a specified depth of recursion.
 
 \cite{trummer2021} presents several innovations for maximum common induced subgraph algorithms,
@@ -2379,16 +2379,16 @@ be connected.  We have also explored the large effect that sorting graphs
 by degree can have on run times, and examined the relationship between the upper bounds
 calculated by \McSplit\ and by clique algorithms.
 
-It would be interesting in the future to see whether the data structures and
-partitioning algorithms of \McSplit\ have applicability beyond subgraph
-problems---the author suspects that some other problems may have a similar
-branching structure which would also benefit from a partitioning domain store
-representation. Most obviously, we could solve the induced subgraph isomorphism
-problem in the same way (and with nearly no changes to the code), and our
-connected variant shows that certain side constraints can also be handled.
-However, we cannot solve non-induced subgraph isomorphism this way, nor can we
-handle certain richer labelling schemes such as those used in temporal subgraph
-isomorphism \citep{DBLP:conf/asunam/RedmondC13}.
+%It would be interesting in the future to see whether the data structures and
+%partitioning algorithms of \McSplit\ have applicability beyond subgraph
+%problems---the author suspects that some other problems may have a similar
+%branching structure which would also benefit from a partitioning domain store
+%representation. Most obviously, we could solve the induced subgraph isomorphism
+%problem in the same way (and with nearly no changes to the code), and our
+%connected variant shows that certain side constraints can also be handled.
+%However, we cannot solve non-induced subgraph isomorphism this way, nor can we
+%handle certain richer labelling schemes such as those used in temporal subgraph
+%isomorphism \citep{DBLP:conf/asunam/RedmondC13}.
 
 % \section{Commented out recycle bin}
 % 
