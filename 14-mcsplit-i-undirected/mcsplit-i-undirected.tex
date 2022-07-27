@@ -884,10 +884,10 @@ set of candidate vertices for addition to the $C$; we require that $C \cap P = \
 and that each vertex in $P$ is adjacent in $\graphA$ to every member of $C$.  The
 parameter $t$ is the target clique size.  We now show the correctness of \Cref{CliqueDecisionAlg}.
 
-\begin{proposition}\label{cliqueAlgProp}
+\begin{lemma}\label{cliqueAlgProp}
     The function $\FuncSty{CliqueSearch}(P,C,t)$ returns $\AlgVar{true}$ if and only if $\graphA$ has a clique
   $K$ of size $t$ such that $C \subseteq K \subseteq C \cup P$.
-\end{proposition}
+\end{lemma}
 \begin{proof}
   The proof is by induction on $|P|$.
   
@@ -897,8 +897,8 @@ parameter $t$ is the target clique size.  We now show the correctness of \Cref{C
     If $|C| < t$, then $\AlgVar{bound} = |C|$, since $\FuncSty{ColouringUpperBound}(P)$
     is zero. Therefore $\AlgVar{false}$ is returned on \lineref{CliquePruneSearch}.
 
-  \emph{Inductive case.} Let natural number $k$ be given, and assume that the proposition holds
-    for $|P| < k$. We will show that the proposition also holds if $|P| = k$.  Let $C$, $P$,
+  \emph{Inductive case.} Let natural number $k$ be given, and assume that the lemma holds
+    for $|P| < k$. We will show that the lemma also holds if $|P| = k$.  Let $C$, $P$,
     and $t$ be given, such that $|P| = k$.
 
   For the first direction of the implication in the inductive case, suppose there is no clique
@@ -977,14 +977,14 @@ and $\FuncSty{SelectVertex}(G)$ on lines \lineref{DecisionSelectClass} and \line
 of \cref{DecisionMcSplitAlg}.  This ensures that the branching decisions in the clique algorithm
 mirror those of the \McSplit\ algorithm.
 
-\begin{proposition}\label{cliqueMcSplitProp}
+\begin{theorem}\label{cliqueMcSplitProp}
     Let graphs $\graphG$ and $\graphH$ be given, and let $\graphA$ be their association graph.
     Let a set of label classes $\AlgVar{future}$, a mapping $M$, and a target size $t$ be given.
     Let $P$ be the set of association-graph nodes corresponding to $\AlgVar{future}$; that is,
     $P = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future}\}$.  Let $C = M$.
     The function $\FuncSty{CliqueSearch}(P,C,t)$ returns the same value as
     $\FuncSty{Search}(\AlgVar{future},M,t)$.
-\end{proposition}
+\end{theorem}
 \begin{proof}
   The proof is by induction on $|P|$.
 
