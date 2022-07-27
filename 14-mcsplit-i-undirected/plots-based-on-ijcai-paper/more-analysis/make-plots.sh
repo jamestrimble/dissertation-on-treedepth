@@ -2,6 +2,8 @@
 
 set -eu -o pipefail
 
+gnuplot small-multiples.gnuplot
+
 gnuplot scatter-plots.gnuplot
 
 gnuplot node-scatters.gnuplot
