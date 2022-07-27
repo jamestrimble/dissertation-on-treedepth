@@ -498,12 +498,12 @@ maps a vertex from $\setH$ to each vertex in $\setG$ in turn
 \nl \Begin{
 \nl    $\AlgVar{future'} \gets \emptyset$ \label{NewFutureMS2} \;
 \nl    \For {$\langle \setG',\setH'\rangle \in future$ \label{InnerLoopMS2}}{
-\nl        $\setG'' \gets \setG' \cap \N(\graphG, v)$ \label{NewPWithEdgeMS2} \;
-\nl        $\setH'' \gets \setH' \cap \N(\graphH, w)$ \;
+\nl        $\setG'' \gets \setG' \cap \N_G(v)$ \label{NewPWithEdgeMS2} \;
+\nl        $\setH'' \gets \setH' \cap \N_H(w)$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{IfNonEmptyMS2}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$ \label{AddToFutureWithEdgeMS2}}
-\nl        $\setG'' \gets (\setG' \cap \invN(\graphG, v))$ \label{NewPWithoutEdgeMS2}  \;
-\nl        $\setH'' \gets (\setH' \cap \invN(\graphH, w))$ \;
+\nl        $\setG'' \gets (\setG' \cap \invN_G(v))$ \label{NewPWithoutEdgeMS2}  \;
+\nl        $\setH'' \gets (\setH' \cap \invN_H(w))$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{IfNonEmpty2MS2}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$} \label{InnerLoopEndMS2}
        }
