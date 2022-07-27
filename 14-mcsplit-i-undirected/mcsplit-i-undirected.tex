@@ -482,12 +482,12 @@ corresponding to the three label classes.
 \nl \For {$w \in \setH$ \label{WLoop}} {
 \nl    $\AlgVar{future'} \gets \emptyset$ \label{NewFuture} \;
 \nl    \For {$\langle \setG',\setH'\rangle \in \AlgVar{future}$ \label{InnerLoop}}{
-\nl        $\setG'' \gets \setG' \cap \N(\graphG, v)$ \label{NewPWithEdge} \;
-\nl        $\setH'' \gets \setH' \cap \N(\graphH, w)$ \;
+\nl        $\setG'' \gets \setG' \cap \N_G(v)$ \label{NewPWithEdge} \;
+\nl        $\setH'' \gets \setH' \cap \N_H(w)$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{IfNonEmpty}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$ \label{AddToFutureWithEdge}}
-\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v)$ \label{NewPWithoutEdge}  \;
-\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w)$ \;
+\nl        $\setG'' \gets \setG' \cap \invN_G(v)$ \label{NewPWithoutEdge}  \;
+\nl        $\setH'' \gets \setH' \cap \invN_H(w)$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{IfNonEmpty2}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$} \label{InnerLoopEnd}
        }
@@ -760,8 +760,8 @@ $t$ (the ``target''), does there exist a common induced subgraph with at least $
 (The circled letters should be ignored for now.)
 This algorithm contains all of the ingredients of the full \McSplit\ algorithm (\cref{McSplitAlg})
 other than the branch-and-bound technique; by removing branch and bound we can give a simpler
-proof that focuses on the details that are specific to \McSplit.  At the end of the section,
-I will describe how the proof can be extended to the full branch-and-bound \McSplit\ algorithm.
+proof that focuses on the details that are specific to \McSplit.  We will see at the end of the section
+how the proof can be extended to the full branch-and-bound \McSplit\ algorithm.
 
 \begin{algorithm}[htb]
 \AlgorithmFontSizeB
@@ -777,12 +777,12 @@ I will describe how the proof can be extended to the full branch-and-bound \McSp
     \nl \For {$w \in \setH$ \algstep{C} \label{DecisionWLoop}} {
 \nl    $\AlgVar{future'} \gets \emptyset$ \label{DecisionNewFuture} \;
 \nl    \For {$\langle \setG',\setH'\rangle \in \AlgVar{future}$ \label{DecisionInnerLoop}}{
-\nl        $\setG'' \gets \setG' \cap \N(\graphG, v)$ \label{DecisionNewPWithEdge} \;
-\nl        $\setH'' \gets \setH' \cap \N(\graphH, w)$ \;
+\nl        $\setG'' \gets \setG' \cap \N_G(v)$ \label{DecisionNewPWithEdge} \;
+\nl        $\setH'' \gets \setH' \cap \N_H(w)$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{DecisionIfNonEmpty}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$ \label{DecisionAddToFutureWithEdge}}
-\nl        $\setG'' \gets \setG' \cap \invN(\graphG, v)$ \label{DecisionNewPWithoutEdge}  \;
-\nl        $\setH'' \gets \setH' \cap \invN(\graphH, w)$ \;
+\nl        $\setG'' \gets \setG' \cap \invN_G(v)$ \label{DecisionNewPWithoutEdge}  \;
+\nl        $\setH'' \gets \setH' \cap \invN_H(w)$ \;
 \nl        \If {$\setG'' \neq \emptyset$ \bf{and} $\setH'' \neq \emptyset$\label{DecisionIfNonEmpty2}}{
 \nl            $\AlgVar{future'} \gets \AlgVar{future'} \cup \{\langle \setG'' , \setH'' \rangle\}$} \label{DecisionInnerLoopEnd}
        }
@@ -803,35 +803,37 @@ I will describe how the proof can be extended to the full branch-and-bound \McSp
 \label{DecisionMcSplitAlg}
 \end{algorithm}
 
-For simplicity, we will assume that the input graphs are unlabelled,
+For simplicity, we assume that the input graphs are unlabelled,
 undirected and loopless.
 
-\paragraph{An algorithm for the clique decision problem} Our proof uses the
-fact that a common subgraph with $t$ vertices exists if and only if the
+\paragraph{An algorithm for the clique decision problem} Recall
+that a common subgraph with $t$ vertices exists if and only if the
 association graph has a clique with $t$ vertices; see
-\Cref{subsec:clique-algorithms}.  The proof strategy is to prove
-the correctness of
-a simple algorithm for the clique decision problem, and then to show that this
+\Cref{subsec:clique-algorithms}.  Our proof strategy is as follows:
+we will prove the correctness of
+a simple algorithm for the clique decision problem, then we will show that this
 algorithm, when applied to the association graph, carries out exactly the same
-steps as the \McSplit\ algorithm applied to graphs $\graphG$ and $\graphH$.  A
-side-effect of this approach is that we will see the close connection between
-\McSplit\ and the method of finding an MCIS by searching for a maximum clique in the
-association graph.
+steps as the \McSplit\ algorithm applied to graphs $\graphG$ and $\graphH$.
+%This approach will also let us see the close connection between
+%\McSplit\ and the method of finding an MCIS by searching for a maximum clique in the
+%association graph.
 
 The clique algorithm we will use, \cref{CliqueDecisionAlg},
-uses a similar upper-bounding strategy to MCSa1 \citep{DBLP:journals/algorithms/Prosser12,DBLP:journals/ieicet/TomitaSHW13,DBLP:conf/cp/McCreeshNPS16};
-both algorithms greedily colour vertices and use the number of colours
+uses a similar upper-bounding strategy to MCSa1
+\citep{DBLP:journals/algorithms/Prosser12,DBLP:journals/ieicet/TomitaSHW13,DBLP:conf/cp/McCreeshNPS16};
+both algorithms heuristically colour vertices and use the number of colours
 as an upper bound on the number of vertices that can be added to the growing clique.
-\Cref{CliqueDecisionAlg} does not specify the order in which vertices are coloured;
-our proof will require the colouring to mimic \McSplit's behaviour, and I will give
-more details on this below.
+We will shortly describe the $\FuncSty{ColouringUpperBound}()$ function called
+on \lineref{CliqueCalcBound} of \Cref{CliqueDecisionAlg};
+our proof requires the colouring to mimic \McSplit's behaviour rather than
+to use the greedy colouring method of MCSa1.
 
 \begin{algorithm}[htb]
 \AlgorithmFontSizeB
 \DontPrintSemicolon
 \nl $\FuncSty{CliqueSearch}(P,C,t)$ \;
 \nl \KwData{Candidate vertices $P$, clique $C$ such that $|C| \leq t$, and target size $t$}
-\nl \KwResult{$\AlgVar{true}$ if and only if a clique of size $t$ exists with $C$ as a subset}
+\nl \KwResult{$\AlgVar{true}$ if and only if $A$ has a clique of size $t$ with $C$ as a subset}
 \nl \Begin{
 \nl \lIf {$|C| = t$}{\KwSty{return} $\AlgVar{true}$ \algstep{A}} \label{CliqueReturnTrue}
 \nl $\AlgVar{bound} \gets |C|  + \FuncSty{ColouringUpperBound}(P)$ \label{CliqueCalcBound} \;
@@ -845,13 +847,13 @@ more details on this below.
   \nl  $\KwSty{return}$ $\AlgVar{false}$ \algstep{F}\;
   }
 \;
-\nl $\FuncSty{ColouringUpperBound}(P)$ \;
-\nl \KwData{Candidate vertices $P$}
-\nl \KwResult{An upper bound on the size of a clique containing only vertices in $P$}
-\nl \Begin{
-\nl   Greedily colour the subgraph of $\graphA$ induced by $P$, and return the size of this colouring.
-  }
-\;
+%\nl $\FuncSty{ColouringUpperBound}(P)$ \;
+%\nl \KwData{Candidate vertices $P$}
+%\nl \KwResult{An upper bound on the size of a clique containing only vertices in $P$}
+%\nl \Begin{
+%\nl   Heuristically colour the subgraph of $\graphA$ induced by $P$, and return the size of this colouring.
+%  }
+%\;
 \nl $\FuncSty{Clique}(\graphA, t)$ \label{CliqueFun} \;
 \nl \KwData{Graph $\graphA$ and target size $t$}
 \nl \KwResult{$\AlgVar{true}$ if and only if a clique of size $t$ exists in $\graphA$}
@@ -870,8 +872,7 @@ clique---is a subset of
 $V(\graphA)$, and must be a clique of size no greater than $t$. Set $P$ (``potential'') is a
 set of candidate vertices for addition to the $C$; we require that $C \cap P = \emptyset$
 and that each vertex in $P$ is adjacent in $\graphA$ to every member of $C$.  The
-parameter $t$ is the target clique size.  We now show the correctness of the
-algorithm.
+parameter $t$ is the target clique size.  We now show the correctness of \Cref{CliqueDecisionAlg}.
 
 \begin{proposition}\label{cliqueAlgProp}
     The function $\FuncSty{CliqueSearch}(P,C,t)$ returns $\AlgVar{true}$ if and only if $\graphA$ has a clique
@@ -894,7 +895,8 @@ algorithm.
   $K$ of size $t$ such that $C \subseteq K \subseteq C \cup P$.  \Lineref{CliqueReturnTrue}
   does not return $\boolT$ since $|C| < t$. Now, either \cref{CliquePruneSearch} returns \boolF\
   or we must show that neither \lineref{CliqueFirstSearch} nor \lineref{CliqueSecondSearch}
-  returns \boolT. We first consider \lineref{CliqueFirstSearch}. By assumption, for every clique $K$
+  returns \boolT. First consider \lineref{CliqueFirstSearch}. By the inductive
+    assumption, for every clique $K$
   of size $t$ we have either that $C \not\subseteq K$ or $K \not\subseteq C \cup P$.  Since
   $C \subset C \cup \{x\}$ and $C \cup \{x\} \cup (P \cap N(x)) \subseteq C \cup P$, it follows
   for every clique $K$ of size $t$ that either
@@ -902,26 +904,29 @@ algorithm.
   the call to $\FuncSty{CliqueSearch}()$ on \lineref{CliqueFirstSearch} returns \boolF\
   for every value taken by $x$ in the loop.  It remains to show
   that \lineref{CliqueSecondSearch}, if reached, never returns \boolT; this is the case since
-  $P \setminus S \subset P$ and therefore for every clique $K$ of size $t$ we have either
+  $P \setminus S \subset P$ and therefore for every clique $K$ of size $t$ we have
+    by the inductive assumption that either
   $C \not\subseteq K$ or $K \not\subseteq C \cup (P \setminus S)$.
 
   For the second direction of the implication in the inductive case, suppose there exists a clique
-  $K$ of size $t$ such that $C \subseteq K \subseteq C \cup P$.  If $|C|=t$, \Lineref{CliqueReturnTrue}
+  $K$ of size $t$ such that $C \subseteq K \subseteq C \cup P$.  If $|C|=t$, \lineref{CliqueReturnTrue}
   returns \boolT\ as required.  Otherwise, $\AlgVar{bound} \geq t$ since $K \setminus C$ is a clique
   and therefore each member of $K \setminus C$ must be in a different colour class in the colouring
-    generated by the function $\FuncSty{ColouringUpperBound}$; therefore, \lineref{CliquePruneSearch}
+    on \lineref{CliqueCalcBound}; therefore, \lineref{CliquePruneSearch}
     does not return \boolF.  It remains to show that either 
-  \lineref{CliqueFirstSearch} or \lineref{CliqueSecondSearch} returns \boolT. We consider two
-  cases: $S \cap K \not= \emptyset$ and $S \cap K = \emptyset$.  In the first case, let $x$ be
+  \lineref{CliqueFirstSearch} or \lineref{CliqueSecondSearch} returns \boolT. We consider two cases.
+
+    \emph{Case 1: $S \cap K \not= \emptyset$.} Let $x$ be
   the unique element of $S \cap K$.  Since $C \subseteq K$ and $x \in K$, we have
   $C \cup \{x\} \subseteq K$.
   Since $K$ is a clique containing $x$, we have $K \subseteq \{x\} \cup N(x)$ and
     therefore $P \cap K \subseteq \{x\} \cup (P \cap N(x))$.
-  Combining this with the fact that $K \subseteq C \cup P$,
-  we have $K \subseteq C \cup \{x\} \cup (P \cap N(x))$.  It follows directly that \lineref{CliqueFirstSearch}
-  returns \boolT.
+  Combining this with the inductive assumption that $K \subseteq C \cup P$,
+  we have $K \subseteq C \cup \{x\} \cup (P \cap N(x))$.  The recursive
+    call on \lineref{CliqueFirstSearch} thus returns \boolT.
 
-    Now consider the second case: $S \cap K = \emptyset$.  Since $K \subseteq C \cup P$,
+    \emph{Case 2: $S \cap K = \emptyset$.}  Since $K \subseteq C \cup P$ by the inductive
+    assumption,
     we have $K \subseteq C \cup (P \setminus S)$.  Therefore \lineref{CliqueSecondSearch}
     returns \boolT.
 \end{proof}
@@ -929,12 +934,12 @@ algorithm.
 \paragraph{Equivalence of \cref{DecisionMcSplitAlg} and
 \cref{CliqueDecisionAlg}.}  We will now show that \cref{DecisionMcSplitAlg} and
 \cref{CliqueDecisionAlg} explore the same search tree.  Suppose we have graphs
-$\graphG$ and $\graphH$ for which we wish to find a common subgraph, and that
-$\graphA$ is their association graph.  We will consider calls to
+$\graphG$ and $\graphH$ for which we wish to find a common subgraph, and let
+$\graphA$ be their association graph.  We will consider calls to
 $\FuncSty{Search}(\AlgVar{future},M,t)$ in the \McSplit\
 algorithm (\cref{DecisionMcSplitAlg}), and corresponding calls to
 $\FuncSty{CliqueSearch}(P,C,t)$ in the clique algorithm
-\cref{CliqueDecisionAlg}, where $P = \{G \times H \mid \langle G,H \rangle \in
+(\cref{CliqueDecisionAlg}), where $P = \{G \times H \mid \langle G,H \rangle \in
 \AlgVar{future}\}$ and $C = M$.  That is, each call to the
 $\FuncSty{CliqueSearch}()$ function takes as its argument $P$ a set containing
 every node $(v,w)$ in the association graph such that $v$ and $w$ are in the
@@ -989,15 +994,16 @@ mirror those of the \McSplit\ algorithm.
     algorithm iterates over the set $\{(v,w) \mid w \in H\}$, where $H$ is the set
     iterated over in the corresponding loop of the \McSplit\ algorithm.  To show that the lines
     marked \algstep{D} are equivalent in the two algorithms, we must show that
-    $P \cap N(\graphA, (v,w)) = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future'}\}$
+    $P \cap N_A((v,w)) = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future'}\}$
     (where $(v,w)$ is the value of loop variable $x$ in the clique algorithm), and that
     $C \cup \{(v,w)\} = M \cup \{(v,w)\}$.  The latter equality is trivial.
 
     To prove one direction of inclusion in the former equality, let $(v',w')$
-    be an element of $P \cap N(\graphA, (v,w))$.  Since, by definition, $P =
+    be an element of $P \cap N_A((v,w))$.  Since, by assumption, $P =
     \{G \times H \mid \langle G,H \rangle \in \AlgVar{future}\}$, there exists
     a label class $\langle G',H' \rangle \in \AlgVar{future}$ such that $v \in
-    G'$ and $w \in H'$.  Since $(v',w') \in N(\graphA, (v,w))$, we have that $v
+    G'$ and $w \in H'$.  Since $(v',w') \in N_A((v,w))$, we have
+    by the definition of the association graph that $v
     \not= v'$, $w \not= w'$, and either (1) $v$ and $v'$ are adjacent and $w$
     and $w'$ are adjacent or (2) $v$ and $v'$ are non-adjacent and $w$ and $w'$
     are non-adjacent.  In the first of these cases, a label class containing
@@ -1017,12 +1023,12 @@ mirror those of the \McSplit\ algorithm.
     in \cref{DecisionMcSplitAlg}, we have that $v$ and $v'$ are distinct and adjacent
     in $\graphG$ and that $w$ are $w'$ are distinct and adjacent in $\graphH$.
     Therefore, $(v',w')$ is an element
-    of $N(\graphA, (v,w))$.
+    of $N_A((v,w))$.
     Moreover, again by the construction of $G''$ and $H''$,
     there is some $\langle G',H' \rangle \in \AlgVar{future}$ such that
-    $v' \in G'$ and $w' \in H'$.
-    Therefore, $(v',w')$ is an element of $P$.
-    Thus, $(v',w')$ is an element of $P \cap N(\graphA, (v,w))$ as required.
+    $v' \in G'$ and $w' \in H'$, and
+    therefore $(v',w')$ is an element of $P$.
+    Thus, $(v',w')$ is an element of $P \cap N_A((v,w))$ as required.
     A similar proof applies in the case where
     $\langle G'',H'' \rangle$ was added to $\AlgVar{future'}$ on
     \lineref{DecisionInnerLoopEnd} of \cref{DecisionMcSplitAlg}.
@@ -1040,15 +1046,16 @@ mirror those of the \McSplit\ algorithm.
     Finally, both function return \boolF\ upon reaching the line marked \algstep{F}.
 \end{proof}
 
-It is clear from the proof of \cref{cliqueMcSplitProp} that \cref{DecisionMcSplitAlg}
-and \cref{CliqueDecisionAlg} explore identically shaped search trees.
+It is clear from the proof of \Cref{cliqueMcSplitProp} not only that
+\cref{DecisionMcSplitAlg} and \Cref{CliqueDecisionAlg} give the same answer,
+but that they explore identically shaped search trees.
 
 \paragraph{Branch and bound algorithms}
-In order to simplify the exposition, this section has shown that a
+To simplify the exposition, this section has shown that a
 decision-problem variant of \McSplit\ is equivalent to an algorithm
 for the clique decision problem.  It would be straightforward to convert our clique
 algorithm into a branch and bound algorithm by introducing a global $\AlgVar{incumbent}$
-variable in the style of \cref{McSplitAlg}.  The proof of \cref{cliqueMcSplitProp} could
+variable in the style of \cref{McSplitAlg}.  The proof of \Cref{cliqueMcSplitProp} could
 then be modified trivially to show the equivalence of the full \McSplit\ algorithm to
 a branch-and-bound algorithm for the maximum clique problem.
 
