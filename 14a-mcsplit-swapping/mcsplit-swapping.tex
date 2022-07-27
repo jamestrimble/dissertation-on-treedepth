@@ -11,7 +11,8 @@ also a maximum common subgraph of $H$ and $G$.  In this chapter we examine wheth
 it can be useful to swap the two input graphs when calling an MCIS solver.
 We will see that swapping the graphs can have a very large effect on the
 run time of \McSplit\
-if the two graphs differ in density or order.  The second contribution of this
+if the two graphs differ in density or order, and that simple
+rules can be devised to take advantage of this.  The second contribution of this
 chapter is to introduce \McSplit-2S, a modified
 version of \McSplit\ that generalises the idea of swapping graphs by choosing
 at each search node which side of a label class to branch on.
@@ -35,6 +36,7 @@ We begin by plotting run times of \McSplit\ with and without swapping graphs, to
 give an idea of the difference that swapping can make.
 
 \begin{algorithm}[h!]
+\AlgorithmFontSizeB
 \DontPrintSemicolon
 \nl $\FuncSty{McSplit-Swap}(G, H)$ \label{McSplitSwapFun} \;
 \nl \Begin{
@@ -90,11 +92,12 @@ effect on run time.
 To examine pairs of graphs with very \emph{different} characteristics, we
 generated two sets of random instances using the Erd\H{o}s-Rényi $G(n,p)$ model.
 The first set has 24 vertices per graph, with the $p$ parameter of the
-generator chosen randomly from the interval $[0,1]$; thus, the graphs have the
-same order but vary greatly in density.  The second set of instances has the
+generator chosen randomly for each graph from the interval $[0,1]$; thus, the
+two graphs in an instance have the
+same order but can vary greatly in density.  The second set of instances has the
 density parameter $p$ set to $0.3$ for all instances, with the number of
 vertices in each graph randomly chosen from $\{10, 11, \dots, 50\}$.  These
-instances will be used throughout this chapter; we call them
+instances will be used throughout this chapter; we call them the
 \emph{varying-density instances} and the \emph{varying-order instances}
 respectively.
 
@@ -183,6 +186,7 @@ than the density extremeness of $H$.  We call this algorithm
 \McSplit-SD (with SD standing for ``swapping on density''). It is shown in \Cref{McSplitSDAlg}.
 
 \begin{algorithm}[h!]
+\AlgorithmFontSizeB
 \DontPrintSemicolon
 \nl $\FuncSty{McSplit-SD}(G, H)$ \label{McSplitSDFun} \;
 \nl \Begin{
@@ -230,7 +234,7 @@ instances.  In summary, for this family of instances, \McSplit-SD clearly improv
 We now turn to our family of varying-order instances: random instances
 generated with $p=0.3$ and varying values of $n$.
 \Cref{figure:order-when-swap} shows a strong relationship between the graphs'
-densities and the relative run times of \McSplit\ and \McSplit-Swap: 
+orders and the relative run times of \McSplit\ and \McSplit-Swap: 
 \McSplit-Swap
 is preferable if and only if $G$ has more vertices than $H$.  (Instances on which both
 algorithms reached the time limit are not shown; this explains the blank region
@@ -260,6 +264,7 @@ seldom more than an order of magnitude faster than \McSplit\ on non-trivial
 instances.
 
 \begin{algorithm}[h!]
+\AlgorithmFontSizeB
 \DontPrintSemicolon
 \nl $\FuncSty{McSplit-SO}(G, H)$ \label{McSplitSOFun} \;
 \nl \Begin{
@@ -493,6 +498,7 @@ maps a vertex from $\setH$ to each vertex in $\setG$ in turn
 (\linerangeref{RemovewMS2Swap}{LastNewLineMS2}).
 
 \begin{algorithm}[h!]
+\AlgorithmFontSizeB
 \DontPrintSemicolon
 \nl $\FuncSty{NewFuture}(\AlgVar{future},v,w)$ \;
 \nl \Begin{
@@ -599,7 +605,7 @@ On these ``mix and match'' instances, \McSplit-SD, \McSplit-SO, and \McSplit-2S 
 all are clearly faster overall than \McSplit.  A partial explanation for the similar performance
 of \McSplit-SD and \McSplit-SO on these instances is that density and degree are negatively correlated
 for this set of instances.  As a result, the two swapping rules agree --- and thus the two
-algorithms behave identically --- on 745 of the 1000 instances.  TODO CHECK THIS NUMBER 745
+algorithms behave identically --- on 745 of the 1000 instances.
 
 \Cref{figure:mcsplit2-cumulative-random4} introduces another new set of random
 instances, with both density and order varying.  Each graph is a $G(n,p)$
@@ -724,7 +730,7 @@ an Erd\H{o}s-Rényi model.
 The Barabási-Albert generator has two parameters, $n$ and $m$, such that
 $1 \leq m < n$.  The generator works as follows: begin with the star $K_{1,m}$.
 Extra vertices are added one by one until the graph has $n$ vertices.  Each time a vertex $v$ is added,
-$m$ edges are added from $v$ to earlier vertices.  These edges are added at random, but using a ``preferential
+$m$ edges are added from $v$ to earlier vertices.  These edges are added at random using a ``preferential
 attachment'' mechanism: at each step, vertices with more existing edges are proportionately more likely to have a new edge
 added.  We use the implementation of this generator from the Python package NetworkX \citep{networkx}.
 For each instance, we use the following ranges of parameter values in order to
@@ -797,12 +803,12 @@ any systematic evaluation of when graphs should be swapped.
 
 A number of papers on maximum common subgraph problems make the assumption, consistent
 with \McSplit-SO, that $n_G \leq n_H$.  An early example
-is McGregor's paper on the maximum common edge subgraph problem \cite{DBLP:journals/spe/McGregor82},
+is McGregor's paper on the maximum common edge subgraph problem \citep{DBLP:journals/spe/McGregor82},
 where no rationale for the ordering of graphs is given.
-Hoffmann, McCreesh and Reilly \cite{UpcomingAAAIPaper} put the smaller graph first
-in the \kDown algorithm with no explanation; the presumable reason is that \kDown.
-is based on a subgraph isomorphism algorithm which requires the smaller graph to be first.
-Dalke and Hastings \cite{DBLP:journals/jcheminf/DalkeH13} place the smallest
+\citet{UpcomingAAAIPaper} put the smaller graph first
+in the \kDown\ algorithm with no explanation; the presumable reason is that \kDown\
+is derived from a subgraph isomorphism algorithm which requires the smaller graph to be first.
+\citet{DBLP:journals/jcheminf/DalkeH13} place the smallest
 graph first in FMCS, an algorithm for the maximum
 common \emph{edge} subgraph problem.\footnote{More precisely, the algorithm chooses a graph whose largest
 connected component is as small as possible, as FMCS searches only for connected subgraphs.}
@@ -814,9 +820,9 @@ subgraph, but is not directly applicable to \McSplit.
 I have not found any prior maximum common subgraph algorithm that branches on both graphs,
 as \McSplit-2S does.  However, it is common in constraint programming to combine multiple models
 for a problem, with ``channeling'' constraints to ensure consistency between these models
-\cite{DBLP:journals/constraints/ChengCLW99}.  In effect, the data structures of \McSplit\
+\citep{DBLP:journals/constraints/ChengCLW99}.  In effect, the data structures of \McSplit\
 give us access to a second model --- the ``dual'' model with the roles of variables and values
-reversed \cite{DBLP:conf/ecai/Geelen92} --- without any need to explicitly store additional
+reversed \citep{DBLP:conf/ecai/Geelen92} --- without any need to explicitly store additional
 domains or constraints, and therefore with no overhead in memory use
 or run time.
 
@@ -834,7 +840,7 @@ algorithms.
 
 There are many potential avenues for future work.  We could investigate
 whether swapping rules are useful for other maximum common subgraph algorithms, including
-algorithm for maximum common \emph{edge} subgraph which are beyond the scope of this
+algorithms for maximum common \emph{edge} subgraph which are beyond the scope of this
 dissertation.
 We could also explore rules for swapping graphs that take into account both density and order,
 perhaps along with additional characteristics of the two graphs.
