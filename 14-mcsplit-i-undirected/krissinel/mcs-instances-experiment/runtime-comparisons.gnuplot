@@ -30,17 +30,17 @@ plot x notitle lc rgb '#444444' lw 0.6, \
      "fatanode-results/runtimes.txt" u (jitt($6)):(jitt($2)) notitle w circles lc rgb circleColour fill solid noborder
 
 set output "plots/kh-vs-mcsplit-1.pdf"
-set ylabel 'MᴄSᴘʟɪᴛ – 1'
+set ylabel 'MᴄSᴘʟɪᴛ-1'
 plot x notitle lc rgb '#444444' lw 0.6, \
      "fatanode-results/runtimes.txt" u (jitt($6)):(jitt($3)) notitle w circles lc rgb circleColour fill solid noborder
 
 set output "plots/kh-vs-mcsplit-2.pdf"
-set ylabel 'MᴄSᴘʟɪᴛ – 1, 2'
+set ylabel 'MᴄSᴘʟɪᴛ-1,2'
 plot x notitle lc rgb '#444444' lw 0.6, \
      "fatanode-results/runtimes.txt" u (jitt($6)):(jitt($4)) notitle w circles lc rgb circleColour fill solid noborder
 
 set output "plots/kh-vs-mcsplit-3.pdf"
-set ylabel 'MᴄSᴘʟɪᴛ – 1, 2, 3'
+set ylabel 'MᴄSᴘʟɪᴛ-1,2,3'
 plot x notitle lc rgb '#444444' lw 0.6, \
      "fatanode-results/runtimes.txt" u (jitt($6)):(jitt($5)) notitle w circles lc rgb circleColour fill solid noborder
 
