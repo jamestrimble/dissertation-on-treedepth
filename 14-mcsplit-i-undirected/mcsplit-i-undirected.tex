@@ -720,6 +720,16 @@ This would be straightforward to implement and would work well with \McSplit's
 data structures, but the current \McSplit\ implementation does not yet include this
 constraint.
 
+\paragraph{Finding all maximum common subgraphs}
+With two trivial modifications, the \McSplit\ algorithm can be used to find
+\emph{all} maximum common subgraphs of a pair of graphs, rather than just a single
+example of a maximum common subgraph.
+First, we modify \lineref{StoreIncumbent} of \Cref{McSplitAlg} so that
+a mapping $M$ is stored if its size greater than or equal to --- rather than
+strictly greater than --- the size of the incumbent.  Second, on \lineref{PruneSearch},
+we return from the function only if the bound is \emph{strictly} less than the
+size of the incumbent.
+
 \paragraph{\McSplitDown} The final version that we introduce in this section
 does not solve a variant of the problem, but uses a different strategy
 that may be applied to any of the problem variants that we have described.
@@ -1099,7 +1109,8 @@ the reason for the success of these heuristics remains unclear.}
 Ties are broken by selecting a label class with the smallest-numbered
 vertex of graph $G$.
 The $\FuncSty{SelectVertex}$ function selects the smallest-numbered vertex
-within this label class.
+within this label class. (The next subsection will discuss strategies
+for assigning numbers to vertices.)
 
 The value-ordering heuristic controls the iteration
 order at \lineref{DecisionWLoop} of \cref{McSplitAlg}. The strategy
@@ -1116,7 +1127,7 @@ also generate new adjacency matrices for the reordered graphs
 before search.)
 
 Is it better to order the vertices in each graph in ascending or descending
-order of degree?  To shed some light on this question, we present results of an
+order of degree?  To shed light on this question, we present results of an
 experiment comparing increasing and decreasing degree orders for graphs
 $G$ and $H$ where both graphs are random Erd\H{o}s-Rényi $G(n,p)$ graphs.  As
 we will see, the answer depends in a complex way on the structure of the two
@@ -1151,6 +1162,7 @@ In the experiment, the $p$ (density) parameter for both graphs was varied from
 $0$ to $1$ in steps of $0.01$, for a total of $10201$ pairs of graph.  For each
 graph, we considered the two possible degree orders; we call these strategies
 ``$G$ increasing'' (smallest degree first for graph $G$), ``$G$ decreasing'',
+(largest degree first for graph $G$),
 ``$H$ increasing'', and ``$H$ decreasing''.  Due to the large number of
 instances, $n=10$ was used.  Each run was repeated 32 times with different
 random graphs, and an average (mean) number of calls to the $\FuncSty{Search}$
@@ -1170,7 +1182,7 @@ search effort of the best strategy, and light blue indicates that it requires
 between 2 and 10 times the search effort of the best strategy.
 
 \Cref{figure:mcis-heatmap} shows results for unlabelled, undirected graphs.
-The middle two subplots show that---at least for these random graphs---it
+The middle two of the four subplots on this row show that---at least for these random graphs---it
 is seldom optimal to order one graph by increasing degree and the other
 by decreasing degree.
 The first and last subplots show that it is best to sort both graphs in increasing degree
@@ -1181,23 +1193,24 @@ greater than the density of $G$'' often leads to poor results if the graphs are
 sparse and have similar density.
 
 \Cref{figure:mcis-heatmap-dir} shows results for directed graphs. The overall
-pattern is somewhat similar to the undirected case.  
+pattern is somewhat similar to the undirected case.
+Finally,
 \Cref{figure:mcis-heatmap-edgelab} shows results for undirected graphs with
 edge labels chosen uniformly at random from a set of five labels.  In this
 case, the increasing order for both graphs tends to be best when $H$ is
 very dense, and the decreasing order tends to be best otherwise.
 
-A clear message from these figures is that the optimal choice of variable and
+As these figures show, the optimal choice of variable and
 value ordering heuristic depends on the characteristics of an instance in a
 complex way.  If we were to pick a simple decision rule for ordering based on
 the densities of $G$ and $H$, a plausible candidate would be ``use increasing
 order for both graphs if the density of $H$ is greater than $\frac{1}{2}$;
 otherwise use decreasing order for both graphs''.  This is the rule we use
-throughout this chapter and the next chapter.  There is one exception: in the
+throughout this chapter and the next chapter, with one exception: in the
 comparison of algorithms in \Cref{sec:mcsplit-experiments}, we use the
-results from a very large-scale experiment in
-\citet{DBLP:conf/ijcai/McCreeshPT17}.
-These experiments used a simpler approach---decreasing
+results from a large-scale experiment in
+\citet{DBLP:conf/ijcai/McCreeshPT17}, which
+used a simpler approach---decreasing
 degree order on all instances.
 This makes no difference for the directed-graph instances, since
 all graphs in the benchmark set have density less than $\frac{1}{2}$
@@ -1232,24 +1245,20 @@ graph.
 \section{Experimental Evaluation 1: Finding All Maximum Common Subgraphs}
 \label{sec:mcsplit-finding-all}
 
-With two trivial modifications, the \McSplit\ algorithm can be used to find
-\emph{all} maximum common subgraphs of a pair of graphs, rather than just a single
-example of a maximum common subgraph.
-First, we modify \lineref{StoreIncumbent} of \Cref{McSplitAlg} so that
-a mapping $M$ is stored if its size greater than or equal to --- rather than
-strictly greater than --- the size of the incumbent.  Second, on \lineref{PruneSearch},
-we return from the function only if the bound is \emph{strictly} less than the
-size of the incumbent.
-
 \citet{DBLP:journals/spe/KrissinelH04} introduce a forward-checking
-algorithm---which we will refer to as KH---for finding all maximum common
-subgraphs of two given graphs.  Their algorithm is effectively a
+algorithm, which we will refer to as KH, for finding all maximum common
+induced subgraphs of two given graphs.  KH is a
 forward-checking constraint programming algorithm, with a simple upper bound
 that is computed by counting the number of unmapped vertices in $G$ that have
 at least one vertex remaining in their domain.  In this section we
 introduce a sequence of modifications to \McSplit\ that make the algorithm
 progressively closer to KH, and show experimentally how these modifications
 progressively reduce the speed of \McSplit\ until it is similar to that of KH.
+(A separate section is given to the comparison with KH for two reasons. First,
+KH differs from most other MCIS algorithms in that it finds all maximum common 
+subgraphs rather than a single one.  Second, KH serves as a baseline
+forward-checking algorithm against which we can test the usefulness of
+\McSplit's data structures and heuristics.)
 
 We can emulate the search tree of KH
 by making the following three modifications to \McSplit\ in addition to the modifications for
@@ -1262,7 +1271,7 @@ as small a set $\setH$ as possible---a smallest domain first strategy---rather t
 than using $|M|  + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} \min(|\setG|,|\setH|)$
 as the upper bound on \lineref{CalcBound} of \Cref{McSplitAlg},
 use $|M|  + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} |\setG|$.  Clearly,
-this bound is weaker than or equal to \McSplit's bound.
+this bound is greater than or equal to \McSplit's bound.
     \item Leave the vertices of $G$ and $H$ in their original order rather than sorting
         by degree.
 \end{enumerate}
@@ -1274,15 +1283,15 @@ used by the two algorithms to represent domains).
 To test these hypotheses, we ran five algorithms
 on the set of 4110 unlabelled, undirected instances.  In addition to \McSplit\ and
 KH, we used three modified versions of \McSplit:
-$\McSplit - 1$ has only the first change from the list above,
-$\McSplit - 1,2$ has the first two changes, and
-$\McSplit - 1,2,3$: has all three changes.
+\McSplit-1 has only the first change from the list above,
+\McSplit-1,2 has the first two changes, and
+\McSplit-1,2,3 (which we expect to be the slowest) has all three changes.
 
 \begin{figure}[htb]
     \centering
     \subfigure[][Cumulative plot of run times] {
         \centering
-        \includegraphics*[width=0.65\textwidth]{14-mcsplit-i-undirected/krissinel/mcs-instances-experiment/plots/cumulative}
+        \includegraphics*[width=0.68\textwidth]{14-mcsplit-i-undirected/krissinel/mcs-instances-experiment/plots/cumulative}
         \label{figure:kh-plain-scatter}
     }
     \subfigure[][Per-instance run times, Krissinel and Henrick (KH) vs \McSplit\ versions] {
@@ -1300,13 +1309,15 @@ $\McSplit - 1,2,3$: has all three changes.
 \Cref{fig:mcsplit-vs-kh} shows the results of our experiment.  The cumulative plot shows,
 in line with our hypotheses,
 that \McSplit\ is around two orders of magnitude faster than KH overall, and that
-$\McSplit - 1,2,3$ and KH have very similar overall performance.  The first scatter
+\McSplit-1,2,3 and KH have very similar overall performance.  The first scatter
 plot shows that \McSplit\ clearly outperforms KH, with KH running faster than \McSplit\
-on only a handful of instances.  The fourth scatter plot shows that --- as we expected ---
-$\McSplit - 1,2,3$ and KH have similar run times on an instance-by-instance basis.
+on only a handful of instances.  Moving from left to right across the four
+scatter plots we see a steady convergence between the speed of the \McSplit\ variants
+and KH; the fourth scatter plot shows---as we expected---that
+\McSplit-1,2,3 and KH have similar run times on an instance-by-instance basis.
 (It appears, furthermore, that
 KH has a slight advantage on the easiest instances and
-$\McSplit - 1,2,3$ has a slight advantage on the hardest instances.)
+\McSplit-1,2,3 has a slight advantage on the hardest instances.)
 
 Returning to the cumulative plot, it is evident that the second and third changes (weakening
 the bound and not sorting by degree) have a large effect on the run time of \McSplit\,
@@ -1349,8 +1360,8 @@ This uses Prosser's MCSa1 algorithm \citep{DBLP:journals/algorithms/Prosser12}, 
 based on an algorithm by \citet{DBLP:journals/ieicet/TomitaSHW13} and uses a
 bitset representation to enable very fast operations on sets
 \citep{DBLP:journals/cor/SegundoRJ11}.\footnote{
-Subsequently to the running of this experiment,
-I also tried using another state of the
+After this experiment was run,
+the present author also tried using another state of the
 art maximum clique solver, IncMC2 \citep{DBLP:journals/informs/LiFJX18}, which
 uses a technique from MaxSat solvers to achieve an upper bound that is tighter
 than the bound given by greedy colouring.
@@ -1363,8 +1374,8 @@ unlabelled, undirected, unconnected instances).
 
 Each
 program is an optimised, dedicated implementation and does not use a
-general-purpose CP toolkit.  We used the original authors'
-code in each case.
+general-purpose CP toolkit.  The original authors'
+code was used in each case.
 
 
 
@@ -1381,8 +1392,8 @@ For example, we could solve 2,000 of the 4,110 unlabelled undirected instances
 using the \McSplit\ algorithm if a time limit of 0.5 seconds per instance were
 imposed.  CP-FC would require a time limit of over 24
 seconds per instance to solve the same number of instances.  For any given
-number of instances, \McSplit\ and \McSplitDown\ are both more than an order of magnitude
-faster than each of the other algorithms.
+number of instances, \McSplit\ and \McSplitDown\ are more than an order of magnitude
+faster than each of the non-\McSplit\ algorithms.
 
 \begin{figure}[htb!]
     \centering
@@ -1400,24 +1411,27 @@ faster than each of the other algorithms.
         \label{figure:plain-scatter}
     }
     \caption{Runtimes for maximum
-    common subgraph problems (with no requirement for the common subgraph
+    common induced subgraph (with no requirement for the common subgraph
     to be connected): unlabelled, undirected instances.}\label{figure:mcs-cumulative-plain-not-connected}
 \end{figure}
 
 \McSplitDown\ slightly outperforms \McSplit\ overall.
 But the similarity of the cumulative curves masks an asymmetric relationship
-between the two algorithms' run time on an instance-by-instance basis, which is
+between the run times of the two algorithms on an instance-by-instance basis, which is
 shown in \Cref{figure:plain-scatter}.  On most instances, \McSplit\ is in fact
 slightly \emph{faster} (but never much faster\footnote{An additional unpublished
 experiment by the author shows
 that most of the run time of \McSplitDown\ is spent on the last two decision
-problems. This explains why the run time of \McSplitDown\ is seldom more than
+problems. Since each individual run on a decision problem requires fewer search
+nodes than a full branch-and-bound search, it is unsurprising that
+the run time of \McSplitDown\ is seldom more than
 twice that of \McSplit.}) than \McSplitDown.  Among the relatively
 small number of instances where \McSplitDown\ is the faster of the two
 algorithms, however, it is often dramatically faster.  As we might expect, the
 instances that favour \McSplitDown\ tend to be ones where the solution is
 almost as large as the input graphs and thus few decision problems need to be
-solved; this is shown by the colour of the points.
+solved; these are the dark red points that appear predominantly towards
+the bottom of the figure.
 
 Why is \McSplit\ much slower than \McSplitDown\ on many instances?  Presumably
 the reason is that before the incumbent has reached the optimal value,
@@ -1469,7 +1483,7 @@ is dramatically faster than \McSplit.
         \label{figure:33ved-scatter}
     }
     \caption{Runtimes for maximum
-    common subgraph problems (with no requirement for the common subgraph
+    common induced subgraph (with no requirement for the common subgraph
     to be connected): vertex and edge labelled, directed instances.}\label{figure:mcs-cumulative-labelled-not-connected}
 \end{figure}
 
@@ -1489,7 +1503,7 @@ in \cref{figure:plain-connected-cumulative}.  These results are very similar to
 the corresponding experiment in \cref{figure:plain-cumulative} in which the
 subgraph is not required to be connected: \McSplitDown\ is the overall winner,
 and both \McSplit\ variants are more than an order of magnitude faster than
-the best other algorithm..
+the best other algorithm.
 
 \begin{figure}[h!]
     \centering
@@ -1530,8 +1544,8 @@ solve.
 
 \paragraph{Summary} Overall, we find that \McSplit\ improves on the
 previous state of the art by more than an order of magnitude for
-unlabelled graphs.  On labelled instances, the clique encoding remains the
-strongest solver, except on the most trivial instances---particularly where
+unlabelled graphs.  On hard labelled instances, the clique encoding remains the
+strongest solver---particularly where
 there is no requirement for the common subgraph to be connected.
 
 
@@ -1552,7 +1566,7 @@ is on the vertical axis.
 
 \Cref{figure:mcsplain-runtime-mcsplitdown-cpfc-scatters} compares CP-FC and \McSplitDown.  On each of the
 families of instances, \McSplitDown\ is substantially faster than CP-FC.  Moreover, there is not a
-single instance on which CP-FC is faster than \McSplitDown.  (Some points appear above the $y=x$ line
+single instance where CP-FC is faster than \McSplitDown.  (Some points appear above the $y=x$ line
 at the bottom left of the plots due to jittering.)
 
 \begin{figure}[htb]
@@ -1805,14 +1819,14 @@ the faster algorithm.
 \section{Comparison With Existing Algorithms}
 \label{sec:comparison}
 
+\paragraph{The CP-FC and \McSplit\ bounds are equal}
 Our experimental results suggest that \McSplit\ has broadly similar performance
 trends to the constraint programming, forward-checking (CP-FC) algorithm of
-\citet{DBLP:conf/cp/NdiayeS11}, but with much lower constant factors and memory usage. Indeed,
-in \cref{figure:prettyheatmaps1,figure:prettyheatmaps2} we plot the number of
+\citet{DBLP:conf/cp/NdiayeS11}, but with much lower constant factors and memory usage.
+In \cref{figure:prettyheatmaps1,figure:prettyheatmaps2} we plot the number of
 recursive calls made by our algorithm versus the number made by
 CP-FC, for the unlabelled and labelled, unconnected problem
-instances. (Rather than a simple scatter plot, we use darker colours to
-indicate a higher density of points around a location.) We see a close
+instances.  We see a close
 correlation: \McSplit\ typically does slightly less work, and sometimes does more, but
 instances with more than one order of magnitude difference in search tree size
 are rare.
@@ -1829,7 +1843,8 @@ are rare.
     \label{figure:prettyheatmaps}
 \end{figure*}
 
-Why is this? We do not see a similar correlation between our search tree size
+Why is this? We do not see a similar correlation between the search tree size
+of \McSplit\
 and that of the clique approach. The key observation is that \McSplit\ may be
 considered to be a different version of the CP-FC algorithm, using
 an unconventional domain store and more efficient filtering algorithms. We now
@@ -1927,7 +1942,7 @@ and adding the size of this matching to the size of the current mapping.
 
 The vertices in the bipartite graph are coloured to emphasise how they
 correspond to the two label classes.  Each label class corresponds to a
-complete bipartite graph, and there are no edges between the components
+complete bipartite subgraph, and there are no edges between components
 corresponding to different label classes.  Clearly, a maximum matching in
 $\graphB$ must be the union of the maximum matching in each complete bipartite
 subgraph, and each of these matchings in turn have the same size as the smaller
@@ -1971,7 +1986,8 @@ identical to the \McSplit\ bound.
 %clique bound is also potentially weaker: it is not even guaranteed to be less
 %than or equal to the number of remaining variables, in the CP-FC sense.
 
-This bound is incomparable to the clique bound.
+\paragraph{Comparison of CP and clique bounds}
+The upper bound shared by CP-FC and \McSplit\ can be greater or less than the clique bound.
 To compare the clique bound and the \McSplit\ bound and to give some
 insight into why the clique algorithm is so effective for labelled
 graphs, we consider two extreme
@@ -1983,7 +1999,7 @@ the clique bound is always at least as strong as the \McSplit\ bound.
 We begin with the unlabelled case (or equivalently, the case in which
 all vertex labels are equal).  \Cref{fig:clique-better-bound} shows
 an example in which the clique bound is stronger than the \McSplit\ bound.
-The input graphs are the graphs $K_2$ and $I_2$.  The association graph
+The input graphs are $K_2$ and $I_2$.  The association graph
 is the independent set $I_4$, and therefore a greedy colouring will yield
 a single colour class, resulting in an upper bound of 1 on the clique
 number.  \McSplit\ gives an upper bound of 2, since there is a single label
@@ -2033,7 +2049,7 @@ class containing two vertices from each graph.
 \caption{Graphs $\graphG$ and $\graphH$ and their association graph $\graphA$.  \McSplit\
     gives an upper bound of 2 on the order of a maximum common induced subgraph
     of $\graphG$ and $\graphH$, whereas a clique algorithm computing
-    a greedy colouring of $\graphA$ gives an tighter upper bound of 1.}
+    a greedy colouring of $\graphA$ gives a tighter upper bound of 1.}
 \label{fig:clique-better-bound}
 \end{figure}
 
@@ -2110,7 +2126,7 @@ We now turn to the extreme case in which all vertex labels are distinct
 in each of the two input graphs.  \Cref{fig:clique-bound-labelled} shows
 two graphs, each with three distinctly labelled vertices; the labels
 are represented by three different shapes.  The \McSplit\ upper bound is 3,
-since there are three label classes, each with one from each graph.
+since there are three label classes, each containing one vertex from each graph.
 A greedy colouring of the association graph gives a stronger bound, 2,
 irrespective of the order in which the nodes are coloured, since
 nodes $1a$ and $3c$ will be assigned to the same colour class.
@@ -2180,16 +2196,24 @@ the \McSplit\ bound.
 
 We have established that the \McSplit\ and clique upper bounds are incomparable for unlabelled graphs,
 and that the clique algorithm's bound is stronger than the \McSplit\ bound if there are very many vertex
-labels.  To find out which bound is better in practice for unlabelled graphs, and to find the point
-at which the clique bound becomes preferable, I carried out a small experiment on $G(n,p)$ random graphs,
-varying the size of the set of vertex labels.
+labels. In fact, a bound calculated using greedy colouring can always be at least
+as good as the \McSplit\ bound if we colour vertices in the right order; for example,
+if we colour the vertices as described in the proof in \Cref{sec:mcsplit-proof}.
+
+\paragraph{Experimental comparison of bounds}
+Is the clique bound stronger in practice, even for unlabelled graphs?
+We will see shortly that the answer is ``no''---at least if we use MCSa1 as the clique
+algorithm.
+To find the point at which the clique bound becomes preferable, I carried out a
+small experiment on $G(n,p)$ random graphs, varying the size of the set of
+vertex labels.
 
 I generated 1800 pairs of random undirected, loopless graphs of order 20 without edge labels,
 with densities ranging from $0.1$ to $0.9$
 in steps of $0.1$.  For each integer value of a parameter $m$ (the maximum label) from 1 to 20, I generated
-90 pairs of graphs with vertex labels randomly assigned from the set $\{1,\dots,m\}$.  I used my
+90 pairs of graphs with vertex labels assigned uniformly at random from the set $\{1,\dots,m\}$.  I used my
 implementation of \McSplit\ and Prosser's implementation of the MCSa1 algorithm
-\cite{DBLP:journals/algorithms/Prosser12} to find the \McSplit\ and clique bounds respectively
+\citep{DBLP:journals/algorithms/Prosser12} to find the \McSplit\ and clique bounds respectively
 at the top of search (that is, on the first recursive call, before any vertex assignment decisions
 have been made).
 
@@ -2216,12 +2240,16 @@ bound for $m < 4$, and worse than the clique bound for $m > 5$.  Of the 900 inst
 \end{figure}
 
 To summarise, the upper bound of the clique encoding
-dominates that of CP-FC and \McSplit where vertices are ``as labelled as possible'',
+dominates that of CP-FC and \McSplit\ where vertices are ``as labelled as possible'',
 whereas neither bound dominates for unlabelled graphs.  Experimentally, we
 see that the \McSplit\ bound is tighter than the clique bound for unlabelled
 graphs, but the tightness of the clique bound steadily increases
 relative to that of the \McSplit\ bound as the number of vertex
 labels is increased.
+This provides an explanation for the behaviour we saw in
+\Cref{sec:mcsplit-experiments}, where \McSplit\ was the fastest solver
+for unlabelled instances while the maximum clique solver was fastest for
+instances with many distinct labels on vertices.
 
 %A further advantage of our encoding is that it gives us efficient access to a
 %better branching heuristic. The CP-FC algorithm uses smallest domain first,
@@ -2244,13 +2272,14 @@ This section briefly surveys this work.
 \subsection{Publications Co-Authored by the Present Author}
 
 \citet{DBLP:conf/cpaior/ArchibaldDHMP019} introduce \emph{solution-biased search},
-a technique using restarts and nogood learning that allows algorithm to quickly explore diverse
-parts of the search tree rather than explore it in order (as a typical backtracking algorithm
+a technique using restarts and nogood learning that allows an algorithm to quickly explore diverse
+parts of the search tree rather than explore it in
+depth-first order (as a typical backtracking algorithm
 such as the standard version of \McSplit\ does); this can often help the algorithm to find good
 solutions quickly.  For the paper, I designed and implemented a version
 of \McSplit\ using solution-biased search; this led to modestly improved run times on many instances.
 
-For \citet{DBLP:conf/cp/GochtMMNPT20}, the present
+In \citet{DBLP:conf/cp/GochtMMNPT20}, the present
 author added proof logging \citep{DBLP:conf/ijcai/GochtMN20} to the C++ implementation of
 \McSplit\ to create a \emph{certified} version of the solver.  This outputs a log of the
 solver's reasoning steps using the cutting plane proof system
@@ -2268,7 +2297,7 @@ heuristics for \McSplit\ using reinforcement learning.
 Specifically, when selecting a vertex in $\graphG$ or $\graphH$ to use for branching,
 the algorithm prefers to use vertices that have resulted in a large decrease to the upper bound
 in previous recursive calls.  This strategy increased the speed of \McSplit\ on maximum common subgraph
-instances by around a factor of 2.  It caused an even more dramatic improvement when \McSplit\ was
+instances by around a factor of 2.  It caused a larger speedup when \McSplit\ was
 applied to the induced subgraph isomorphism problem, outperforming a leading specialised subgraph
 isomorphism solver.
 
