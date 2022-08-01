@@ -128,9 +128,9 @@ Can we tell in advance whether we should swap the graphs of a given instance?
 \Cref{figure:coloured-scatter-run-times-density} shows that, in the case of our
 random varying-density instances, there is a very strong association between the densities
 of the two graphs and whether we should swap graphs.  In this plot, the axes
-measure graph density,\footnote{By \emph{density}, we are referring to the actual density of a graph,
+measure graph density.\footnote{By \emph{density}, we are referring to the actual density of a graph,
 $\frac{|E(G)|}{n_G(n_G-1)/2}$, rather than the parameter $p$ used to generate
-the graph. In practice the two measures are very similar.}. Colour is used to show
+the graph. In practice the two measures are very similar.} Colour is used to show
 the effect of swapping graphs on run time; red dots represent those instances
 that are solved more quickly with the graphs swapped.  The diagonal lines on the plot
 show the curves $y=x$ and $y=1-x$; these divide the plot into four triangular regions.
@@ -317,7 +317,7 @@ tree has a smaller branching factor if we call \McSplit\ with the \emph{larger}
 graph first.
 
 If we were to follow the standard constraint programming practice of branching
-on the smallest domain first \cite{DBLP:journals/ai/HaralickE80}, we would 
+on the smallest domain first \citep{DBLP:journals/ai/HaralickE80}, we would 
 therefore call $\McSplit(H,G)$ --- that is, we would place the larger graph first.
 But this is exactly the opposite of the \McSplit-SO strategy.
 Therefore, we must look elsewhere to explain why calling \McSplit\ with the small
@@ -806,13 +806,12 @@ with \McSplit-SO, that $n_G \leq n_H$.  An early example
 is McGregor's paper on the maximum common edge subgraph problem \citep{DBLP:journals/spe/McGregor82},
 where no rationale for the ordering of graphs is given.
 \citet{UpcomingAAAIPaper} put the smaller graph first
-in the \kDown\ algorithm with no explanation; the presumable reason is that \kDown\
-is derived from a subgraph isomorphism algorithm which requires the smaller graph to be first.
+because it improves domain filtering in the \kDown\ algorithm \citep{McCreesh2022Comments}.
 \citet{DBLP:journals/jcheminf/DalkeH13} place the smallest
 graph first in FMCS, an algorithm for the maximum
 common \emph{edge} subgraph problem.\footnote{More precisely, the algorithm chooses a graph whose largest
 connected component is as small as possible, as FMCS searches only for connected subgraphs.}
-A short explanation is given in a code comment \cite{DalkeFmcsSource}. To summarise: this strategy tends to
+A short explanation is given in a code comment \citep{DalkeFmcsSource}. To summarise: this strategy tends to
 result in fewer subgraphs of the first graph being visited.  This explanation is very
 important in FMCS, which makes a call to a subgraph isomorphism algorithm for every visited
 subgraph, but is not directly applicable to \McSplit.
