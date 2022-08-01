@@ -6,7 +6,7 @@ set output "plots/bounds-plot.tex"
 #set output "bounds-plot.png"
 
 set xlabel 'Max label'
-set ylabel 'Ratio of bounds'
+set ylabel 'Ratio of bounds (log scale)'
 set border 3
 set grid x y front
 set xtics nomirror
@@ -15,10 +15,11 @@ set tics front
 #set size square
 set xrange [0:21]
 set xtics 0,5,20
-set yrange [0:2.5]
+set yrange [.4:2.5]
 set ytics 0,.5,2.5
 #set format x '$10^{%T}$'
 #set format y '$10^{%T}$'
+set logscale y
 
 plot \
     "results_pivoted.tsv" u 2:7 pt 7 lc rgb "#991f77b4" ps .3 notitle, \
