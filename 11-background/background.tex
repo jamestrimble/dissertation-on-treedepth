@@ -171,13 +171,13 @@ The \emph{line graph} of a graph $G$ is a graph with a vertex for each element
 of $E(G)$, such that two vertices are adjacent if and only if their corresponding edges
 in $G$ share an endpoint.
 
-An \emph{induced subgraph} of $G = (V, E)$ has a subset $W \subseteq V$ as its
+An \emph{induced subgraph} of $G = (V, E)$ is a graph that has a subset $W \subseteq V$ as its
 vertex set, and $\{\{u, v\} \in E \mid \{u, v\} \in W\}$ as its edge set; that
 is, the subgraph includes all edges of $G$ whose endpoints both appear in
 $W$.  We say that this subgraph is \emph{induced by} $W$.
 Graph $G_3$ of \Cref{fig:intro-examples} is thus the subgraph
 of $G_1$ induced by the set $\{1,2,3,4\}$.  We say that $G$ \emph{contains
-$H$ as an induced subgraph} if $H$ is isomorphic to a subgraph of $G$.
+$H$ as an induced subgraph} if $H$ is isomorphic to an induced subgraph of $G$.
 A \emph{subgraph} (without the ``induced'' qualifier) is an induced subgraph
 with zero or more edges deleted.
 
@@ -225,6 +225,10 @@ A \emph{maximum common induced subgraph (MCIS)} of $G$ and $H$ is a common
 induced subgraph of $G$ and $H$ whose vertex set is as large as possible; the
 common induced subgraph in \Cref{fig:cis-example} is an example of an MCIS.
 
+A \emph{connected graph} is a graph $G=(V,E)$ such that for all $u,v \in V$,
+we can reach vertex $v$ by beginning at vertex $u$ and traversing a sequence
+of edges.
+
 A \emph{clique} is a set of vertices that are mutually adjacent, and the
 \emph{maximum clique problem} is, given a graph $G$, to find a clique in $G$
 with as many vertices as possible.
@@ -233,6 +237,8 @@ A \emph{labelled graph} (or \emph{network}) is a triple $(G, f_v, f_e)$
 where $G$ is a graph,
 the \emph{vertex label function} $f_v$ is a function with domain $V(G)$,
 and the \emph{edge label function} $f_e$ is a function with domain $E(G)$.
+An isomorphism between labelled graphs is required to map each vertex of
+$V$ to a vertex with the same label, and each edge to an edge with the same label.
 
 A \emph{directed graph} is a pair $(V,A)$, where $V$ is the vertex set and $A$,
 a set of ordered pairs of elements of $V$, is the arc set.  The definitions of
@@ -596,7 +602,7 @@ maximum common subgraph and induced subgraph isomorphism, and which has close
 connections to the \McSplit\ algorithms that we will introduce.
 
 A \emph{constraint satisfaction problem (CSP)} is a problem of finding a value
-for each of a finite set of variables, subject to a set of constraints.
+for each of a finite set of variables with finite domains, subject to a set of constraints.
 This framework is extremely broad, and has applications in fields
 including logistics, scheduling, bioinformatics, and discrete mathematics.
 The field of \emph{constraint programming (CP)} is concerned with modelling
@@ -731,7 +737,7 @@ of which are significant research topics in their own right. To give four exampl
         horizontally.
     \item We could traverse the search tree in an order other than depth-first search
     	in order to quickly explore diverse regions of the search space.  An early
-	example is limited discrepancy search, \citep{DBLP:conf/ijcai/HarveyG95}
+	example is limited discrepancy search, \citep{DBLP:conf/ijcai/HarveyG95}.
     \item We could learn new constraints during search that do not affect the solution,
     	and use these to prune the search tree \citep{DBLP:conf/aaai/KatsirelosB05}.
     \item We could use a \emph{variable ordering heuristic} to choose which variable
@@ -967,7 +973,10 @@ Techniques based on those of \citeauthor{zampelli2007symmetry}
 could be applied to any subgraph isomorphism solver based on constraint programming,
 and the use of such techniques is understudied; neither \McSplit-SI nor any of
 the state-of-the-art algorithms to which we compare it in our experiments
-uses symmetry breaking.  This appears to be a fruitful area for future
+uses symmetry
+breaking.\footnote{Recent versions of the Glasgow Subgraph Solver
+have a symmetry breaking option for the pattern graph which is described as ``very experimental''.
+We do not use this in our experiments.}  This appears to be a fruitful area for future
 work.
 
 \subsection{Pattern Recognition Algorithms}\label{subsec:pr-sip}
@@ -1005,7 +1014,8 @@ constraint programming solver.
 
 \subsection{Other Approaches}\label{subsec:other-approaches-sip}
 
-\citet{sussenguth1965graph}'s backtracking algorithm for induced subgraph
+\citeauthor{sussenguth1965graph}'s (\citeyear{sussenguth1965graph})
+backtracking algorithm for induced subgraph
 isomorphism pre-dates the field of constraint programming but shares the
 principle of interleaving search and propagation.  The algorithm uses
 a list of rules to generate
@@ -1152,7 +1162,7 @@ induced subgraph.
 \end{figure}
 
 A number of early algorithms for finding a maximum common subgraph use a \emph{maximal}
-common subgraph algorithm \citep{DBLP:journals/cacm/BronK73} for the maximisation problem
+clique algorithm \citep{DBLP:journals/cacm/BronK73} for the maximisation problem
 \citep{durand1999efficient,DBLP:conf/mco/VismaraV08}.
 
 \citet{DBLP:conf/sspr/BunkeFGSV02} use the maximum clique algorithm of
