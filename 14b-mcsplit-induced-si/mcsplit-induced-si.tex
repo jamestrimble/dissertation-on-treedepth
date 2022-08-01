@@ -863,7 +863,7 @@ over all previous constraint programming algorithms, which
 require at least $O(|V(G)| |V(H)|)$ space just to represent
 the initial domains.  The Glasgow Subgraph Solver uses $O(|V(H)|)$ space
 to represent adjacency matrices, and requires $O(|V(G)|^2|V(H)|)$ space
-to solve any satisfiable instance.
+to solve satisfiable instances.
 
 \begin{proposition}\label{mcsplit-si-space}
     \McSplit-SI-LL uses $O(n_G + m_G + m_H)$ space, where
@@ -1866,7 +1866,7 @@ tour of length $m$.
 \paragraph{Instances}
 
 For $m \in \{2,3,4\}$, we considered instances of the form ``is $P_m \square P_n$ isomorphic
-to an induced subgraph of $K_k$?'', with $k \geq 4$ and $n$ equal to either the largest value for which
+to an induced subgraph of $N_k$?'', with $k \geq 4$ and $n$ equal to either the largest value for which
 the instance is satisfiable or the smallest value for which the instance is unsatisfiable.
 The vertices of each graph were randomly permuted to ensure that the vertex
 order does not give clues to the solvers that might make the satisfiable
@@ -1886,7 +1886,7 @@ For these satisfiable instances, there was no clear winning solver. Each of
 instances.  We observe some surprising behaviour: larger instances are often
 solved much more quickly than smaller ones by a given solver. In
 \Cref{tab:KnightSat2}, for example, \McSplit-SI-LL solves the instance with
-target $K_{16}$ faster than the instance with target $K_{15}$.  This is
+target $N_{16}$ faster than the instance with target $N_{15}$.  This is
 probably nothing more than an artifact of the way vertices were randomly
 permuted in the instance files. In the author's experience, different random
 permutations give very different run times for these instances.  (We might
@@ -1965,7 +1965,7 @@ a large grid in an knight graph.
 programs for finding such maximal embeddings.  To give an example of the programs' run times,
 the program \texttt{back-knightgrid2-strict} takes less than
 three seconds to find the largest $k$ such that $P_2 \square P_k$
-is isomorphic to an induced subgraph of $K_{14}$. The fastest
+is isomorphic to an induced subgraph of $N_{14}$. The fastest
 program in our experiment needs more than 600 seconds to solve the same problem.
 Among several other interesting techniques, Knuth's programs use symmetry breaking;
 it would certainly be possible to add symmetry breaking to each of the solvers considered
