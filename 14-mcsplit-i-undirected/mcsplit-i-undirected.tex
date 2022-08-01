@@ -67,7 +67,11 @@
 \section{Introduction}
 
 This chapter introduces the \McSplit\ algorithm for the
-maximum common induced subgraph problem.  This algorithm, and the
+maximum common induced subgraph
+problem.\footnote{The algorithm's name alludes to the maximum common subgraph
+(MCS) problem and to the partitioning step that will be described in detail
+in \Cref{sec:mcsplit}.}
+This algorithm, and the
 variants presented in this and the next chapter, use an adjacency-matrix
 representation of graphs. This representation makes the implementation of
 \McSplit\ very simple, and is efficient for the small, dense graphs that are
@@ -224,8 +228,8 @@ The final label, 111, appears once in $\graphG$ and twice in $\graphH$, and ther
 most one pair with this label can be added to $M$.  Thus, the upper bound on
 the size of a mapping is $|M| + 1 = 4$. The general formula for this upper bound is
 \begin{multline*}
-    \mathit{bound} = |M| + \sum_{l \in L} \min\big(|\{ v \in \V(\graphG) : \vtxlabel(v)=l\}|,
-        |\{ v \in \V(\graphH) : \vtxlabel(v)=l \}|\big) \text{,}
+    \mathit{bound} = \left|M\right| + \sum_{l \in L} \min\big(\left|\{ v \in \V(\graphG) : \vtxlabel(v)=l\}\right|,
+        \left|\{ v \in \V(\graphH) : \vtxlabel(v)=l \}\right|\big) \text{,}
 \end{multline*} where $L$ is the set of labels used in both graphs.
 
 %When we have explored the full
@@ -358,7 +362,7 @@ are the array indices, which are not stored explicitly.
 
             \draw[fill=uofglawn!60] (5.5,-3) rectangle ++ (3,1); 
             \draw (5.3,-3.2) rectangle ++ (3.4,1.4); 
-            \node at (7,-2.5) {$1,5,1,6$};
+            \node at (7,-2.5) {$1,5;1,6$};
 
             \draw [-stealth](6,-2) -- (3.5,-1.2);
             \draw [-stealth](8,-2) -- (10,-1.2);
@@ -382,10 +386,10 @@ are the array indices, which are not stored explicitly.
             \foreach \x/\v in {1/d,2/f,3/b,4/c,5/e,6/a} {\node at (\x+6.5,0.5) {\v}; }
 
             \draw[fill=uofgsandstone!60] (5.5-2.001,-3) rectangle ++ (3,1); 
-            \node at (7-2.001,-2.5) {$1,2,1,2$};
+            \node at (7-2.001,-2.5) {$1,2;1,2$};
 
             \draw[fill=uofglavendar!60] (5.5+2.001,-3) rectangle ++ (3,1); 
-            \node at (7+2.001,-2.5) {$3,4,3,5$};
+            \node at (7+2.001,-2.5) {$3,4;3,5$};
             \draw (5.3-2.001,-3.2) rectangle ++ (7.4,1.4); 
 
             \draw [-stealth](6-2.001,-2) -- (2,-1.2);
@@ -415,13 +419,13 @@ are the array indices, which are not stored explicitly.
             \foreach \x/\v in {1/f,2/d,3/e,4/b,5/c,6/a} {\node at (\x+6.5,0.5) {\v}; }
 
             \draw[fill=uofgpumpkin!60] (5.5-4.001,-3) rectangle ++ (3,1); 
-            \node at (7-4.001,-2.5) {$1,1,1,1$};
+            \node at (7-4.001,-2.5) {$1,1;1,1$};
 
             \draw[fill=uofgthistle!60] (5.5,-3) rectangle ++ (3,1); 
-            \node at (7,-2.5) {$3,3,3,3$};
+            \node at (7,-2.5) {$3,3;3,3$};
 
             \draw[fill=uofgpillarbox!60] (5.5+4.001,-3) rectangle ++ (3,1); 
-            \node at (7+4.001,-2.5) {$4,4,4,5$};
+            \node at (7+4.001,-2.5) {$4,4;4,5$};
 
             \draw (5.3-4.001,-3.2) rectangle ++ (11.5,1.4); 
 
@@ -450,7 +454,7 @@ do not belong to any label class but may belong to the mapping $M$, which is sto
 \end{figure}
 
 When the algorithm begins, all vertices in the two graphs are in a single label class, as
-shown in \Cref{subfig:data-structure-a}.  The LC-array has a single element, $1,5,1,6$; this indicates
+shown in \Cref{subfig:data-structure-a}.  The LC-array has a single element, $1,5;1,6$; this indicates
 that the label class contains the vertices in positions 1 to 5 of the $G$-array and positions 1 to 6
 of the $H$-array.
 
@@ -702,13 +706,22 @@ Our implementation packs each pair of labels into a single machine word for effi
 
 \paragraph{Maximum common \emph{connected} subgraph} In chemistry applications,
 it is sometimes desirable to require that the common subgraph be connected
-\citep{Ehrlich:2011}. We consider only undirected graphs. We may modify \McSplit\ by
-permitting branching only on a vertex $v$ that has at least one non-zero
-element in its bit-string label, following the scheme described by
-\citet{DBLP:conf/mco/VismaraV08}.  We can represent this information compactly,
-and without increasing time complexity at each search node, by storing an extra
-bit with each label class.  This bit takes the value $1$ if and only if the
-vertices in the class are adjacent to at least one vertex in $M$.
+\citep{Ehrlich:2011}. We consider only undirected graphs. We may modify \McSplit\
+to ensure connectedness by
+requiring that the mapped vertices of graph $G$, that is $\{v \mid (v,w) \in M\}$,
+induced a connected
+subgraph of $G$ at every search node where $M$ is non-empty.
+This simple strategy follow the branching scheme
+described by \citet{DBLP:conf/mco/VismaraV08}.
+Returning to \Cref{fig:data-structure}, for example, it would not be permissible
+to map vertex $2$ after making the initial mapping $(1,a)$, since vertices
+1 and 2 are not adjacent in $G$.  Instead, we would need to branch on vertex
+4 or 5 of graph $G$.
+In \McSplit, we can ensure connectedness by storing an extra
+boolean flag in  each label class object.  This takes the value $\boolT$ if and only if the
+vertices in the class are adjacent to at least one vertex in $M$.  When
+choosing a vertex on which to branch, we then select only from label
+classes in which this flag is $\boolT$.
 
 We could, in addition, follow \citet{DBLP:conf/cp/NdiayeS11} by using a
 \emph{connectedness constraint} to further filter domains during search.
@@ -1839,16 +1852,29 @@ are rare.
     \subfigure[][Labelled, directed instances] {\label{figure:prettyheatmaps2}
         \includegraphics*[width=.45\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/33ved-nodes-scatter.pdf}
     }
-    \caption{Search space sizes for instances which were solved by both algorithms within the timeout.}
+    \caption{Search space sizes for instances which were solved by both algorithms within the timeout: CP-FC and \McSplit.}
     \label{figure:prettyheatmaps}
 \end{figure*}
 
-Why is this? We do not see a similar correlation between the search tree size
+Why is this? We do not see a similarly close correlation between the search tree size
 of \McSplit\
-and that of the clique approach. The key observation is that \McSplit\ may be
+and that of the clique approach (\Cref{figure:prettyheatmaps-vs-clique}).
+The key observation is that \McSplit\ may be
 considered to be a different version of the CP-FC algorithm, using
 an unconventional domain store and more efficient filtering algorithms. We now
 explore this relationship further.
+
+\begin{figure*}[htb]
+    \centering
+    \subfigure[][Unlabelled, undirected instances] {\label{figure:prettyheatmaps1}
+        \includegraphics*[width=.45\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/plain-nodes-scatter-vs-clique.pdf}
+    }
+    \subfigure[][Labelled, directed instances] {\label{figure:prettyheatmaps2}
+        \includegraphics*[width=.45\textwidth]{14-mcsplit-i-undirected/plots-based-on-ijcai-paper/more-analysis/plots/33ved-nodes-scatter-vs-clique.pdf}
+    }
+    \caption{Search space sizes for instances which were solved by both algorithms within the timeout: clique algorithm and \McSplit.}
+    \label{figure:prettyheatmaps-vs-clique}
+\end{figure*}
 
 In the CP-FC algorithm, each vertex $v \in \V(\graphG)$ is represented by a
 variable, whose domain corresponds to the set of vertices in $\V(\graphH)$ to
@@ -2322,7 +2348,7 @@ used.  Dilkas uses machine learning to construct a portfolio solver that chooses
 between \McSplit\ and the clique encoding according to easily computed characteristics of the
 two input graphs such as density and standard deviation of degrees. The portfolio solver
 outperforms each of its component algorithms, giving overall performance close to that of the virtual
-best solver.  Finally, Dilkas a constructs hybrid algorithm, \textsc{Fusion}, that switches
+best solver.  Finally, Dilkas constructs a hybrid algorithm, \textsc{Fusion}, that switches
 from \McSplit\ to the clique encoding at a specified depth of recursion.
 
 \cite{trummer2021} presents several innovations for maximum common induced subgraph algorithms,
