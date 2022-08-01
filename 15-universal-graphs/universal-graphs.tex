@@ -238,7 +238,7 @@ each $H \in \calF$ that $H$ is isomorphic to an induced subgraph of $G$.
 \DontPrintSemicolon
 \nl $\FuncSty{IsInducedUniversal}(\calF,G)$ \;
 \nl \KwData{A family of graphs $\calF$ and a graph $G$.}
-\nl \KwResult{A boolean value indicating whether $G$ is induced universal for $\calF$.}
+\nl \KwResult{A Boolean value indicating whether $G$ is induced universal for $\calF$.}
 \nl \Begin{
 \nl    \For {$H \in \calF$ \label{HLoop}}{
 \nl      \lIf {$\neg\FuncSty{InducedSubIso}(H, G)$\label{CallSubIso}}{$\KwSty{return}$~$\AlgVar{false}$}

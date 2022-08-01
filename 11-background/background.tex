@@ -287,7 +287,7 @@ The two most common representations of a graph in computer memory
 are an \emph{adjacency matrix} and \emph{adjacency lists}.  For simplicity,
 we assume that the vertices of a graph $G$ are numbered sequentially from
 0 to $|V(G)| - 1$. The adjacency matrix representation is an $n \times n$
-array $A$ of boolean values, such that $A[v][w]$ is $\AlgVar{true}$ if and
+array $A$ of Boolean values, such that $A[v][w]$ is $\AlgVar{true}$ if and
 only if $v$ and $w$ are adjacent.  The adjacency list representation
 is a list of $n$ lists, with list $v$ containing the neighbours of vertex $v$.
 The former representation allows us to test for the existence of an edge in constant
@@ -885,7 +885,7 @@ constraints removed.  (We could trivially add these constraints to Ullmann's
 algorithm to solve the induced problem.) The algorithm uses forward checking
 for the allDifferent constraint and maintains arc consistency on the adjacency
 constraints.
-Bitsets---boolean arrays
+Bitsets---Boolean arrays
 packed into arrays of larger words---are used to represent domains and rows of each
 adjacency matrix, allowing very fast updates to domains, particularly on dense
 graphs.
@@ -1189,7 +1189,7 @@ induced subgraph problem.
 \citet{DBLP:journals/spe/McGregor82}
 introduced a branch and bound algorithm for the maximum common
 \emph{edge} subgraph problem in which a vertex of $G$ is mapped to a vertex
-of $H$ at each node of the search tree.  A matrix of boolean values indicates
+of $H$ at each node of the search tree.  A matrix of Boolean values indicates
 the set of edges in $H$ to which each edge in $G$ may be mapped; this may be
 viewed as a simple domain store. \citet{DBLP:conf/sspr/BunkeFGSV02}
 reports using McGregor's algorithm to solve MCIS, without giving full

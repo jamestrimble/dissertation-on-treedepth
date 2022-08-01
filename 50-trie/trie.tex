@@ -161,7 +161,7 @@ zero length for leaf nodes) of pointers to child nodes in the trie. The order
 of child nodes is unimportant, and simply reflects the order in which sets were
 inserted into the data structure.\footnote{Maybe it would be nicer if we kept
 them sorted so that the result of a query is sorted?} Finally, each node $N$
-contains a boolean flag $N.\mathit{isElement}$ which is $\mathit{true}$ if
+contains a Boolean flag $N.\mathit{isElement}$ which is $\mathit{true}$ if
 and only if the set represented by node $N$ is contained in the collection.
 
 \Cref{fig:viz1} shows an example of a trie containing the sets
@@ -412,7 +412,7 @@ role of the block sieve.  We now turn to this task.
 
 To use our trie in the PID algorithm, we store the neighbourhood $N(S)$ in the
 data structure when $\mathit{store}(S)$ is called.  We also need to store the set
-$S$ at the node whose key is $N(S)$.  Therefore, we replace the boolean flag
+$S$ at the node whose key is $N(S)$.  Therefore, we replace the Boolean flag
 $\mathit{isElement}$ in each node of the trie with a (possibly empty) array $\mathcal{S}$
 of sets.  When adding $S$ to the data structure, we add $S$ to the $\mathcal{S}$
 array of the node corresponding to $N(S)$.

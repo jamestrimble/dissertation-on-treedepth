@@ -28,7 +28,7 @@
 In the induced subgraph isomorphism problem (ISIP), we seek an induced copy of \emph{pattern} graph $G$ in \emph{target} graph $H$. This is closely related to the maximum common induced subgraph problem: we can view ISIP as a decision version of MCIS in which the common subgraph is required to contain all of pattern graph's vertices.
 The \McSplit\ algorithm may be trivially modified to solve the induced subgraph isomorphism problem: rather than calculating an upper bound at each search node, simply backtrack when the $G$-set of any label class is larger than the corresponding $H$-set.
 
-\McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, but it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a boolean variable and $n_G$ and $n_H$ are the orders of the pattern and target graphs.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would permit amortised constant time adjacency tests in the algorithm's partitioning step, but this would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, \McSplit\ iterates over the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
+\McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, but it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a Boolean variable and $n_G$ and $n_H$ are the orders of the pattern and target graphs.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would permit amortised constant time adjacency tests in the algorithm's partitioning step, but this would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, \McSplit\ iterates over the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
 
 \begin{figure}[htb]
     \centering
@@ -116,7 +116,7 @@ The next four members of the object play the same role as the four indices used 
 simpler label class object: they point to the ranges in the permutations of $V(G)$ and $V(H)$ that
 contain $S_G$ and $S_H$.
 
-Finally, we have two boolean flags, $\varActive$ and $\varSplitting$.  The first flag
+Finally, we have two Boolean flags, $\varActive$ and $\varSplitting$.  The first flag
 records whether the label class object is currently in the list of label classes.  (Inactive
 label classes have been deleted, but are maintained in memory so that they can be restored
 when backtracking.)  The second flag is used temporarily during the partitioning step
@@ -497,7 +497,7 @@ After calling the $\FuncSty{DoDeletions}$ function,
 the $\FuncSty{Filter}$ function returns on \lineref{ReturnFromFilter} 
 of \Cref{McSplitSIAlgFilter}.  Three values are returned. The lists
 of split label classes and deleted label classes will be used to restore
-the data structure when backtracking. The final returned value is a boolean
+the data structure when backtracking. The final returned value is a Boolean
 flag that indicates that the filtering step completed successfully
 without finding a reason to backtrack immediately.
 

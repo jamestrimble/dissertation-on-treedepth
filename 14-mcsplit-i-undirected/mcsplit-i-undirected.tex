@@ -718,7 +718,7 @@ to map vertex $2$ after making the initial mapping $(1,a)$, since vertices
 1 and 2 are not adjacent in $G$.  Instead, we would need to branch on vertex
 4 or 5 of graph $G$.
 In \McSplit, we can ensure connectedness by storing an extra
-boolean flag in  each label class object.  This takes the value $\boolT$ if and only if the
+Boolean flag in  each label class object.  This takes the value $\boolT$ if and only if the
 vertices in the class are adjacent to at least one vertex in $M$.  When
 choosing a vertex on which to branch, we then select only from label
 classes in which this flag is $\boolT$.
