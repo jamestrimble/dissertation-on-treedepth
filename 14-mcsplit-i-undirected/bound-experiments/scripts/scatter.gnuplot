@@ -22,5 +22,5 @@ set ytics 0,.5,2.5
 set logscale y
 
 plot \
-    "results_pivoted.tsv" u 2:7 pt 7 lc rgb "#991f77b4" ps .3 notitle, \
+    "results_pivoted.tsv" u ($2-.1+rand(0)*.2):7 pt 7 lc rgb "#991f77b4" ps .25 notitle, \
     "results_summary.tsv" using ($1-.3):2:(.6):(0) with vectors nohead lw 2 lc rgb "#000000" notitle
