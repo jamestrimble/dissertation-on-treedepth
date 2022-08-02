@@ -316,9 +316,8 @@ at least at the root node and plausibly also deeper in the tree --- the search
 tree has a smaller branching factor if we call \McSplit\ with the \emph{larger}
 graph first.
 
-If we were to follow the standard constraint programming practice of branching
-on the smallest domain first \citep{DBLP:journals/ai/HaralickE80}, we would 
-therefore call $\McSplit(H,G)$ --- that is, we would place the larger graph first.
+We might expect a smaller branching factor to lead to lower run times, and this
+suggests that we should place the larger graph first by calling $\McSplit(H,G)$.
 But this is exactly the opposite of the \McSplit-SO strategy.
 Therefore, we must look elsewhere to explain why calling \McSplit\ with the small
 graph first is effective.  It seems likely that the bound calculated on \lineref{CalcBound}
@@ -666,11 +665,8 @@ as future work.}
     \label{figure:mcsplit2-cumulative}
 \end{figure}
 
-On all four instance families shown in \Cref{figure:mcsplit2-cumulative}, \McSplit-2S'
-is the worst-performing algorithm.  This is surprising in one sense, as \McSplit-2S' is the algorithm
-of the five used that comes closest to a smallest-domain-first heuristic.  However, the poor performance
-of \McSplit-2S' is explained by our foregoing discussion of the effect of branching side on upper
-bounds.
+As expected, \McSplit-2S' is the worst-performing algorithm
+on all four instance families shown in \Cref{figure:mcsplit2-cumulative}.
 
 \subsection{Pairs of Graphs With Equal Density and Order}
 
