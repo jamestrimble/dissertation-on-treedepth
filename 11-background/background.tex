@@ -733,16 +733,20 @@ of which are significant research topics in their own right. To give four exampl
         we can disregard $x_1=c$ and $x_1=d$, since any solution with these assignments
         is the same as a solution with $x_1=b$ and $x_1=d$ after reflecting the chessboard
         horizontally.
-    \item We could traverse the search tree in an order other than depth-first search
-    	in order to quickly explore diverse regions of the search space.  An early
-	example is limited discrepancy search, \citep{DBLP:conf/ijcai/HarveyG95}.
-    \item We could learn new constraints during search that do not affect the solution,
-    	and use these to prune the search tree \citep{DBLP:conf/aaai/KatsirelosB05}.
     \item We could use a \emph{variable ordering heuristic} to choose which variable
-    	to branch on at each search node, and \emph{value ordering heuristic} to choose
+    	to branch on at each search node, and a \emph{value ordering heuristic} to choose
 	the order in which the child nodes of a search node are visited.
 	For example, a very common variable ordering heuristic is to choose the variable
 	with fewest remaining values \citep{golomb1965backtrack}.
+    \item We could learn new constraints during search that do not affect the solution,
+    	and use these to prune the search tree \citep{DBLP:conf/aaai/KatsirelosB05}.
+    \item We could traverse the search tree in an order other than depth-first search
+    	to quickly explore diverse regions of the search space.  An early
+	example is limited discrepancy search \citep{DBLP:conf/ijcai/HarveyG95};
+	another strategy is to combine the learning of constraints with periodic
+	restarts of the backtracking search and randomised variable- and value-ordering
+	heuristics
+	\citep{DBLP:journals/jsat/LecoutreSTV07,DBLP:conf/cpaior/ArchibaldDHMP019}.
 \end{itemize}
 
 \newsavebox{\MCSDomainsBoxA}
