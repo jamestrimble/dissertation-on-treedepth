@@ -2216,12 +2216,19 @@ for any per-instance time limit below 1000 seconds.
 \end{figure}
 
 \Cref{figure:mcsplit-sparse-scatter-by-family} shows scatter plots
-of run times by family, comparing the best two algorithms.  Points
+of run times by family, comparing the best two algorithms.
+Points
 above the diagonal line represent instances for which \McSplit-sparse
-is faster than \kDown+SBS. 
+is faster than \kDown+SBS; on all families except Phase and Meshes,
+many more points lie above the line than below it. (The
+Phase instances, all of which are unsatisfiable for the subgraph
+isomorphism problem, are very challenging for maximum common subgraph solvers.
+No solver could solve any of these instances within the time limit.)
+
+Looking at the number of instances that were solved within the 1000 second time limit,
 \McSplit-sparse is the clear winner on the Images family,
 solving 242 more Images instances
-within the 1000 second time limit than \kDown+SBS.
+within the time limit than \kDown+SBS.
 \McSplit-sparse also performs very well on the LV instances,
 solving 92 more instances than \kDown+SBS.
 On the other hand
