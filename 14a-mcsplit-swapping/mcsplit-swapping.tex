@@ -87,7 +87,7 @@ instances can be explained by the way these instances are generated.  Within
 each MCS Plain instance, the two graphs are produced using the same graph
 generator, have the same number of vertices, and have very similar density
 (\Cref{figure:mcsplain-densities}).  Given the similarity of the two graphs in
-each of these instances, it is unsurprising that swapping the graphs has little
+each instance, it is unsurprising that swapping the graphs has little
 effect on run time.
 
 To examine pairs of graphs with very \emph{different} characteristics, we
@@ -96,7 +96,7 @@ The first set has 24 vertices per graph, with the $p$ parameter of the
 generator chosen randomly for each graph from the interval $[0,1]$; thus, the
 two graphs in an instance have the
 same order but can vary greatly in density.  The second set of instances has the
-density parameter $p$ set to $0.3$ for all instances, with the number of
+density parameter $p$ fixed at $0.3$ for all instances, with the number of
 vertices in each graph randomly chosen from $\{10, 11, \dots, 50\}$.  These
 instances will be used throughout this chapter; we call them the
 \emph{varying-density instances} and the \emph{varying-order instances}
@@ -479,7 +479,7 @@ benefit of choosing a vertex in the smaller side of a label class to branch on
 in the $\FuncSty{Search}()$ function of \McSplit.  This suggests a modified
 version of \McSplit\ in which branching may be carried out on vertices of
 either graph, with the decision of which side to choose made at each search
-node based on which side of label class is larger.  We show this
+node based on which side of the label class is larger.  We show this
 algorithm, \McSplit-2S (with the name signifying ``two sided''), in
 \Cref{McSplit-2SAlg}.
 
@@ -488,9 +488,9 @@ code that is changed from \Cref{McSplitAlg}.
 (In addition,
 the function $\FuncSty{NewFuture}$, which creates the new label classes
 after a vertex assignment, has been extracted to avoid duplication.)
-\Lineref{ChooseBranchingSideMS2} chooses which side to branch on.
-If the side of label class $\langle \setG, \setH\rangle$ containing
-vertices from the first graph is no larger than the other side of the label class,
+\Lineref{ChooseBranchingSideMS2} chooses which side of
+the label class $\langle \setG, \setH\rangle$ to branch on.
+If $S_G$ is no larger than $S_H$,
 the algorithm maps a vertex from $\setG$ to each vertex
 in $\setH$ in turn (\linerangeref{RemoveVMS2}{EndOfBranch1MS2}), just
 as in the standard \McSplit\ algorithm.  Otherwise, the algorithm
@@ -732,11 +732,11 @@ attachment'' mechanism: at each step, vertices with more existing edges are prop
 added.  We use the implementation of this generator from the Python package NetworkX \citep{networkx}.
 For each instance, we use the following ranges of parameter values in order to
 have wide variation in order and density between instances: $n$ is chosen at random
-from $\{10,\dots,50\}$, and $m$ is chosen at random from $\{2,\dots,n-1\}$.  Within each instance, the two
+from $\{10,\dots,50\}$ and $m$ is chosen at random from $\{2,\dots,n-1\}$.  Within each instance, the two
 generated graphs use the same parameter values $n$ and $m$.
 \Cref{figure:mcsplit-vs-mcsplit2-ba} compares \McSplit\ with \McSplit-2S on these Barabási-Albert instances.
 Overall, \McSplit-2S has a small speed advantage over \McSplit.  The scatter plot shows that the two algorithms
-tend to have very similar run times, with \McSplit-2S the slightly faster algorithm in most cases.
+tend to have very similar run times, with \McSplit-2S the slightly faster algorithm for most instances.
 
 \begin{figure}[htb]
     \centering
@@ -781,7 +781,7 @@ algorithms often have very different run times, with \McSplit\ outperforming \Mc
     \label{figure:mcsplit-vs-mcsplit2-ba-gnm}
 \end{figure}
 
-This section has shown a modest win for \McSplit-2S; for our two families of
+This section has shown a modest win for \McSplit-2S: for our two families of
 instances using the Barabási-Albert model, \McSplit-2S slightly outperforms \McSplit\ --- and therefore
 also outperforms \McSplit-SD and \McSplit-SO.
 
@@ -826,7 +826,7 @@ or run time.
 
 In this chapter, we have introduced two rules to determine whether to swap graphs $G$ and $H$
 when calling \McSplit: one using the graphs' densities, and the other using their node counts.
-We have shown that both rules are very effective in reducing the run time of \McSplit\ both on random
+We have seen that both rules are very effective in reducing the run time of \McSplit\ both on random
 graphs and on ``mix and match'' instances created by choosing random pairs of graphs from the
 MCS Plain instances.  Using insights from the behaviour of these versions of \McSplit, we have
 introduced \McSplit-2S, a version of \McSplit\ that branches on vertices of both graphs.
