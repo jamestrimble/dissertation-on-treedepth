@@ -245,9 +245,9 @@ tree explored by \McSplit\ with example graphs $G$ and $H$ as input.
 At the root node, no vertex-vertex assignments have yet been made.  The large
 number at each node of the tree shows the computed bound.
 Nodes at which the incumbent is updated are circled.
-Each edge is labelled with the assignment added to the mapping, except those edges
+Each edge of the tree is labelled with the assignment added to the mapping, except those edges
 with red labels, which represent a decision not to map a vertex of $G$.
-The mapping at an search node contains all vertex-vertex assignments on the path
+The mapping at each search node contains all vertex-vertex assignments on the path
 from the root to that node; thus, for example, at the bottom-left node
 we have $M=\{1a,2d,3f,5g\}$.
 
@@ -290,7 +290,9 @@ of the $H$-array that contains $\setH$.
 This representation has
 similarities to data structures used in partition backtracking for graph isomorphism
 \citep{DBLP:journals/jsc/McKayP14,DBLP:conf/wea/Lopez-PresaA09}.
-A new LC-array is created for each level of the search tree.
+A new LC-array is created for each level of the search tree, and the LC-arrays
+for ancestor nodes of the search tree are kept in memory for use after
+backtracking.
 %and the \citet{DBLP:journals/cacm/BronK73}
 %clique enumeration algorithm.
 %TODO: say more about similarities and differences
@@ -1209,7 +1211,8 @@ order if the density of $H$ is much greater than the density of $G$, while
 it is best to sort in decreasing degree order if the opposite is true.  Yet the
 decision rule ``sort in increasing order if and only if the density of $H$ is
 greater than the density of $G$'' often leads to poor results if the graphs are
-sparse and have similar density.
+sparse and have similar density, as we can see in the large light-coloured
+region at the bottom left of the first plot.
 
 \Cref{figure:mcis-heatmap-dir} shows results for directed graphs. The overall
 pattern is somewhat similar to the undirected case.
@@ -1273,7 +1276,7 @@ at least one vertex remaining in their domain.  In this section we
 introduce a sequence of modifications to \McSplit\ that make the algorithm
 progressively closer to KH, and show experimentally how these modifications
 progressively reduce the speed of \McSplit\ until it is similar to that of KH.
-(A separate section is given to the comparison with KH for two reasons. First,
+(This section compares only with KH for two reasons. First,
 KH differs from most other MCIS algorithms in that it finds all maximum common 
 subgraphs rather than a single one.  Second, KH serves as a baseline
 forward-checking algorithm against which we can test the usefulness of
@@ -1281,7 +1284,7 @@ forward-checking algorithm against which we can test the usefulness of
 
 We can emulate the search tree of KH
 by making the following three modifications to \McSplit\ in addition to the modifications for
-finding all maximum common subgraphs described in this section's first paragraph.
+finding all maximum common subgraphs described in \Cref{sec:extensions}.
 
 \begin{enumerate}
     \item Modify the variable selection heuristic so that it chooses a label class with
@@ -1446,7 +1449,7 @@ nodes than a full branch-and-bound search, it is unsurprising that
 the run time of \McSplitDown\ is seldom more than
 twice that of \McSplit.}) than \McSplitDown.  Among the relatively
 small number of instances where \McSplitDown\ is the faster of the two
-algorithms, however, it is often dramatically faster.  As we might expect, the
+algorithms, however, it is often dramatically faster.  The
 instances that favour \McSplitDown\ tend to be ones where the solution is
 almost as large as the input graphs and thus few decision problems need to be
 solved; these are the dark red points that appear predominantly towards
@@ -1461,7 +1464,7 @@ small size of the incumbent.
 
 Although the \kDown\ algorithm was slightly faster than CP-FC, it was slower
 than \McSplitDown\ on all of the instances that were solved within the time
-limit by \kDown, and more than an order of magnitude slower than \McSplitDown\
+limit by \kDown, and was more than an order of magnitude slower than \McSplitDown\
 on most instances.
 
 
@@ -1484,7 +1487,7 @@ Comparing only \McSplit\ with \McSplitDown\ on these instances, the branch and b
 algorithm is by a narrow margin the overall winner.  The instance-by-instance
 comparison of the two algorithms in \Cref{figure:33ved-scatter} shows a similar pattern
 to the undirected, unlabelled instances, albeit without instances where \McSplitDown\
-is dramatically faster than \McSplit.
+is many orders of magnitude faster than \McSplit.
 
 \begin{figure}[h!]
     \centering
@@ -2030,7 +2033,7 @@ the clique bound is always at least as strong as the \McSplit\ bound.
 
 We begin with the unlabelled case (or equivalently, the case in which
 all vertex labels are equal).  \Cref{fig:clique-better-bound} shows
-an example in which the clique bound is stronger than the \McSplit\ bound.
+an example in which the clique bound is at least as strong as the \McSplit\ bound.
 The input graphs are $K_2$ and $I_2$.  The association graph
 is the independent set $I_4$, and therefore a greedy colouring will yield
 a single colour class, resulting in an upper bound of 1 on the clique
@@ -2233,7 +2236,7 @@ as good as the \McSplit\ bound if we colour vertices in the right order; for exa
 if we colour the vertices as described in the proof in \Cref{sec:mcsplit-proof}.
 
 \paragraph{Experimental comparison of bounds}
-Is the clique bound stronger in practice, even for unlabelled graphs?
+Is the clique bound stronger than the \McSplit\ bound in practice, even for unlabelled graphs?
 We will see shortly that the answer is ``no''---at least if we use MCSa1 as the clique
 algorithm.
 To find the point at which the clique bound becomes preferable, I carried out a
@@ -2254,7 +2257,7 @@ clique upper bound, with one point per instance.  The value of $m$ parameter is 
 axis; points towards the right of the plot have more distinct vertex labels.  Mean values
 are shown as horizontal lines.  When $m=1$---that is,
 when all vertices have the same label---the \McSplit\ bound is strictly tighter than the clique-algorithm
-bound of all 90 of our instances.  On average, the \McSplit\ bound is tighter than the clique
+bound on all 90 of our instances.  On average, the \McSplit\ bound is tighter than the clique
 bound for $m < 4$, and worse than the clique bound for $m > 5$.  Of the 900 instances with $m > 10$,
 \McSplit\ had a tighter bound than the clique algorithm for only a single instance.
 
@@ -2363,7 +2366,7 @@ including improved reinforcement learning for \McSplit\ based on
 
 \subsection{An Application to a Question in Probability Theory}
 
-Chatterjee and Diaconis \cite{chatterjee2021isomorphisms} consider taking two
+\citet{chatterjee2021isomorphisms} consider taking two
 independent random $G(N, 1/2)$ graphs $G$ and $H$, and finding the order of their maximum
 common induced subgraph.  They prove that as $N\to\infty$, the maximum common
 subgraph of $G$ and $H$ will, with probability tending to 1, be in a range
