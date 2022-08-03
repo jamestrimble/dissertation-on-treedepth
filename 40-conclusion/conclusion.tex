@@ -1,6 +1,8 @@
 \chapter{Conclusion}
 \label{c:conclusion}
 
+\section{Summary}
+
 This dissertation has introduced the \McSplit\ family of algorithms: \McSplit\
 for maximum common induced subgraph (MCIS) and \McSplit-SI for the induced
 subgraph isomorphism problem (ISIP).  We have seen the close relationship
@@ -52,12 +54,12 @@ an induced subgraph. This problem has received much theoretical attention,
 but there is almost no prior work on the development of solvers for
 small instances.  We have developed new exact and heuristic algorithms for the
 problem and used these to generate new terms that have been included in the
-Online Encyclopedia of Integer Sequences.
+On-Line Encyclopedia of Integer Sequences.
 
 \section{Future Work}
 
-The strength of \McSplit\ --- its compact data structure that requires little
-memory and enables fast and simple filtering algorithms --- has the
+The strength of \McSplit\ --- its compact data structure that
+enables fast and simple filtering algorithms --- has the
 disadvantage that it places limits on how the algorithm can be modified.  For example, there
 appears to be no obvious way to add supplemental graphs to \McSplit-SI because
 they would break the invariant that two domains must be equal or disjoint.  Despite
@@ -80,7 +82,7 @@ algorithms. For example:
     \item We could use new search strategies beyond depth-first traversal of
     the search tree. Initial work on using solution-biased search
     \citep{DBLP:conf/cpaior/ArchibaldDHMP019} for \McSplit\ showed promising
-    results, and this could extended to \McSplit-SI.
+    results, and this could be extended to \McSplit-SI.
 
     \item We could develop new swapping rules for \McSplit\ like those in
     \Cref{c:swapping-graphs-mcsplit}, using characteristics of the graphs other
