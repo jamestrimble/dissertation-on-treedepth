@@ -6,7 +6,7 @@ grid_height = int(sys.argv[2])
 print(r"""
 \begin{tabular}{ccrrrrrrr}
     \toprule
-    {$G$} & {$H$} & {McS-SI} & {McS-SI-LL} & {McS-SI-am} & Glasgow & RI-DS & VF3 & pathLAD \\ 
+    {$G$} & {$H$} & {McS-SI} & {McS-SI-LL} & {McS-SI-AM} & Glasgow & RI-DS & VF3 & pathLAD \\ 
     \midrule
 """)
 
