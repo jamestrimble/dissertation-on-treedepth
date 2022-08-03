@@ -16,11 +16,11 @@ vertices for adjacent regions joined by edges
 \citep{DBLP:conf/icip/OlatunbosunDE96}.  We may wish to determine whether a
 copy of all
 or a large part of a given object---such as a molecule or image---is contained
-in another given object.  The goal of this dissertation is to introduce new,
+in another object.  This dissertation introduces new,
 practical algorithms for such problems.
 
-We first consider the \emph{maximum common induced subgraph} family of
-problems, in which we seek a large graph that appears as part (that is,
+We first consider the \emph{maximum common induced subgraph} problem,
+in which we seek a large graph that appears as part (that is,
 is a \emph{subgraph}) of each of two
 given graphs.  The problem has a number of variants, such as a version where
 the vertices have labels---atomic number in the case of molecules---and
@@ -35,7 +35,7 @@ determine whether a given graph (the ``target graph'') contains another given
 graph (the ``pattern graph'') as an induced subgraph.  We again use a variant
 of the \McSplit\ algorithm---\McSplit-SI---to solve the problem. This version
 of the algorithm has a specialised version of \McSplit's data structure that
-allows very fast processing of sparse graphs.
+enables very fast processing of sparse graphs.
 
 Finally, we study the problem of finding, for a given family of graphs,
 an \textit{induced universal graph}---that is, a graph that contains every
@@ -53,15 +53,15 @@ finding small (although possibly not optimal) induced universal graphs.
 
 The remainder of this dissertation is structured as follows.
 
-\paragraph*{\ChapterRef{c:background}} provides context for this dissertation's
+\paragraph*{\ChapterRef{c:background}} \hspace{-.8em} provides context for this dissertation's
 contributions: definitions, a survey of related work, and a description of the
 experimental setup.
 
-\paragraph*{\ChapterRef{c:mcsplit-i-undirected}} introduces the \McSplit\
+\paragraph*{\ChapterRef{c:mcsplit-i-undirected}} \hspace{-.8em} introduces the \McSplit\
 algorithm for the maximum common induced subgraph problem and its variants, and
 carries out experimental comparisons with existing state of the art solvers.
-We find that the algorithm is more than an order of magnitude faster than the prior
-state of the art for unlabelled graphs, including in the variant of the problem
+We find that the algorithm is more than an order of magnitude faster than prior
+solvers for unlabelled graphs, including in the variant of the problem
 where the subgraph must be connected.
 The chapter has an empirical study of ordering strategies for the vertices
 of the two input graphs, and a detailed study---both in theory and practice---of
@@ -70,13 +70,13 @@ between \McSplit\ on one hand, and constraint programming and clique approaches
 on the other.
 
 
-\paragraph*{\ChapterRef{c:swapping-graphs-mcsplit}} asks whether and when it is
+\paragraph*{\ChapterRef{c:swapping-graphs-mcsplit}} \hspace{-.8em} asks whether and when it is
 useful to swap the two graphs given as input to \McSplit.  We develop two
 simple and effective rules for determining when to swap the graphs, and
-generalise these to the algorithm \McSplit-2S which branches on vertices of
+introduce the algorithm \McSplit-2S which generalises the idea of swapping by branching on vertices of
 both input graphs.
 
-\paragraph*{\ChapterRef{c:mcsplit-si}} introduces the \McSplit-SI algorithm for the
+\paragraph*{\ChapterRef{c:mcsplit-si}} \hspace{-.8em} introduces the \McSplit-SI algorithm for the
 induced subgraph isomorphism problem.  This uses
 special data structures designed to work well if the input graphs are sparse.
 We present an extensive set of experiments comparing the algorithm to state of
@@ -85,18 +85,18 @@ best existing solvers on several classes of random and structured
 graphs.
 In addition, we demonstrate that \McSplit-SI achieves generalised arc consistency
 on the all-different constraint, and we introduce two variants of the algorithm
-including one optimised for dense graphs.
-Finally, we modify \McSplit-SI to solve the maximum common
-induced subgraph problem, and show that this new version outperforms the state of the art
-solver for large, sparse graphs.
+including one that is optimised for dense graphs.
+Finally, we return to the maximum common induced subgraph problem, and show that
+a modified version of \McSplit-SI outperforms the state of the art solver for that
+problem on large, sparse graphs.
 
-\paragraph*{\ChapterRef{c:universal-graphs}} introduces exact and heuristic
+\paragraph*{\ChapterRef{c:universal-graphs}} \hspace{-.8em} introduces exact and heuristic
 algorithms for the minimal induced universal graph problem, and uses these
 algorithms to add new terms to entries in
 the On-Line Encyclopedia of Integer Sequences.  The chapter includes
 an experimental study of ordering heuristics for these algorithms.
 
-\paragraph*{\ChapterRef{c:conclusion}} summarises progress made in the dissertation
+\paragraph*{\ChapterRef{c:conclusion}} \hspace{-.8em} summarises progress made in the dissertation
 and outlines directions for future work.
 
 \section{Publications and Authorship}
