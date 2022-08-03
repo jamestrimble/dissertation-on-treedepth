@@ -29,7 +29,7 @@
 In the induced subgraph isomorphism problem (ISIP), we seek an induced copy of \emph{pattern} graph $G$ in \emph{target} graph $H$. This is closely related to the maximum common induced subgraph problem: we can view ISIP as a decision version of MCIS in which the common subgraph is required to contain all of pattern graph's vertices.
 The \McSplit\ algorithm may be trivially modified to solve the induced subgraph isomorphism problem: rather than calculating an upper bound at each search node, simply backtrack when the $G$-set of any label class is larger than the corresponding $H$-set.
 
-\McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, but it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a Boolean variable and $n_G$ and $n_H$ are the orders of the pattern and target graphs.\footnote{We could switch to a more space-efficient representation such as hash-sets of neighbours which would permit amortised constant time adjacency tests in the algorithm's partitioning step, but this would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, \McSplit\ iterates over the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
+\McSplit\ is well suited to the small (tens of vertices), relatively dense pattern and target graphs that are typical of maximum common subgraph instances, but it has two disadvantages for large (hundreds or thousands of vertices), sparse graphs that appear in benchmark instances for subgraph isomorphism.  The first disadvantage relates to space: $b(n_G^2 + n_H^2)$ space is needed to store the adjacency matrices, where $b$ is the memory size of a Boolean variable and $n_G$ and $n_H$ are the orders of the pattern and target graphs.\footnote{We could switch to a more space-efficient representation such as hash sets of neighbours which would permit amortised constant time adjacency tests in the algorithm's partitioning step, but this would slow down the algorithm significantly.}  The second disadvantage relates to time: during the partitioning step, \McSplit\ iterates over the vertices in each label class, which often requires checking close to $n_G + n_H$ adjacency-matrix elements each time the partitioning procedure is carried out.
 
 \begin{figure}[htb]
     \centering
@@ -79,7 +79,7 @@ of \McSplit-SI to solve MCIS on sparse graphs.
 
 In the MCIS version of \McSplit\ described in \Cref{c:mcsplit-i-undirected},
 the label class objects at each level of the search tree are stored
-contiguously in an array, and each object representing a label class $\langle
+contiguously in an array (the LC-array), and each object representing a label class $\langle
 S_G, S_H \rangle$ requires only four indices or pointers---to the start and end
 of the array slices that contain $S_G$ and $S_H$.  To enable partitioning in
 $O(|N_G(v)| + |N_H(w)|)$ time, \McSplit-SI requires a more elaborate
@@ -101,10 +101,10 @@ for restoring deleted elements when backtracking, as we will discuss shortly.
  \midrule
     $\AlgVar{prev}$ & Pointer to Label Class & The previous label class in the doubly linked list \\
     \rule{0pt}{2.3ex}$\AlgVar{next}$ & Pointer to Label Class & The next label class in the doubly linked list \\
-    \rule{0pt}{2.3ex}\varStartG & Pointer to Integer & Pointer to the first vertex of the $G$-set\\
-    \rule{0pt}{2.3ex}\varEndG & Pointer to Integer & Pointer to one element past the last vertex of the $G$-set\\
-    \rule{0pt}{2.3ex}\varStartH & Pointer to Integer & Pointer to the first vertex of the $H$-set\\
-    \rule{0pt}{2.3ex}\varEndH & Pointer to Integer & Pointer to one element past the last vertex of the $H$-set\\
+    \rule{0pt}{2.3ex}\varStartG & Pointer to Integer & Pointer to the first vertex of set $S_G$\\
+    \rule{0pt}{2.3ex}\varEndG & Pointer to Integer & Pointer to one element past the last vertex of set $S_G$\\
+    \rule{0pt}{2.3ex}\varStartH & Pointer to Integer & Pointer to the first vertex of set $S_H$\\
+    \rule{0pt}{2.3ex}\varEndH & Pointer to Integer & Pointer to one element past the last vertex of set $S_H$\\
     \rule{0pt}{2.3ex}$\AlgVar{active}$ & Boolean & Is this label class in the doubly linked list? \\
     \rule{0pt}{2.3ex}$\AlgVar{splitting}$ & Boolean & Is this label class being split? \\
  \bottomrule
@@ -266,7 +266,7 @@ The first pair of functions is shown in \Cref{McSplitSIAlgAssign}.
 Both of these run in constant time.
 The function $\FuncSty{Assign}(v,w)$ updates the label classes to reflect
 the assignment of $v$ in the pattern graph to $w$ in the target graph.  It 
-does this by moving $v$ and $w$ to the end of their label class in
+does this by swapping $v$ and $w$ to the end of their label class in
 $\Garray$ and $\Harray$, then decrementing the end pointers of the label class.
 If no vertices of the pattern graph remain in the label class, the label-class
 object is deleted from the linked list $\calLC$.
@@ -324,7 +324,7 @@ object is deleted from the linked list $\calLC$.
     \label{figure:si-data-structures-2}
 \end{figure}
 
-In addition, to maintain the invariants of
+To maintain the invariants of
 the $\Gptrs$ and $\Hptrs$ arrays, we set the label-class pointers of
 $\Gptrs[v]$ and $\Hptrs[w]$ to null since these vertices
 are no longer in a label class, and update the vertex pointers
@@ -646,7 +646,7 @@ used to select a pattern vertex on \lineref{McSplitSISelectVertex} of
 strategy used to decide the iteration order over target vertices on
 \lineref{McSplitSIWLoop} the \emph{value ordering heuristic}.
 
-Our variable ordering heuristic is the \emph{smallest domain first} heuristic,
+Our variable ordering heuristic is \emph{smallest domain first},
 which is also used by the Glasgow Subgraph Solver.
 In \McSplit-SI, the smallest domain first heuristic requires
 that we choose a vertex $v$ from a label class $\langle S_G, S_H \rangle$ with
@@ -712,7 +712,7 @@ The first subplot of
 shows that the ``G decreasing, H decreasing'' strategy is
 preferable if the density of the target graph is less than that of the pattern graph.
 The two middle subplots are predominantly lighter blues and white, implying that
-using opposite variable and value ordering heuristics is only of benefit in small
+using opposite orders for the pattern and target graphs is only of benefit in small
 parts of the parameter space.
 
 \Cref{figure:sip-heatmap-16} --- with pattern graphs of order 16 --- has a somewhat different
@@ -850,7 +850,7 @@ was removed.  This array is no longer than $|N_G(v)|$ or $|N_H(v)|$, and the sto
 space for all of these arrays can be pre-allocated before search.
 
 In the next section, we will see that \McSplit-SI-LL is space-efficient.  The experimental evaluation
-in \Cref{sec:si-experiments} shows that \McSplit-SI-LL have \McSplit-SI have broadly
+in \Cref{sec:si-experiments} shows that \McSplit-SI-LL and \McSplit-SI have broadly
 similar run times, but that each of the two algorithms has families of instances for which it is the faster
 solver.
 
@@ -911,7 +911,7 @@ in this chapter, and is essentially a decision version of the \McSplit\ solver
 for maximum common subgraph described in \Cref{c:mcsplit-i-undirected}.
 We will see in \Cref{sec:mcsplit-si-experiments}
 that the algorithm often outperforms \McSplit-SI on instances with
-relatively dense graphs.  The main additional feature compared to the maximum
+dense graphs.  The main additional feature compared to the maximum
 common subgraph version of \McSplit\ is a version of the lazy partitioning
 technique that was described in \Cref{subsec:mcsplit-si-optimisations}.  Before
 running the partitioning algorithm, we iterate over the label classes, counting
@@ -1145,7 +1145,7 @@ a vertex is added to each of the $v$, $w$, $y$ and $z$ sets.
 \Cref{tab:gk-run-times} shows run times for the enumeration problem
 using \McSplit-SI, Glasgow, Glasgow with no supplemental graphs, and RI for a range of values of
 $k$.\footnote{VF3 was excluded from the experiment because the version available when the
-experiment was run not handle disconnected graphs correctly.}
+experiment was run did not handle disconnected graphs correctly.}
 \McSplit-SI solves the instance $k=1\,000\,000$ in less than a second;
 Glasgow and RI time out on the $k=10$ and $k=6$ instances respectively.
 
@@ -1382,7 +1382,7 @@ in the following families.
     \item \textbf{Rand:} Erd\H{o}s-Rényi $G(n,p)$ random graphs.
     \item \textbf{Phase:} Pairs of Erd\H{o}s-Rényi $G(n,p)$ random graphs
         with parameters chosen near the satisfiable/unsatisfiable phase transition in order
-        to make the instances very challenging to solve despite having only 30 vertices
+        to make the instances very challenging despite having only 30 vertices
         per pattern graph and 150 vertices per target graph.
         \citep{DBLP:journals/jair/McCreeshPST18}
     \item \textbf{PR}, \textbf{Meshes} and \textbf{Images:} Instances derived from a pattern recognition problem, where
@@ -1610,7 +1610,7 @@ Seven pairs of solvers---each of which used a version of \McSplit-SI
 as the presolver, the main solver, or both---solved more instances than Glasgow,
 which was the single
 best individual solver by this measure with $14,524$ instances solved.
-The best solver pairs
+The best solver pair
 solved $14,546$ instances; this uses \McSplit-SI-static as the main
 solver and \McSplit-SI as the presolver.
 (A version using \McSplit-SI-static as the main solver and
@@ -1990,7 +1990,7 @@ Rather than using the instance files provided by the authors of the MIVIA LDGrap
 dataset, we chose to generate our own random graphs from the same model and with the
 same parameters.  We made this choice for two reasons: first, because of the large size
 of the LDGraphs files (90 GBytes compressed), and second, so that we could augment
-the set of instances with sparser pairs of graphs.
+the set of instances with pairs of sparser graphs.
 
 In each instance, both the pattern and target graph are generated using a directed-graph
 version of the Erd\H{o}s-Rényi $G(n,p)$ model.  In this model, a graph on $n$ vertices
@@ -2157,8 +2157,10 @@ the graphs generated by that program.
 
 \section{Using the \McSplit-SI Data Structures for MCIS}\label{sec:mcsplit-sparse}
 
-We have so far seen dense and sparse variants of \McSplit\ for induced subgraph isomorphism, and
-a dense variant for maximum common induced subgraph.  The algorithm that is missing from this
+We have so far seen sparse and dense variants of \McSplit\ for induced subgraph isomorphism
+(\McSplit-SI and \McSplit-SI-AM), and
+a dense variant for maximum common induced subgraph (the \McSplit
+algorithm of \Cref{c:mcsplit-i-undirected}).  The algorithm that is missing from this
 list---a sparse variant for MCIS---can be straightforwardly created by modifying \McSplit-SI. 
 We call this new algorithm \McSplit-sparse.
 
@@ -2168,21 +2170,21 @@ therefore give a brief account of the required changes rather than a full
 description of the algorithm.  The \McSplit-sparse algorithm uses the same
 sequence-of-decision-problems strategy as \McSplitDown. Thus the call to
 \FuncSty{Search} on \lineref{McSplitSIFirstExpandCall} of \Cref{McSplitSIAlg}
-is replaced by a sequence of calls, one for each target
+is replaced by a sequence of calls, one for each goal value of the
 vertex count of the common
 subgraph.  The \FuncSty{Search} function takes an extra parameter: the current
 upper bound. The \FuncSty{Filter} function updates this bound each time a label
-class is partitioned, and returns early if the bound falls below the target.
+class is partitioned, and returns early if the bound falls below the goal.
 
 \subsection{Experimental Evaluation of \McSplit-Sparse}
 
 Following the lead of \cite{DBLP:conf/cpaior/ArchibaldDHMP019},
-we use the 14,621 subgraph isomorphism instances described
+we use the 14,621 subgraph isomorphism instances described in
 \Cref{subsec:si-decision-experiment} as our benchmark set.
 This provides a challenging set of instances; in particular,
 many of the Meshes and Images instances that can be solved in less
 than a second by \McSplit-SI are very difficult for all of the maximum
-common subgraph solvers.
+common induced subgraph solvers.
 
 To summarise the results of \cite{DBLP:conf/cpaior/ArchibaldDHMP019}
 for these instances, \McSplitDown\ (that is, the earlier, dense version
@@ -2290,8 +2292,8 @@ the Meshes family, that favour \kDown+SBS overall.
 While it is clear that \McSplit-sparse outperforms the state of the art
 for many instances---and several families of instances---this rescaling
 exercise serves as a cautionary reminder that the apparent winner
-on a cumulative plot or as given by the number of instances solved within
-a time limit is highly dependent on the composition of the set of
+on a cumulative plot can be
+highly dependent on the composition of the set of
 benchmark instances used.
 
 \begin{figure}[htb]
