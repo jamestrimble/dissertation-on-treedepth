@@ -2403,13 +2403,25 @@ generated data.
 \label{sec:mcsplit-conclusion}
 
 This chapter has introduced the \McSplit\ algorithm for maximum common induced subgraph
-problems, which is more than an order of magnitude faster than the
-previous state of the art for unlabelled, undirected instances. We have
-seen how the algorithm can be extended for graphs with labels on edges, labels
+problems. This algorithm is more than an order of magnitude faster than the
+previous state of the art for unlabelled, undirected instances.  For
+instances with many distinct vertex and edge labels, however, the MCSa1 maximum clique
+algorithm remains the fastest solver.
+
+We have
+seen how the \McSplit\ algorithm can be extended for graphs with labels on edges, labels
 on vertices, loops, directed edges and the requirement that the resultant graph
-be connected.  We have also explored the large effect that sorting graphs
-by degree can have on run times, and examined the relationship between the upper bounds
+be connected.  We have explored the large effect that sorting graphs
+by degree can have on run times; experiments on random graphs suggest that
+it is helpful to sort both graphs in increasing order of degree if the
+second graph is dense, and in decreasing order otherwise.
+Finally, we have examined the relationship between the upper bounds
 calculated by \McSplit\ and by clique algorithms.
+
+The next chapter introduces new variants of \McSplit\ that explore the effects
+of swapping graphs $G$ and $H$.  
+\Cref{sec:mcsplit-sparse} will return once more to maximum common induced subgraph,
+introducing a variant of \McSplit\ that is optimised for large, sparse graphs.
 
 %It would be interesting in the future to see whether the data structures and
 %partitioning algorithms of \McSplit\ have applicability beyond subgraph
