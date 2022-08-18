@@ -65,7 +65,7 @@ carries out experimental comparisons with existing state of the art solvers.
 We find that the algorithm is more than an order of magnitude faster than prior
 solvers for unlabelled graphs, including in the variant of the problem
 where the subgraph must be connected.
-The chapter has an empirical study of ordering strategies for the vertices
+The chapter also has an empirical study of ordering strategies for the vertices
 of the two input graphs, and a detailed study---both in theory and practice---of
 the similarities and differences
 between \McSplit\ on one hand, and constraint programming and clique approaches
@@ -73,7 +73,9 @@ on the other.
 
 
 \paragraph*{\ChapterRef{c:swapping-graphs-mcsplit}} \hspace{-.8em} asks whether and when it is
-useful to swap the two graphs given as input to \McSplit.  We develop two
+useful to swap the two graphs given as input to \McSplit.
+On the basis of a detailed empirical study,
+we develop two
 simple and effective rules for determining when to swap the graphs, and
 introduce the algorithm \McSplit-2S which generalises the idea of swapping by branching on vertices of
 both input graphs.
