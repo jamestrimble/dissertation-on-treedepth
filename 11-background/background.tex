@@ -1122,14 +1122,15 @@ sceptical review.
 %Also Duesbury Holliday and Willett review}
 
 Exact algorithms for the maximum common induced subgraph problem may be divided
-into three broad categories: algorithms that solve the maximum clique problem
+into four broad categories: algorithms that solve the maximum clique problem
 on a derived graph called the association graph, algorithms based on constraint
-programming, and algorithms that enumerate subgraphs of graph $G$ and use a
+programming, FPT algorithms, and algorithms that enumerate subgraphs of graph $G$ and use a
 subgraph isomorphism algorithm to search for each subgraph in graph
 $H$.\footnote{The maximum common \emph{edge} subgraph has additionally been
 solved using linear programming
-\citep{marenco1999algoritmo,DBLP:journals/dam/BahienseMPS12}.} We now review
-each of these categories.
+\citep{marenco1999algoritmo,DBLP:journals/dam/BahienseMPS12}.}
+The first two of these categories are the most commonly used ones for
+practical solvers.  We now review each of the four categories.
 
 \subsection{Clique Algorithms}\label{subsec:clique-algorithms}
 
@@ -1293,6 +1294,13 @@ each of these subproblems solved by a modified Glasgow algorithm
 \citep{DBLP:conf/cp/McCreeshP15}.  It remains possible to filter
 domains using supplemental graphs, albeit with weaker propagation
 than for induced subgraph isomorphism.
+
+\subsection{A FPT Algorithm}\label{mcis-fpt-algorithms}
+
+\citet{DBLP:journals/tcs/Abu-KhzamBS17} give an algorithm for maximum
+common induced subgraph parameterised by vertex cover number that runs
+in $2^{O(k \log k)}$ time, where $k$ is the sum of the vertex cover numbers
+of the two input graphs.
 
 \subsection{Subgraph Enumeration Algorithms}
 
