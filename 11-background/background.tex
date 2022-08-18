@@ -331,8 +331,46 @@ that is, if any problem in \NP\ can be solved in polynomial time under the assum
 that we have an oracle that can solve $H$ in constant time.  We will see in the next
 section that all three problems considered in this dissertation are \NP-hard.
 
-TODO could lead on to a section on coping with complexity as relating to optimisation problems, i.e., exponential-time algorithms that "perform well in practice", e.g., based on branch and bound, integer and constraint programming, FPT algorithms,...
-give theoretical bounds for current state of the art exponential-time algorithms for optimisation problems that you consider.
+\subsection{Coping with Complexity}
+
+There are several broad options for dealing with the complexity of \NP-hard problems.
+Here we briefly describe three common approaches: approximate algorithms, FPT
+algorithms, and off-the-shelf solvers.
+
+In the case of optimisation problems, it is sufficient for some applications to
+seek a solution that is good but not necessarily optimal.
+Such algorithms may be divided into \emph{approximation algorithms}
+that guarantee that the solution's objective value will be within a constant factor
+of the optimum \citep{DBLP:books/daglib/0004338}, and \emph{heuristics}
+that provide no such guarantee \citep{talbi2009metaheuristics}.
+These classes of algorithms are out of scope for this disseration, as we will
+consider only exact solutions.
+
+One approach for finding an exact solution is to use a \emph{fixed-parameter-tractable
+(FPT) algorithm}, whose run time is exponential in some parameter of the input
+(such as treewidth or vertex cover number if the input is a graph) but polynomial
+in the size of the input \citep{DBLP:books/ox/Niedermeier06}.
+We will discuss an existing FPT algorithm for maximum common induced subgraph
+in \Cref{mcis-fpt-algorithms}, but this will not be included in our experimental
+comparisons as the author is not aware of any existing implementation.
+
+An alternative approach is to model a problem as a constraint program or integer
+program, and solve it using an off-the-shelf solver.
+Integer programming solvers, for example,
+have achieved state of the art results on graph problems such as maximum
+weight clique on dense, random graphs \citep{DBLP:journals/cor/SegundoFA19}
+and kidney exchange \citep{DBLP:conf/sigecom/DickersonMPST16}.
+However, off-the-shelf solvers run much slower and use much more memory
+than dedicated solvers for subgraph isomorphism and maximum common subgraph
+problems
+\citep{mccreesh2017solving,trimble2018three} --- at least
+when modelling the problems in ``obvious'' ways. We therefore do
+not include such solvers in our experimental comparisons.
+
+The algorithms introduced in this dissertation, like the existing state-of-the-art
+algorithms for the problems we consider, do not use any of the approaches
+described in this subsection.
+Rather, we use dedicated, exact solvers for each problem.
 
 \section{Problems Covered by This Dissertation}\label{sec:problems}
 
