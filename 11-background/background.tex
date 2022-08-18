@@ -153,6 +153,7 @@ we discuss extensions of algorithms to graphs with loops.
 
 The set of vertices adjacent to vertex $v \in V(G)$
 is called the \emph{neighbourhood} of $v$, denoted $\N_G(v)$.
+Each element of $N_G(v)$ is said to be a \emph{neighbour} of $v$.
 The \emph{degree} of a vertex is size of its neighbourhood.
 We denote
 by $\invN_G(v)$ the \emph{inverse neighbourhood} of $v$: the set
@@ -239,8 +240,9 @@ A \emph{labelled graph} (or \emph{network}) is a triple $(G, f_v, f_e)$
 where $G$ is a graph,
 the \emph{vertex label function} $f_v$ is a function with domain $V(G)$,
 and the \emph{edge label function} $f_e$ is a function with domain $E(G)$.
-An isomorphism between labelled graphs is required to map each vertex of
-$V$ to a vertex with the same label, and each edge to an edge with the same label.
+An isomorphism between labelled graphs $G$ and $H$ is required to map each vertex of
+$G$ to a vertex of $H$ with the same label,
+and each edge of $G$ to an edge of $H$ with the same label.
 
 A \emph{directed graph} is a pair $(V,A)$, where $V$ is the vertex set and $A$,
 a set of ordered pairs of elements of $V$, is the arc set.  The definitions of
@@ -282,8 +284,8 @@ induced subgraph highlighted.
 \label{fig:directed-cis-example}
 \end{figure}
 
-For arc $(u,v)$, we say that $u$ is the source vertex and $v$ is target vertex; both
-$u$ and $v$ are called endpoints.
+For arc $(u,v)$, we say that $u$ is the \emph{source} vertex and $v$ is \emph{target}
+vertex; both $u$ and $v$ are called endpoints.
 
 The two most common representations of a graph in computer memory
 are an \emph{adjacency matrix} and \emph{adjacency lists}.  For simplicity,
@@ -314,12 +316,13 @@ treatment.
 Consider the \textsc{Clique} problem: given a graph $G$ and a natural number $k$,
 does $G$ contain a $k$-vertex clique?  If the answer is ``yes'', we can give a proof
 of this fact by listing the $k$ vertices in this clique.  A sceptic may verify
-in $k(k-1)/2$ steps that the $k$ vertices are indeed pairwise adjacent.  Any decision
+in $k(k-1)/2$ steps that the $k$ vertices are indeed pairwise adjacent
+using an adjacency matrix representation of the graph.  Any decision
 problem---like \textsc{clique}---such that there is a proof of ``yes'' instances
 that can be verified in polynomial time is said to be in the complexity class \NP.
 
 Although we can verify a ``yes'' instance of \textsc{Clique} in polynomial
-time, there is no known way to solve the problem in polynomial time.
+time, there is no known way to solve the problem (deterministically) in polynomial time.
 Indeed \textsc{Clique} is, in an important sense, one of the hardest problems in \NP\
 \citep{DBLP:conf/coco/Karp72}: every instance of a problem in \NP\ can be
 transformed, or \emph{reduced}, to a \textsc{Clique} instance in polynomial
@@ -568,7 +571,7 @@ This section briefly introduces three problems that are closely related to
 maximum common induced subgraph and induced subgraph isomorphism.
 
 The \emph{graph isomorphism problem} is to determine whether two given graphs are
-isomorphic. It can be viewed as a version the induced subgraph isomorphism
+isomorphic. It can be viewed as a version of the induced subgraph isomorphism
 problem that returns ``no'' if the input graphs do not have the same number of
 vertices.  It is unknown whether the problem is \NP-complete, and it is also
 unknown whether it can be solved in polynomial time, although a
@@ -583,7 +586,9 @@ induced subgraph isomorphism solver VF2 outperformed Nauty on several classes
 of graphs \citep{foggia2001performance}.  While we do not consider graph
 isomorphism further in this dissertation, it would be an interesting topic of
 future work to test whether the current state of the art subgraph isomorphism
-solvers outperform the best graph isomorphism solvers on some interesting
+solvers (including the \McSplit-SI algorithm
+that will be introduced in \Cref{c:mcsplit-si})
+outperform the best graph isomorphism solvers on some interesting
 classes of graphs.
 
 Induced subgraph isomorphism and maximum common induced subgraph each have a
@@ -625,7 +630,7 @@ described in this thesis for MCES using line graphs shows promising results
 it is not pursued further in this dissertation.
 
 A generalisation that can be applied to any variant of the maximum common subgraph
-problem is to find the maximum common subgraph of an arbitrary set of graphs,
+problem is to find a maximum common subgraph of an arbitrary set of graphs,
 rather than only of a pair of graph.  The MCES version of this problem has
 been studied in the context of sets of molecules
 \citep{DBLP:journals/jcheminf/DalkeH13}.
@@ -644,6 +649,8 @@ problem studied in this dissertation is \NP-hard.  This section reviews
 solving \NP-hard problems which is the basis of many existing solvers for
 maximum common subgraph and induced subgraph isomorphism, and which has close
 connections to the \McSplit\ algorithms that we will introduce.
+
+\subsection{Introduction to Constraint Programming}
 
 A \emph{constraint satisfaction problem (CSP)} is a problem of finding a value
 for each of a finite set of variables with finite domains, subject to a set of constraints.
@@ -776,7 +783,7 @@ of which are significant research topics in their own right. To give four exampl
         that are equivalent to ones already visited) \citep{DBLP:reference/fai/GentPP06}.
 	In the 4-queens example,
         we can disregard $x_1=c$ and $x_1=d$, since any solution with these assignments
-        is the same as a solution with $x_1=b$ and $x_1=d$ after reflecting the chessboard
+        is the same as a solution with $x_1=b$ and $x_1=a$, respectively, after reflecting the chessboard
         horizontally.
     \item We could use a \emph{variable ordering heuristic} to choose which variable
     	to branch on at each search node, and a \emph{value ordering heuristic} to choose
@@ -1311,7 +1318,8 @@ graphs representing molecules
 In this type of algorithm, connected
 subgraphs of the first graph are enumerated by backtracking search.
 A subgraph isomorphism solver is used to test whether each of these subgraphs
-appears in each of the other input graphs.  In some versions of this algorithms,
+appears in each of the other input graphs.  In some of the algorithms
+in this category,
 the subgraphs of $G$ are tested for isomorphism with previously generated subgraphs
 in order to break symmetries.
 Unfortunately, we have been unable to find an implementation of this technique
@@ -1379,18 +1387,19 @@ scales are used for run times throughout this dissertation. Since run times are
 measured at a 1 millisecond resolution, the points are jittered by adding a
 uniform random number in the range $[-1/2,1/2)$ to each time. This reduces
 over-plotting and thus helps to show the distribution of points, with only a
-negligible effect on the plots' precision. Run times of zero are plotted in the
+negligible effect on the plots' precision. Run times of zero are plotted
+randomly in the
 range $[1/2,1)$ because zero cannot appear on a log scale.  Timeouts (exceeding
 1000 seconds) appear in the grey band just beyond a run time of 1000 seconds;
 again, we jitter these within the band to minimise over-plotting. The line
-$x=y$, where the two algorithms have the same run time, is show for
+$x=y$, where the two algorithms have the same run time, is shown for
 convenience.
 
 \Cref{fig:intro-dummy-cumu} shows a less common type of figure: an
 \emph{empirical cumulative distribution function plot} (henceforth
 \emph{cumulative plot}). For a given run time $t$ (on the horizontal axis),
-this answers the question ``how many of the instances can be solved in less
-than $t$ milliseconds per instance?'' Equivalently, it answers the question
+this answers the question ``how many of the instances can be solved in at
+most $t$ milliseconds per instance?'' Equivalently, it answers the question
 ``if the per-instance time limit were reduced to $t$, how many instances would
 each algorithm solve?''
 We can see, for example, that Algorithm A can solve six
