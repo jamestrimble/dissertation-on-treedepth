@@ -790,7 +790,10 @@ iterating over the target-graph vertices in degree order on
 the list of vertices representing $S_H$ and then sort this copy, or to scan the
 list $S_H$ on each iteration for the next-best element.  The first of these
 options --- which we use in our implementation --- requires $O(|S_H| \log
-|S_H|)$ time and $|S_H|$ words of additional space; the second requires
+|S_H|)$ time and
+\DIFdel{$|S_H|$ words of additional space;}
+\DIFadd{sufficient space to store the indices of $|S_H|$ vertices;}
+the second requires
 $O(|S_H|^2)$ time and no additional space.
 
 These disadvantages tend to be small in practice, as the label class chosen for
