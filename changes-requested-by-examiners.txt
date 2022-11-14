@@ -1,13 +1,3 @@
--The  candidate  should  investigate  the  related  work  by  Jefferson  et  al  using  a  related  approach  for computational group theory
-
--If possible, increase the font size in figures.
-
--Check to make sure that where possible you link or cite sources of benchmark instances (apologies if this is already done everywhere)
-
--Title page: don’t forget to update month and year
-
--There are quite a few blank pages between sections –is this a typesetting problem?  Fix if it is easy to do so
-
 -Beginning of 2.2: “two element subset” --> ‘two element subsets’
 
 -Page 9: “are mutually adjacent” consider “are pairwise adjacent”, I believe this is more standard
@@ -57,10 +47,26 @@
 
 -The candidate should expand the description of the Glasgow Subgraph Solver, in particular making clear the role and use of supplementary graphs.  
 
+-The  candidate  should  investigate  the  related  work  by  Jefferson  et  al  using  a  related  approach  for computational group theory
+
+-Check to make sure that where possible you link or cite sources of benchmark instances (apologies if this is already done everywhere)
+(already done)
+In sections 3.5, 5.8.2, 5.8.3 and 5.8.4 already
+
+-Title page: don’t forget to update month and year
+
+-There are quite a few blank pages between sections –is this a typesetting problem?  Fix if it is easy to do so
+(was twoside)
+
+## Maybe not do?
+
+-If possible, increase the font size in figures.
+
 
 ## Additional changes I'd like to make
 
 - Update repo and link to it
 
-- Shorted thesis title
+- Shorten thesis title
+DONE
 
