@@ -1,7 +1,5 @@
 -Page 9: consider adding a citation for the properties of E-R graphs
 
--Page 108:  please confirm: the larger nodes in the figure are just to contain the larger labels and have no other meaning?
-
 -(very optional) Page 44: carefully consider the proof here, and consider adding a more formal proof that the search trees are the same, perhaps including a bijection between nodes of the search trees.
 
 -Sometime  after  page  60:  consider  adding  a  table  that  summarises  the  results  in  terms  of when  to  use which approach. 
@@ -55,6 +53,9 @@ This was an error. I have deleted "strongly"
 I have added a footnote to show that MCIS remains NP-hard under this restriction. (By contrast, subgraph isomorphism is easy under the same restriction.)
 
 -Page 72: “the plot use” --> ‘the plots use’
+
+-Page 108:  please confirm: the larger nodes in the figure are just to contain the larger labels and have no other meaning?
+Yes. I've tidied up the figure to make the circle sizes similar.
 
 -Page 109: clarify what is meant by ‘words’ of additional space
 
