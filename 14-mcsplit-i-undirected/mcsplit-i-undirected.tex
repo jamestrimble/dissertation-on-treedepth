@@ -640,7 +640,7 @@ To enforce the requirement of matching labels, we simply
 replace the initial label class $\{\langle V(\graphG),V(\graphH) \rangle\}$ in \lineref{FirstExpandCall}
 of \cref{McSplitAlg}
 with $\{\langle \ell_G^{-1}(l), \ell_H^{-1}(l)\rangle \mid l \in L\}$.  Thus, we replace
-a single label class in which any vertex in $\graphG$ can be mapped to any
+a single label class in which any vertex in $\graphG$ may be mapped to any
 vertex in $\graphH$ with a set of label classes ensuring that vertices can only
 be mapped to like-labelled vertices.
 
@@ -965,31 +965,77 @@ $\graphA$ be their association graph.  We will consider calls to
 $\FuncSty{Search}(\AlgVar{future},M,t)$ in the \McSplit\
 algorithm (\cref{DecisionMcSplitAlg}), and corresponding calls to
 $\FuncSty{CliqueSearch}(P,C,t)$ in the clique algorithm
-(\cref{CliqueDecisionAlg}), where $P = \{G \times H \mid \langle G,H \rangle \in
-\AlgVar{future}\}$ and $C = M$.  That is, each call to the
+(\cref{CliqueDecisionAlg}), where \DIFdel{$P = \{G \times H \mid \langle G,H \rangle \in
+\AlgVar{future}\}$ and $C = M$.} \DIFadd{$C = M$ and $P = \bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future}} \setG \times \setH$.}
+\DIFdel{That is, each call to the
 $\FuncSty{CliqueSearch}()$ function takes as its argument $P$ a set containing
 every node $(v,w)$ in the association graph such that $v$ and $w$ are in the
 same label class in $\AlgVar{future}$, and as its $C$ argument every node
-$(v,w)$ in the association graph corresponding to an assignment in $M$.
+$(v,w)$ in the association graph corresponding to an assignment in $M$.}
+\DIFadd{That is, each call to the
+$\FuncSty{CliqueSearch}()$ function takes as its argument $C$ every node
+$(v,w)$ in the association graph corresponding to an assignment in $M$, and
+as its argument $P$ a set containing
+every node $(v,w)$ in the association graph such that $v$ and $w$ are in the
+same label class in $\AlgVar{future}$.  As an example of the $P$ set, consider
+the value of $\AlgVar{future}$ shown in} \Cref{fig:alg3},
+\DIFadd{$\{\langle \{2,3\},\{d,f\} \rangle\, \langle \{4,5\}, \{b,c,e\} \rangle\}$,
+where, for example, vertices 2 and 3 of graph $G$ may each be mapped to either vertex
+$d$ or vertex $f$ of graph $H$.  In this case,
+$P=\{(2,d), (2,f), (3,d), (3,f), (4,b), (4,c), (4,e), (5,b), (5,c), (5,e), (6,b), (6,c), (6,e)\}$.}
 
 In order for the two algorithms
 to explore equivalent search trees, we must precisely specify
 the $\FuncSty{ColouringUpperBound}()$ function and the procedure for selecting independent set $S$ on
 \lineref{CliqueChooseS} of \cref{CliqueDecisionAlg}.  The $\FuncSty{ColouringUpperBound}(P)$ call
-returns the size of a colouring of $P = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future}\}$
-in the association graph.  For each $\langle G, H\rangle$ in $\AlgVar{future}$, we colour the corresponding
-subset of $P$, that is, $G \times H$, as follows.  If $|G| \leq |H|$, we assign a colour to the set
-of association graph nodes $\{(v,w) \mid w \in H\}$ for each $v \in G$.  If $|G| > |H|$, we assign
-a colour to the set of association graph nodes $\{(v,w) \mid v \in G\}$ for each $w \in H$.
-The subset of $P$ corresponding to label class $\langle G,H \rangle$ therefore requires
+returns the size of a colouring of
+\DIFdel{$P = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future}\}$}
+\DIFadd{$P = \bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future}} \setG \times \setH$}
+in the association graph.  For each
+\DIFdel{$\langle G, H\rangle$}
+\DIFadd{$\langle \setG, \setH\rangle$}
+in $\AlgVar{future}$, we colour the corresponding
+subset of $P$, that is,
+\DIFdel{$G \times H$,}
+\DIFadd{$\setG \times \setH$,}
+as follows.  If
+\DIFdel{$|G| \leq |H|$,}
+\DIFadd{$|\setG| \leq |\setH|$,}
+we assign a colour to the set
+of association graph nodes
+\DIFdel{$\{(v,w) \mid w \in H\}$}
+\DIFadd{$\{(v,w) \mid w \in \setH\}$}
+for each
+\DIFdel{$v \in G$}
+\DIFadd{$v \in \setG$}.
+If
+\DIFdel{$|G| > |H|$}
+\DIFadd{$|\setG| > |\setH|$}, we assign
+a colour to the set of association graph nodes
+\DIFdel{$\{(v,w) \mid v \in G\}$}
+\DIFadd{$\{(v,w) \mid v \in \setG\}$}
+for each
+\DIFdel{$w \in H$}
+\DIFadd{$w \in \setH$}.
+The subset of $P$ corresponding to label class
+\DIFdel{$\langle G,H \rangle$}
+\DIFadd{$\langle \setG,\setH \rangle$}
+therefore requires
 $\min(|\setG|,|\setH|)$ colours.
 The size of the colouring returned by $\FuncSty{ColouringUpperBound}(P)$ is
 $\sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} \min(|\setG|,|\setH|)$.
 
 We now turn to \lineref{CliqueChooseS} of \cref{CliqueDecisionAlg}, which chooses an independent
-set of nodes from $P$ on which to branch.  We choose $S = \{(v,w) \mid w \in H\}$, with $H$
+set of nodes from $P$ on which to branch.  We choose
+\DIFdel{$S = \{(v,w) \mid w \in H\}$}
+\DIFadd{$S = \{(v,w) \in P \mid w \in \setH\}$}, with
+\DIFdel{$H$}
+\DIFadd{$\setH$}
 and $v$ taking the values selected by $\FuncSty{SelectLabelClass}(\AlgVar{future})$
-and $\FuncSty{SelectVertex}(G)$ on lines \lineref{DecisionSelectClass} and \lineref{DecisionSelectVertex}
+and
+\DIFdel{$\FuncSty{SelectVertex}(G)$}
+\DIFadd{$\FuncSty{SelectVertex}(\setG)$}
+on \DIFdel{lines} \lineref{DecisionSelectClass} and \lineref{DecisionSelectVertex}
 of \cref{DecisionMcSplitAlg}.  This ensures that the branching decisions in the clique algorithm
 mirror those of the \McSplit\ algorithm.
 
@@ -997,7 +1043,9 @@ mirror those of the \McSplit\ algorithm.
     Let graphs $\graphG$ and $\graphH$ be given, and let $\graphA$ be their association graph.
     Let a set of label classes $\AlgVar{future}$, a mapping $M$, and a target size $t$ be given.
     Let $P$ be the set of association-graph nodes corresponding to $\AlgVar{future}$; that is,
-    $P = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future}\}$.  Let $C = M$.
+    \DIFdel{$P = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future}\}$.}
+    \DIFadd{$P = \bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future}} \setG \times \setH$.}
+    Let $C = M$.
     The function $\FuncSty{CliqueSearch}(P,C,t)$ returns the same value as
     $\FuncSty{Search}(\AlgVar{future},M,t)$.
 \end{theorem}
@@ -1017,18 +1065,35 @@ mirror those of the \McSplit\ algorithm.
     |M| + \sum_{\langle \setG,\setH \rangle \in \AlgVar{future}} \min(|\setG|,|\setH|) < t.
 \]
     Due to the way we have defined set $S$, the loop marked \algstep{C} in the clique
-    algorithm iterates over the set $\{(v,w) \mid w \in H\}$, where $H$ is the set
+    algorithm iterates over the set
+    \DIFdel{$\{(v,w) \mid w \in H\}$}
+    \DIFadd{$\{(v,w) \mid w \in \setH\}$}
+    where
+    \DIFdel{$H$}
+    \DIFadd{$\setH$}
+    is the set
     iterated over in the corresponding loop of the \McSplit\ algorithm.  To show that the lines
     marked \algstep{D} are equivalent in the two algorithms, we must show that
-    $P \cap N_A((v,w)) = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future'}\}$
+    \DIFdel{$P \cap N_A((v,w)) = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future'}\}$}
+    \DIFadd{$P \cap N_A((v,w)) = \bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future'}} \setG \times \setH$}
     (where $(v,w)$ is the value of loop variable $x$ in the clique algorithm), and that
     $C \cup \{(v,w)\} = M \cup \{(v,w)\}$.  The latter equality is trivial.
 
     To prove one direction of inclusion in the former equality, let $(v',w')$
-    be an element of $P \cap N_A((v,w))$.  Since, by assumption, $P =
-    \{G \times H \mid \langle G,H \rangle \in \AlgVar{future}\}$, there exists
-    a label class $\langle G',H' \rangle \in \AlgVar{future}$ such that $v \in
-    G'$ and $w \in H'$.  Since $(v',w') \in N_A((v,w))$, we have
+    be an element of $P \cap N_A((v,w))$.  Since, by assumption,
+    \DIFdel{$P = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future}\}$,}
+    \DIFadd{$P = \bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future}} \setG \times \setH$,}
+    there exists
+    a label class
+    \DIFdel{$\langle G',H' \rangle \in \AlgVar{future}$}
+    \DIFadd{$\langle \setG',\setH' \rangle \in \AlgVar{future}$}
+    such that
+    \DIFdel{$v \in G'$}
+    \DIFadd{$v \in \setG'$}
+    and
+    \DIFdel{$w \in H'$}
+    \DIFadd{$w \in \setH'$}.
+    Since $(v',w') \in N_A((v,w))$, we have
     by the definition of the association graph that $v
     \not= v'$, $w \not= w'$, and either (1) $v$ and $v'$ are adjacent and $w$
     and $w'$ are adjacent or (2) $v$ and $v'$ are non-adjacent and $w$ and $w'$
@@ -1037,36 +1102,71 @@ mirror those of the \McSplit\ algorithm.
     \lineref{DecisionAddToFutureWithEdge}.  In the second case, a label class
     containing $v'$ and $w'$ will be added to $\AlgVar{future'}$ on
     \lineref{DecisionInnerLoopEnd}. In either case, $(v',w')$ will be an
-    element of $\{G \times H \mid \langle G,H \rangle \in \AlgVar{future'}\}$,
+    element of
+    \DIFdel{$\{G \times H \mid \langle G,H \rangle \in \AlgVar{future'}\}$,}
+    \DIFadd{$\bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future'}} \setG \times \setH$,}
     as required.
 
     To prove the second direction of inclusion, let $v'$ and $w'$ be such that for
-    some element $\langle G'',H'' \rangle$ of $\AlgVar{future'}$, we have
-    $v' \in G''$ and $w' \in H''$.  It must hold that 
-    $\langle G'',H'' \rangle$ was added to $\AlgVar{future'}$ either on
+    some element
+    \DIFdel{$\langle G'',H'' \rangle$}
+    \DIFadd{$\langle \setG'',\setH'' \rangle$}
+    of $\AlgVar{future'}$, we have
+    \DIFdel{$v' \in G''$}
+    \DIFadd{$v' \in \setG''$}
+    and
+    \DIFdel{$w' \in \setH''$}
+    \DIFadd{$w' \in \setH''$}
+    It must hold that 
+    \DIFdel{$\langle G'',H'' \rangle$}
+    \DIFadd{$\langle \setG'',\setH'' \rangle$}
+    was added to $\AlgVar{future'}$ either on
     \lineref{DecisionAddToFutureWithEdge} or \lineref{DecisionInnerLoopEnd} of
-    \cref{DecisionMcSplitAlg}. In the former case, by the construction of $G''$ and $H''$
+    \cref{DecisionMcSplitAlg}. In the former case, by the construction of
+    \DIFdel{$G''$}
+    \DIFadd{$\setG''$}
+    and
+    \DIFdel{$H''$}
+    \DIFadd{$\setH''$}
     in \cref{DecisionMcSplitAlg}, we have that $v$ and $v'$ are distinct and adjacent
     in $\graphG$ and that $w$ are $w'$ are distinct and adjacent in $\graphH$.
     Therefore, $(v',w')$ is an element
     of $N_A((v,w))$.
-    Moreover, again by the construction of $G''$ and $H''$,
-    there is some $\langle G',H' \rangle \in \AlgVar{future}$ such that
-    $v' \in G'$ and $w' \in H'$, and
+    Moreover, again by the construction of
+    \DIFdel{$G''$}
+    \DIFadd{$\setG''$}
+    and
+    \DIFdel{$H''$}
+    \DIFadd{$\setH''$}
+    there is some
+    \DIFdel{$\langle G',H' \rangle \in \AlgVar{future}$}
+    \DIFadd{$\langle \setG',\setH' \rangle \in \AlgVar{future}$}
+    such that
+    \DIFdel{$v' \in G'$}
+    \DIFadd{$v' \in \setG'$}
+    and
+    \DIFdel{$w' \in H'$}
+    \DIFadd{$w' \in \setH'$}
+    and
     therefore $(v',w')$ is an element of $P$.
     Thus, $(v',w')$ is an element of $P \cap N_A((v,w))$ as required.
     A similar proof applies in the case where
-    $\langle G'',H'' \rangle$ was added to $\AlgVar{future'}$ on
+    \DIFdel{$\langle G'',H'' \rangle$}
+    \DIFadd{$\langle \setG'',\setH'' \rangle$}
+    was added to $\AlgVar{future'}$ on
     \lineref{DecisionInnerLoopEnd} of \cref{DecisionMcSplitAlg}.
 
     We now move to the lines marked \algstep{E} of the two algorithms. 
     To prove the equivalence of the two recursive calls, we must show that
-    $P \setminus S = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future'}\}$. We have
+    \DIFdel{$P \setminus S = \{G \times H \mid \langle G,H \rangle \in \AlgVar{future'}\}$.}
+    \DIFadd{$P \setminus S = \bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future'}} \setG \times \setH$.}
+    We have
+    \DIFdel{Note: 3.1 to 3.4 have been corrected}
 \begin{gather}
     P \setminus S = \\
-    \{(u,w) \in \{G \times H \mid \langle G,H \rangle \in \AlgVar{future}\} \mid u \not= v\} = \\
-    \{\{u \in G \mid u \not= v\} \times H \mid \langle G,H \rangle \in \AlgVar{future}\} = \\
-    \{G \times H \mid \langle G,H \rangle \in \AlgVar{future'}\}.
+    \left\{(u,w) \in \bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future}} \setG \times \setH \Bigm| u \not= v\right\} = \\
+    \bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future}} (\setG \setminus \{v\}) \times \setH = \\
+    \bigcup_{\langle \setG,\setH \rangle \in \AlgVar{future'}} \setG \times \setH.
 \end{gather}
 
     Finally, both function return \boolF\ upon reaching the line marked \algstep{F}.

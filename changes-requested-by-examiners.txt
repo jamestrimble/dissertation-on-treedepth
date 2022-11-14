@@ -1,6 +1,5 @@
 -Page 9: consider adding a citation for the properties of E-R graphs
 
--Page 43, Theorem 1 (and surrounding text) please consider changing the notation here as discussed in the viva to avoid the second use of G, H, and to make clear that they are vertex sets in the description of P.  Please also consider adding both plan-language intuition for what P is, as well as an example. 
 -Figure 3.6: please remind readers that the grey bands represent time-outs
 
 -Page 51: please clarify what is meant by ‘unconnected’ in the description of k-down.
@@ -22,7 +21,6 @@
 -Consider commenting on the very-dense/very-sparse duality we discussed in the viva: will an approach for  an  induced  subgraph  problem  that  works  very  well  in  the dense  setting  also  work  very  well  in  the sparse setting by working in the complement?
 
 -On page 9, consider expanding the section on isomorphism and subgraph notions for directed graphs: e.g. must direction be preserved?
-
 
 -Similarly on page 9, consider expanding on the adjacency matrix discussion for directed graphs
 
@@ -60,6 +58,7 @@ This was an error. I have deleted "strongly"
 
 -Page 39: consider clarifying or reminding what ‘incumbent’ means –is this similar to a best-so-far notion?
 
+-Page 43, Theorem 1 (and surrounding text) please consider changing the notation here as discussed in the viva to avoid the second use of G, H, and to make clear that they are vertex sets in the description of P.  Please also consider adding both plan-language intuition for what P is, as well as an example. 
 ## Maybe not do?
 
 -If possible, increase the font size in figures.
