@@ -742,7 +742,7 @@ With two trivial modifications, the \McSplit\ algorithm can be used to find
 example of a maximum common subgraph.
 First, we modify \lineref{StoreIncumbent} of \Cref{McSplitAlg} so that
 a mapping $M$ is stored if its size greater than or equal to --- rather than
-strictly greater than --- the size of the incumbent.  Second, on \lineref{PruneSearch},
+strictly greater than --- the size of the \DIFdel{incumbent.} \DIFadd{incumbent (the best solution found so far).} Second, on \lineref{PruneSearch},
 we return from the function only if the bound is \emph{strictly} less than the
 size of the incumbent.
 

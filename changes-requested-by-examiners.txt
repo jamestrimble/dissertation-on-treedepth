@@ -1,7 +1,5 @@
 -Page 9: consider adding a citation for the properties of E-R graphs
 
--Page 39: consider clarifying or reminding what ‘incumbent’ means –is this similar to a best-so-far notion?
-
 -Page 43, Theorem 1 (and surrounding text) please consider changing the notation here as discussed in the viva to avoid the second use of G, H, and to make clear that they are vertex sets in the description of P.  Please also consider adding both plan-language intuition for what P is, as well as an example. 
 -Figure 3.6: please remind readers that the grey bands represent time-outs
 
@@ -59,6 +57,8 @@ Added a definition of a satisfiable (in passing) in the second paragraph of 1.3.
 
 -Page 13:  ‘strongly connected graphs’ -it appears the graph in question is not directed, and usually this term  is  used  for  directed  graphs.    Clarify  either  that  the  graph  is  directed  or  what  strongly  connected means here
 This was an error. I have deleted "strongly"
+
+-Page 39: consider clarifying or reminding what ‘incumbent’ means –is this similar to a best-so-far notion?
 
 ## Maybe not do?
 
