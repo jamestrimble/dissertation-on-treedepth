@@ -1,7 +1,5 @@
 -The  candidate  should  investigate  the  related  work  by  Jefferson  et  al  using  a  related  approach  for computational group theory
 
--The candidate should expand the description of the Glasgow Subgraph Solver, in particular making clear the role and use of supplementary graphs.  
-
 -If possible, increase the font size in figures.
 
 -Check to make sure that where possible you link or cite sources of benchmark instances (apologies if this is already done everywhere)
@@ -53,3 +51,16 @@
 -In discussion of figure 2.5 -might be nice to include a proof that the solution in (b) is minimum
 
 -For subgraph isomorphism especially, consider highlighting theresults on the harder instances (those that take, say, more than a second) and discuss why we might nevertheless still care about performance on the easier instances.
+
+
+## DONE
+
+-The candidate should expand the description of the Glasgow Subgraph Solver, in particular making clear the role and use of supplementary graphs.  
+
+
+## Additional changes I'd like to make
+
+- Update repo and link to it
+
+- Shorted thesis title
+

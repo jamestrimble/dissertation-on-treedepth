@@ -993,8 +993,7 @@ target vertices connected by fewer than $p$ paths of length $k$.  PathLAD
 \citep{DBLP:conf/lion/KotthoffMS16} incorporates a subset of the SND filtering
 into the LAD algorithm.
 
-The Glasgow Subgraph Solver
-\citep{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020} (henceforth Glasgow)
+\DIFdel{The Glasgow Subgraph Solver (henceforth Glasgow)
 reverses this trend towards stronger---and typically also slower---inference
 at each search node.  The
 algorithm aims to achieve most of the domain filtering of LAD and SND with much
@@ -1003,9 +1002,6 @@ The Glasgow algorithm introduces
 \emph{supplemental graphs}---graphs that encode the number of paths
 of a given length between pairs of vertices---which provide additional filtering
 very cheaply.
-%Unfortunately we cannot use the same technique in \McSplit-SI because
-%it breaks the invariant, required by \McSplit-SI's data structure, that any two
-%domains are either equal or disjoint.
 Rather than achieving generalised arc consistency on the allDifferent
 constraint, Glasgow uses a new ``counting'' allDifferent propagator which runs
 very fast without giving any consistency guarantee.
@@ -1013,7 +1009,49 @@ Like Ullmann's algorithm, Glasgow uses bitsets to represent domains and rows
 of adjacency matrices.
 Glasgow was the fastest solver for hard induced
 subgraph isomorphism instances in a recent experimental evaluation by
+Solnon (2019).}
+
+\DIFadd{The Glasgow Subgraph Solver}
+\citep{DBLP:conf/cp/McCreeshP15,DBLP:conf/gg/McCreeshP020} \DIFadd{(henceforth Glasgow)
+reverses this trend towards stronger---and typically also slower---inference
+at each search node.
+The solver was the fastest for hard induced
+subgraph isomorphism instances in a recent experimental evaluation by}
 \citet{DBLP:conf/gbrpr/Solnon19}.
+\DIFadd{Like Ullmann's algorithm, Glasgow uses bitsets to represent domains and rows
+of adjacency matrices.
+The Glasgow algorithm aims to achieve most of the domain filtering of LAD and SND with much
+less effort per search node.
+Rather than achieving generalised arc consistency on the allDifferent
+constraint, Glasgow uses a new ``counting'' allDifferent propagator which runs
+very fast without giving any consistency guarantee.
+In addition, the Glasgow algorithm introduces
+\emph{supplemental graphs}---graphs that encode the number of paths
+of a given length between pairs of vertices---which provide additional filtering
+very cheaply.}
+
+\DIFadd{To describe the supplemental graphs used in the Glasgow Subgraph Solver,
+we begin by noting the following easily-verified fact. Let natural numbers
+$c$ and $l$, and distinct vertices $v$ and $w$ in the pattern graph, be given.
+If there are at least $c$ paths of length $l$ between
+$v$ and $w$ in the pattern graph, then there must also be at least $c$ paths of length
+$l$ between the corresponding vertices $x_v$ and $x_w$ in the target graph.
+This fact allows us to add new constraints to our model that are analogous
+to the adjacency constraints in Section~\ref{subsec:cp-model-isip}.  These constraints
+can be implemented efficiently by creating supplemental graphs $G'$ and $H'$ for the
+pattern and target graphs prior to search, as follows.  The supplemental graphs
+have the same vertex sets as the pattern and target graph, and have an edge between
+$v$ and $w$ if and only if there at least $c$ paths of length $l$ between $v$ and $w$
+in the original graph.  The path-count constraints
+that we have described can be propagated by propagating adjacency constraints on the
+supplemental graphs.
+(The current version of the Glasgow Subgraph Solver
+uses only paths of length 2 by default. For more general descriptions of
+supplemental graphs and their potential uses in subgraph isomorphism
+solvers, see} \cite{DBLP:conf/gg/McCreeshP020,knuth2022art}.)
+%Unfortunately we cannot use the same technique in \McSplit-SI because
+%it breaks the invariant, required by \McSplit-SI's data structure, that any two
+%domains are either equal or disjoint.
 
 \paragraph*{Symmetry breaking}
 \citet{zampelli2007symmetry} and \citet{DBLP:phd/basesearch/Zampelli08}
