@@ -581,8 +581,16 @@ isomorphism, such as Nauty and Traces \citep{DBLP:journals/jsc/McKayP14}, solve 
 canonical representation of each graph and comparing these representations.
 This method has the advantage that the canonical
 representations may then be re-used for comparisons with other graphs.
+\DIFadd{Although Nauty and Traces are very different from the \McSplit\ family
+of algorithms that we will introduce in this dissertation, \McSplit\ shares with these
+algorithms the idea of partitioning the vertices of a graph, and progressively
+refining the partition during search.  Partition backtracking
+techniques have also been applied more broadly to problems in computational group theory}
+\citep{leon1991permutation,DBLP:journals/jsc/JeffersonPW19}.
+
 Considering only pairwise comparisons of graphs, a 2001 study found that the
-induced subgraph isomorphism solver VF2 outperformed Nauty on several classes
+induced subgraph isomorphism solver VF2 outperformed Nauty on \DIFadd{the
+graph isomorphism problem for} several classes
 of graphs \citep{foggia2001performance}.  While we do not consider graph
 isomorphism further in this dissertation, it would be an interesting topic of
 future work to test whether the current state of the art subgraph isomorphism
