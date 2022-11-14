@@ -133,8 +133,8 @@
 \ifdefined\SHOWDIFF
     \RequirePackage[normalem]{ulem} %DIF PREAMBLE
     \RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
-    \providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{(ADDED) #1}}} %DIF PREAMBLE
-    \providecommand{\DIFdel}[1]{{\protect\color{red}\sout{(DELETED) #1}}}                      %DIF PREAMBLE
+    \providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+    \providecommand{\DIFdel}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
 \else
     \providecommand{\DIFadd}[1]{#1}
     \providecommand{\DIFdel}[1]{}
@@ -247,9 +247,9 @@
 \pagestyle{empty}
 \pagenumbering{gobble}
 
-\title{Partitioning Algorithms for Induced Subgraph and Supergraph Problems}
+\title{Partitioning Algorithms for Induced Subgraph Problems}
 \author{James Trimble}
-\date{Month Year}
+\date{November 2022}
 
 \maketitle
 
