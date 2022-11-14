@@ -1,9 +1,5 @@
 -Page 9: consider adding a citation for the properties of E-R graphs
 
--Page 61: (bottom of this page) make sure you define the symbol that is composed of two orthogonal lines. 
-
--Page 64:  when  mentioning  an  instance in  which labels  are  all distinct:  clarify  what  is  meant  here.    If  all labels are distinct and the labels must match, then isn't the problem instance straightforward?
-
 -Page 72: “the plot use” --> ‘the plots use’
 
 -Page 109: clarify what is meant by ‘words’ of additional space
@@ -59,9 +55,15 @@ This was an error. I have deleted "strongly"
 
 -Page 51: please clarify what is meant by ‘unconnected’ in the description of k-down.
 
+-Page 64:  when  mentioning  an  instance in  which labels  are  all distinct:  clarify  what  is  meant  here.    If  all labels are distinct and the labels must match, then isn't the problem instance straightforward?
+I have added a footnote to show that MCIS remains NP-hard under this restriction. (By contrast, subgraph isomorphism is easy under the same restriction.)
+
 ## Maybe not do?
 
 -If possible, increase the font size in figures.
+
+-Page 61: (bottom of this page) make sure you define the symbol that is composed of two orthogonal lines. 
+(defined earlier in paragraph)
 
 
 ## Additional changes I'd like to make
