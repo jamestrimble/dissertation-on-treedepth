@@ -315,7 +315,8 @@ while \citet{moore2011nature} give a broader, and very entertaining,
 treatment.
 
 Consider the \textsc{Clique} problem: given a graph $G$ and a natural number $k$,
-does $G$ contain a $k$-vertex clique?  If the answer is ``yes'', we can give a proof
+does $G$ contain a $k$-vertex clique?  If the answer is \DIFdel{``yes'', we}
+\DIFadd{``yes''---if the instance is \emph{satisfiable}---we} can give a proof
 of this fact by listing the $k$ vertices in this clique.  A sceptic may verify
 in $k(k-1)/2$ steps that the $k$ vertices are indeed pairwise adjacent
 using an adjacency matrix representation of the graph.  Any decision
@@ -618,7 +619,7 @@ problem and MCIS: by a result due to \citet{whitney1932congruent}, we can find
 the MCES two graphs by searching for an MCIS on their line graphs.  This
 approach has a small complication: the triangle graph $K_3$ and the claw graph
 $K_{1,3}$ (\cref{fig:k3-and-claw}) both have $K_3$ as their line graph, and we
-must therefore check during search that no strongly connected component of $G$
+must therefore check during search that no \DIFdel{strongly} connected component of $G$
 that is a triangle (resp.\ claw) is mapped to a claw (resp.\ triangle) in $H$.
 
 \begin{figure}[htb]
