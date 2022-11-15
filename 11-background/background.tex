@@ -250,8 +250,16 @@ A \emph{directed graph} is a pair $(V,A)$, where $V$ is the vertex set and $A$,
 a set of ordered pairs of elements of $V$, is the arc set.  The definitions of
 \emph{induced subgraph}, \emph{isomorphism} and \emph{maximum common induced
 subgraph} for directed graphs are analogous to their counterparts for graphs.
+\DIFadd{Induced subgraphs and isomorphisms on directed graphs preserve the direction of arcs.
+Thus an induced subgraph of directed graph $D = (V, A)$ is a directed graph
+that has a subset $W \subseteq V$ as its
+vertex set, and $\{(u, v) \in E \mid \{u, v\} \subseteq W\}$ as its edge set;
+an isomorphism between directed graphs $D=(V,A)$ and $D'=(V',A')$ is a
+bijection $f:V\rightarrow V'$, such that $A' = \{(f(u), f(v)) \mid (u,
+v) \in A\}$.}
 \Cref{fig:directed-cis-example} shows two directed graphs with a common
-induced subgraph highlighted.
+induced subgraph highlighted.  \DIFadd{An arrow from $v$ to $w$ represents
+the arc $(v,w)$.}
 
 \begin{figure}[h!]
 \centering
