@@ -1792,15 +1792,17 @@ there were no instances for which it was the fastest solver.
 \paragraph*{The effect of target graph density}
 When is it better to use \McSplit-SI than \McSplit-SI-AM?
 \Cref{figure:density-runtime-ratio-am} has a point per instance, with target graph density on the $x$ axis and the ratio of the two solvers' run times 
-on the $y$ axis; a ratio below 1 indicates that \McSplit-SI is the faster solver.  Trivial instances and instances where at least one
-solver timed out are excluded.  There is a clear positive relationship between density and ratio of run times.  For most instances of
-density below $0.002$, \McSplit-SI is more than $10$ times faster than \McSplit-SI-AM.  However,
-\McSplit-SI-AM soon begins to catch up as target graph density increases, and becomes the faster solver at a target graph density of around
-$0.1$.\footnote{This analysis was carried out using target graph density because we would expect the target graph to have
+on the $y$ axis; a ratio below 1 indicates that \McSplit-SI is the faster solver.\footnote{This
+analysis was carried out using target graph density because we would expect the target graph to have
 a larger effect on run times than the (smaller) pattern graph.  We also re-created the plot with the $x$ axis showing the proportion
 of all possible edges across pattern \emph{and} target graphs: $(m_G + m_H) / (n_G(n_G-1) + n_H(n_H-1))$,
 where $m_G$ and $n_G$ denote the edge and vertex counts of $G$.  The resulting
 plot was almost identical to \Cref{figure:density-runtime-ratio-am}.}
+Trivial instances and instances where at least one
+solver timed out are excluded.  There is a clear positive relationship between density and ratio of run times.  For most instances of
+density below $0.002$, \McSplit-SI is more than $10$ times faster than \McSplit-SI-AM.  However,
+\McSplit-SI-AM soon begins to catch up as target graph density increases, and becomes the faster solver at a target graph density of around
+$0.1$.
 
 \Cref{figure:density-runtime-ratio-glasgow} is a similar plot comparing the run time of \McSplit-SI to that of Glasgow.
 (Note the larger range of values of the $y$ axis.)  For very sparse target graphs with density below around $0.002$,
