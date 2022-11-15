@@ -2518,9 +2518,9 @@ generated data.
 
 This chapter has introduced the \McSplit\ algorithm for maximum common induced subgraph
 problems. This algorithm is more than an order of magnitude faster than the
-previous state of the art for unlabelled, undirected instances.  For
+previous state of the art for unlabelled, undirected instances.  \DIFdel{For
 instances with many distinct vertex and edge labels, however, the MCSa1 maximum clique
-algorithm remains the fastest solver.
+algorithm remains the fastest solver.}
 
 We have
 seen how the \McSplit\ algorithm can be extended for graphs with labels on edges, labels
@@ -2531,6 +2531,16 @@ it is helpful to sort both graphs in increasing order of degree if the
 second graph is dense, and in decreasing order otherwise.
 Finally, we have examined the relationship between the upper bounds
 calculated by \McSplit\ and by clique algorithms.
+
+\DIFadd{Although this chapter has not focused on the systematic
+selection of the best algorithm for a given instance (on this topic,
+see} \citet{dilkas2018}), \DIFadd{we can draw the following broad conclusions.
+For unlabelled graphs, \McSplit\ and \McSplitDown\ are generally faster
+than a maximum clique solver; the opposite is true for graphs with many distinct
+vertex and edge labels.  For families of instances where a maximum common induced
+subgraph is almost as large as the input graphs, \McSplitDown\ is often dramatically
+faster than \McSplit; for families with small maximum common subgraphs,
+\McSplit\ is the fastest algorithm overall.}
 
 The next chapter introduces new variants of \McSplit\ that explore the effects
 of swapping graphs $G$ and $H$.  

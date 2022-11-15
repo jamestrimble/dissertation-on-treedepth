@@ -1,7 +1,3 @@
--(very optional) Page 44: carefully consider the proof here, and consider adding a more formal proof that the search trees are the same, perhaps including a bijection between nodes of the search trees.
-
--Sometime  after  page  60:  consider  adding  a  table  that  summarises  the  results  in  terms  of when  to  use which approach. 
-
 -Consider commenting on the very-dense/very-sparse duality we discussed in the viva: will an approach for  an  induced  subgraph  problem  that  works  very  well  in  the dense  setting  also  work  very  well  in  the sparse setting by working in the complement?
 
 -On page 9, consider expanding the section on isomorphism and subgraph notions for directed graphs: e.g. must direction be preserved?
@@ -59,12 +55,17 @@ Yes. I've tidied up the figure to make the circle sizes similar.
 
 -Page 109: clarify what is meant by ‘words’ of additional space
 
+-Sometime  after  page  60:  consider  adding  a  table  that  summarises  the  results  in  terms  of when  to  use which approach. 
+I have added a paragraph to the conclusion of chapter 3 (and removed a sentence from the first paragraph of the same conclusion).
+
 ## Maybe not do?
 
 -If possible, increase the font size in figures.
 
 -Page 61: (bottom of this page) make sure you define the symbol that is composed of two orthogonal lines. 
 (defined earlier in paragraph)
+
+-(very optional) Page 44: carefully consider the proof here, and consider adding a more formal proof that the search trees are the same, perhaps including a bijection between nodes of the search trees.
 
 
 ## Additional changes I'd like to make
