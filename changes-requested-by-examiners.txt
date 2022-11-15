@@ -1,5 +1,3 @@
--Page 9: consider adding a citation for the properties of E-R graphs
-
 -(very optional) Page 44: carefully consider the proof here, and consider adding a more formal proof that the search trees are the same, perhaps including a bijection between nodes of the search trees.
 
 -Sometime  after  page  60:  consider  adding  a  table  that  summarises  the  results  in  terms  of when  to  use which approach. 
@@ -35,6 +33,8 @@ In sections 3.5, 5.8.2, 5.8.3 and 5.8.4 already
 -Page 9: “are mutually adjacent” consider “are pairwise adjacent”, I believe this is more standard
 
 -Page  9:  consider  emphasising  that  labels  may  be  shared  between  vertices  if  this  is  so  (in  some  areas labeled graphs mean graphs in which each node has a unique label)
+
+-Page 9: consider adding a citation for the properties of E-R graphs
 
 -Section 2.4: here you use ‘unsatisfiable’ as a synonym for a “No” instance of a problem –consider defining this earlier, as non-CP folk could read this
 Added a definition of a satisfiable (in passing) in the second paragraph of 1.3.
