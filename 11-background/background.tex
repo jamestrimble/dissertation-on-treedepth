@@ -308,6 +308,14 @@ The former representation allows us to test for the existence of an edge in cons
 time.  The latter representation is space-efficient for sparse graphs
 and allows us to iterate over the neighbourhood of a vertex in linear time.
 
+\DIFadd{We can also use adjacency matrices and adjacency lists to represent a directed
+graph $D=(V,A)$.  In a simple adjacency matrix representation, $A[v][w]$
+is $\AlgVar{true}$ if and only if $A$ contains the arc $(v,w)$.  In a simple
+adjacency list representation, list $v$ contains those vertices $w$ such
+that $(v,w) \in A$.  Chapters \label{c:mcsplit-i-undirected} and
+\label{c:mcsplit-si} will describe slightly more involved adjacency matrix
+and list representations that are used by variants of the \McSplit\ algorithm.}
+
 There are numerous models for generating graphs randomly. Several are used
 in this dissertation, and in general we will define these models at the point
 of use.  A very common random graph model is the Erd\H{o}s-Rényi $G(n,p)$
@@ -414,7 +422,10 @@ as an induced subgraph.
         of graphs $\{C_3, C_4, C_5\}$.  
     \Cref{fig:ind-univ-solution} shows a corresponding solution with six vertices.
         This is shown three times, with an induced copy of each input graph
-        highlighted.
+        highlighted.  \DIFadd{(It is easy to see that no solution
+        with fewer vertices exists for this instance.  Only one graph on fewer than six vertices contains
+        $C_5$ as induced subgraph: $C_5$ itself.  This graph contains neither
+        $C_3$ nor $C_4$ as an induced subgraph.)}
 \end{itemize}
 
 \begin{figure}[htb]
