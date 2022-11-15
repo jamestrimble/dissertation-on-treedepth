@@ -1,5 +1,5 @@
 -For subgraph isomorphism especially, consider highlighting theresults on the harder instances (those that take, say, more than a second) and discuss why we might nevertheless still care about performance on the easier instances.
-
+Work in progress
 
 ## DONE
 
@@ -57,6 +57,7 @@ I have added a paragraph to the conclusion of chapter 3 (and removed a sentence 
 -Similarly on page 9, consider expanding on the adjacency matrix discussion for directed graphs
 
 -In discussion of figure 2.5 -might be nice to include a proof that the solution in (b) is minimum
+
 
 ## Maybe not do?
 

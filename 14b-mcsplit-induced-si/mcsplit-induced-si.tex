@@ -1837,6 +1837,22 @@ graphs.}\footnote{\DIFadd{The author thanks Jessica Enright for this observation
 \DIFadd{For the current set of benchmark instances, this approach is likely to be of limited use, as fewer
 than 1\% of the instances have target graphs with density greater than 0.9.}
 
+\paragraph*{Discussion} \DIFadd{We have seen in this section that \McSplit-SI performs favourably
+in comparison to exising solvers, particularly on easy instances and instances with very sparse
+graphs.  For harder instances (say, those that cannot be solved in less than 10 seconds by
+any of the used solvers), \McSplit-SI does not dominate, but it remains competitive with
+Glasgow, the leading existing solver.  In particular, a version of \McSplit with a presolve
+step solves more instances within 1000 seconds than does Glasgow.}
+
+\DIFadd{A limitation of the set of benchmark instances that we have used is that most of the
+instances are trivial for the best solvers, and the results of our experiments
+therefore do not give a clear picture of how the solvers compare as instances
+become very challenging.  \McSplit-SI can solve
+more than 14,100 of the 14,621 instances with a 1 second time limit per instance,
+and Glasgow can solve almost 14,000 with the same time limit.  It would be useful
+to create a large set of more challenging instances and perhaps use a longer time
+limit to better compare the solvers.}
+
 \FloatBarrier
 
 \subsection{Knight's Grid Instances}\label{subsec:si-knights-experiment}
