@@ -1828,6 +1828,15 @@ an orders-of-magnitude speedup over \McSplit-SI.
     \label{figure:density-runtime-ratio}
 \end{figure}
 
+\DIFadd{If both graphs are without edge labels (which is the case for all benchmark
+instances used in this section), the set of induced subgraph isomorphisms from pattern graph $G$
+to target graph $H$ is unchanged if we use the complements of both $G$ and $H$ rather than the original
+graphs.  If the graphs are very dense, it may therefore be beneficial to take complements of both
+input graphs and then use \McSplit-SI to solve the problem on the resulting sparse
+graphs.}\footnote{\DIFadd{The author thanks Jessica Enright for this observation.}}
+\DIFadd{For the current set of benchmark instances, this approach is likely to be of limited use, as fewer
+than 1\% of the instances have target graphs with density greater than 0.9.}
+
 \FloatBarrier
 
 \subsection{Knight's Grid Instances}\label{subsec:si-knights-experiment}
