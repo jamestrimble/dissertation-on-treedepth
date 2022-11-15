@@ -175,7 +175,8 @@ of $E(G)$, such that two vertices are adjacent if and only if their correspondin
 in $G$ share an endpoint.
 
 An \emph{induced subgraph} of $G = (V, E)$ is a graph that has a subset $W \subseteq V$ as its
-vertex set, and $\{\{u, v\} \in E \mid \{u, v\} \in W\}$ as its edge set; that
+vertex set, and \DIFdel{$\{\{u, v\} \in E \mid \{u, v\} \in W\}$}
+\DIFadd{$\{\{u, v\} \in E \mid \{u, v\} \subseteq W\}$} as its edge set; that
 is, the subgraph includes all edges of $G$ whose endpoints both appear in
 $W$.  We say that this subgraph is \emph{induced by} $W$.
 Graph $G_3$ of \Cref{fig:intro-examples} is thus the subgraph
