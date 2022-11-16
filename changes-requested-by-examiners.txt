@@ -58,9 +58,12 @@ I have added a paragraph to the conclusion of chapter 3 (and removed a sentence 
 -For subgraph isomorphism especially, consider highlighting theresults on the harder instances (those that take, say, more than a second) and discuss why we might nevertheless still care about performance on the easier instances.
 I have added a paragraph after the discussion of table 5.8. I've also a discussion at the end of section 1.8.2.  The final paragraph of this discusses the need for harder benchmark instances.
 
-## Maybe not do?
+## PARTIALLY DONE
 
 -If possible, increase the font size in figures.
+I have slightly enlarged some of the figures with the smallest font sizes, such as 3.10-3.14 and most of the cumulative and scatter plots in chapter 5.
+
+## Maybe not do?
 
 -Page 61: (bottom of this page) make sure you define the symbol that is composed of two orthogonal lines. 
 (defined earlier in paragraph)
