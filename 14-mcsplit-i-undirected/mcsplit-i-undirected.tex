@@ -896,8 +896,9 @@ The parameters of the $\FuncSty{CliqueSearch}$ function of \cref{CliqueDecisionA
 are vertex sets $P$ and $C$ and a natural number $t$.  Set $C$---the current
 clique---is a subset of
 $V(\graphA)$, and must be a clique of size no greater than $t$. Set $P$ (``potential'') is a
-set of candidate vertices for addition to the $C$; we require that $C \cap P = \emptyset$
-and that each vertex in $P$ is adjacent in $\graphA$ to every member of $C$.  The
+set of candidate vertices for addition to the $C$; \DIFdel{we require that $C \cap P = \emptyset$
+and that each vertex in $P$ is adjacent in $\graphA$ to every member of $C$.}  \DIFadd{for each
+vertex $v$ in $P$, it holds that $v$ is not in $C$ but is adjacent to every element of $C$.} The
 parameter $t$ is the target clique size.  We now show the correctness of \Cref{CliqueDecisionAlg}.
 
 \begin{lemma}\label{cliqueAlgProp}
