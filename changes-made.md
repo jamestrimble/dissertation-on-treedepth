@@ -1,6 +1,8 @@
-## DONE
+# PhD Corrections - James Trimble
 
-- The  candidate  should  investigate  the  related  work  by  Jefferson  et  al  using  a  related  approach  for computational group theory.  _I have added a citation to Jefferson et al. in section 2.5 (page 12. I watched the video of Jefferson's CP 2021 talk on computational group theory and skimmed a few papers. This work is complex and I definitely don't understand all the details, but I am reasonably sure that it is far enough from McSplit that there isn't a need for a detailed discussion of the topic in my thesis._
+## Done
+
+- The  candidate  should  investigate  the  related  work  by  Jefferson  et  al  using  a  related  approach  for computational group theory.  _I have added a citation to Jefferson et al. in section 2.5 (page 12). I watched the video of Jefferson's CP 2021 talk on computational group theory and skimmed a few papers. This work is complex and I definitely don't understand all the details, but I am reasonably sure that it is far enough from McSplit that there isn't a need for a detailed discussion of the topic in my thesis._
 
 - The candidate should expand the description of the Glasgow Subgraph Solver, in particular making clear the role and use of supplementary graphs.  _I have added more detail in section 2.7.1 (pages 20 and 21)._
 
@@ -9,7 +11,7 @@
 - Title page: don’t forget to update month and year _Done_
 
 - There are quite a few blank pages between sections – is this a typesetting problem?  Fix if it is easy to do so
-_I was using the LaTeX option ``twoside'', which seems to leave blank pages after some chapters. I've switched to ``oneside''._
+_I was using the LaTeX option "twoside", which seems to leave blank pages after some chapters. I've switched to "oneside"._
 
 - Beginning of 2.2: “two element subset” --> ‘two element subsets’ _Done_
 
@@ -20,7 +22,7 @@ _I was using the LaTeX option ``twoside'', which seems to leave blank pages afte
 - Page 9: consider adding a citation for the properties of E-R graphs _Done_
 
 - Section 2.4: here you use ‘unsatisfiable’ as a synonym for a “No” instance of a problem –consider defining this earlier, as non-CP folk could read this
-_I have added a definition of a satisfiable (in passing) in the second paragraph of 1.3._
+_I have added a definition of satisfiable (in passing) in the second paragraph of 1.3._
 
 - Page 13:  ‘strongly connected graphs’ -it appears the graph in question is not directed, and usually this term  is  used  for  directed  graphs.    Clarify  either  that  the  graph  is  directed  or  what  strongly  connected means here
 _This was an error. I have deleted "strongly"_
@@ -31,7 +33,7 @@ _This was an error. I have deleted "strongly"_
 
 - Figure 3.6: please remind readers that the grey bands represent time-outs _I have added a reminder in the body of Section 3.6._
 
-- Page 51: please clarify what is meant by ‘unconnected’ in the description of k-down. _This sentence was very unclear, so I have re-worded it. (Now on page 50)._
+- Page 51: please clarify what is meant by ‘unconnected’ in the description of k-down. _I have re-worded this sentence. (Now on page 50)._
 
 - Page 61: (bottom of this page) make sure you define the symbol that is composed of two orthogonal lines. 
 _Checked. This is defined in section 2.8.2 ("a special value indicating that a vertex is unmapped."), with a reminder on page 60._
@@ -41,7 +43,7 @@ _I have clarified the text, and added a footnote to show that MCIS remains NP-ha
 
 - Page 72: “the plot use” --> ‘the plots use’ _Done_
 
-- Page 109: clarify what is meant by ‘words’ of additional space _re-worded to avoid the word "words" - now on page 101 (previously  on page 104, I think?)_
+- Page 109: clarify what is meant by ‘words’ of additional space _Re-worded to avoid the word "words" - now on page 101 (previously  on page 104)_
 
 - Page 108:  please confirm: the larger nodes in the figure are just to contain the larger labels and have no other meaning?
 _Yes. I've tidied up the figure to make the circle sizes similar._
@@ -60,16 +62,16 @@ _I have added a paragraph to the conclusion of chapter 3 (and removed a sentence
 - For subgraph isomorphism especially, consider highlighting theresults on the harder instances (those that take, say, more than a second) and discuss why we might nevertheless still care about performance on the easier instances.
 _I have added some brief discussion and results: (1) a paragraph after the discussion of table 5.8; (2) a discussion at the end of section 1.8.2.  The final paragraph of this discusses the need for harder benchmark instances._
 
-## PARTIALLY DONE
+## Partially done
 
 - If possible, increase the font size in figures.
 _I have slightly enlarged some of the figures with the smallest font sizes, such as 3.10-3.14 and most of the cumulative and scatter plots in chapter 5._
 
-## NOT DONE
+## Not done
 
 - (very optional) Page 44: carefully consider the proof here, and consider adding a more formal proof that the search trees are the same, perhaps including a bijection between nodes of the search trees.
 
-## ADDITIONAL CHANGES NOT REQUESTED BY EXAMINERS
+## Additional changes not requested by examiners
 
 - Deleted "and Supergraph" from the thesis title
 
