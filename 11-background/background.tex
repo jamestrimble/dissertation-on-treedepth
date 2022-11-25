@@ -251,7 +251,7 @@ a set of ordered pairs of elements of $V$, is the arc set.  The definitions of
 \emph{induced subgraph}, \emph{isomorphism} and \emph{maximum common induced
 subgraph} for directed graphs are analogous to their counterparts for graphs.
 \DIFadd{Induced subgraphs and isomorphisms on directed graphs preserve the direction of arcs.
-Thus an induced subgraph of directed graph $D = (V, A)$ is a directed graph
+Thus an induced subgraph of a directed graph $D = (V, A)$ is a directed graph
 that has a subset $W \subseteq V$ as its
 vertex set, and $\{(u, v) \in E \mid \{u, v\} \subseteq W\}$ as its edge set;
 an isomorphism between directed graphs $D=(V,A)$ and $D'=(V',A')$ is a
@@ -311,7 +311,7 @@ and allows us to iterate over the neighbourhood of a vertex in linear time.
 \DIFadd{We can also use adjacency matrices and adjacency lists to represent a directed
 graph $D=(V,A)$.  In a simple adjacency matrix representation, $A[v][w]$
 is $\AlgVar{true}$ if and only if $A$ contains the arc $(v,w)$.  In a simple
-adjacency list representation, list $v$ contains those vertices $w$ such
+adjacency list representation, the list for vertex $v$ contains those vertices $w$ such
 that $(v,w) \in A$.  Chapters} \ref{c:mcsplit-i-undirected} \DIFadd{and}
 \ref{c:mcsplit-si} \DIFadd{will describe slightly more involved adjacency matrix
 and list representations that are used by variants of the \McSplit\ algorithm.}
@@ -336,7 +336,7 @@ treatment.
 
 Consider the \textsc{Clique} problem: given a graph $G$ and a natural number $k$,
 does $G$ contain a $k$-vertex clique?  If the answer is \DIFdel{``yes'', we}
-\DIFadd{``yes''---if the instance is \emph{satisfiable}---we} can give a proof
+\DIFadd{``yes'' (i.e.\ if the instance is \emph{satisfiable}) we} can give a proof
 of this fact by listing the $k$ vertices in this clique.  A sceptic may verify
 in $k(k-1)/2$ steps that the $k$ vertices are indeed pairwise adjacent
 using an adjacency matrix representation of the graph.  Any decision
@@ -404,18 +404,18 @@ The first and third are optimisation problems; the second
 is a decision problem.
 
 \begin{itemize}
-    \item \textbf{Maximum common induced subgraph (MCIS).} Find
+    \item \textbf{Maximum common induced subgraph \DIFadd{problem} (MCIS).} Find
 a maximum common induced subgraph of two given graphs.  We have seen an example
 in \Cref{fig:cis-example}: the two graphs have a maximum common induced subgraph
 with four vertices.
-    \item \textbf{Induced subgraph isomorphism (ISIP).} Given graphs $G$ (the ``pattern graph'')
+    \item \textbf{Induced subgraph isomorphism \DIFadd{problem} (ISIP).} Given graphs $G$ (the ``pattern graph'')
     and $H$ (the ``target graph''),
 determine whether $H$ contains $G$ as an induced subgraph;
 if so, return the mapping corresponding to an isomorphism from $G$ to an
         induced subgraph of $H$.
     \Cref{fig:isip-examples} gives two examples of instances. The first is unsatisfiable;
         the solution $\{(1,a),(2,b), (3,d)\}$ for the second instance is shown.
-    \item \textbf{Minimal induced universal graph.} Given a family of graphs $\calF$,
+    \item \textbf{Minimal induced universal graph \DIFadd{problem}.} Given a family of graphs $\calF$,
 find a graph with as few vertices as possible that contains each member of $\calF$
 as an induced subgraph.
     \Cref{fig:ind-univ-instance} shows an example instance: the family
@@ -1499,11 +1499,14 @@ within that time.
     \label{fig:intro-dummy-figs}
 \end{figure}
 
-\subsection{Source Code}
+\subsection{Source Code and Problem Instances}
 
-\DIFadd{The repository for at \url{https://github.com/jamestrimble/phd-thesis}
-contains a README file with links to implementations of the new algorithms
-described in this thesis.}
+\DIFadd{The repository for this dissertation is available at \url{https://github.com/jamestrimble/phd-thesis}.
+This contains new problem instances, along with links to
+implementations of the new algorithms.  See the README file in the repository for details.
+
+Some experiments in this dissertation make use of existing sets of benchmark instances.  Source
+details are given in the chapter where each set of instances is first used.}
 
 %\section{Miscellaneous notes}
 %
