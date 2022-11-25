@@ -6,7 +6,7 @@
 
 - The candidate should expand the description of the Glasgow Subgraph Solver, in particular making clear the role and use of supplementary graphs.  _I have added more detail in section 2.7.1 (pages 20 and 21)._
 
-- Check to make sure that where possible you link or cite sources of benchmark instances (apologies if this is already done everywhere) _Checked, and no amendments needed. Sections 3.5, 5.8.2, 5.8.3 and 5.8.4._
+- Check to make sure that where possible you link or cite sources of benchmark instances (apologies if this is already done everywhere) _Checked. Sections 3.5, 5.8.2, 5.8.3 and 5.8.4 link to existing instances.  My repository, linked to in the new section 2.9.3, contains the new instances._
 
 - Title page: don’t forget to update month and year _Done_
 
@@ -22,7 +22,7 @@ _I was using the LaTeX option "twoside", which seems to leave blank pages after 
 - Page 9: consider adding a citation for the properties of E-R graphs _Done_
 
 - Section 2.4: here you use ‘unsatisfiable’ as a synonym for a “No” instance of a problem –consider defining this earlier, as non-CP folk could read this
-_I have added a definition of satisfiable (in passing) in the second paragraph of 1.3._
+_I have added a definition of satisfiable (in passing) in the second paragraph of 2.3._
 
 - Page 13:  ‘strongly connected graphs’ -it appears the graph in question is not directed, and usually this term  is  used  for  directed  graphs.    Clarify  either  that  the  graph  is  directed  or  what  strongly  connected means here
 _This was an error. I have deleted "strongly"_
@@ -60,7 +60,7 @@ _I have added a paragraph to the conclusion of chapter 3 (and removed a sentence
 - In discussion of figure 2.5 -might be nice to include a proof that the solution in (b) is minimum _Done_
 
 - For subgraph isomorphism especially, consider highlighting theresults on the harder instances (those that take, say, more than a second) and discuss why we might nevertheless still care about performance on the easier instances.
-_I have added some brief discussion and results: (1) a paragraph after the discussion of table 5.8; (2) a discussion at the end of section 1.8.2.  The final paragraph of this discusses the need for harder benchmark instances._
+_I have added some brief discussion and results: (1) a paragraph after the discussion of table 5.8; (2) a discussion at the end of section 5.8.2.  The final paragraph of this discusses the need for harder benchmark instances._
 
 ## Partially done
 
