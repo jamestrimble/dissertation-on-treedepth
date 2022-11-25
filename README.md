@@ -19,8 +19,8 @@ the University of Glasgow.
 
 - The data used to generate the heatmaps in Chapters 3 and 5 may be reproduced by running the programs in
 the following directories:
-(Chapter 3)[14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained],
-(Chapter 5)[14b-mcsplit-induced-si/deg_sorting_experiment_fine_grained].
+[Chapter 3](14-mcsplit-i-undirected/deg_sorting_experiment_fine_grained),
+[Chapter 5](14b-mcsplit-induced-si/deg_sorting_experiment_fine_grained).
 
 ## Contact
 
